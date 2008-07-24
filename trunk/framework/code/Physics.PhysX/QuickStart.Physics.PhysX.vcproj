@@ -94,6 +94,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(InputDir)..\..\Content\Binaries\Windows\$(ConfigurationName)&quot;"
+				ExcludedFromBuild="true"
 			/>
 		</Configuration>
 		<Configuration
@@ -168,6 +169,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(InputDir)..\..\content\Binaries\Windows\$(ConfigurationName)&quot;"
+				ExcludedFromBuild="true"
 			/>
 		</Configuration>
 	</Configurations>
