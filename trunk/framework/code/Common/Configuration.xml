@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <managers>
+        <manager value="QuickStart.InputManager" />
+
+        <!-- syntax: "<full_class_name>, <containing_assembly>" -->
+        <manager value="QuickStart.Physics.PhysX.PhysXPhysicsManager, QuickStart.Physics.PhysX" />
+    </managers>
+
+    <inputmanager>
+        <handler value="QuickStart.KeyboardHandler" />
+        <handler value="QuickStart.MouseHandler" />
+	      <handler value="QuickStart.GamePadHandler" />
+    </inputmanager>
+
+</configuration>
