@@ -43,7 +43,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\x86\Debug</OutputPath>
+    <OutputPath>..\target\Windows\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -80,9 +80,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
+    <Compile Include="Game.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Game.cs" />
     <Compile Include="Sphere.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +126,10 @@
     <ProjectReference Include="..\framework\code\Common\QuickStart_Windows.csproj">
       <Project>{E82BE082-C272-4AE2-97BC-944BBD73703B}</Project>
       <Name>QuickStart_Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\framework\code\Physics.PhysX\QuickStart.Physics.PhysX.vcproj">
+      <Project>{21884549-91FC-42CF-9C6C-323C0742436A}</Project>
+      <Name>QuickStart.Physics.PhysX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

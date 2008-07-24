@@ -167,7 +167,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetPath) $(InputDir)..\..\content\Binaries\Windows\$(ConfigurationName)"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(InputDir)..\..\content\Binaries\Windows\$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 	</Configurations>
