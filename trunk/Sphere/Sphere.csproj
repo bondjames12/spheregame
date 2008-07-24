@@ -118,13 +118,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShatterExtension\ShatterExtension.csproj">
-      <Project>{23A45FA3-6F1F-417C-BC85-0963AC5EFB10}</Project>
-      <Name>ShatterExtension</Name>
-    </ProjectReference>
+    <None Include="Sphere.cd" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sphere.cd" />
+    <ProjectReference Include="..\framework\code\Common\QuickStart_Windows.csproj">
+      <Project>{E82BE082-C272-4AE2-97BC-944BBD73703B}</Project>
+      <Name>QuickStart_Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.Common.targets" />

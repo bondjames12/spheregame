@@ -38,6 +38,16 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\framework\code\ContentPipeline\QuickStart.ContentPipeline.csproj">
+      <Project>{3515BE14-EFD6-4F34-BB81-59D27E26B5BE}</Project>
+      <Name>QuickStart.ContentPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ShatterExtension\ShatterExtension.csproj">
+      <Project>{23A45FA3-6F1F-417C-BC85-0963AC5EFB10}</Project>
+      <Name>ShatterExtension</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
