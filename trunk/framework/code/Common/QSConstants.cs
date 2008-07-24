@@ -178,7 +178,7 @@ namespace QuickStart
         public const float MinControlSensitivity = 0.1f;
         public const float MaxControlSensitivity = 100f;
         public const float MouseSensitivity = 200.0f;
-        public const bool MouseDefaultVisible = false;
+        public const bool MouseDefaultVisible = true;
 
         // ============================================================================================
         // HUD constants

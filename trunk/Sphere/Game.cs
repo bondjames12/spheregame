@@ -23,8 +23,7 @@ namespace Sphere
     /// </summary>
     public class Game : QuickStart.QSGame
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private SceneManager sceneManager;
 
         /// <summary>
         /// Sample compositor screens
@@ -45,13 +44,33 @@ namespace Sphere
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            sceneManager = new SceneManager(this);
+
+            // Set up a window with maximum MSAA
+            GraphicsSettings settings = new GraphicsSettings();
+            settings.BackBufferWidth = QSConstants.ScreenWidth;
+            settings.BackBufferHeight = QSConstants.ScreenHeight;
+            settings.EnableVSync = QSConstants.IsVSyncd;
+            settings.EnableMSAA = QSConstants.IsMultiSampling;
+            settings.EnableFullScreen = QSConstants.IsFullScreen;
+
+            this.IsFixedTimeStep = QSConstants.IsFixedTimeStep;
+
+            // Uncomment this line for PIX debugging
+            //settings.EnableMSAA = false;
+
+            Graphics.ApplySettings(settings);
+
+            Graphics.RegisterRenderChunkProvider(sceneManager);
+
             SendDebugMessage("Initialize");
             // Set up screen compositor
             fpsScreen = new FPSScreen(10, 10);
             Compositor.InsertScreen(fpsScreen, false);
             //Debug Messages Screen
             Compositor.InsertScreen(new DebugScreen(10, 100, this), false);
+
+            Compositor.InsertScreen(sceneManager, true);
             base.Initialize();
         }
 
@@ -60,11 +79,10 @@ namespace Sphere
         /// all of your content.
         /// </summary>
         protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+        {  
 
             // TODO: use this.Content to load your game content here
+            base.LoadContent();
         }
 
         /// <summary>
@@ -74,6 +92,7 @@ namespace Sphere
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            base.UnloadContent();
         }
 
         /// <summary>
@@ -84,10 +103,10 @@ namespace Sphere
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            //    this.Exit();
 
-            // TODO: Add your update logic here
+            sceneManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -98,8 +117,6 @@ namespace Sphere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // TODO: Add your drawing code here
             // Render the whole frame with one call!
             Compositor.DrawCompositorChain(gameTime);
