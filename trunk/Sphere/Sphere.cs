@@ -6,5 +6,9 @@ namespace Sphere
 {
     public class Sphere
     {
+        public Sphere()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

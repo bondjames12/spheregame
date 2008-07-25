@@ -9,31 +9,17 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-using QuickStart;
-using QuickStart.Graphics;
-using QuickStart.Entities;
-using QuickStart.Compositor;
-using QuickStart.Interfaces;
-//using QuickStart.Physics;
 
 namespace Sphere
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game : QuickStart.QSGame
+    public class Game : Microsoft.Xna.Framework.Game
     {
-        private SceneManager sceneManager;
-
-        /// <summary>
-        /// Sample compositor screens
-        /// </summary>
-        private FPSScreen fpsScreen;
-
         public Game()
         {
             Content.RootDirectory = "Content";
-            IsMouseVisible = QSConstants.MouseDefaultVisible;
         }
 
         /// <summary>
@@ -44,33 +30,7 @@ namespace Sphere
         /// </summary>
         protected override void Initialize()
         {
-            sceneManager = new SceneManager(this);
-
-            // Set up a window with maximum MSAA
-            GraphicsSettings settings = new GraphicsSettings();
-            settings.BackBufferWidth = QSConstants.ScreenWidth;
-            settings.BackBufferHeight = QSConstants.ScreenHeight;
-            settings.EnableVSync = QSConstants.IsVSyncd;
-            settings.EnableMSAA = QSConstants.IsMultiSampling;
-            settings.EnableFullScreen = QSConstants.IsFullScreen;
-
-            this.IsFixedTimeStep = QSConstants.IsFixedTimeStep;
-
-            // Uncomment this line for PIX debugging
-            //settings.EnableMSAA = false;
-
-            Graphics.ApplySettings(settings);
-
-            Graphics.RegisterRenderChunkProvider(sceneManager);
-
-            SendDebugMessage("Initialize");
-            // Set up screen compositor
-            fpsScreen = new FPSScreen(10, 10);
-            Compositor.InsertScreen(fpsScreen, false);
-            //Debug Messages Screen
-            Compositor.InsertScreen(new DebugScreen(10, 100, this), false);
-
-            Compositor.InsertScreen(sceneManager, true);
+            
             base.Initialize();
         }
 
@@ -82,6 +42,7 @@ namespace Sphere
         {  
 
             // TODO: use this.Content to load your game content here
+            
             base.LoadContent();
         }
 
@@ -106,7 +67,7 @@ namespace Sphere
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             //    this.Exit();
 
-            sceneManager.Update(gameTime);
+            
 
             base.Update(gameTime);
         }
@@ -119,51 +80,8 @@ namespace Sphere
         {
             // TODO: Add your drawing code here
             // Render the whole frame with one call!
-            Compositor.DrawCompositorChain(gameTime);
+           
             base.Draw(gameTime);
-        }
-
-        /// <summary>
-        /// Handles game messages
-        /// </summary>
-        /// <param name="message">The <see cref="IMessage"/> send to the game</param>
-        protected override void OnGameMessage(IMessage message)
-        {
-            switch (message.Type)
-            {
-                case MessageType.KeyDown:
-                    KeyMessage msg = message as KeyMessage;
-                    switch (msg.Data.Key)
-                    {
-                        case Keys.Escape:
-                            this.SendMessage(new ExitMessage());
-                            break;
-
-                        case Keys.Enter:
-                            if (msg.Data.LeftAlt == true && msg.Data.LeftShift == true)
-                            {
-                                this.Graphics.ToggleFullscreen();
-                            }
-                            break;
-
-                    }
-                    break;
-            }
-
-            base.OnGameMessage(message);
-        }
-
-        /// <summary>
-        /// Sends a text message to the debug output
-        /// </summary>
-        /// <param name="message">Text to send to the debug output</param>
-        private void SendDebugMessage(string message)
-        {
-            Message<string> msg = ObjectPool.Aquire<Message<string>>();
-            msg.Data = message;
-            msg.Type = 20000;
-
-            SendMessage(msg);
         }
     }
 }
