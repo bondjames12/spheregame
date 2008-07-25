@@ -43,7 +43,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\target\Windows\Debug\</OutputPath>
+    <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -123,6 +123,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sphere.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JigLibX\JigLibX.csproj">
+      <Project>{948C059E-FCC0-4461-8B9D-26FD44706507}</Project>
+      <Name>JigLibX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\X-Engine\X Engine.csproj">
+      <Project>{219B7B7B-9CF7-4D3F-925C-85573E11A3E7}</Project>
+      <Name>X Engine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.Common.targets" />
