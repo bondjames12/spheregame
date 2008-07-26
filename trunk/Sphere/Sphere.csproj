@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
+    <Compile Include="Fire.cs" />
     <Compile Include="Game.cs">
       <SubType>Code</SubType>
     </Compile>
