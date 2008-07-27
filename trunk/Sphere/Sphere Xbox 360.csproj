@@ -1,6 +1,6 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{80c0672c-e514-4a7b-8e6a-4cd5cd56b817}</ProjectGuid>
+    <ProjectGuid>{80C0672C-E514-4A7B-8E6A-4CD5CD56B817}</ProjectGuid>
     <ProjectTypeGuids>{2DF5C3F4-5A5F-47a9-8E94-23B4456F55E2};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
@@ -34,6 +34,10 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
     <OutputPath>bin\Xbox 360\Debug</OutputPath>
@@ -117,13 +121,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JigLibX\Xbox 360 Copy of JigLibX.csproj">
+    <ProjectReference Include="..\JigLibX\JigLibX Xbox 360.csproj">
       <Project>{16862d0a-6b2c-44f9-8042-e501af5ffc46}</Project>
-      <Name>Xbox 360 Copy of JigLibX</Name>
+      <Name>JigLibX Xbox 360</Name>
     </ProjectReference>
-    <ProjectReference Include="..\X-Engine\Xbox 360 Copy of X Engine.csproj">
+    <ProjectReference Include="..\X-Engine\X Engine Xbox 360.csproj">
       <Project>{2bd86553-3382-4b59-8a81-38fdae2fc9b8}</Project>
-      <Name>Xbox 360 Copy of X Engine</Name>
+      <Name>X Engine Xbox 360</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
+#if !XBOX
     public class XMouse : XComponent, XUpdateable
     {
+
         MouseState CurrentState;
         MouseState LastState;
 
@@ -250,4 +252,5 @@ namespace XEngine
             return false;
         }
     }
+#endif
 }

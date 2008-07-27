@@ -23,10 +23,15 @@ namespace Sphere
         /// </summary>
         static private void ConfigureEnvironment()
         {
+#if !XBOX
             ConfigureWindowsEnvironment();
+#else
             ConfigureXboxEnvironment();
+#endif
+            
         }
 
+#if !XBOX
         /// <summary>
         /// Configures the run-time environment for the Windows platform.
         /// </summary>
@@ -36,7 +41,7 @@ namespace Sphere
             // @todo:  We really need to find a better way to get at the executing directory.
             System.Environment.CurrentDirectory = System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("Sphere.exe", "");
         }
-
+#else
         /// <summary>
         /// Configures the run-time environment for the Xbox platform.
         /// </summary>
@@ -44,6 +49,9 @@ namespace Sphere
         static private void ConfigureXboxEnvironment()
         {
         }
+#endif
+
+
     }
 }
 

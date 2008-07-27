@@ -19,7 +19,11 @@ namespace Sphere
         XResourceGroup resources;
 
         XKeyboard keyboard;
+#if !XBOX
         XMouse mouse;
+#else
+        XGamePad pad;
+#endif
 
         XFreeLookCamera camera;
 
@@ -71,8 +75,11 @@ namespace Sphere
             resources = new XResourceGroup(X);
 
             keyboard = new XKeyboard(X);
+#if !XBOX
             mouse = new XMouse(X);
-
+#else
+            pad = new XGamePad(X,1);
+#endif
             camera = new XFreeLookCamera(X);
             camera.Position = new Vector3(0, 10, 0);
 
@@ -139,14 +146,18 @@ namespace Sphere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
             // Allows the game to exit
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-            //    this.Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
+
             if (keyboard.KeyPressed(Keys.Escape))
                 Exit();
-
+#if !XBOX
             camera.Rotate(new Vector3(mouse.Delta.Y * .0016f, mouse.Delta.X * .0016f, 0));
-
+#else
+            camera.Rotate(new Vector3(pad.Thumbstick(XGamePad.Thumbsticks.Left).Y * .0016f, pad.Thumbstick(XGamePad.Thumbsticks.Left).X * .0016f, 0));
+#endif
             if (keyboard.KeyDown(Keys.W))
                 camera.Translate(Vector3.Forward * 40f);
             if (keyboard.KeyDown(Keys.S))
@@ -167,9 +178,13 @@ namespace Sphere
                 if (keyboard.KeyDown(Keys.Down))
                     Car.Accelerate(-1);
             }
-
+#if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
                 boxes.Add(new XActor(X, XActor.ActorType.Box, model, camera.Position, Matrix.Identity, new Vector3(10), new Vector3(0, 0, 0), new Vector3(1), Vector3.Normalize(camera.Target - camera.Position) * 30, 10));
+#else
+            if (pad.ButtonPressed(Buttons.A))
+                boxes.Add(new XActor(X, XActor.ActorType.Box, model, camera.Position, Matrix.Identity, new Vector3(10), new Vector3(0, 0, 0), new Vector3(1), Vector3.Normalize(camera.Target - camera.Position) * 30, 10));
+#endif
 
             //sky.Theta += mouse.ScrollDelta * .0004f;
 

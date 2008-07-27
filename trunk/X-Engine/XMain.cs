@@ -5,7 +5,9 @@ using JigLibX.Physics;
 using JigLibX.Collision;
 using System;
 using Microsoft.Xna.Framework.Content;
-using System.ComponentModel.Design;
+#if !XBOX
+    using System.ComponentModel.Design;
+#endif
 
 namespace XEngine
 {
