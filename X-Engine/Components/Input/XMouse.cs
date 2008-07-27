@@ -3,10 +3,8 @@ using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
-#if !XBOX
     public class XMouse : XComponent, XUpdateable
     {
-
         MouseState CurrentState;
         MouseState LastState;
 
@@ -18,11 +16,6 @@ namespace XEngine
         public float ScrollDelta;
 
         public bool Reset = true;
-        public bool Visible
-        {
-            get { return X.Game.IsMouseVisible; }
-            set { X.Game.IsMouseVisible = value; }
-        }
 
         XTimer idleTime;
 
@@ -34,7 +27,7 @@ namespace XEngine
 
             if (Reset)
             {
-                Mouse.SetPosition(X.Game.Window.ClientBounds.Width / 2, X.Game.Window.ClientBounds.Height / 2);
+                Mouse.SetPosition(X.GraphicsDevice.Viewport.Width / 2, X.GraphicsDevice.Viewport.Height / 2);
             }
 
             CurrentState = Mouse.GetState();
@@ -252,5 +245,4 @@ namespace XEngine
             return false;
         }
     }
-#endif
 }

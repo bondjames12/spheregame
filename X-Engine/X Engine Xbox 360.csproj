@@ -64,22 +64,29 @@
   <ItemGroup>
     <Compile Include="Components\Base\XInterfaces.cs" />
     <Compile Include="Components\Base\XComponent.cs" />
+    <Compile Include="Components\Cameras\XArcBallCamera.cs" />
     <Compile Include="Components\Cameras\XChaseCamera.cs" />
     <Compile Include="Components\Environment\XDynamicSky.cs" />
     <Compile Include="Components\Environment\XHeightMap.cs" />
+    <Compile Include="Components\Environment\XSkyBox.cs" />
     <Compile Include="Components\Environment\XWater.cs" />
     <Compile Include="Components\Particles\ParticleVertex.cs" />
     <Compile Include="Components\Particles\XParticleEmitter.cs" />
     <Compile Include="Components\Particles\XParticleSystem.cs" />
     <Compile Include="Components\Particles\XParticleSystemSettings.cs" />
+    <Compile Include="Components\Rendering\XMaterial.cs" />
+    <Compile Include="Components\Rendering\XRenderer.cs" />
+    <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />
+    <Compile Include="Components\Scripting\XTriggerVolume.cs" />
+    <Compile Include="Components\Utilities\TextureGenerator.cs" />
     <Compile Include="Components\Utilities\XDebugDrawer.cs" />
+    <Compile Include="Components\Utilities\XQuadDrawer.cs" />
     <Compile Include="Components\Utilities\XTools.cs" />
     <Compile Include="Components\XActor.cs" />
     <Compile Include="Components\XCar.cs" />
     <Compile Include="Components\XTimer.cs" />
     <Compile Include="Components\Cameras\XCamera.cs" />
     <Compile Include="Components\Cameras\XFreeLookCamera.cs" />
-    <Compile Include="Components\XRenderer.cs" />
     <Compile Include="Components\Input\XGamePad.cs" />
     <Compile Include="Components\Input\XGuitar.cs" />
     <Compile Include="Components\Input\XKeyboard.cs" />
@@ -151,12 +158,6 @@
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JigLibX\JigLibX Xbox 360.csproj">
-      <Project>{16862d0a-6b2c-44f9-8042-e501af5ffc46}</Project>
-      <Name>JigLibX Xbox 360</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.Common.targets" />

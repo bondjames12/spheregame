@@ -11,14 +11,13 @@ namespace XEngine
         public XResourceGroup(XMain X)
             : base(X)
         {
-            content = new ContentManager(X.Game.Services);
+            content = new ContentManager(X.Services);
             components = new List<XComponent>();
         }
 
         public void AddComponent(XComponent Component)
         {
-            if (Component is XLoadable)
-                components.Add(Component);
+            components.Add(Component);
         }
 
         public void Load()

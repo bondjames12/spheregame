@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
-    public class XFont : XComponent, XLoadable
+    public class XFont : XComponent
     {
         SpriteFont font;
         string filename;

@@ -10,6 +10,9 @@ float xWaveHeight;
 float xTime;
 float xWindForce;
 
+bool reflect;
+bool refract;
+
 Texture xReflectionMap;
 sampler ReflectionSampler = sampler_state { texture = <xReflectionMap> ; magfilter = LINEAR; minfilter = LINEAR; mipfilter=LINEAR; AddressU = mirror; AddressV = mirror;};
 
@@ -78,7 +81,17 @@ WaterPixelToFrame WaterPS(WaterVertexToPixel PSIn)
     float3 eyeVector = normalize(xCamPos - PSIn.Position3D);
     float3 normalVector = float3(0,1,0);
     float fresnelTerm = dot(eyeVector, normalVector);
-    float4 combinedColor = refractiveColor*fresnelTerm + reflectiveColor*(1-fresnelTerm);
+    
+    float4 combinedColor = float4(.2, .4, .8, 1);
+    if (reflect && refract)
+		combinedColor = refractiveColor*fresnelTerm + reflectiveColor *(1-fresnelTerm);
+    else
+    {
+		if (reflect)
+			combinedColor = reflectiveColor;
+		if (refract)
+			combinedColor = refractiveColor;
+    }
 
     float4 dullColor = float4(0.3f, 0.3f, 0.5f, 1.0f);
     float dullBlendFactor = 0.2f;
@@ -93,6 +106,6 @@ technique Water
     pass Pass0
     {
         VertexShader = compile vs_1_1 WaterVS();
-        PixelShader = compile ps_2_0 WaterPS();
+        PixelShader = compile ps_2_b WaterPS();
     }
 }

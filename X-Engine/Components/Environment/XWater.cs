@@ -1,13 +1,29 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace XEngine
 {
-    public class XWater : XComponent, XLoadable, XUpdateable, XDrawable
+    public class XWater : XComponent, XUpdateable, XDrawable
     {
         public Vector2 PointOne;
-        Vector2 pointTwo;
         public Vector2 PointTwo;
+
+        public Vector3 v3PointOne { get { return new Vector3(PointOne.X, Height, PointOne.Y); } }
+        public Vector3 v3PointTwo { get { return new Vector3(PointTwo.X, Height, PointTwo.Y); } }
+
+        bool reflect;
+        bool refract;
+        public bool DoesReflect
+        {
+            get { return reflect; }
+            set { reflect = value; effect.Parameters["reflect"].SetValue(value); }
+        }
+        public bool DoesRefract
+        {
+            get { return refract; }
+            set { refract = value; effect.Parameters["refract"].SetValue(value); }
+        }
 
         Vector2 Size { get { return PointTwo - PointOne; } }
 
@@ -17,10 +33,13 @@ namespace XEngine
         Effect effect;
         RenderTarget2D reflection;
         RenderTarget2D refraction;
+        DepthStencilBuffer Depth;
 
         VertexPositionTexture[] vertices;
 
         XCamera reflectionCamera;
+
+        public BoundingBox boundingBox = new BoundingBox();
 
         public XWater(XMain X)
             : base(X)
@@ -82,6 +101,7 @@ namespace XEngine
 
             reflection = new RenderTarget2D(X.GraphicsDevice, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height, 1, SurfaceFormat.Color);
             refraction = new RenderTarget2D(X.GraphicsDevice, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height, 1, SurfaceFormat.Color);
+            Depth = new DepthStencilBuffer(X.GraphicsDevice, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height, X.GraphicsDevice.DepthStencilBuffer.Format);
 
             vertices = new VertexPositionTexture[6];
 
@@ -93,6 +113,11 @@ namespace XEngine
             vertices[4] = new VertexPositionTexture(new Vector3(Size.X + Position.X, Height, Position.Y), new Vector2(1, 1));
             vertices[5] = new VertexPositionTexture(new Vector3(Size.X + Position.X, Height, Size.Y + Position.Y), new Vector2(1, 0));
 
+            boundingBox = new BoundingBox(v3PointOne, v3PointTwo);
+
+            DoesReflect = true;
+            DoesRefract = true;
+
             base.Load(Content);
         }
 
@@ -102,6 +127,7 @@ namespace XEngine
             {
                 reflection = new RenderTarget2D(X.GraphicsDevice, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height, 1, SurfaceFormat.Color);
                 refraction = new RenderTarget2D(X.GraphicsDevice, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height, 1, SurfaceFormat.Color);
+                Depth = new DepthStencilBuffer(X.GraphicsDevice, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height, X.GraphicsDevice.DepthStencilBuffer.Format);
             }
 
             if (camera != null)
@@ -123,6 +149,9 @@ namespace XEngine
                 reflectionCamera.Position = reflectionCamPosition;
                 reflectionCamera.Up = reflectionCamUp;
                 reflectionCamera.Target = reflectionCamTarget;
+
+                camera.Update(gameTime);
+                reflectionCamera.Update(gameTime);
 
                 Refract(gameTime, camera);
                 Reflect(gameTime, reflectionCamera);
@@ -183,6 +212,9 @@ namespace XEngine
             X.GraphicsDevice.ClipPlanes[0].Plane = refractionClipPlane;
             X.GraphicsDevice.ClipPlanes[0].IsEnabled = true;
 
+            DepthStencilBuffer prev = X.GraphicsDevice.DepthStencilBuffer;
+            X.GraphicsDevice.DepthStencilBuffer = Depth;
+
             // Set the rener target to the refraction target
             X.GraphicsDevice.SetRenderTarget(0, refraction);
             X.GraphicsDevice.Clear(Color.Black);
@@ -194,6 +226,8 @@ namespace XEngine
             DrawRefractedScene(gameTime, Camera);
 
             X.GraphicsDevice.SetRenderTarget(0, null);
+
+            X.GraphicsDevice.DepthStencilBuffer = prev;
 
             X.GraphicsDevice.ClipPlanes[0].IsEnabled = false;
         }
@@ -214,6 +248,9 @@ namespace XEngine
             X.GraphicsDevice.ClipPlanes[0].Plane = reflectionClipPlane;
             X.GraphicsDevice.ClipPlanes[0].IsEnabled = true;
 
+            DepthStencilBuffer prev = X.GraphicsDevice.DepthStencilBuffer;
+            X.GraphicsDevice.DepthStencilBuffer = Depth;
+
             X.GraphicsDevice.SetRenderTarget(0, reflection);
             X.GraphicsDevice.Clear(Color.Black);
 
@@ -225,21 +262,29 @@ namespace XEngine
 
             X.GraphicsDevice.SetRenderTarget(0, null);
 
+            X.GraphicsDevice.DepthStencilBuffer = prev;
+
             X.GraphicsDevice.ClipPlanes[0].IsEnabled = false;
         }
 
         public virtual void DrawRefractedScene(GameTime gameTime, XCamera Camera)
         {
-            foreach (XComponent component in X.Components)
-                if (component.AutoDraw && component is XDrawable && !(component is XRenderer) && !(component is XWater))
-                    component.Draw(gameTime, Camera);
+            List<XComponent> NoDraw = new List<XComponent>();
+            NoDraw.Add(this);
+            NoDraw.Add(X.Debug);
+            NoDraw.Add(X.Console);
+
+            X.Renderer.DrawScene(gameTime, Camera, NoDraw);
         }
 
         public virtual void DrawReflectedScene(GameTime gameTime, XCamera Camera)
         {
-            foreach (XComponent component in X.Components)
-                if (component.AutoDraw && component is XDrawable && !(component is XRenderer) && !(component is XWater))
-                    component.Draw(gameTime, Camera);
+            List<XComponent> NoDraw = new List<XComponent>();
+            NoDraw.Add(this);
+            NoDraw.Add(X.Debug);
+            NoDraw.Add(X.Console);
+
+            X.Renderer.DrawScene(gameTime, Camera, NoDraw);
         }
     }
 }
