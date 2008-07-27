@@ -206,7 +206,7 @@ technique SkyDome
 {
 	pass p0
 	{
-		VertexShader = compile vs_2_0 mainVS();
+		VertexShader = compile vs_1_1 mainVS();
 		PixelShader = compile ps_2_b mainPS();
 	}
 }

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XEngine
 {
-    public class XTexture : XComponent, XLoadable, XUpdateable
+    public class XTexture : XComponent, XUpdateable
     {
         Texture2D texture;
         string filename;

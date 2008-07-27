@@ -80,22 +80,28 @@
   <ItemGroup>
     <Compile Include="Components\Base\XInterfaces.cs" />
     <Compile Include="Components\Base\XComponent.cs" />
+    <Compile Include="Components\Cameras\XArcBallCamera.cs" />
     <Compile Include="Components\Cameras\XChaseCamera.cs" />
     <Compile Include="Components\Environment\XDynamicSky.cs" />
     <Compile Include="Components\Environment\XHeightMap.cs" />
+    <Compile Include="Components\Environment\XSkyBox.cs" />
     <Compile Include="Components\Environment\XWater.cs" />
     <Compile Include="Components\Particles\ParticleVertex.cs" />
     <Compile Include="Components\Particles\XParticleEmitter.cs" />
     <Compile Include="Components\Particles\XParticleSystem.cs" />
     <Compile Include="Components\Particles\XParticleSystemSettings.cs" />
+    <Compile Include="Components\Rendering\XMaterial.cs" />
+    <Compile Include="Components\Rendering\XRenderer.cs" />
+    <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />
+    <Compile Include="Components\Scripting\XTriggerVolume.cs" />
     <Compile Include="Components\Utilities\XDebugDrawer.cs" />
+    <Compile Include="Components\Utilities\XQuadDrawer.cs" />
     <Compile Include="Components\Utilities\XTools.cs" />
     <Compile Include="Components\XActor.cs" />
     <Compile Include="Components\XCar.cs" />
     <Compile Include="Components\XTimer.cs" />
     <Compile Include="Components\Cameras\XCamera.cs" />
     <Compile Include="Components\Cameras\XFreeLookCamera.cs" />
-    <Compile Include="Components\XRenderer.cs" />
     <Compile Include="Components\Input\XGamePad.cs" />
     <Compile Include="Components\Input\XGuitar.cs" />
     <Compile Include="Components\Input\XKeyboard.cs" />
@@ -155,6 +161,10 @@
     <ProjectReference Include="..\JigLibX\JigLibX.csproj">
       <Project>{948C059E-FCC0-4461-8B9D-26FD44706507}</Project>
       <Name>JigLibX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\X-Model Pipeline.csproj">
+      <Project>{1D35C4FA-C0F7-4C2B-94CB-506162EC662D}</Project>
+      <Name>X-Model Pipeline</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

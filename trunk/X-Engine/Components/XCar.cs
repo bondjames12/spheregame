@@ -12,6 +12,9 @@ namespace XEngine
         XModel Chassis;
         XModel Wheel;
 
+        XMaterial chassismat;
+        XMaterial wheelmat;
+
         public Vector3 Position { get { return Car.PhysicsBody.Position; } }
         public Matrix Orientation { get { return Car.PhysicsBody.Orientation; } }
 
@@ -25,6 +28,9 @@ namespace XEngine
             Car.Car.EnableCar();
 
             Car.PhysicsBody.Position = Position;
+
+            chassismat = new XMaterial(X, Chassis.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 100);
+            wheelmat = new XMaterial(X, Wheel.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 1000000000);
         }
 
         Vector2 Acceleration = Vector2.Zero;
@@ -57,13 +63,13 @@ namespace XEngine
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera)
         {
             Matrix[] World = Car.GetWorldMatrix(Chassis.Model, Vector3.Zero);
-            
-            X.Renderer.DrawModel(Chassis, Camera, World[0]);
 
-            X.Renderer.DrawModel(Wheel, Camera, World[1]);
-            X.Renderer.DrawModel(Wheel, Camera, World[2]);
-            X.Renderer.DrawModel(Wheel, Camera, World[3]);
-            X.Renderer.DrawModel(Wheel, Camera, World[4]);
+            X.Renderer.DrawModel(Chassis, Camera, new Matrix[] { World[0] }, chassismat);
+
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[1] } , wheelmat);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[2] } , wheelmat);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[3] } , wheelmat);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[4] } , wheelmat);
         }
     }
 }

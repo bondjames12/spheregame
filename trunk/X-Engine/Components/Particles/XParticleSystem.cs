@@ -10,7 +10,7 @@ namespace XEngine
     /// <summary>
     /// The main component in charge of displaying particles.
     /// </summary>
-    public class XParticleSystem : XComponent, XLoadable, XUpdateable, XDrawable
+    public class XParticleSystem : XComponent, XUpdateable, XDrawable
     {
         #region Fields
 
@@ -155,13 +155,13 @@ namespace XEngine
         {
             LoadParticleEffect(@"Content\XEngine\Effects\ParticleEffect", Content);
 
-            vertexDeclaration = new VertexDeclaration(X.Game.GraphicsDevice,
+            vertexDeclaration = new VertexDeclaration(X.GraphicsDevice,
                                                       ParticleVertex.VertexElements);
 
             // Create a dynamic vertex buffer.
             int size = ParticleVertex.SizeInBytes * particles.Length;
 
-            vertexBuffer = new DynamicVertexBuffer(X.Game.GraphicsDevice, size,
+            vertexBuffer = new DynamicVertexBuffer(X.GraphicsDevice, size,
                                                    BufferUsage.WriteOnly |
                                                    BufferUsage.Points);
         }
@@ -180,7 +180,7 @@ namespace XEngine
             // particle system. By cloning the effect, we prevent one particle system
             // from stomping over the parameter settings of another.
 
-            particleEffect = effect.Clone(X.Game.GraphicsDevice);
+            particleEffect = effect.Clone(X.GraphicsDevice);
 
             EffectParameterCollection parameters = particleEffect.Parameters;
 
@@ -321,7 +321,7 @@ namespace XEngine
         {
             SetCamera(Camera.View, Camera.Projection);
 
-            GraphicsDevice device = X.Game.GraphicsDevice;
+            GraphicsDevice device = X.GraphicsDevice;
 
             // Restore the vertex buffer contents if the graphics device was lost.
             if (vertexBuffer.IsContentLost)

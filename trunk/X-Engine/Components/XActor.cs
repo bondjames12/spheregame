@@ -6,20 +6,7 @@ namespace XEngine
 {
     public class XActor : XComponent, XDrawable
     {
-        public enum ActorType { Box, Capsule, Plane, Sphere, Mesh, BowlingPin }
-
         public int ModelNumber;
-
-        ActorType type;
-        public ActorType Type
-        {
-            get { return type; }
-            set
-            {
-                type = value;
-                Size = size;
-            }
-        }
 
         XModel mod;
         public XModel model
@@ -28,15 +15,17 @@ namespace XEngine
             set { mod = value; ModelNumber = mod.Number; }
         }
 
-        internal PhysicsObject PhysicsBody;
+        public PhysicsObject PhysicsBody;
 
         public Vector3 modeloffset;
 
         public int PhysicsID { get { return PhysicsBody.PhysicsBody.ID; } }
 
+        public BoundingBox boundingBox { get { if (PhysicsBody.PhysicsBody.CollisionSkin != null) return PhysicsBody.PhysicsBody.CollisionSkin.WorldBoundingBox; else return new BoundingBox(Position, Position);  } }
+
         public bool ShowBoundingBox;
 
-        List<int> collisions;
+        List<int> collisions = new List<int>();
         public List<int> Collisions
         {
             get
@@ -85,31 +74,11 @@ namespace XEngine
             set { PhysicsBody.SetMass(value); mass = value; }
         }
 
-        Vector3 size;
-        public Vector3 Size
+        bool collisionenabled = true;
+        public bool CollisionEnabled
         {
-            get { return size; }
-            set
-            {
-                PhysicsObject obj = new PlaneObject();
-                switch (Type)
-                {
-                    case ActorType.Box:
-                        obj = new BoxObject(value, Orientation, Position); break;
-                    case ActorType.Capsule:
-                        obj = new CapsuleObject(value.X, value.Y, Orientation, Position); break;
-                    case ActorType.Mesh:
-                        obj = new TriangleMeshObject(model.Model, Orientation, Position, value); break;
-                    case ActorType.Plane:
-                        obj = new PlaneObject(); break;
-                    case ActorType.Sphere:
-                        obj = new SphereObject(value.X, Orientation, Position); break;
-                    case ActorType.BowlingPin:
-                        obj = new BowlingPinObject(Orientation, Position); break;
-                }
-                PhysicsBody = obj;
-                size = value;
-            }
+            set { collisionenabled = value; if (value) PhysicsBody.PhysicsBody.EnableBody(); else PhysicsBody.PhysicsBody.DisableBody(); }
+            get { return collisionenabled; }
         }
 
         Vector3 rotation;
@@ -119,47 +88,122 @@ namespace XEngine
             set { rotation = value; Orientation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(rotation.Y), MathHelper.ToRadians(rotation.X), MathHelper.ToRadians(rotation.Z)); }
         }
 
-        public XActor(XMain X, ActorType type, XModel model, Vector3 Position, Matrix Rotation, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Size, Vector3 Velocity, float Mass) : base(X)
+        public XActor(XMain X, PhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass) : base(X)
         {
             this.model = model;
-            this.type = type;
-            this.size = Size;
             this.mass = Mass;
-
-            switch (type)
-            {
-                case ActorType.Box:
-                    PhysicsBody = new BoxObject(Size, Rotation, Position); break;
-                case ActorType.Capsule:
-                    PhysicsBody = new CapsuleObject(Size.X, Size.Y, Rotation, Position); break;
-                case ActorType.Mesh:
-                    PhysicsBody = new TriangleMeshObject(model.Model, Rotation, Position, Size); break;
-                case ActorType.Plane:
-                    PhysicsBody = new PlaneObject(); break;
-                case ActorType.Sphere:
-                    PhysicsBody = new SphereObject(Size.X, Rotation, Position); break;
-                case ActorType.BowlingPin:
-                    PhysicsBody = new BowlingPinObject(Rotation, Position); break;
-            }
+            this.PhysicsBody = Object;
 
             PhysicsBody.SetMass(Mass);
             PhysicsBody.scale = ModelScale;
             PhysicsBody.PhysicsBody.Velocity = Velocity;
             modeloffset = ModelOffset;
+            try
+            {
+                this.material = new XMaterial(X, model.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 10);
+            }
+            catch
+            {
+                this.material = new XMaterial(X, model.Model.Meshes[0].Effects[0].Parameters["BasicTexture"].GetValueTexture2D(), true, null, false, null, false, 10);
+            }
+
+        }
+
+        public Matrix GetWorldMatrix()
+        {
+            return PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
+        }
+
+        public Vector3 GetScreenCoordinates(XCamera Camera)
+        {
+            return X.Tools.UnprojectVector3(this.Position, Camera, GetWorldMatrix());
+        }
+
+        XMaterial material;
+        public XMaterial Material
+        {
+            get { return material; }
+            set { material = value; }
+        }
+
+
+        public override void Draw(GameTime gameTime, XCamera Camera)
+        {
+            if (model != null && model.Loaded)
+            {
+                Matrix[] mat = new Matrix[1];
+                mat[0] = PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
+
+                if (material.AlphaBlendable)
+                {
+                    X.GraphicsDevice.RenderState.AlphaBlendEnable = true;
+                    X.GraphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha; // source rgb * source alpha
+                    X.GraphicsDevice.RenderState.AlphaSourceBlend = Blend.One; // don't modify source alpha
+                    X.GraphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha; // dest rgb * (255 - source alpha)
+                    X.GraphicsDevice.RenderState.AlphaDestinationBlend = Blend.InverseSourceAlpha; // dest alpha * (255 - source alpha)
+                    X.GraphicsDevice.RenderState.BlendFunction = BlendFunction.Add; // add source and dest results
+                }
+                else
+                    X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
+
+                X.GraphicsDevice.RenderState.CullMode = material.VertexWinding;
+
+                X.Renderer.DrawModel(model, Camera, mat, material);
+            }
+
+            if (ShowBoundingBox)
+                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, Matrix.Identity /*PhysicsBody.GetWorldMatrix(model.Model, Vector3.Zero)*/, Camera);
+        }
+
+        public override void Disable()
+        {
+            PhysicsBody.PhysicsBody.DisableBody();
+            base.Disable();
+        }
+    }
+
+    /*public class XAnimatedActor : XActor, XUpdateable
+    {
+        AnimationPlayer animator;
+
+        public XAnimatedActor(XMain X, PhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass) :
+            base(X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
+        {
+            animator = new AnimationPlayer((SkinningData)model.Model.Tag);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            animator.Update(gameTime.ElapsedGameTime, true, PhysicsBody.GetWorldMatrix(model.Model, modeloffset));
+            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, XCamera Camera)
         {
             if (model != null && model.Loaded)
-                X.Renderer.DrawModel(model, Camera, PhysicsBody.GetWorldMatrix(model.Model, modeloffset));
-            
-            if (ShowBoundingBox)
-                X.DebugDrawer.DrawCube(PhysicsBody.PhysicsSkin.WorldBoundingBox.Min, PhysicsBody.PhysicsSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
-        }
+            {
+                Matrix[] mat = new Matrix[1];
+                mat[0] = PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
 
-        public void Disable()
-        {
-            PhysicsBody.PhysicsBody.DisableBody();
+                if (AlphaBlendAble)
+                {
+                    X.GraphicsDevice.RenderState.AlphaBlendEnable = true;
+                    X.GraphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha; // source rgb * source alpha
+                    X.GraphicsDevice.RenderState.AlphaSourceBlend = Blend.One; // don't modify source alpha
+                    X.GraphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha; // dest rgb * (255 - source alpha)
+                    X.GraphicsDevice.RenderState.AlphaDestinationBlend = Blend.InverseSourceAlpha; // dest alpha * (255 - source alpha)
+                    X.GraphicsDevice.RenderState.BlendFunction = BlendFunction.Add; // add source and dest results
+                }
+                else
+                    X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
+
+                X.GraphicsDevice.RenderState.CullMode = VertexWinding;
+
+                X.Renderer.DrawModel(model, Camera, mat);
+            }
+
+            if (ShowBoundingBox)
+                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, PhysicsBody.GetWorldMatrix(model.Model, Vector3.Zero), Camera);
         }
-    }
+    }*/
 }

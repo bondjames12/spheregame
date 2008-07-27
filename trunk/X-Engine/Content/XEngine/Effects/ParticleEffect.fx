@@ -276,6 +276,6 @@ technique RotatingParticles
     pass P0
     {
         VertexShader = compile vs_1_1 VertexShader();
-        PixelShader = compile ps_2_0 RotatingPixelShader();
+        PixelShader = compile ps_2_b RotatingPixelShader();
     }
 }

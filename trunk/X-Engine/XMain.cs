@@ -5,13 +5,11 @@ using JigLibX.Physics;
 using JigLibX.Collision;
 using System;
 using Microsoft.Xna.Framework.Content;
-#if !XBOX
-    using System.ComponentModel.Design;
-#endif
+using System.Threading;
 
 namespace XEngine
 {
-    public class XMain : DrawableGameComponent
+    public class XMain
     {
         public List<XComponent> Components;
 
@@ -27,16 +25,21 @@ namespace XEngine
         public XTools Tools;
 
         public PhysicsSystem Physics;
-        public float Gravity { get { return Physics.Gravity.Length(); } }
+        public Vector3 Gravity { get { return Physics.Gravity; } set { Physics.Gravity = value; } }
 
-        public Game game;
+        public bool UpdatePhysics = true;
 
-        public XMain(Game game) : base(game)
+        public ContentManager Content;
+        public GraphicsDevice GraphicsDevice;
+        public IServiceProvider Services;
+
+        public XMain(GraphicsDevice GraphicsDevice, IServiceProvider Services)
         {
-            this.game = game;
-            game.Components.Add(this);
-
             Components = new List<XComponent>();
+
+            this.Content = new ContentManager(Services);
+            this.GraphicsDevice = GraphicsDevice;
+            this.Services = Services;
 
             SystemFont = new XFont(this, @"Content\XEngine\Fonts\System");
 
@@ -45,34 +48,33 @@ namespace XEngine
             Console = new XConsole(this);
             Renderer = new XRenderer(this);
             DebugDrawer = new XDebugDrawer(this);
-            Tools = new XTools();
+            Tools = new XTools(this);
 
             Physics = new PhysicsSystem();
             Physics.EnableFreezing = true;
             Physics.SolverType = PhysicsSystem.Solver.Normal;
-            Physics.CollisionSystem = new CollisionSystemGrid(32, 32, 32, 32, 32, 32);
-            Physics.CollisionSystem.UseSweepTests = true;
+            Physics.CollisionSystem = new CollisionSystemSAP();
         }
 
-        protected override void LoadContent()
+        public void LoadContent()
         {
-            spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            SystemFont.Load(game.Content);
-            Console.Load(game.Content);
-            DebugDrawer.Load(game.Content);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SystemFont.Load(Content);
+            Console.Load(Content);
+            DebugDrawer.Load(Content);
+            Renderer.Load(Content);
 
             GC.Collect();
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            PhysicsSystem.CurrentPhysicsSystem.Integrate((float)gameTime.ElapsedGameTime.TotalSeconds);
+            if (UpdatePhysics)
+                PhysicsSystem.CurrentPhysicsSystem.Integrate((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             foreach(XComponent Component in Components)
                 if (Component is XUpdateable)
                     Component.Update(gameTime);
-
-            base.Update(gameTime);
         }
     }
 }

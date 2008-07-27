@@ -11,6 +11,8 @@ namespace XEngine
         List<string> toWrite = new List<string>();
         List<string> toWriteStatic = new List<string>();
 
+        public Vector2 StartPosition = new Vector2(5, 3);
+
         public XDebug(XMain X)
             : base(X)
         {
@@ -27,16 +29,16 @@ namespace XEngine
 
         public override void Draw(GameTime gameTime, XCamera Camera)
         {
-            int offset = 3;
+            int offset = (int)StartPosition.Y;
             foreach (string Text in toWrite)
             {
-                X.SystemFont.Draw(Text, new Vector2(5, offset), Color.White);
+                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.White);
                 offset += RowHeight;
             }
             toWrite.Clear();
             foreach (string Text in toWriteStatic)
             {
-                X.SystemFont.Draw(Text, new Vector2(5, offset), Color.White);
+                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.White);
                 offset += RowHeight;
             }
         }

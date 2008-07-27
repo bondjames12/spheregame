@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XEngine
 {
-    public class XModel : XComponent, XLoadable
+    public class XModel : XComponent
     {
         Model model;
 

@@ -8,7 +8,14 @@ namespace XEngine
 {
     public class XTools
     {
+        XMain X;
+
         private Random rand = new Random();
+
+        public XTools(XMain X)
+        {
+            this.X = X;
+        }
 
         public int GetRandomInt(int min, int max)
         {
@@ -148,6 +155,30 @@ namespace XEngine
                 return one;
             else
                 return two;
+        }
+
+        public Rectangle GetTitleSafeArea(float Percentage)
+        {
+            return new Rectangle((int)(X.GraphicsDevice.Viewport.Width * (1f - Percentage)),
+                (int)(X.GraphicsDevice.Viewport.Height * (1f - Percentage)),
+                (int)(X.GraphicsDevice.Viewport.Width * Percentage),
+                (int)(X.GraphicsDevice.Viewport.Height * Percentage));
+        }
+
+        public void RemapModel(Model model, Effect effect)
+        {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    part.Effect = effect;
+                }
+            }
+        }
+
+        public Vector3 UnprojectVector3(Vector3 Vector, XCamera Camera, Matrix World)
+        {
+            return X.GraphicsDevice.Viewport.Unproject(Vector, Camera.Projection, Camera.View, World);
         }
     }
 }

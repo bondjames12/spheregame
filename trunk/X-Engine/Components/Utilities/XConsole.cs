@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XEngine
 {
-    public class XConsole : XComponent, XLoadable, XDrawable
+    public class XConsole : XComponent, XDrawable
     {
         List<string> log = new List<string>();
         public bool Visible = false;
