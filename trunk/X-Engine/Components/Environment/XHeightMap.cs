@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XEngine
 {
-    public class XHeightMap : XComponent, XLoadable, XDrawable
+    public class XHeightMap : XComponent, XDrawable
     {
         VertexBuffer terrainVertexBuffer;
         IndexBuffer terrainIndexBuffer;
@@ -33,6 +33,8 @@ namespace XEngine
         public string BTextureFile;
         public string HeightMapFile;
 
+        public BoundingBox boundingBox = new BoundingBox();
+
         public XHeightMap(XMain X, string HeightMap, XEnvironmentParameters Params, string RTexture, string GTexture, string BTexture, string TextureMap) : base(X) 
         {
             if (Params != null)
@@ -47,7 +49,7 @@ namespace XEngine
 
         public override void Load(ContentManager Content)
         {
-            Heights = HeightMapInfo.GenerateFromHeightmap(X, X.game.Content.Load<Texture2D>(HeightMapFile), 1.0f);
+            Heights = HeightMapInfo.GenerateFromHeightmap(X, X.Content.Load<Texture2D>(HeightMapFile), 1.0f);
 
             effect = Content.Load<Effect>(@"Content\XEngine\Effects\Terrain");
 
@@ -92,6 +94,8 @@ namespace XEngine
 
             VertexPositionNormalTexture[] terrainVertices = new VertexPositionNormalTexture[WIDTH * HEIGHT];
 
+            float maxheight = 0;
+
             for (int x = 0; x < WIDTH; x++)
                 for (int y = 0; y < HEIGHT; y++)
                 {
@@ -101,6 +105,7 @@ namespace XEngine
                     terrainVertices[x + y * WIDTH].TextureCoordinate.X = (float)x / WIDTH;
                     terrainVertices[x + y * WIDTH].TextureCoordinate.Y = (float)y / HEIGHT;
 
+                    maxheight = maxheight < heightData[x, y] ? heightData[x, y] : maxheight;
                 }
 
             for (int x = 1; x < WIDTH - 1; x++)
@@ -136,6 +141,8 @@ namespace XEngine
             terrainIndexBuffer.SetData(terrainIndices);
 
             Object = new HeightmapObject(Heights, Vector2.Zero);
+
+            boundingBox = new BoundingBox(new Vector3(-(WIDTH / 2), 0, -(HEIGHT / 2)), new Vector3((WIDTH / 2), maxheight, (HEIGHT / 2)));
 
             base.Load(Content);
         }

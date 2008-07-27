@@ -4,7 +4,7 @@ using System;
 
 namespace XEngine
 {
-    public class XDynamicSky : XComponent, XLoadable, XUpdateable, XDrawable
+    public class XDynamicSky : XComponent, XUpdateable, XDrawable
     {
         private Model domeModel;
         public Effect domeEffect;
@@ -34,10 +34,10 @@ namespace XEngine
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            this.domeModel = X.game.Content.Load<Model>(@"Content\XEngine\Models\SkyDome");
-            domeEffect = X.game.Content.Load<Effect>(@"Content\XEngine\Effects\Sky");
+            this.domeModel = X.Content.Load<Model>(@"Content\XEngine\Models\SkyDome");
+            domeEffect = X.Content.Load<Effect>(@"Content\XEngine\Effects\Sky");
 
-            RemapModel(domeModel, domeEffect);
+            X.Tools.RemapModel(domeModel, domeEffect);
 
             foreach (ModelMesh mesh in domeModel.Meshes)
             {
@@ -93,7 +93,7 @@ namespace XEngine
 
                 foreach (ModelMesh mesh in domeModel.Meshes)
                 {
-                    Matrix World = Matrix.CreateScale(100) * boneTransforms[mesh.ParentBone.Index] *
+                    Matrix World = Matrix.CreateScale(10) * boneTransforms[mesh.ParentBone.Index] *
                         Matrix.CreateTranslation(camera.Position.X, camera.Position.Y, camera.Position.Z);
 
                     Matrix WorldIT = Matrix.Invert(World);
@@ -108,17 +108,6 @@ namespace XEngine
                         effect.Parameters["LightDirection"].SetValue(Params.LightDirection);
                     }
                     mesh.Draw();
-                }
-            }
-        }
-
-        void RemapModel(Model model, Effect effect)
-        {
-            foreach (ModelMesh mesh in model.Meshes)
-            {
-                foreach (ModelMeshPart part in mesh.MeshParts)
-                {
-                    part.Effect = effect;
                 }
             }
         }

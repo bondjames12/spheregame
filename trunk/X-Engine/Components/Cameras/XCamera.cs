@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace XEngine
 {
@@ -16,25 +17,35 @@ namespace XEngine
 
         public float AspectRatio;
 
+        public BoundingFrustum Frustrum;
+
         public XCamera(XMain X) : base(X)
         {
-            Projection = GenerateProjection(X, MathHelper.PiOver4);
+            Projection = GenerateProjection(X, MathHelper.PiOver4, ProjectionType.Perspective);
         }
 
-        public Matrix GenerateProjection(XMain X, float FoV)
+        public enum ProjectionType { Perspective, Orthographic }
+
+        public Matrix GenerateProjection(XMain X, float FoV, ProjectionType type)
         {
-            AspectRatio = (float)X.Game.Window.ClientBounds.Width / (float)X.Game.Window.ClientBounds.Height;
-            return GenerateProjection(X, FoV, AspectRatio);
+            AspectRatio = (float)X.GraphicsDevice.Viewport.Width / (float)X.GraphicsDevice.Viewport.Height;
+            return GenerateProjection(X, FoV, AspectRatio, type);
         }
 
-        public Matrix GenerateProjection(XMain X, float FoV, float AspectRatio)
+        public Matrix GenerateProjection(XMain X, float FoV, float AspectRatio, ProjectionType type)
         {
-            return Matrix.CreatePerspectiveFieldOfView(FoV, AspectRatio, 1, 10000);
+            if (type == ProjectionType.Perspective)
+                return Matrix.CreatePerspectiveFieldOfView(FoV, AspectRatio, .1f, 1000);
+            else if (type == ProjectionType.Orthographic)
+                return Matrix.CreateOrthographic(100, 100, -170, 170);
+
+            return Matrix.Identity;
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             View = Matrix.CreateLookAt(Position, Target, Up);
+            Frustrum = new BoundingFrustum(View * Projection);
         }
     }
 }

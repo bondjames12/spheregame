@@ -121,10 +121,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JigLibX\JigLibX Xbox 360.csproj">
-      <Project>{16862d0a-6b2c-44f9-8042-e501af5ffc46}</Project>
-      <Name>JigLibX Xbox 360</Name>
-    </ProjectReference>
     <ProjectReference Include="..\X-Engine\X Engine Xbox 360.csproj">
       <Project>{2bd86553-3382-4b59-8a81-38fdae2fc9b8}</Project>
       <Name>X Engine Xbox 360</Name>

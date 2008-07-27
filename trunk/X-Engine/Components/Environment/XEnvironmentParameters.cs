@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace XEngine
 {
-    public class XEnvironmentParameters : XComponent, XLoadable
+    public class XEnvironmentParameters : XComponent
     {
         public static int count = 0;
         public int number;
