@@ -8,20 +8,8 @@ namespace XEngine
 
         bool loaded = false;
         bool autoDraw = true;
-        int drawOrder = 1;
-
-        int componentID;
-        public int ComponentID
-        {
-            get { return componentID; }
-            set
-            {
-                componentID = value;
-                if (Count < value)
-                    Count = value;
-            }
-        }
-        static int Count;
+        public bool NoCull = false;
+        int drawOrder = 20;
 
         /// <summary>
         /// Gets whether the component's "Load()" method has been called.
@@ -29,6 +17,13 @@ namespace XEngine
         public bool Loaded
         {
             get { return loaded; }
+        }
+
+        string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
         }
 
         /// <summary>
@@ -55,8 +50,7 @@ namespace XEngine
 
             X.Components.Add(this);
 
-            Count++;
-            componentID = Count;
+            this.Name = this.ToString();
         }
 
         public virtual void Load(ContentManager Content)
@@ -74,6 +68,11 @@ namespace XEngine
 
         public virtual void SetProjection(Matrix Projection)
         {
+        }
+
+        public virtual void Disable()
+        {
+            X.Components.Remove(this);
         }
     }
 }

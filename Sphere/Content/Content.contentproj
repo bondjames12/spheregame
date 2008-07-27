@@ -37,6 +37,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Model\X-Model Pipeline.csproj">
+      <Project>{1D35C4FA-C0F7-4C2B-94CB-506162EC662D}</Project>
+      <Name>X-Model Pipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ShatterExtension\ShatterExtension.csproj">
       <Project>{23A45FA3-6F1F-417C-BC85-0963AC5EFB10}</Project>
       <Name>ShatterExtension</Name>
@@ -153,43 +157,43 @@
     <Compile Include="Models\box.x">
       <Name>box</Name>
       <Importer>XImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>XEngineModelProcessor</Processor>
     </Compile>
     <Compile Include="Models\chassis.fbx">
       <Name>chassis</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>XEngineModelProcessor</Processor>
     </Compile>
     <Compile Include="Models\duck.x">
       <Name>duck</Name>
       <Importer>XImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>XEngineModelProcessor</Processor>
     </Compile>
     <Compile Include="Models\wheel.fbx">
       <Name>wheel</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>XEngineModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\house.x">
       <Name>house</Name>
       <Importer>XImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>XEngineModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\tree.x">
       <Name>tree</Name>
       <Importer>XImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>XEngineModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\tree01.X">
       <Name>tree01</Name>
       <Importer>XImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>XEngineModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

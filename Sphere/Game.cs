@@ -60,8 +60,7 @@ namespace Sphere
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
 
-            X = new XMain(this);
-            X.FrameRate.DisplayFrameRate = false;   
+             
         }
 
         /// <summary>
@@ -72,6 +71,9 @@ namespace Sphere
         /// </summary>
         protected override void Initialize()
         {
+            X = new XMain(graphics.GraphicsDevice, Services);
+            X.FrameRate.DisplayFrameRate = false;  
+
             resources = new XResourceGroup(X);
 
             keyboard = new XKeyboard(X);
@@ -124,6 +126,7 @@ namespace Sphere
         protected override void LoadContent()
         {  
             // TODO: use this.Content to load your game content here
+            X.LoadContent();
             resources.Load();
 
             base.LoadContent();
@@ -146,7 +149,7 @@ namespace Sphere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
+            X.Update(gameTime);
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -180,12 +183,12 @@ namespace Sphere
             }
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
-                boxes.Add(new XActor(X, XActor.ActorType.Box, model, camera.Position, Matrix.Identity, new Vector3(10), new Vector3(0, 0, 0), new Vector3(1), Vector3.Normalize(camera.Target - camera.Position) * 30, 10));
+                boxes.Add(new XActor(X, new BoxObject(new Vector3(10), Matrix.Identity, camera.Position), model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(camera.Target - camera.Position) * 30, 10));
 #else
             if (pad.ButtonPressed(Buttons.A))
-                boxes.Add(new XActor(X, XActor.ActorType.Box, model, camera.Position, Matrix.Identity, new Vector3(10), new Vector3(0, 0, 0), new Vector3(1), Vector3.Normalize(camera.Target - camera.Position) * 30, 10));
+                boxes.Add(new XActor(X, new BoxObject(new Vector3(10), Matrix.Identity, camera.Position), model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(camera.Target - camera.Position) * 30, 10));
 #endif
-
+            //need to set camera.position, rotation, size of box????
             //sky.Theta += mouse.ScrollDelta * .0004f;
 
             if (keyboard.KeyPressed(Keys.F1))
@@ -200,9 +203,11 @@ namespace Sphere
                 {
                     water = new XWater(X, new Vector2(-128, -128), new Vector2(128, 128), 3);
                     water.Load(Content);
+                    water.Update(gameTime);
+                    resources.AddComponent(water);
                 }
 
-            if (keyboard.KeyPressed(Keys.F4))
+            /*if (keyboard.KeyPressed(Keys.F4))
                 for (int x = 0; x < 10; x++)
                     for (int e = x; e < 10; e++)
                         boxes.Add(new XActor(X, XActor.ActorType.Box, model, new Vector3(20, x * 1.01f + 1, e - 0.5f * x), Matrix.Identity, new Vector3(10), new Vector3(0, 0, 0), new Vector3(1), Vector3.Zero, 10));
@@ -241,7 +246,7 @@ namespace Sphere
                     houseactor = new XActor(X, XActor.ActorType.Box, housemodel, new Vector3(10, 10, 0), Matrix.Identity, new Vector3(0.05f), new Vector3(0, -1, 0), new Vector3(3, 3, 3), new Vector3(0), 10);
                     houseactor.Immovable = false;
                 }
-
+            */
             if (duckActor != null)
                 duckActor.Position = new Vector3(0, (float)Math.Sin((float)gameTime.TotalGameTime.TotalSeconds) * 1.5f + 7, 0);
 
