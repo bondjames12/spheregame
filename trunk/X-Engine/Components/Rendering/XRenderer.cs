@@ -55,6 +55,7 @@ namespace XEngine
             List<XActor> Alpha = new List<XActor>();
 
             ActorsInView.Clear();
+            
             foreach (List<XComponent> level in draw.Values)
             {
                 foreach (XComponent component in level)
@@ -123,6 +124,8 @@ namespace XEngine
                     effect.Parameters["World"].SetValue(World[0]);
                     //effect.Parameters["Bones"].SetValue(bones);
 
+                    //if this throws and exception DID YOU FORGET TO SET THE MODEL PROCESSOR???????
+                    //TO OUR CUSTOM ONE?? X-Model????
                     effect.CurrentTechnique = effect.Techniques["Model"];
                     
                     effect.Parameters["View"].SetValue(Camera.View);

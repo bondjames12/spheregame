@@ -24,6 +24,7 @@ namespace ContentModel
         protected override MaterialContent ConvertMaterial(MaterialContent material,
                                                 ContentProcessorContext context)
         {
+            //System.Diagnostics.Debugger.Launch();
             BasicMaterialContent basicMaterial = material as BasicMaterialContent;
 
             EffectMaterialContent effectMaterial = new EffectMaterialContent();
@@ -36,7 +37,9 @@ namespace ContentModel
             // Copy texture settings from the input
             // BasicMaterialContent over to our new material.
             if (basicMaterial.Texture != null)
+            {
                 effectMaterial.Textures.Add("Texture", basicMaterial.Texture);
+            }
 
             // Chain to the base ModelProcessor converter.
             return base.ConvertMaterial(effectMaterial, context);
