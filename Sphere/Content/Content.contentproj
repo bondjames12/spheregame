@@ -204,7 +204,7 @@
     <Compile Include="Models\chassis.FBX">
       <Name>chassis</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
+      <Processor>ModelProcessor</Processor>
     </Compile>
     <Compile Include="Models\wheel.fbx">
       <Name>wheel</Name>
