@@ -159,19 +159,9 @@
       <Importer>XImporter</Importer>
       <Processor>XEngineModelProcessor</Processor>
     </Compile>
-    <Compile Include="Models\chassis.fbx">
-      <Name>chassis</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
     <Compile Include="Models\duck.x">
       <Name>duck</Name>
       <Importer>XImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Models\wheel.fbx">
-      <Name>wheel</Name>
-      <Importer>FbxImporter</Importer>
       <Processor>XEngineModelProcessor</Processor>
     </Compile>
   </ItemGroup>
@@ -194,6 +184,32 @@
       <Name>tree01</Name>
       <Importer>XImporter</Importer>
       <Processor>XEngineModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\platform1.fbx">
+      <Name>platform1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>XEngineModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Earth.X">
+      <Name>Earth</Name>
+      <Importer>XImporter</Importer>
+      <Processor>XEngineModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\chassis.FBX">
+      <Name>chassis</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>XEngineModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\wheel.fbx">
+      <Name>wheel</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

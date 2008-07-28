@@ -14,43 +14,37 @@ namespace Sphere
     public class Game : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-
         XMain X;
-        XResourceGroup resources;
 
-        XKeyboard keyboard;
-#if !XBOX
-        XMouse mouse;
-#else
-        XGamePad pad;
-#endif
+        public InputProcessor input;
+        public XResourceGroup resources;
 
-        XFreeLookCamera camera;
+        public XFreeLookCamera camera;
 
-        XModel model;
-        XModel duckModel;
+        public XModel model;
+        public XModel duckModel;
 
-        XHeightMap heightmap;
-        XDynamicSky sky;
-        XWater water;
-        XEnvironmentParameters environment;
+        public XHeightMap heightmap;
+        public XDynamicSky sky;
+        public XWater water;
+        public XEnvironmentParameters environment;
 
-        XActor duckActor;
-        List<XActor> boxes = new List<XActor>();
+        public XActor duckActor;
+        public List<XActor> boxes = new List<XActor>();
 
-        XModel Chassis;
-        XModel Wheel;
-        XCar Car;
+        public XModel Chassis;
+        public XModel Wheel;
+        public XCar Car;
 
-        Fire fire;
+        public Fire fire;
 
-        XChaseCamera chase;
+        public XChaseCamera chase;
 
-        XModel plane;
-        XActor planeActor;
+        public XModel plane;
+        public XActor planeActor;
 
-        XModel housemodel;
-        XActor houseactor;
+        public XModel housemodel;
+        public XActor houseactor;
 
         public Game()
         {
@@ -72,19 +66,27 @@ namespace Sphere
         protected override void Initialize()
         {
             X = new XMain(graphics.GraphicsDevice, Services);
-            X.FrameRate.DisplayFrameRate = false;  
+            X.FrameRate.DisplayFrameRate = true;
 
             resources = new XResourceGroup(X);
+            input = new InputProcessor(X, this);
 
-            keyboard = new XKeyboard(X);
-#if !XBOX
-            mouse = new XMouse(X);
-#else
-            pad = new XGamePad(X,1);
-#endif
             camera = new XFreeLookCamera(X);
             camera.Position = new Vector3(0, 10, 0);
 
+            base.Initialize();
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {  
+            //Load engine base content
+            X.LoadContent();
+
+            // load scene objects/content
             environment = new XEnvironmentParameters(X);
             sky = new XDynamicSky(X, environment);
             heightmap = new XHeightMap(X, @"Content\Textures\Heightmap", environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Textures\TextureMap");
@@ -99,15 +101,15 @@ namespace Sphere
             duckModel = new XModel(X, @"Content\Models\Duck");
             resources.AddComponent(duckModel);
 
-            Chassis = new XModel(X, @"Content\Models\Chassis");
-            Wheel = new XModel(X, @"Content\Models\Wheel");
+            Chassis = new XModel(X, @"Content\Models\chassis");
+            Wheel = new XModel(X, @"Content\Models\wheel");
 
             resources.AddComponent(Chassis);
             resources.AddComponent(Wheel);
 
             chase = new XChaseCamera(X);
 
-            housemodel = new XModel(X, @"Content\Models\tree01");
+            housemodel = new XModel(X, @"Content\Models\Earth");
             resources.AddComponent(housemodel);
 
             //plane = new XModel(X, @"Content\plane");
@@ -116,19 +118,8 @@ namespace Sphere
             //planeActor.Immovable = true;
             //planeActor.ShowBoundingBox = true;
             
-            base.Initialize();
-        }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {  
-            // TODO: use this.Content to load your game content here
-            X.LoadContent();
             resources.Load();
-
+            input.Load();
             base.LoadContent();
         }
 
@@ -149,104 +140,9 @@ namespace Sphere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //Call engine update
             X.Update(gameTime);
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            if (keyboard.KeyPressed(Keys.Escape))
-                Exit();
-#if !XBOX
-            camera.Rotate(new Vector3(mouse.Delta.Y * .0016f, mouse.Delta.X * .0016f, 0));
-#else
-            camera.Rotate(new Vector3(pad.Thumbstick(XGamePad.Thumbsticks.Left).Y * .0016f, pad.Thumbstick(XGamePad.Thumbsticks.Left).X * .0016f, 0));
-#endif
-            if (keyboard.KeyDown(Keys.W))
-                camera.Translate(Vector3.Forward * 40f);
-            if (keyboard.KeyDown(Keys.S))
-                camera.Translate(Vector3.Backward * 40);
-            if (keyboard.KeyDown(Keys.A))
-                camera.Translate(Vector3.Left * 40);
-            if (keyboard.KeyDown(Keys.D))
-                camera.Translate(Vector3.Right * 40);
-
-            if (Car != null)
-            {
-                if (keyboard.KeyDown(Keys.Left))
-                    Car.Steer(-1);
-                if (keyboard.KeyDown(Keys.Right))
-                    Car.Steer(1);
-                if (keyboard.KeyDown(Keys.Up))
-                    Car.Accelerate(2);
-                if (keyboard.KeyDown(Keys.Down))
-                    Car.Accelerate(-1);
-            }
-#if !XBOX
-            if (mouse.ButtonPressed(XMouse.Buttons.Left))
-                boxes.Add(new XActor(X, new BoxObject(new Vector3(10), Matrix.Identity, camera.Position), model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(camera.Target - camera.Position) * 30, 10));
-#else
-            if (pad.ButtonPressed(Buttons.A))
-                boxes.Add(new XActor(X, new BoxObject(new Vector3(10), Matrix.Identity, camera.Position), model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(camera.Target - camera.Position) * 30, 10));
-#endif
-            //need to set camera.position, rotation, size of box????
-            //sky.Theta += mouse.ScrollDelta * .0004f;
-
-            if (keyboard.KeyPressed(Keys.F1))
-                if (fire == null)
-                    fire = new Fire(X);
-
-            if (keyboard.KeyDown(Keys.F2))
-                sky.Theta -= .5f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (keyboard.KeyPressed(Keys.F3))
-                if (water == null)
-                {
-                    water = new XWater(X, new Vector2(-128, -128), new Vector2(128, 128), 3);
-                    water.Load(Content);
-                    water.Update(gameTime);
-                    resources.AddComponent(water);
-                }
-
-            /*if (keyboard.KeyPressed(Keys.F4))
-                for (int x = 0; x < 10; x++)
-                    for (int e = x; e < 10; e++)
-                        boxes.Add(new XActor(X, XActor.ActorType.Box, model, new Vector3(20, x * 1.01f + 1, e - 0.5f * x), Matrix.Identity, new Vector3(10), new Vector3(0, 0, 0), new Vector3(1), Vector3.Zero, 10));
-
-            if (keyboard.KeyPressed(Keys.F5))
-            {
-                List<XActor> chainBoxes = new List<XActor>();
-
-                for (int i = 0; i < 25; i++)
-                {
-                    XActor actor = new XActor(X, XActor.ActorType.Box, model, new Vector3(i + 10, 45 - i, 0), Matrix.Identity, new Vector3(10), Vector3.Zero, Vector3.One, Vector3.Zero, 1);
-                    if (i == 0) actor.Immovable = true;
-                    chainBoxes.Add(actor);
-                }
-
-                for (int i = 1; i < 25; i++)
-                {
-                    XHingeJoint hinge = new XHingeJoint(X, chainBoxes[i - 1], chainBoxes[i], Vector3.Backward, new Vector3(0.5f, -0.5f, 0.0f), 1.0f, 90.0f, 90.0f, 0.2f, 0.2f);
-                }
-            }
-
-            if (keyboard.KeyPressed(Keys.F6))
-                if (Car == null)
-                    Car = new XCar(X, Chassis, Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, X.Gravity, new Vector3(0, 3, 0));
-
-            if (keyboard.KeyPressed(Keys.F7))
-                if (duckActor == null)
-                {
-                    duckActor = new XActor(X, XActor.ActorType.Box, duckModel, new Vector3(0, 7, 0), Matrix.Identity, new Vector3(20), new Vector3(0, -2, 0), new Vector3(3, 3, 3), new Vector3(0), 10);
-                    duckActor.Immovable = true;
-                }
-
-            if (keyboard.KeyPressed(Keys.F8))
-                if (houseactor == null)
-                {
-                    houseactor = new XActor(X, XActor.ActorType.Box, housemodel, new Vector3(10, 10, 0), Matrix.Identity, new Vector3(0.05f), new Vector3(0, -1, 0), new Vector3(3, 3, 3), new Vector3(0), 10);
-                    houseactor.Immovable = false;
-                }
-            */
+            
             if (duckActor != null)
                 duckActor.Position = new Vector3(0, (float)Math.Sin((float)gameTime.TotalGameTime.TotalSeconds) * 1.5f + 7, 0);
 
@@ -256,8 +152,11 @@ namespace Sphere
                 chase.ChaseTargetForward = Car.Orientation.Forward;
                 chase.Up = Car.Orientation.Up;
             }
-            
 
+            //Input processor update KB,Mouse,Gamepad
+            input.Update(gameTime);
+
+            //XNA Update
             base.Update(gameTime);
         }
 
