@@ -32,13 +32,51 @@ namespace Sphere
             gamepad = new XGamePad(X, 1);
         }
 
+        /// <summary>
+        /// Processes user input updates
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
+            if (keyboard.KeyPressed(Keys.OemTilde))
+                X.Console.Visible = !X.Console.Visible;
+
+            //if console is showing capture all input!
+            if (X.Console.Visible)
+            {
+                X.Console.AcceptInput(keyboard);
+                //return;
+            }
+
             // Allows the game to exit
-            if (gamepad.ButtonDown(Buttons.B))
-                parent.Exit();
+            //if (gamepad.ButtonDown(Buttons.B))
+            //    parent.Exit();
+
             if (keyboard.KeyPressed(Keys.Escape))
-                parent.Exit();
+            {
+                //toggle physics on/off
+                X.UpdatePhysics = !X.UpdatePhysics;
+                //toggle game menu on/off
+                parent.menus.Toggle();
+            }
+
+            if (parent.menus.MenuOpen)
+            {
+                if (keyboard.KeyPressed(Keys.Up))
+                    parent.menus.SelectPrevious();
+                if (keyboard.KeyPressed(Keys.Down))
+                    parent.menus.SelectNext();
+                if (keyboard.KeyPressed(Keys.Enter))
+                    switch (parent.menus.Current)
+                    {
+                        case 2: //exit button
+                            parent.Exit();
+                            break;
+                        default:
+                            break;
+                    }
+                return;
+            }
 
 //mouse code
 #if XBOX == FALSE
@@ -56,6 +94,9 @@ namespace Sphere
             if (keyboard.KeyDown(Keys.D) || gamepad.ButtonDown(Buttons.DPadRight))
                 parent.camera.Translate(Vector3.Right * 40);
 
+            //write camera corrds for debug
+            X.Debug.Write("Camera: X" + parent.camera.Position.X.ToString() + " Y:" + parent.camera.Position.Y.ToString() + " Z:" + parent.camera.Position.Z.ToString(), false);
+            //drive car
             if (parent.Car != null)
             {
                 if (keyboard.KeyDown(Keys.Left))
@@ -65,17 +106,15 @@ namespace Sphere
                 if (keyboard.KeyDown(Keys.Up))
                     parent.Car.Accelerate(2);
                 if (keyboard.KeyDown(Keys.Down))
-                    parent.Car.Accelerate(-1);
+                    parent.Car.Accelerate(-3);
             }
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
-                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(10), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
 #else
-            if (pad.ButtonPressed(Buttons.A))
-                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(10), Matrix.Identity, parent.camera.Position), model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
+            if (gamepad.ButtonPressed(Buttons.A))
+                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
 #endif
-            //need to set camera.position, rotation, size of box????
-            //sky.Theta += mouse.ScrollDelta * .0004f;
 
             if (keyboard.KeyPressed(Keys.F1))
                 if (parent.fire == null)
@@ -96,25 +135,25 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F4))
                 for (int x = 0; x < 10; x++)
                     for (int e = x; e < 10; e++)
-                        parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(10), Matrix.Identity, new Vector3(20, x * 1.01f + 1, e - 0.5f * x)), parent.model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Zero, 10));
-            /*
-                        if (keyboard.KeyPressed(Keys.F5))
-                        {
-                            List<XActor> chainBoxes = new List<XActor>();
+                        parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1f), Matrix.Identity, new Vector3(20, x * 1.01f + .5f, e - 0.5f * x)), parent.model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Zero, 10));
+            
+            if (keyboard.KeyPressed(Keys.F5))
+            {
+                List<XActor> chainBoxes = new List<XActor>();
 
-                            for (int i = 0; i < 25; i++)
-                            {
-                                XActor actor = new XActor(X, XActor.ActorType.Box, model, new Vector3(i + 10, 45 - i, 0), Matrix.Identity, new Vector3(10), Vector3.Zero, Vector3.One, Vector3.Zero, 1);
-                                if (i == 0) actor.Immovable = true;
-                                chainBoxes.Add(actor);
-                            }
+                for (int i = 0; i < 25; i++)
+                {
+                    XActor actor = new XActor(X, new BoxObject(new Vector3(1),Matrix.Identity,new Vector3(i + 10, 45 - i, 0)), parent.model, new Vector3(10), Vector3.Zero, Vector3.Zero, 1);
+                    if (i == 0) actor.Immovable = true;
+                    chainBoxes.Add(actor);
+                }
 
-                            for (int i = 1; i < 25; i++)
-                            {
-                                XHingeJoint hinge = new XHingeJoint(X, chainBoxes[i - 1], chainBoxes[i], Vector3.Backward, new Vector3(0.5f, -0.5f, 0.0f), 1.0f, 90.0f, 90.0f, 0.2f, 0.2f);
-                            }
-                        }
-            */
+                for (int i = 1; i < 25; i++)
+                {
+                    XHingeJoint hinge = new XHingeJoint(X, chainBoxes[i - 1], chainBoxes[i], Vector3.Backward, new Vector3(0.5f, -0.5f, 0.0f), 1.0f, 90.0f, 90.0f, 0.2f, 0.2f);
+                }
+            }
+            
             if (keyboard.KeyPressed(Keys.F6))
                 if (parent.Car == null)
                 {
@@ -132,10 +171,18 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F8))
                 if (parent.houseactor == null)
                 {
-                    parent.houseactor = new XActor(X, new BoxObject(new Vector3(10), Matrix.Identity, new Vector3(10, 10, 0)), parent.housemodel, new Vector3(/*0.05f*/1f), new Vector3(0, -1, 0), new Vector3(0), 10);
+                    parent.houseactor = new XActor(X, new SphereObject(10f, Matrix.Identity, new Vector3(10, 10, 0)), parent.housemodel, new Vector3(/*0.05f*/1f), new Vector3(0, -1, 0), new Vector3(0), 10);
                     parent.houseactor.Immovable = false;
                 }
 
+            if (keyboard.KeyPressed(Keys.F9))
+            {
+                foreach (XActor xa in parent.boxes)
+                    xa.Disable();
+                parent.boxes.Clear();
+            }
+
+            
             //Example Code
 /*            if (!parent.menus.MenuOpen)
             {
