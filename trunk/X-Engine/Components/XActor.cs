@@ -23,7 +23,7 @@ namespace XEngine
 
         public BoundingBox boundingBox { get { if (PhysicsBody.PhysicsBody.CollisionSkin != null) return PhysicsBody.PhysicsBody.CollisionSkin.WorldBoundingBox; else return new BoundingBox(Position, Position);  } }
 
-        public bool ShowBoundingBox;
+        public bool ShowBoundingBox = true;
 
         List<int> collisions = new List<int>();
         public List<int> Collisions
@@ -98,6 +98,9 @@ namespace XEngine
             PhysicsBody.scale = ModelScale;
             PhysicsBody.PhysicsBody.Velocity = Velocity;
             modeloffset = ModelOffset;
+            //this seems to assign 1 material for the whole actor?!
+            //CHANGE: Modify XActor contruct to create XMaterial objects for every Texture/Effect in the model
+
             try
             {
                 this.material = new XMaterial(X, model.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 10);
@@ -119,6 +122,7 @@ namespace XEngine
             return X.Tools.UnprojectVector3(this.Position, Camera, GetWorldMatrix());
         }
 
+        //CHANGE: Changed to a List<Material> to add support for multiple materials per model/actor
         XMaterial material;
         public XMaterial Material
         {
@@ -127,7 +131,7 @@ namespace XEngine
         }
 
 
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
         {
             if (model != null && model.Loaded)
             {
@@ -148,11 +152,11 @@ namespace XEngine
 
                 X.GraphicsDevice.RenderState.CullMode = material.VertexWinding;
 
-                X.Renderer.DrawModel(model, Camera, mat, material);
+                X.Renderer.DrawModel(model, Camera, mat, material, environment);
             }
 
             if (ShowBoundingBox)
-                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, Matrix.Identity /*PhysicsBody.GetWorldMatrix(model.Model, Vector3.Zero)*/, Camera);
+                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, Matrix.Identity, Camera);
         }
 
         public override void Disable()

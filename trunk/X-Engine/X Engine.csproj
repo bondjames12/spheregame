@@ -75,6 +75,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +95,7 @@
     <Compile Include="Components\Rendering\XRenderer.cs" />
     <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />
     <Compile Include="Components\Scripting\XTriggerVolume.cs" />
+    <Compile Include="Components\Utilities\TextureGenerator.cs" />
     <Compile Include="Components\Utilities\XDebugDrawer.cs" />
     <Compile Include="Components\Utilities\XQuadDrawer.cs" />
     <Compile Include="Components\Utilities\XTools.cs" />
@@ -159,7 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JigLibX\JigLibX.csproj">
-      <Project>{948C059E-FCC0-4461-8B9D-26FD44706507}</Project>
+      <Project>{8C96785C-F085-4DA6-83AD-AEE47591B5CF}</Project>
       <Name>JigLibX</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\X-Model Pipeline.csproj">

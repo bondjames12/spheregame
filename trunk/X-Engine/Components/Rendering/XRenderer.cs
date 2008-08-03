@@ -11,23 +11,30 @@ namespace XEngine
 
         public Color ClearColor = Color.CornflowerBlue;
 
+        //Effect shadowalphaEffect;
+        //Texture2D shadowalphaTex;
+
         public XRenderer(XMain X) : base(X) 
         {
+            //load shadow resources
+            //shadowalphaEffect = X.Content.Load<Effect>("Content/XEngine/Effects/shadowalphaQuad");
+            //shadowalphaTex = X.Content.Load<Texture2D>("Content/XEngine/Textures/shadowalphaTex");
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
         {
             X.GraphicsDevice.Clear(ClearColor);
-            DrawScene(gameTime, Camera, null);
+            DrawScene(gameTime, Camera, null, environment);
         }
 
-        public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent>NoDraw)
+        public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent>NoDraw, XEnvironmentParameters environment)
         {
             X.GraphicsDevice.RenderState.DepthBufferEnable = true;
             X.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
             X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-            SortedDictionary<int, List<XComponent>> draw = new SortedDictionary<int, List<XComponent>>();
+            //SortedDictionary<int, List<XComponent>> draw = new SortedDictionary<int, List<XComponent>>();
+            List<List<XComponent>> draw = new List<List<XComponent>>();
 
             foreach (XComponent component in X.Components)
             {
@@ -39,16 +46,29 @@ namespace XEngine
 
                 if (allow && component.AutoDraw && component is XDrawable && !(component is XRenderer))
                 {
-                    if (!draw.ContainsKey(component.DrawOrder))
-                    {
-                        List<XComponent> level = new List<XComponent>();
-                        level.Add(component);
-                        draw.Add(component.DrawOrder, level);
-                    }
-                    else
-                    {
-                        draw[component.DrawOrder].Add(component);
-                    }
+                    //if (!draw.ContainsKey(component.DrawOrder))
+                    //{
+                    //    List<XComponent> level = new List<XComponent>();
+                    //    level.Add(component);
+                    //    draw.Add(component.DrawOrder, level);
+                    //}
+                    //else
+                    //{
+                    //    draw[component.DrawOrder].Add(component);
+                    //}
+                        if (component.AutoDraw && component is XDrawable && !(component is XRenderer) && !(component is XConsole))
+                        {
+                            if (component.DrawOrder > draw.Count)
+                            {
+                                List<XComponent> level = new List<XComponent>();
+                                level.Add(component);
+                                draw.Add(level);
+                            }
+                            else
+                            {
+                                draw[component.DrawOrder - 1].Add(component);
+                            }
+                        }
                 }
             }
 
@@ -56,7 +76,7 @@ namespace XEngine
 
             ActorsInView.Clear();
             
-            foreach (List<XComponent> level in draw.Values)
+            foreach (List<XComponent> level in draw)//Values)
             {
                 foreach (XComponent component in level)
                 {
@@ -69,53 +89,52 @@ namespace XEngine
                             if (((XActor)component).Material.AlphaBlendable)
                                 Alpha.Add(((XActor)component));
                             else
-                                component.Draw(gameTime, Camera);
+                                component.Draw(gameTime, Camera, environment);
                         }
                     }
                     else if (component is XHeightMap)
                     {
                         if (Camera.Frustrum.Contains(((XHeightMap)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                            component.Draw(gameTime, Camera);
+                            component.Draw(gameTime, Camera, environment);
                     }
                     else if (component is XWater)
                     {
                         if (Camera.Frustrum.Contains(((XWater)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                            component.Draw(gameTime, Camera);
+                            component.Draw(gameTime, Camera, environment);
                     }
                     else
-                        component.Draw(gameTime, Camera);
+                        component.Draw(gameTime, Camera, environment);
                 }
 
                 foreach (XActor actor in Alpha)
-                    actor.Draw(gameTime, Camera);
+                    actor.Draw(gameTime, Camera, environment);
             }
             X.spriteBatch.Begin();
-
             if (X.Console.Visible)
             {
                 if (NoDraw != null)
                 {
                     if (!NoDraw.Contains(X.Console))
-                        X.Console.Draw(gameTime, Camera);
+                        X.Console.Draw(gameTime, Camera, environment);
                 }
                 else
-                    X.Console.Draw(gameTime, Camera);
+                    X.Console.Draw(gameTime, Camera, environment);
             }
-            else
-            {
+            //else
+            //{
                 if (NoDraw != null)
                 {
                     if (!NoDraw.Contains(X.Debug))
-                        X.Debug.Draw(gameTime, Camera);
+                        X.Debug.Draw(gameTime, Camera, environment);
                 }
                 else
-                    X.Debug.Draw(gameTime, Camera);
-            }
+                    X.Debug.Draw(gameTime, Camera, environment);
+            //}
 
             X.spriteBatch.End();
         }
 
-        public virtual void DrawModel(XModel Model, XCamera Camera, Matrix[] World, XMaterial material)
+        public virtual void DrawModel(XModel Model, XCamera Camera, Matrix[] World, XMaterial material, XEnvironmentParameters environment)
         {
             foreach (ModelMesh mesh in Model.Model.Meshes)
             {
@@ -130,20 +149,20 @@ namespace XEngine
                     
                     effect.Parameters["View"].SetValue(Camera.View);
                     effect.Parameters["Projection"].SetValue(Camera.Projection);
-                  
+                    
                     effect.Parameters["vecEye"].SetValue(new Vector4(Camera.Position, 1));
 
                     material.SetupEffect(effect);
 
-                    SetupLighting(effect, material);
+                    SetupLighting(effect, material, environment);
                 }
                 mesh.Draw();
             }
         }
 
-        public void SetupLighting(Effect effect, XMaterial Material)
+        public void SetupLighting(Effect effect, XMaterial Material,XEnvironmentParameters environment)
         {
-            Vector4[] LightDir = {
+            /*Vector4[] LightDir = {
                         new Vector4(-0.526f, 0.573f, -0.627f, 1),
                         new Vector4(0.719f, 0.342f, 0.604f, 1),
                         new Vector4(0.454f, 0.766f, 0.454f, 1)
@@ -154,9 +173,12 @@ namespace XEngine
                         new Vector4(.8f, .8f, .8f, Material.Specularity),
                         new Vector4(.8f, .8f, .8f, 10000000f)
                     };
+            */
+            Vector4[] LightDir = { -environment.LightDirection, new Vector4(0.719f, 0.342f, 0.604f, .5f) };
+
+            Vector4[] LightColor = {environment.LightColor,environment.LightColorAmbient};
 
             effect.Parameters["vecLightDir"].SetValue(LightDir);
-
             effect.Parameters["LightColor"].SetValue(LightColor);
             effect.Parameters["NumLights"].SetValue(LightDir.Length);
         }
