@@ -1,21 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using XEngine;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Sphere
 {
-    public class Block
+    public class Block : XComponent, XDrawable
     {
-        public Block x1;
+        private XModel _model;
+        private Vector3 _scale;
+        private XMain _X;
+        private XMaterial _material;
 
-        public Block x2;
+        //references to bordering blocks
+        public Block x1,x2,y1,y2,z1,z2;
+        //reference to parent grid
+        public Grid grid;
 
-        public Block y1;
+        //constructor
+        public Block(XMain X, XModel model, Vector3 modelScale)
+            : base(X)
+        {
+            _X = X;
+            _model = model;
+            _scale = modelScale;
+        }
+        
+        public override void Load(ContentManager Content)
+        {
 
-        public Block y2;
+            base.Load(Content);
+        }
 
-        public Block z1;
+        public override void Update(GameTime gameTime)
+        {
 
-        public Block z2;
+
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        {
+
+            base.Draw(gameTime, Camera, environment);
+        }
+
+        public override void SetProjection(Matrix Projection)
+        {
+
+            base.SetProjection(Projection);
+        }
+
+        public override void Disable()
+        {
+
+            base.Disable();
+        }
+
     }
 }

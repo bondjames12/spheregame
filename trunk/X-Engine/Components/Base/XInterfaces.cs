@@ -10,7 +10,7 @@ namespace XEngine
 
     public interface XDrawable
     {
-        void Draw(GameTime gameTime, XCamera Camera);
+        void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment);
         void SetProjection(Matrix Projection);
     }
 }

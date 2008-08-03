@@ -7,6 +7,7 @@ namespace XEngine
     {
         public static int count = 0;
         public int number;
+        public bool Shadows;
 
         public XEnvironmentParameters(XMain X) : base(X)
         {
@@ -28,6 +29,7 @@ namespace XEngine
 
             count++;
             number = count;
+            Shadows = true;
         }
 
         public Vector4 LightDirection;

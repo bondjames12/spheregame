@@ -204,12 +204,40 @@
     <Compile Include="Models\chassis.FBX">
       <Name>chassis</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>XEngineModelProcessor</Processor>
     </Compile>
     <Compile Include="Models\wheel.fbx">
       <Name>wheel</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>XEngineModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Untitled.fbx">
+      <Name>Untitled</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>XEngineModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Fonts\Menu.spritefont">
+      <Name>Menu</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\xengine.png">
+      <Name>xengine</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\air.FBX">
+      <Name>air</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>XEngineModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

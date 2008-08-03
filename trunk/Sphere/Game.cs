@@ -15,6 +15,7 @@ namespace Sphere
     {
         GraphicsDeviceManager graphics;
         XMain X;
+        public MenuManager menus;
 
         public InputProcessor input;
         public XResourceGroup resources;
@@ -53,8 +54,27 @@ namespace Sphere
 
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
+            graphics.PreferredDepthStencilFormat = SelectStencilMode();
 
              
+        }
+
+
+        private DepthFormat SelectStencilMode()
+        {
+            // Check stencil formats
+            GraphicsAdapter adapter = GraphicsAdapter.DefaultAdapter;
+            SurfaceFormat format = adapter.CurrentDisplayMode.Format;
+            if (adapter.CheckDepthStencilMatch(DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil8))
+                return DepthFormat.Depth24Stencil8;
+            else if (adapter.CheckDepthStencilMatch(DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil8Single))
+                return DepthFormat.Depth24Stencil8Single;
+            else if (adapter.CheckDepthStencilMatch(DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil4))
+                return DepthFormat.Depth24Stencil4;
+            else if (adapter.CheckDepthStencilMatch(DeviceType.Hardware, format, format, DepthFormat.Depth15Stencil1))
+                return DepthFormat.Depth15Stencil1;
+            else
+                throw new ApplicationException("Could Not Find Stencil Buffer for Default Adapter");
         }
 
         /// <summary>
@@ -66,11 +86,14 @@ namespace Sphere
         protected override void Initialize()
         {
             X = new XMain(graphics.GraphicsDevice, Services);
+            X.Gravity = new Vector3(0, -40, 0);
             X.FrameRate.DisplayFrameRate = true;
-
+            X.Console.AutoDraw = false;
+            X.Debug.StartPosition.Y = 200;
+ 
             resources = new XResourceGroup(X);
             input = new InputProcessor(X, this);
-
+            menus = new MenuManager(X);
             camera = new XFreeLookCamera(X);
             camera.Position = new Vector3(0, 10, 0);
 
@@ -85,6 +108,10 @@ namespace Sphere
         {  
             //Load engine base content
             X.LoadContent();
+
+            //Game base elements
+            menus.Load(Content);
+
 
             // load scene objects/content
             environment = new XEnvironmentParameters(X);
@@ -109,7 +136,7 @@ namespace Sphere
 
             chase = new XChaseCamera(X);
 
-            housemodel = new XModel(X, @"Content\Models\Earth");
+            housemodel = new XModel(X, @"Content\Models\air");
             resources.AddComponent(housemodel);
 
             //plane = new XModel(X, @"Content\plane");
@@ -167,7 +194,7 @@ namespace Sphere
         protected override void Draw(GameTime gameTime)
         {
             // TODO: Add your drawing code here
-            X.Renderer.Draw(gameTime, camera);
+            X.Renderer.Draw(gameTime, camera, environment);
            
             base.Draw(gameTime);
         }

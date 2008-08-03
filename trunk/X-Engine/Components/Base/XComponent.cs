@@ -62,7 +62,7 @@ namespace XEngine
         {
         }
 
-        public virtual void Draw(GameTime gameTime, XCamera Camera)
+        public virtual void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
         {
         }
 
