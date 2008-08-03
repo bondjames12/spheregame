@@ -6,7 +6,10 @@ using Microsoft.Xna.Framework;
 using JigLibX.Geometry;
 using JigLibX.Physics;
 using JigLibX.Collision;
+
+//#if XBOX == FALSE
 using ContentModel;
+//#endif
 
 namespace XEngine
 {

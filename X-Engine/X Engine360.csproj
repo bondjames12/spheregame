@@ -1,19 +1,17 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{1E882FA0-E968-498A-8CFD-AB2446E427CB}</ProjectGuid>
+    <ProjectGuid>{F5633A6D-B5F5-4596-AD53-5D46A8C8FCF6}</ProjectGuid>
     <ProjectTypeGuids>{2DF5C3F4-5A5F-47a9-8E94-23B4456F55E2};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sphere</RootNamespace>
-    <AssemblyName>Sphere</AssemblyName>
+    <RootNamespace>XEngine</RootNamespace>
+    <AssemblyName>XEngine</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <XnaFrameworkVersion>v2.0</XnaFrameworkVersion>
     <XnaPlatform>Xbox 360</XnaPlatform>
-    <XnaCrossPlatformGroupID>4acfda53-1748-4fc0-b672-3346d36eb9f9</XnaCrossPlatformGroupID>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
-    <Thumbnail>GameThumbnail.png</Thumbnail>
+    <XnaCrossPlatformGroupID>0e61983e-3117-431f-b57f-af825c7588bb</XnaCrossPlatformGroupID>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -34,6 +32,10 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
     <OutputPath>bin\Xbox 360\Debug</OutputPath>
@@ -46,6 +48,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Xbox 360' ">
     <OutputPath>bin\Xbox 360\Release</OutputPath>
@@ -59,27 +62,64 @@
     <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Block.cs" />
-    <Compile Include="Fire.cs" />
-    <Compile Include="Game.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Grid.cs" />
-    <Compile Include="InputProcessor.cs" />
-    <Compile Include="MenuManager.cs" />
-    <Compile Include="Piece.cs" />
+    <Compile Include="AnimationClip.cs" />
+    <Compile Include="Components\Base\XInterfaces.cs" />
+    <Compile Include="Components\Base\XComponent.cs" />
+    <Compile Include="Components\Cameras\XArcBallCamera.cs" />
+    <Compile Include="Components\Cameras\XChaseCamera.cs" />
+    <Compile Include="Components\Environment\XDynamicSky.cs" />
+    <Compile Include="Components\Environment\XHeightMap.cs" />
+    <Compile Include="Components\Environment\XSkyBox.cs" />
+    <Compile Include="Components\Environment\XWater.cs" />
+    <Compile Include="Components\Particles\ParticleVertex.cs" />
+    <Compile Include="Components\Particles\XParticleEmitter.cs" />
+    <Compile Include="Components\Particles\XParticleSystem.cs" />
+    <Compile Include="Components\Particles\XParticleSystemSettings.cs" />
+    <Compile Include="Components\Rendering\XMaterial.cs" />
+    <Compile Include="Components\Rendering\XRenderer.cs" />
+    <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />
+    <Compile Include="Components\Scripting\XTriggerVolume.cs" />
+    <Compile Include="Components\Utilities\TextureGenerator.cs" />
+    <Compile Include="Components\Utilities\XDebugDrawer.cs" />
+    <Compile Include="Components\Utilities\XQuadDrawer.cs" />
+    <Compile Include="Components\Utilities\XTools.cs" />
+    <Compile Include="Components\XActor.cs" />
+    <Compile Include="Components\XCar.cs" />
+    <Compile Include="Components\XTimer.cs" />
+    <Compile Include="Components\Cameras\XCamera.cs" />
+    <Compile Include="Components\Cameras\XFreeLookCamera.cs" />
+    <Compile Include="Components\Input\XGamePad.cs" />
+    <Compile Include="Components\Input\XGuitar.cs" />
+    <Compile Include="Components\Input\XKeyboard.cs" />
+    <Compile Include="Components\Input\XMouse.cs" />
+    <Compile Include="Components\Input\XZuneInput.cs" />
+    <Compile Include="Keyframe.cs" />
+    <Compile Include="ModelContentClasses.cs" />
+    <Compile Include="Physics\BowlingPinObject.cs" />
+    <Compile Include="Physics\BoxObject.cs" />
+    <Compile Include="Physics\CapsuleObject.cs" />
+    <Compile Include="Physics\CarObject.cs" />
+    <Compile Include="Physics\HeightMapInfo.cs" />
+    <Compile Include="Physics\HeightmapObject.cs" />
+    <Compile Include="Physics\PhysicsObject.cs" />
+    <Compile Include="Physics\PlaneObject.cs" />
+    <Compile Include="Physics\SphereObject.cs" />
+    <Compile Include="Physics\TriangleMeshObject.cs" />
+    <Compile Include="Components\Resources\XResourceGroup.cs" />
+    <Compile Include="Components\Resources\XFont.cs" />
+    <Compile Include="Components\Resources\XModel.cs" />
+    <Compile Include="Components\Resources\XTexture.cs" />
+    <Compile Include="Components\Utilities\XConsole.cs" />
+    <Compile Include="Components\Utilities\XDebug.cs" />
+    <Compile Include="Components\Utilities\XFramerate.cs" />
+    <Compile Include="Components\Environment\XEnvironmentParameters.cs" />
+    <Compile Include="Physics\XHingeJoint.cs" />
+    <Compile Include="XMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Sphere.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Game.ico" />
-    <Content Include="GameThumbnail.png" />
-    <Content Include="Engine Changes.txt" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
-      <Project>a74a66e2-07e9-4e17-8fd9-80e283c359e8</Project>
+      <Project>db238f53-ac0f-4882-b8e9-3ce7bdeaac70</Project>
       <Visible>False</Visible>
     </NestedContentProject>
   </ItemGroup>
@@ -106,9 +146,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sphere.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework">
       <Private>False</Private>
     </Reference>
@@ -126,9 +163,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\X-Engine\Xbox 360 Copy of X Engine.csproj">
-      <Project>{F5633A6D-B5F5-4596-AD53-5D46A8C8FCF6}</Project>
-      <Name>Xbox 360 Copy of X Engine</Name>
+    <ProjectReference Include="..\JigLibX\JigLibX360.csproj">
+      <Project>{2344e0e4-7fb1-480c-b374-7f95a40fc554}</Project>
+      <Name>JigLibX360</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

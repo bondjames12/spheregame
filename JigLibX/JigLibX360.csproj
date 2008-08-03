@@ -13,6 +13,10 @@
     <XnaCrossPlatformGroupID>47aebedc-0ea8-44ce-b41d-2e81973248e9</XnaCrossPlatformGroupID>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
     <OutputPath>bin\Xbox 360\Debug</OutputPath>

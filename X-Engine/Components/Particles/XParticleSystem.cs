@@ -317,7 +317,7 @@ namespace XEngine
         /// <summary>
         /// Draws the particle system.
         /// </summary>
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
         {
             SetCamera(Camera.View, Camera.Projection);
 

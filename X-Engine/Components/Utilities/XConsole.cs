@@ -90,6 +90,10 @@ namespace XEngine
 
                 if (keyboard.KeyPressed(Keys.Space))
                     line += " ";
+
+                //CHANGE:add escape to get out of console
+                if (keyboard.KeyPressed(Keys.Escape))
+                    this.Visible = false;
             }
         }
 
@@ -121,7 +125,17 @@ namespace XEngine
                 log.Remove(log[0]);
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public void Return(string Value)
+        {
+            log.Add(Value);
+            line = "";
+            LastLineReturnValue = true;
+
+            if (log.Count > MaxLines)
+                log.Remove(log[0]);
+        }
+
+        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
         {
             if (Visible)
             {
@@ -137,14 +151,5 @@ namespace XEngine
             }
         }
 
-        public void Return(string Value)
-        {
-            log.Add(Value);
-            line = "";
-            LastLineReturnValue = true;
-
-            if (log.Count > MaxLines)
-                log.Remove(log[0]);
-        }
     }
 }

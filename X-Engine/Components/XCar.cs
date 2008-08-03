@@ -29,7 +29,7 @@ namespace XEngine
 
             Car.PhysicsBody.Position = Position;
 
-            chassismat = new XMaterial(X, Chassis.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 100);
+            chassismat = new XMaterial(X, Chassis.Model.Meshes[1].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 100);
             wheelmat = new XMaterial(X, Wheel.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 1000000000);
         }
 
@@ -60,16 +60,16 @@ namespace XEngine
             Acceleration = Vector2.Zero;
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera)
+        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
         {
             Matrix[] World = Car.GetWorldMatrix(Chassis.Model, Vector3.Zero);
 
-            X.Renderer.DrawModel(Chassis, Camera, new Matrix[] { World[0] }, chassismat);
+            X.Renderer.DrawModel(Chassis, Camera, new Matrix[] { World[0] }, chassismat,environment);
 
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[1] } , wheelmat);
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[2] } , wheelmat);
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[3] } , wheelmat);
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[4] } , wheelmat);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[1] } , wheelmat, environment);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[2] } , wheelmat, environment);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[3] } , wheelmat, environment);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[4] } , wheelmat, environment);
         }
     }
 }
