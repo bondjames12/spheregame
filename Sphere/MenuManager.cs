@@ -51,7 +51,6 @@ namespace Sphere
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera, XEnvironmentParameters enivronment)
         {
-            X.spriteBatch.Begin();
             X.spriteBatch.Draw(Black, new Rectangle(X.GraphicsDevice.Viewport.Width - ((int)(X.GraphicsDevice.Viewport.Width * scrollamount)), 0, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height), new Color(255, 255, 255, 25));
             X.spriteBatch.Draw(Background, new Rectangle(100, X.GraphicsDevice.Viewport.Height - ((int)(500 * scrollamount)), 400, 500), new Color(255, 255, 255, 191));
 
@@ -73,8 +72,6 @@ namespace Sphere
             }
 
             //X.spriteBatch.Draw(logo, new Rectangle(X.GraphicsDevice.Viewport.Width - 230, X.GraphicsDevice.Viewport.Height - 176, 220, 166), new Color(255, 255, 255, 127));
-
-            X.spriteBatch.End();
 
             X.GraphicsDevice.RenderState.DepthBufferEnable = true;
             X.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
