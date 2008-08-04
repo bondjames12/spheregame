@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using System;
 namespace XEngine
 {
-    public class XComponent
+    public class XComponent : IComparable<XComponent>
     {
         public XMain X;
 
@@ -43,6 +44,17 @@ namespace XEngine
             get { return drawOrder; }
             set { drawOrder = value; }
         }
+
+        /// <summary>
+        /// Compare operator for sorting linked list
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int CompareTo(XComponent obj)
+        {
+            return this.drawOrder.CompareTo(obj.drawOrder);
+        }
+
 
         public XComponent(XMain X)
         {
