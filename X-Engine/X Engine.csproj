@@ -160,6 +160,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ContentModel\ContentModel.csproj">
+      <Project>{889D42AE-D9CB-4F59-890E-ADE10BACDD28}</Project>
+      <Name>ContentModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JigLibX\JigLibX.csproj">
       <Project>{8C96785C-F085-4DA6-83AD-AEE47591B5CF}</Project>
       <Name>JigLibX</Name>

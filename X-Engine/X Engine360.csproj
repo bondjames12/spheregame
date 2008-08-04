@@ -62,7 +62,6 @@
     <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AnimationClip.cs" />
     <Compile Include="Components\Base\XInterfaces.cs" />
     <Compile Include="Components\Base\XComponent.cs" />
     <Compile Include="Components\Cameras\XArcBallCamera.cs" />
@@ -93,8 +92,6 @@
     <Compile Include="Components\Input\XKeyboard.cs" />
     <Compile Include="Components\Input\XMouse.cs" />
     <Compile Include="Components\Input\XZuneInput.cs" />
-    <Compile Include="Keyframe.cs" />
-    <Compile Include="ModelContentClasses.cs" />
     <Compile Include="Physics\BowlingPinObject.cs" />
     <Compile Include="Physics\BoxObject.cs" />
     <Compile Include="Physics\CapsuleObject.cs" />
@@ -163,6 +160,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ContentModel\ContentModel.csproj">
+      <Project>{889D42AE-D9CB-4F59-890E-ADE10BACDD28}</Project>
+      <Name>ContentModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JigLibX\JigLibX360.csproj">
       <Project>{2344e0e4-7fb1-480c-b374-7f95a40fc554}</Project>
       <Name>JigLibX360</Name>
