@@ -12,6 +12,18 @@ using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 
 namespace ContentModel
 {
+    public class ModelData
+    {
+        public List<object> VertexData;
+        public SkinningData SkinningData;
+
+        public ModelData(List<object> VertexData, SkinningData SkinningData)
+        {
+            this.VertexData = VertexData;
+            this.SkinningData = SkinningData;
+        }
+    }
+
     [ContentTypeWriter]
     public class ModelDataWriter : ContentTypeWriter<ModelData>
     {
