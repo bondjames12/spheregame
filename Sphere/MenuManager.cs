@@ -49,7 +49,7 @@ namespace Sphere
             //logo = Content.Load<Texture2D>(@"Content\Textures\xengine");
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera, XEnvironmentParameters enivronment)
+        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera)
         {
             X.spriteBatch.Draw(Black, new Rectangle(X.GraphicsDevice.Viewport.Width - ((int)(X.GraphicsDevice.Viewport.Width * scrollamount)), 0, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height), new Color(255, 255, 255, 25));
             X.spriteBatch.Draw(Background, new Rectangle(100, X.GraphicsDevice.Viewport.Height - ((int)(500 * scrollamount)), 400, 500), new Color(255, 255, 255, 191));

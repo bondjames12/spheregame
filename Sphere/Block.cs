@@ -41,10 +41,10 @@ namespace Sphere
             base.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        public override void Draw(GameTime gameTime, XCamera Camera)
         {
 
-            base.Draw(gameTime, Camera, environment);
+            base.Draw(gameTime, Camera);
         }
 
         public override void SetProjection(Matrix Projection)
