@@ -24,7 +24,6 @@ namespace XEngine
         public XDebugDrawer DebugDrawer;
         public XTools Tools;
         public XEnvironmentParameters Environment;
-
         public PhysicsSystem Physics;
         public Vector3 Gravity { get { return Physics.Gravity; } set { Physics.Gravity = value; } }
 
