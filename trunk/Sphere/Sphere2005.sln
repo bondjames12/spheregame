@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X Engine360", "..\X-Engine\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sphere360", "Sphere360.csproj", "{1E882FA0-E968-498A-8CFD-AB2446E427CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentModel", "..\ContentModel\ContentModel.csproj", "{889D42AE-D9CB-4F59-890E-ADE10BACDD28}"
-EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -197,20 +195,6 @@ Global
 		{1E882FA0-E968-498A-8CFD-AB2446E427CB}.Release|Xbox 360.Build.0 = Release|Xbox 360
 		{1E882FA0-E968-498A-8CFD-AB2446E427CB}.Release|Xbox 360.Deploy.0 = Release|Xbox 360
 		{1E882FA0-E968-498A-8CFD-AB2446E427CB}.Release|Zune.ActiveCfg = Release|Xbox 360
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Debug|Xbox 360.ActiveCfg = Debug|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Debug|Zune.ActiveCfg = Debug|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Release|x86.ActiveCfg = Release|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Release|Xbox 360.ActiveCfg = Release|Any CPU
-		{889D42AE-D9CB-4F59-890E-ADE10BACDD28}.Release|Zune.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
