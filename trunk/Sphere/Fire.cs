@@ -19,8 +19,8 @@ namespace Sphere
             smokeSYS = new XParticleSystem(X, SetupSmoke());
             fireSYS = new XParticleSystem(X, SetupFire());
 
-            smokeSYS.DrawOrder = 2;
-            fireSYS.DrawOrder = 2;
+            smokeSYS.DrawOrder = 50;
+            fireSYS.DrawOrder = 40;
 
             smoke = new SmokeEmitter(X, smokeSYS, 150);
             fire = new FireEmitter(X, fireSYS, 150);
