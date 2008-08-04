@@ -6,6 +6,7 @@ namespace XEngine
     public class XComponent : IComparable<XComponent>
     {
         public XMain X;
+        
 
         bool loaded = false;
         bool autoDraw = true;
@@ -59,10 +60,10 @@ namespace XEngine
         public XComponent(XMain X)
         {
             this.X = X;
-
             X.Components.Add(this);
-
             this.Name = this.ToString();
+            //sort X.Components list according to Draworder
+            X.Components.Sort();
         }
 
         public virtual void Load(ContentManager Content)
@@ -74,7 +75,7 @@ namespace XEngine
         {
         }
 
-        public virtual void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        public virtual void Draw(GameTime gameTime, XCamera Camera)
         {
         }
 

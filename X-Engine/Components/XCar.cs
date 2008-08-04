@@ -60,16 +60,16 @@ namespace XEngine
             Acceleration = Vector2.Zero;
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera)
         {
             Matrix[] World = Car.GetWorldMatrix(Chassis.Model, Vector3.Zero);
 
-            X.Renderer.DrawModel(Chassis, Camera, new Matrix[] { World[0] }, chassismat,environment);
+            X.Renderer.DrawModel(Chassis, Camera, new Matrix[] { World[0] }, chassismat);
 
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[1] } , wheelmat, environment);
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[2] } , wheelmat, environment);
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[3] } , wheelmat, environment);
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[4] } , wheelmat, environment);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[1] } , wheelmat);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[2] } , wheelmat);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[3] } , wheelmat);
+            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[4] } , wheelmat);
         }
     }
 }

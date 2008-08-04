@@ -135,7 +135,7 @@ namespace XEngine
                 log.Remove(log[0]);
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        public override void Draw(GameTime gameTime, XCamera Camera)
         {
             if (Visible)
             {

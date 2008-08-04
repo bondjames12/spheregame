@@ -48,7 +48,7 @@ namespace XEngine
             base.Load(Content);
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        public override void Draw(GameTime gameTime, XCamera Camera)
         {
             X.GraphicsDevice.VertexDeclaration = vertexDecl;
             X.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, verts, 0, 4, ib, 0, 2);

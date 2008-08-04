@@ -131,7 +131,7 @@ namespace XEngine
         }
 
 
-        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        public override void Draw(GameTime gameTime, XCamera Camera)
         {
             if (model != null && model.Loaded)
             {
@@ -152,7 +152,7 @@ namespace XEngine
 
                 X.GraphicsDevice.RenderState.CullMode = material.VertexWinding;
 
-                X.Renderer.DrawModel(model, Camera, mat, material, environment);
+                X.Renderer.DrawModel(model, Camera, mat, material);
             }
 
             if (ShowBoundingBox)

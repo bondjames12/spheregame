@@ -27,7 +27,7 @@ namespace XEngine
                 toWrite.Add(Text);
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        public override void Draw(GameTime gameTime, XCamera Camera)
         {
             int offset = (int)StartPosition.Y;
             foreach (string Text in toWrite)
