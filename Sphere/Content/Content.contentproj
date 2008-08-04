@@ -187,20 +187,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\platform1.fbx">
-      <Name>platform1</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Earth.X">
-      <Name>Earth</Name>
-      <Importer>XImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\chassis.FBX">
       <Name>chassis</Name>
       <Importer>FbxImporter</Importer>
@@ -208,13 +194,6 @@
     </Compile>
     <Compile Include="Models\wheel.fbx">
       <Name>wheel</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Untitled.fbx">
-      <Name>Untitled</Name>
       <Importer>FbxImporter</Importer>
       <Processor>XEngineModelProcessor</Processor>
     </Compile>
