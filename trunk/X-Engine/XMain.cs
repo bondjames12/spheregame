@@ -23,6 +23,7 @@ namespace XEngine
         public XRenderer Renderer;
         public XDebugDrawer DebugDrawer;
         public XTools Tools;
+        public XEnvironmentParameters Environment;
 
         public PhysicsSystem Physics;
         public Vector3 Gravity { get { return Physics.Gravity; } set { Physics.Gravity = value; } }
@@ -49,7 +50,7 @@ namespace XEngine
             Renderer = new XRenderer(this);
             DebugDrawer = new XDebugDrawer(this);
             Tools = new XTools(this);
-
+            Environment = new XEnvironmentParameters(this);
             Physics = new PhysicsSystem();
             Physics.EnableFreezing = true;
             Physics.SolverType = PhysicsSystem.Solver.Normal;
@@ -62,6 +63,7 @@ namespace XEngine
             SystemFont.Load(Content);
             Console.Load(Content);
             DebugDrawer.Load(Content);
+            Environment.Load(Content);
             Renderer.Load(Content);
 
             GC.Collect();

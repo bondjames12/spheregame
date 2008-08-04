@@ -84,7 +84,7 @@ namespace XEngine
             }
         }
 
-        public override void Draw(GameTime gameTime, XCamera camera, XEnvironmentParameters environment)
+        public override void Draw(GameTime gameTime, XCamera camera)
         {
             if (Loaded)
             {

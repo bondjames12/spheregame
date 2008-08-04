@@ -21,15 +21,13 @@ namespace XEngine
             //shadowalphaTex = X.Content.Load<Texture2D>("Content/XEngine/Textures/shadowalphaTex");
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        public override void Draw(GameTime gameTime, XCamera Camera)
         {
             X.GraphicsDevice.Clear(ClearColor);
-            X.spriteBatch.Begin();
-            DrawScene(gameTime, Camera, null, environment);
-            X.spriteBatch.End();
+            DrawScene(gameTime, Camera, null);  
         }
 
-        public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent>NoDraw, XEnvironmentParameters environment)
+        public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent>NoDraw)
         {
             X.GraphicsDevice.RenderState.DepthBufferEnable = true;
             X.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
@@ -39,8 +37,8 @@ namespace XEngine
 
             ActorsInView.Clear();
             
-            //sort X.Components list according to Draworder
-            X.Components.Sort();
+            //Begin 2D Sprite Batch
+            X.spriteBatch.Begin();
 
             foreach (XComponent component in X.Components)
             {
@@ -63,31 +61,33 @@ namespace XEngine
                             if (((XActor)component).Material.AlphaBlendable)
                                 Alpha.Add(((XActor)component));
                             else //draw these xactors now
-                                component.Draw(gameTime, Camera, environment);
+                                component.Draw(gameTime, Camera);
                         }
                     }
                     else if (component is XHeightMap)
                     {
                         if (Camera.Frustrum.Contains(((XHeightMap)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                            component.Draw(gameTime, Camera, environment);
+                            component.Draw(gameTime, Camera);
                     }
                     else if (component is XWater)
                     {
                         if (Camera.Frustrum.Contains(((XWater)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                            component.Draw(gameTime, Camera, environment);
+                            component.Draw(gameTime, Camera);
                     }
                     else
                     {
 
-                        component.Draw(gameTime, Camera, environment);
+                        component.Draw(gameTime, Camera);
                     }
 
                 foreach (XActor actor in Alpha)
-                    actor.Draw(gameTime, Camera, environment);
+                    actor.Draw(gameTime, Camera);
             }
+            //End Sprite Batch
+            X.spriteBatch.End();
         }
 
-        public virtual void DrawModel(XModel Model, XCamera Camera, Matrix[] World, XMaterial material, XEnvironmentParameters environment)
+        public virtual void DrawModel(XModel Model, XCamera Camera, Matrix[] World, XMaterial material)
         {
             foreach (ModelMesh mesh in Model.Model.Meshes)
             {
@@ -107,13 +107,13 @@ namespace XEngine
 
                     material.SetupEffect(effect);
 
-                    SetupLighting(effect, material, environment);
+                    SetupLighting(effect, material);
                 }
                 mesh.Draw();
             }
         }
 
-        public void SetupLighting(Effect effect, XMaterial Material,XEnvironmentParameters environment)
+        public void SetupLighting(Effect effect, XMaterial Material)
         {
             /*Vector4[] LightDir = {
                         new Vector4(-0.526f, 0.573f, -0.627f, 1),
@@ -127,9 +127,9 @@ namespace XEngine
                         new Vector4(.8f, .8f, .8f, 10000000f)
                     };
             */
-            Vector4[] LightDir = { -environment.LightDirection, new Vector4(0.719f, 0.342f, 0.604f, .5f) };
+            Vector4[] LightDir = { -X.Environment.LightDirection, new Vector4(0.719f, 0.342f, 0.604f, .5f) };
 
-            Vector4[] LightColor = {environment.LightColor,environment.LightColorAmbient};
+            Vector4[] LightColor = { X.Environment.LightColor, X.Environment.LightColorAmbient };
 
             effect.Parameters["vecLightDir"].SetValue(LightDir);
             effect.Parameters["LightColor"].SetValue(LightColor);

@@ -161,7 +161,7 @@ namespace XEngine
         XCamera camera;
         Matrix reflectionViewMatrix = Matrix.Identity;
 
-        public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
+        public override void Draw(GameTime gameTime, XCamera Camera)
         {
             this.camera = Camera;
 
@@ -274,7 +274,7 @@ namespace XEngine
             NoDraw.Add(X.Debug);
             NoDraw.Add(X.Console);
 
-            X.Renderer.DrawScene(gameTime, Camera, NoDraw, new XEnvironmentParameters(X));
+            X.Renderer.DrawScene(gameTime, Camera, NoDraw);
         }
 
         public virtual void DrawReflectedScene(GameTime gameTime, XCamera Camera)
@@ -284,7 +284,7 @@ namespace XEngine
             NoDraw.Add(X.Debug);
             NoDraw.Add(X.Console);
 
-            X.Renderer.DrawScene(gameTime, Camera, NoDraw, new XEnvironmentParameters(X));
+            X.Renderer.DrawScene(gameTime, Camera, NoDraw);
         }
     }
 }
