@@ -160,10 +160,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContentModel\ContentModel.csproj">
-      <Project>{889D42AE-D9CB-4F59-890E-ADE10BACDD28}</Project>
-      <Name>ContentModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\JigLibX\JigLibX360.csproj">
       <Project>{2344e0e4-7fb1-480c-b374-7f95a40fc554}</Project>
       <Name>JigLibX360</Name>
