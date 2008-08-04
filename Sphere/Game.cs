@@ -9,7 +9,7 @@ using System;
 namespace Sphere
 {
     /// <summary>
-    /// This is the main type for your game
+    /// kkkkk
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
