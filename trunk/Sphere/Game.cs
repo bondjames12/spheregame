@@ -28,8 +28,7 @@ namespace Sphere
         public XHeightMap heightmap;
         public XDynamicSky sky;
         public XWater water;
-        public XEnvironmentParameters environment;
-
+        
         public XActor duckActor;
         public List<XActor> boxes = new List<XActor>();
 
@@ -114,11 +113,10 @@ namespace Sphere
 
 
             // load scene objects/content
-            environment = new XEnvironmentParameters(X);
-            sky = new XDynamicSky(X, environment);
-            heightmap = new XHeightMap(X, @"Content\Textures\Heightmap", environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Textures\TextureMap");
+            sky = new XDynamicSky(X, X.Environment);
+            heightmap = new XHeightMap(X, @"Content\Textures\Heightmap", X.Environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Textures\TextureMap");
 
-            resources.AddComponent(environment);
+            //resources.AddComponent(environment);
             resources.AddComponent(heightmap);
             resources.AddComponent(sky);
 
@@ -194,7 +192,7 @@ namespace Sphere
         protected override void Draw(GameTime gameTime)
         {
             // TODO: Add your drawing code here
-            X.Renderer.Draw(gameTime, camera, environment);
+            X.Renderer.Draw(gameTime, camera);
            
             base.Draw(gameTime);
         }
