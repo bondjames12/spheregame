@@ -122,7 +122,7 @@ namespace Sphere
             resources.AddComponent(heightmap);
             resources.AddComponent(sky);
 
-            model = new XModel(X, @"Content\Models\Box");
+            model = new XModel(X, @"Content\Models\box");
             resources.AddComponent(model);
 
             duckModel = new XModel(X, @"Content\Models\Duck");
