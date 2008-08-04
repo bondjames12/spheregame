@@ -24,7 +24,9 @@ namespace XEngine
         public override void Draw(GameTime gameTime, XCamera Camera, XEnvironmentParameters environment)
         {
             X.GraphicsDevice.Clear(ClearColor);
+            X.spriteBatch.Begin();
             DrawScene(gameTime, Camera, null, environment);
+            X.spriteBatch.End();
         }
 
         public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent>NoDraw, XEnvironmentParameters environment)
@@ -33,62 +35,34 @@ namespace XEngine
             X.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
             X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-            //SortedDictionary<int, List<XComponent>> draw = new SortedDictionary<int, List<XComponent>>();
-            List<List<XComponent>> draw = new List<List<XComponent>>();
-
-            foreach (XComponent component in X.Components)
-            {
-                bool allow = true;
-                
-                if (NoDraw != null)
-                    if (NoDraw.Contains(component))
-                        allow = false;
-
-                if (allow && component.AutoDraw && component is XDrawable && !(component is XRenderer))
-                {
-                    //if (!draw.ContainsKey(component.DrawOrder))
-                    //{
-                    //    List<XComponent> level = new List<XComponent>();
-                    //    level.Add(component);
-                    //    draw.Add(component.DrawOrder, level);
-                    //}
-                    //else
-                    //{
-                    //    draw[component.DrawOrder].Add(component);
-                    //}
-                        if (component.AutoDraw && component is XDrawable && !(component is XRenderer) && !(component is XConsole))
-                        {
-                            if (component.DrawOrder > draw.Count)
-                            {
-                                List<XComponent> level = new List<XComponent>();
-                                level.Add(component);
-                                draw.Add(level);
-                            }
-                            else
-                            {
-                                draw[component.DrawOrder - 1].Add(component);
-                            }
-                        }
-                }
-            }
-
             List<XActor> Alpha = new List<XActor>();
 
             ActorsInView.Clear();
             
-            foreach (List<XComponent> level in draw)//Values)
+            //sort X.Components list according to Draworder
+            X.Components.Sort();
+
+            foreach (XComponent component in X.Components)
             {
-                foreach (XComponent component in level)
-                {
+                //is this XComponent Drawable? and not the renderer?
+                if(!(component is XDrawable) || (component is XRenderer))
+                    continue;
+
+                //Is this XComponent on the NoDraw list?
+                if (NoDraw != null)
+                    if (NoDraw.Contains(component))
+                        continue;
+
                     if (component is XActor)
                     {
                         if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
                         {
                             ActorsInView.Add(((XActor)component));
 
+                            //Add these xactors to another list to be draw at the end since they are alphablendable
                             if (((XActor)component).Material.AlphaBlendable)
                                 Alpha.Add(((XActor)component));
-                            else
+                            else //draw these xactors now
                                 component.Draw(gameTime, Camera, environment);
                         }
                     }
@@ -103,35 +77,14 @@ namespace XEngine
                             component.Draw(gameTime, Camera, environment);
                     }
                     else
+                    {
+
                         component.Draw(gameTime, Camera, environment);
-                }
+                    }
 
                 foreach (XActor actor in Alpha)
                     actor.Draw(gameTime, Camera, environment);
             }
-            X.spriteBatch.Begin();
-            if (X.Console.Visible)
-            {
-                if (NoDraw != null)
-                {
-                    if (!NoDraw.Contains(X.Console))
-                        X.Console.Draw(gameTime, Camera, environment);
-                }
-                else
-                    X.Console.Draw(gameTime, Camera, environment);
-            }
-            //else
-            //{
-                if (NoDraw != null)
-                {
-                    if (!NoDraw.Contains(X.Debug))
-                        X.Debug.Draw(gameTime, Camera, environment);
-                }
-                else
-                    X.Debug.Draw(gameTime, Camera, environment);
-            //}
-
-            X.spriteBatch.End();
         }
 
         public virtual void DrawModel(XModel Model, XCamera Camera, Matrix[] World, XMaterial material, XEnvironmentParameters environment)
