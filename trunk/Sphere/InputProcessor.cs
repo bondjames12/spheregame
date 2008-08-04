@@ -131,6 +131,29 @@ namespace Sphere
                     parent.water.Update(gameTime);
                     parent.resources.AddComponent(parent.water);
                 }
+            if (parent.water != null)
+            {
+                //WindDirection
+                if(keyboard.KeyDown(Keys.NumPad4))
+                    parent.water.WindDirection -= .25f;
+                if (keyboard.KeyDown(Keys.NumPad6))
+                    parent.water.WindDirection += .25f;
+                //WaveHeight
+                if (keyboard.KeyDown(Keys.NumPad2))
+                    parent.water.WaveHeight -= .01f;
+                if (keyboard.KeyDown(Keys.NumPad8))
+                    parent.water.WaveHeight += .01f;
+                //Wave Length
+                if (keyboard.KeyDown(Keys.NumPad7))
+                    parent.water.WaveLenth -= .01f;
+                if (keyboard.KeyDown(Keys.NumPad9))
+                    parent.water.WaveLenth += .01f;
+                //Wind Force
+                if (keyboard.KeyDown(Keys.NumPad1))
+                    parent.water.WindForce -= .05f;
+                if (keyboard.KeyDown(Keys.NumPad3))
+                    parent.water.WindForce += .05f;
+            }
 
             if (keyboard.KeyPressed(Keys.F4))
                 for (int x = 0; x < 10; x++)
@@ -181,7 +204,6 @@ namespace Sphere
                     xa.Disable();
                 parent.boxes.Clear();
             }
-
             
             //Example Code
 /*            if (!parent.menus.MenuOpen)

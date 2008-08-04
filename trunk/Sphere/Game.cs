@@ -16,7 +16,7 @@ namespace Sphere
         GraphicsDeviceManager graphics;
         XMain X;
         public MenuManager menus;
-
+        public XEnvironmentParameters UnderWater;
         public InputProcessor input;
         public XResourceGroup resources;
 
@@ -107,7 +107,7 @@ namespace Sphere
         {  
             //Load engine base content
             X.LoadContent();
-
+            
             //Game base elements
             menus.Load(Content);
 
@@ -119,6 +119,15 @@ namespace Sphere
             //resources.AddComponent(environment);
             resources.AddComponent(heightmap);
             resources.AddComponent(sky);
+
+            UnderWater = new XEnvironmentParameters(X);
+            UnderWater.FogColor = new Vector4(0,.2f,1,1);
+            UnderWater.FogDensity = 1f;
+            UnderWater.LightColor = new Vector4(1,1,1,1);
+            //UnderWater.LightColorAmbient = new Vector4(.);
+            //UnderWater.LightDirection = new Vector4();
+
+            resources.AddComponent(UnderWater);
 
             model = new XModel(X, @"Content\Models\box");
             resources.AddComponent(model);
