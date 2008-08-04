@@ -60,9 +60,9 @@ namespace XEngine
             reflectionCamera = new XCamera(X);
         }
 
-        float waveLength = .05f;
-        float waveHeight = .05f;
-        float windForce = 10.0f;
+        float waveLength = .25f;
+        float waveHeight = 1.15f;
+        float windForce = 5.0f;
         float windDirection = 90.0f;
 
         public float WaveLenth
