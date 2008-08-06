@@ -131,6 +131,15 @@ namespace Sphere
                     parent.water.Update(gameTime);
                     parent.resources.AddComponent(parent.water);
                 }
+
+            if (keyboard.KeyPressed(Keys.E))
+                if (parent.water != null)
+                    parent.water.DoesReflect = !parent.water.DoesReflect;
+
+            if (keyboard.KeyPressed(Keys.R))
+                if (parent.water != null)
+                    parent.water.DoesRefract = !parent.water.DoesRefract;
+
             if (parent.water != null)
             {
                 //WindDirection
