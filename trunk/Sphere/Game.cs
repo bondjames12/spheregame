@@ -54,8 +54,15 @@ namespace Sphere
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.PreferredDepthStencilFormat = SelectStencilMode();
+            graphics.PreferMultiSampling = true;
 
-             
+            // use this for 720P
+            //graphics.PreferredBackBufferWidth = 1280;
+            //graphics.PreferredBackBufferHeight = 720;
+ 
+            // for NTSC, use a 4:3 ratio
+            graphics.PreferredBackBufferWidth = 720;
+            graphics.PreferredBackBufferHeight = 480;
         }
 
 
@@ -143,7 +150,7 @@ namespace Sphere
 
             chase = new XChaseCamera(X);
 
-            housemodel = new XModel(X, @"Content\Models\air");
+            housemodel = new XModel(X, @"Content\Models\box.x");
             resources.AddComponent(housemodel);
 
             //plane = new XModel(X, @"Content\plane");
