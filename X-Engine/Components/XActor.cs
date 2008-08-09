@@ -8,6 +8,7 @@ namespace XEngine
     public class XActor : XComponent, XDrawable
     {
         public int ModelNumber;
+        public bool AlphaBlendable = false;
 
         XModel mod;
         public XModel model
@@ -139,10 +140,9 @@ namespace XEngine
         {
             if (model != null && model.Loaded)
             {
-                //Matrix[] mat = new Matrix[1];
-                //mat[0] = PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
+                Matrix World = PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
 
-                /*if (material.AlphaBlendable)
+                if (AlphaBlendable)
                 {
                     X.GraphicsDevice.RenderState.AlphaBlendEnable = true;
                     X.GraphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha; // source rgb * source alpha
@@ -151,22 +151,23 @@ namespace XEngine
                     X.GraphicsDevice.RenderState.AlphaDestinationBlend = Blend.InverseSourceAlpha; // dest alpha * (255 - source alpha)
                     X.GraphicsDevice.RenderState.BlendFunction = BlendFunction.Add; // add source and dest results
                 }
-                else*/
+                else
                     X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
                 X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
                 
                 //Set camera params, compute matrices
-                model.SASData.Camera.NearFarClipping.X = Camera.NearPlane; //.01f;
-                model.SASData.Camera.NearFarClipping.Y = Camera.FarPlane; //10000.0f;
-                model.SASData.Camera.Position.X = Camera.Position.X; //Position.X;
-                model.SASData.Camera.Position.Y = Camera.Position.Y; //Position.Y;
-                model.SASData.Camera.Position.Z = Camera.Position.Z; //Position.Z;
-                model.SASData.Projection = Camera.Projection; //Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(FieldOfView), AspectRatio, SASData.Camera.NearFarClipping.X, SASData.Camera.NearFarClipping.Y);
-                model.SASData.View = Camera.View; //Matrix.CreateLookAt(Position, Interest, Vector3.Up);
+                model.SASData.Camera.NearFarClipping.X = Camera.NearPlane;
+                model.SASData.Camera.NearFarClipping.Y = Camera.FarPlane;
+                model.SASData.Camera.Position.X = Camera.Position.X;
+                model.SASData.Camera.Position.Y = Camera.Position.Y;
+                model.SASData.Camera.Position.Z = Camera.Position.Z;
+                model.SASData.Projection = Camera.Projection;
+                model.SASData.View = Camera.View;
+                model.SASData.Model = World;
                 model.SASData.ComputeViewAndProjection();
 
-                X.Renderer.DrawModel(model, Camera);//, mat);//, material);
+                X.Renderer.DrawModel(model, Camera);
             }
 
             if (ShowBoundingBox)
