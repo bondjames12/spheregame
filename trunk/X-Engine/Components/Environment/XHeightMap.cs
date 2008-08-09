@@ -173,6 +173,9 @@ namespace XEngine
                 effect.End();
 
                 X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
+
+                if (DebugMode)
+                    X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.Yellow, World, Camera);
             }
         }
     }
