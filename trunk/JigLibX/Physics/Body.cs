@@ -253,6 +253,8 @@ namespace JigLibX.Physics
         }
 
         /// <summary>
+        /// Gets of Sets the Reference to the Bodies Collision Skin.
+        /// In X-Engine this is PhyicsBody.PhysicsSkin
         /// Allowed to return null if this body doesn't engage
         /// in collisions.
         /// </summary>
