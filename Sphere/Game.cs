@@ -150,8 +150,10 @@ namespace Sphere
 
             chase = new XChaseCamera(X);
 
-            housemodel = new XModel(X, @"Content\Models\box.x");
+            housemodel = new XModel(X, @"Content\Models\simple_anim");
             resources.AddComponent(housemodel);
+
+            //Model xsibox = Content.Load<Model>(@"Content\Models\xsibox");
 
             //plane = new XModel(X, @"Content\plane");
             //resources.AddComponent(plane);

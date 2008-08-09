@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
+using XSIXNARuntime;
 
 namespace XEngine
 {
@@ -58,9 +59,9 @@ namespace XEngine
                             ActorsInView.Add(((XActor)component));
 
                             //Add these xactors to another list to be draw at the end since they are alphablendable
-                            if (((XActor)component).Material.AlphaBlendable)
-                                Alpha.Add(((XActor)component));
-                            else //draw these xactors now
+                            //if (((XActor)component).Material.AlphaBlendable)
+                            //    Alpha.Add(((XActor)component));
+                            //else //draw these xactors now
                                 component.Draw(gameTime, Camera);
                         }
                     }
@@ -87,12 +88,75 @@ namespace XEngine
             X.spriteBatch.End();
         }
 
-        public virtual void DrawModel(XModel Model, XCamera Camera, Matrix[] World, XMaterial material)
+        public virtual void DrawModel(XModel Model, XCamera Camera)//, Matrix[] World)//, XMaterial material)
         {
+            Matrix[] transforms = new Matrix[Model.Model.Bones.Count];
+            Model.Model.CopyAbsoluteBoneTransformsTo(transforms);
+
+            //process animation
+            XSIAnimationData l_Animations = Model.Model.Tag as XSIAnimationData;
+            bool isSkinned = false;
+            Matrix[] bones = null;
+            if (l_Animations != null)
+            {
+                l_Animations.ComputeBoneTransforms(transforms);
+                bones = l_Animations.BoneTransforms;
+                if (bones != null)
+                {
+                    if (bones.Length > 0)
+                        isSkinned = true;
+                }
+            }
+
             foreach (ModelMesh mesh in Model.Model.Meshes)
             {
+                //model.SASData.ComputeModel();
+
                 foreach (Effect effect in mesh.Effects)
                 {
+                    if (effect.GetType() == typeof(BasicEffect))
+                    {
+                        BasicEffect basiceffect = (BasicEffect)effect;
+                        basiceffect.EnableDefaultLighting();
+                        basiceffect.PreferPerPixelLighting = true;
+                        basiceffect.Alpha = 0.5f;
+
+                        basiceffect.View = Model.SASData.View;
+                        basiceffect.Projection = Model.SASData.Projection;
+                        //apply world matrix after mult by parent mesh(bone) transform
+                        basiceffect.World = Model.SASData.Model * mesh.ParentBone.Transform;
+                        mesh.Draw();
+                    }
+                    else
+                    {
+                        // set the shader technique to skinned or Static or the first one, try in that order
+                        if (isSkinned && (effect.Techniques["Skinned"] != null))
+                        {
+                            effect.CurrentTechnique = effect.Techniques["Skinned"];
+                        }
+                        else
+                        {
+                            if (effect.Techniques["Static"] != null)
+                                effect.CurrentTechnique = effect.Techniques["Static"];
+                            else
+                                effect.CurrentTechnique = effect.Techniques[0];
+                        }
+
+                        // bind bones to shader
+                        if (isSkinned)
+                        {
+                            if ((effect.Parameters["Bones"] != null) && isSkinned)
+                                effect.Parameters["Bones"].SetValue(bones);
+                        }
+
+                        // bind all other parameters
+                        foreach (EffectParameter Parameter in effect.Parameters)
+                        {
+                            Model.SASData.SetEffectParameterValue(Parameter);
+                        }
+                    }
+
+                    /*
                     effect.Parameters["World"].SetValue(World[0]);
                     //effect.Parameters["Bones"].SetValue(bones);
 
@@ -107,33 +171,17 @@ namespace XEngine
 
                     material.SetupEffect(effect);
 
-                    SetupLighting(effect, material);
+                    Vector4[] LightDir = { -X.Environment.LightDirection, new Vector4(0.719f, 0.342f, 0.604f, .5f) };
+
+                    Vector4[] LightColor = { X.Environment.LightColor, X.Environment.LightColorAmbient };
+
+                    effect.Parameters["vecLightDir"].SetValue(LightDir);
+                    effect.Parameters["LightColor"].SetValue(LightColor);
+                    effect.Parameters["NumLights"].SetValue(LightDir.Length);
+                     */
                 }
                 mesh.Draw();
             }
-        }
-
-        public void SetupLighting(Effect effect, XMaterial Material)
-        {
-            /*Vector4[] LightDir = {
-                        new Vector4(-0.526f, 0.573f, -0.627f, 1),
-                        new Vector4(0.719f, 0.342f, 0.604f, 1),
-                        new Vector4(0.454f, 0.766f, 0.454f, 1)
-                    };
-
-            Vector4[] LightColor = {
-                        new Vector4(.8f, .8f, .8f, 10000000f),
-                        new Vector4(.8f, .8f, .8f, Material.Specularity),
-                        new Vector4(.8f, .8f, .8f, 10000000f)
-                    };
-            */
-            Vector4[] LightDir = { -X.Environment.LightDirection, new Vector4(0.719f, 0.342f, 0.604f, .5f) };
-
-            Vector4[] LightColor = { X.Environment.LightColor, X.Environment.LightColorAmbient };
-
-            effect.Parameters["vecLightDir"].SetValue(LightDir);
-            effect.Parameters["LightColor"].SetValue(LightColor);
-            effect.Parameters["NumLights"].SetValue(LightDir.Length);
         }
     }
 }

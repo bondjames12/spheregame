@@ -41,13 +41,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Model\X-Model Pipeline.csproj">
-      <Project>{1D35C4FA-C0F7-4C2B-94CB-506162EC662D}</Project>
-      <Name>X-Model Pipeline</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ShatterExtension\ShatterExtension.csproj">
       <Project>{23A45FA3-6F1F-417C-BC85-0963AC5EFB10}</Project>
       <Name>ShatterExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XSIXNARuntime\XSIXNARuntime.csproj">
+      <Project>{924BE388-B6B6-4FFB-9E9E-89CACEDA52CE}</Project>
+      <Name>XSIXNARuntime</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -151,55 +151,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="plane.x">
-      <Name>plane</Name>
-      <Importer>XImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\box.x">
       <Name>box</Name>
       <Importer>XImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
+      <Processor>Processor</Processor>
     </Compile>
     <Compile Include="Models\duck.x">
       <Name>duck</Name>
       <Importer>XImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\house.x">
-      <Name>house</Name>
-      <Importer>XImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\tree.x">
-      <Name>tree</Name>
-      <Importer>XImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\tree01.X">
-      <Name>tree01</Name>
-      <Importer>XImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\chassis.FBX">
-      <Name>chassis</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Models\wheel.fbx">
-      <Name>wheel</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
+      <Processor>Processor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -217,10 +177,31 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\air.FBX">
-      <Name>air</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>XEngineModelProcessor</Processor>
+    <Compile Include="Models\xsibox.xsi">
+      <Name>xsibox</Name>
+      <Importer>Importer</Importer>
+      <Processor>Processor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\simple_anim.xsi">
+      <Name>simple_anim</Name>
+      <Importer>Importer</Importer>
+      <Processor>Processor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\chassis.xsi">
+      <Name>chassis</Name>
+      <Importer>Importer</Importer>
+      <Processor>Processor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\wheel.xsi">
+      <Name>wheel</Name>
+      <Importer>Importer</Importer>
+      <Processor>Processor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

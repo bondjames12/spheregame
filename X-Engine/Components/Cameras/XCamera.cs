@@ -16,6 +16,8 @@ namespace XEngine
         public Vector3 Direction { get { return Target - Position; } }
 
         public float AspectRatio;
+        public float NearPlane = 0.1f;
+        public float FarPlane = 1000;
 
         public BoundingFrustum Frustrum;
 
@@ -35,9 +37,17 @@ namespace XEngine
         public Matrix GenerateProjection(XMain X, float FoV, float AspectRatio, ProjectionType type)
         {
             if (type == ProjectionType.Perspective)
-                return Matrix.CreatePerspectiveFieldOfView(FoV, AspectRatio, .1f, 1000);
+            {
+                NearPlane = 0.1f;
+                FarPlane = 1000;
+                return Matrix.CreatePerspectiveFieldOfView(FoV, AspectRatio, NearPlane, FarPlane);
+            }
             else if (type == ProjectionType.Orthographic)
-                return Matrix.CreateOrthographic(100, 100, -170, 170);
+            {
+                NearPlane = -170;
+                FarPlane = 170;
+                return Matrix.CreateOrthographic(100, 100, NearPlane, FarPlane);
+            }
 
             return Matrix.Identity;
         }

@@ -51,21 +51,22 @@ namespace Sphere
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera)
         {
+            if (!MenuOpen) return; //the menu is not open DON'T DRAW IT
             X.spriteBatch.Draw(Black, new Rectangle(X.GraphicsDevice.Viewport.Width - ((int)(X.GraphicsDevice.Viewport.Width * scrollamount)), 0, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height), new Color(255, 255, 255, 25));
-            X.spriteBatch.Draw(Background, new Rectangle(100, X.GraphicsDevice.Viewport.Height - ((int)(500 * scrollamount)), 400, 500), new Color(255, 255, 255, 191));
+            X.spriteBatch.Draw(Background, new Rectangle(100, X.GraphicsDevice.Viewport.Height - ((int)(X.GraphicsDevice.Viewport.Height * scrollamount)), 400, X.GraphicsDevice.Viewport.Height), new Color(255, 255, 255, 191));
 
             int num = 0;
             foreach (string str in Buttons)
             {
                 if (Buttons.IndexOf(str) == Current)
                 {
-                    X.spriteBatch.Draw(Button, new Rectangle(110, X.GraphicsDevice.Viewport.Height - ((int)(490 * scrollamount)) + num * 34, 380, 30), new Color(255, 255, 255, 153));
-                    X.spriteBatch.DrawString(Font, str, new Vector2(115, X.GraphicsDevice.Viewport.Height - ((int)(485 * scrollamount)) + num * 34), Color.White);
+                    X.spriteBatch.Draw(Button, new Rectangle(110, X.GraphicsDevice.Viewport.Height - ((int)((X.GraphicsDevice.Viewport.Height-50) * scrollamount)) + num * 34, 380, 30), new Color(255, 255, 255, 153));
+                    X.spriteBatch.DrawString(Font, str, new Vector2(115, X.GraphicsDevice.Viewport.Height - ((int)((X.GraphicsDevice.Viewport.Height - 55) * scrollamount)) + num * 34), Color.White);
                 }
                 else
                 {
-                    X.spriteBatch.Draw(OffButton, new Rectangle(110, X.GraphicsDevice.Viewport.Height - ((int)(490 * scrollamount)) + num * 34, 380, 30), new Color(255, 255, 255, 153));
-                    X.spriteBatch.DrawString(Font, str, new Vector2(115, X.GraphicsDevice.Viewport.Height - ((int)(485 * scrollamount)) + num * 34), Color.LightGray);
+                    X.spriteBatch.Draw(OffButton, new Rectangle(110, X.GraphicsDevice.Viewport.Height - ((int)((X.GraphicsDevice.Viewport.Height - 50) * scrollamount)) + num * 34, 380, 30), new Color(255, 255, 255, 153));
+                    X.spriteBatch.DrawString(Font, str, new Vector2(115, X.GraphicsDevice.Viewport.Height - ((int)((X.GraphicsDevice.Viewport.Height - 55) * scrollamount)) + num * 34), Color.LightGray);
                 }
 
                 num++;
