@@ -163,6 +163,9 @@ namespace XEngine
 
         public override void Draw(GameTime gameTime, XCamera Camera)
         {
+            CullMode Cullprevious = X.GraphicsDevice.RenderState.CullMode;
+            X.GraphicsDevice.RenderState.CullMode = CullMode.None;
+
             this.camera = Camera;
 
             effect.Parameters["xWorld"].SetValue(Matrix.Identity);
@@ -190,6 +193,7 @@ namespace XEngine
                 pass.End();
             }
             effect.End();
+            X.GraphicsDevice.RenderState.CullMode = Cullprevious;
         }
 
         void Refract(GameTime gameTime, XCamera Camera)
