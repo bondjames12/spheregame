@@ -320,14 +320,33 @@ namespace XSIXNARuntime
 
     public class XSISASAmbientLight
     {
-        public Vector4 Color = new Vector4(0, 0, 0, 0);             
-    };
+        public Vector4 Color;
+
+        public XSISASAmbientLight()
+        { Color = new Vector4(0,0,0,0); }
+        public XSISASAmbientLight(Vector4 color)
+        { Color = color; }
+        public XSISASAmbientLight(float r, float g, float b, float w)
+        {  Color = new Vector4(r, g, b, w); }
+    }
+
 
     public class XSISASDirectionalLight
     {
-        public Vector4 Color = new Vector4(0, 0, 0, 0);           
-        public Vector4 Direction = new Vector4(0, 0, 0, 0);       
-    };
+        public Vector4 Color;           
+        public Vector4 Direction;
+
+        public XSISASDirectionalLight()
+        { 
+            Color = new Vector4(0, 0, 0, 0);           
+            Direction = new Vector4(0, 0, 0, 0);
+        }
+
+        public XSISASDirectionalLight(Vector4 color, Vector4 direction)
+        { Color = color; Direction = direction; }
+        public XSISASDirectionalLight(float cr, float cg, float cb, float cw, float dx, float dy, float dz, float dw)
+        { Color = new Vector4(cr, cg, cb, cw); Direction = new Vector4(dx, dy, dz, dw); }
+    }
 
     public class XSISASPointLight
     {
