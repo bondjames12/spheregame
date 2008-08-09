@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using JigLibX.Geometry;
 using JigLibX.Physics;
 using JigLibX.Collision;
-using ContentModel;
+//Removed X-Model Content Processor using ContentModel;
 
 namespace XEngine
 {
@@ -20,11 +20,11 @@ namespace XEngine
             collision = new CollisionSkin(null);
 
             triangleMesh = new TriangleMesh();
-
+            /*
             List<object> tagData = ((ModelData)model.Model.Tag).VertexData as List<object>;
             List<Vector3> vertices = (List<Vector3>)tagData[0];
             List<int> indices = (List<int>)tagData[1];
-
+            
             Vector3[] verts = new Vector3[vertices.Count];
             int[] inds = new int[indices.Count];
 
@@ -50,6 +50,7 @@ namespace XEngine
             triangleMesh.CreateMesh(vertexList, indexList, 4, 1.0f);
 
             collision.AddPrimitive(triangleMesh, 1, new MaterialProperties(0.8f, 0.7f, 0.6f));
+             */
             PhysicsSystem.CurrentPhysicsSystem.CollisionSystem.AddCollisionSkin(collision);
 
             body.CollisionSkin = collision;

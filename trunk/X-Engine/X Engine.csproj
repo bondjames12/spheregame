@@ -101,6 +101,7 @@
     <Compile Include="Components\Utilities\XQuadDrawer.cs" />
     <Compile Include="Components\Utilities\XTools.cs" />
     <Compile Include="Components\XActor.cs" />
+    <Compile Include="Components\XAnimatedActor.cs" />
     <Compile Include="Components\XCar.cs" />
     <Compile Include="Components\XTimer.cs" />
     <Compile Include="Components\Cameras\XCamera.cs" />
@@ -165,9 +166,9 @@
       <Project>{8C96785C-F085-4DA6-83AD-AEE47591B5CF}</Project>
       <Name>JigLibX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Model\X-Model Pipeline.csproj">
-      <Project>{1D35C4FA-C0F7-4C2B-94CB-506162EC662D}</Project>
-      <Name>X-Model Pipeline</Name>
+    <ProjectReference Include="..\XSIXNARuntime\XSIXNARuntime.csproj">
+      <Project>{924BE388-B6B6-4FFB-9E9E-89CACEDA52CE}</Project>
+      <Name>XSIXNARuntime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

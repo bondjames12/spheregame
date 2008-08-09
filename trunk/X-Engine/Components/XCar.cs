@@ -12,8 +12,8 @@ namespace XEngine
         XModel Chassis;
         XModel Wheel;
 
-        XMaterial chassismat;
-        XMaterial wheelmat;
+        //XMaterial chassismat;
+        //XMaterial wheelmat;
 
         public Vector3 Position { get { return Car.PhysicsBody.Position; } }
         public Matrix Orientation { get { return Car.PhysicsBody.Orientation; } }
@@ -29,8 +29,8 @@ namespace XEngine
 
             Car.PhysicsBody.Position = Position;
 
-            chassismat = new XMaterial(X, Chassis.Model.Meshes[1].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 100);
-            wheelmat = new XMaterial(X, Wheel.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 1000000000);
+            //chassismat = new XMaterial(X, Chassis.Model.Meshes[1].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 100);
+            //wheelmat = new XMaterial(X, Wheel.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 1000000000);
         }
 
         Vector2 Acceleration = Vector2.Zero;
@@ -62,14 +62,43 @@ namespace XEngine
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera)
         {
+            //World Matrix Compute function
             Matrix[] World = Car.GetWorldMatrix(Chassis.Model, Vector3.Zero);
 
-            X.Renderer.DrawModel(Chassis, Camera, new Matrix[] { World[0] }, chassismat);
+            //Set camera params, compute matrices on chassis
+            Chassis.SASData.Camera.NearFarClipping.X = Camera.NearPlane; //.01f;
+            Chassis.SASData.Camera.NearFarClipping.Y = Camera.FarPlane; //10000.0f;
+            Chassis.SASData.Camera.Position.X = Camera.Position.X; //Position.X;
+            Chassis.SASData.Camera.Position.Y = Camera.Position.Y; //Position.Y;
+            Chassis.SASData.Camera.Position.Z = Camera.Position.Z; //Position.Z;
+            Chassis.SASData.Projection = Camera.Projection; //Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(FieldOfView), AspectRatio, SASData.Camera.NearFarClipping.X, SASData.Camera.NearFarClipping.Y);
+            Chassis.SASData.View = Camera.View; //Matrix.CreateLookAt(Position, Interest, Vector3.Up);
+            Chassis.SASData.Model = World[0];
+            //Chassis.SASData.ComputeViewAndProjection();
 
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[1] } , wheelmat);
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[2] } , wheelmat);
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[3] } , wheelmat);
-            X.Renderer.DrawModel(Wheel, Camera, new Matrix[] { World[4] } , wheelmat);
+            X.Renderer.DrawModel(Chassis, Camera);//, new Matrix[] { World[0] });//, chassismat);
+
+            //Set camera params, compute matrices on WHEELS!
+            Wheel.SASData.Camera.NearFarClipping.X = Camera.NearPlane; //.01f;
+            Wheel.SASData.Camera.NearFarClipping.Y = Camera.FarPlane; //10000.0f;
+            Wheel.SASData.Camera.Position.X = Camera.Position.X; //Position.X;
+            Wheel.SASData.Camera.Position.Y = Camera.Position.Y; //Position.Y;
+            Wheel.SASData.Camera.Position.Z = Camera.Position.Z; //Position.Z;
+            Wheel.SASData.Projection = Camera.Projection; //Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(FieldOfView), AspectRatio, SASData.Camera.NearFarClipping.X, SASData.Camera.NearFarClipping.Y);
+            Wheel.SASData.View = Camera.View; //Matrix.CreateLookAt(Position, Interest, Vector3.Up);
+            Wheel.SASData.ComputeViewAndProjection();
+
+            Wheel.SASData.Model = World[1];
+            X.Renderer.DrawModel(Wheel, Camera);//, new Matrix[] { World[1] });// , wheelmat);
+
+            Wheel.SASData.Model = World[2];
+            X.Renderer.DrawModel(Wheel, Camera);//, new Matrix[] { World[2] });// , wheelmat);
+
+            Wheel.SASData.Model = World[3];
+            X.Renderer.DrawModel(Wheel, Camera);//, new Matrix[] { World[3] });// , wheelmat);
+
+            Wheel.SASData.Model = World[4];
+            X.Renderer.DrawModel(Wheel, Camera);//, new Matrix[] { World[4] });// , wheelmat);
         }
     }
 }

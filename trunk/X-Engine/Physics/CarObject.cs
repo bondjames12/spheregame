@@ -41,10 +41,10 @@ namespace XEngine
 
             //car.Chassis.Skin.SetMaterialProperties((int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.4f,0.8f,0.7f));
 
-            Data.Add("BasicEffect");
+            //Data.Add("BasicEffect");
         }
 
-        ArrayList Data = new ArrayList();
+        //ArrayList Data = new ArrayList();
         public Matrix[] GetWorldMatrix(Model model, Vector3 Offset)
         {
             Matrix[] World = new Matrix[5];

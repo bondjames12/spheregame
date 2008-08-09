@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using XSIXNARuntime;
 
 namespace XEngine
 {
@@ -90,6 +91,7 @@ namespace XEngine
 
         public XActor(XMain X, PhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass) : base(X)
         {
+            model.ParentActor = this;
             this.model = model;
             this.mass = Mass;
             this.PhysicsBody = Object;
@@ -100,7 +102,7 @@ namespace XEngine
             modeloffset = ModelOffset;
             //this seems to assign 1 material for the whole actor?!
             //CHANGE: Modify XActor contruct to create XMaterial objects for every Texture/Effect in the model
-
+/*
             try
             {
                 this.material = new XMaterial(X, model.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 10);
@@ -109,8 +111,10 @@ namespace XEngine
             {
                 this.material = new XMaterial(X, model.Model.Meshes[0].Effects[0].Parameters["BasicTexture"].GetValueTexture2D(), true, null, false, null, false, 10);
             }
-
+*/
         }
+
+        
 
         public Matrix GetWorldMatrix()
         {
@@ -123,22 +127,22 @@ namespace XEngine
         }
 
         //CHANGE: Changed to a List<Material> to add support for multiple materials per model/actor
-        XMaterial material;
+/*        XMaterial material;
         public XMaterial Material
         {
             get { return material; }
             set { material = value; }
         }
-
+*/
 
         public override void Draw(GameTime gameTime, XCamera Camera)
         {
             if (model != null && model.Loaded)
             {
-                Matrix[] mat = new Matrix[1];
-                mat[0] = PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
+                //Matrix[] mat = new Matrix[1];
+                //mat[0] = PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
 
-                if (material.AlphaBlendable)
+                /*if (material.AlphaBlendable)
                 {
                     X.GraphicsDevice.RenderState.AlphaBlendEnable = true;
                     X.GraphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha; // source rgb * source alpha
@@ -147,12 +151,22 @@ namespace XEngine
                     X.GraphicsDevice.RenderState.AlphaDestinationBlend = Blend.InverseSourceAlpha; // dest alpha * (255 - source alpha)
                     X.GraphicsDevice.RenderState.BlendFunction = BlendFunction.Add; // add source and dest results
                 }
-                else
+                else*/
                     X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-                X.GraphicsDevice.RenderState.CullMode = material.VertexWinding;
+                X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
+                
+                //Set camera params, compute matrices
+                model.SASData.Camera.NearFarClipping.X = Camera.NearPlane; //.01f;
+                model.SASData.Camera.NearFarClipping.Y = Camera.FarPlane; //10000.0f;
+                model.SASData.Camera.Position.X = Camera.Position.X; //Position.X;
+                model.SASData.Camera.Position.Y = Camera.Position.Y; //Position.Y;
+                model.SASData.Camera.Position.Z = Camera.Position.Z; //Position.Z;
+                model.SASData.Projection = Camera.Projection; //Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(FieldOfView), AspectRatio, SASData.Camera.NearFarClipping.X, SASData.Camera.NearFarClipping.Y);
+                model.SASData.View = Camera.View; //Matrix.CreateLookAt(Position, Interest, Vector3.Up);
+                model.SASData.ComputeViewAndProjection();
 
-                X.Renderer.DrawModel(model, Camera, mat, material);
+                X.Renderer.DrawModel(model, Camera);//, mat);//, material);
             }
 
             if (ShowBoundingBox)
@@ -165,49 +179,4 @@ namespace XEngine
             base.Disable();
         }
     }
-
-    /*public class XAnimatedActor : XActor, XUpdateable
-    {
-        AnimationPlayer animator;
-
-        public XAnimatedActor(XMain X, PhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass) :
-            base(X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
-        {
-            animator = new AnimationPlayer((SkinningData)model.Model.Tag);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            animator.Update(gameTime.ElapsedGameTime, true, PhysicsBody.GetWorldMatrix(model.Model, modeloffset));
-            base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime, XCamera Camera)
-        {
-            if (model != null && model.Loaded)
-            {
-                Matrix[] mat = new Matrix[1];
-                mat[0] = PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
-
-                if (AlphaBlendAble)
-                {
-                    X.GraphicsDevice.RenderState.AlphaBlendEnable = true;
-                    X.GraphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha; // source rgb * source alpha
-                    X.GraphicsDevice.RenderState.AlphaSourceBlend = Blend.One; // don't modify source alpha
-                    X.GraphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha; // dest rgb * (255 - source alpha)
-                    X.GraphicsDevice.RenderState.AlphaDestinationBlend = Blend.InverseSourceAlpha; // dest alpha * (255 - source alpha)
-                    X.GraphicsDevice.RenderState.BlendFunction = BlendFunction.Add; // add source and dest results
-                }
-                else
-                    X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
-
-                X.GraphicsDevice.RenderState.CullMode = VertexWinding;
-
-                X.Renderer.DrawModel(model, Camera, mat);
-            }
-
-            if (ShowBoundingBox)
-                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, PhysicsBody.GetWorldMatrix(model.Model, Vector3.Zero), Camera);
-        }
-    }*/
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using XSIXNARuntime;
 
 namespace XEngine
 {
@@ -13,6 +14,14 @@ namespace XEngine
 
         public Model Model { get { return model; } }
         public string Filename;
+        public XActor ParentActor;
+
+        private XSISASContainer sasData = new XSISASContainer();
+        public XSISASContainer SASData
+        {
+            get { return sasData; }
+            set { sasData = value; }
+        }
 
         public XModel(XMain X, string Filename) : base(X)
         {
@@ -24,8 +33,32 @@ namespace XEngine
 
         public override void Load(ContentManager Content)
         {
-            this.model = Content.Load<Model>(Filename);
             base.Load(Content);
+            this.model = Content.Load<Model>(Filename);
+        }
+
+        public void InitDefaultSASLighting()
+        {
+            // initialize lights by default
+            XSISASPointLight light1 = new XSISASPointLight();
+            XSISASPointLight light2 = new XSISASPointLight();
+            XSISASPointLight light3 = new XSISASPointLight();
+
+            light1.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
+            light2.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
+            light3.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
+
+            light1.Position = new Vector4(100.0f, 100.0f, 100.0f, 1.0f);
+            light2.Position = new Vector4(-100.0f, 100.0f, 100.0f, 1.0f);
+            light3.Position = new Vector4(0.0f, 0.0f, -100.0f, 1.0f);
+
+            light1.Range = 10000.0f;
+            light2.Range = 10000.0f;
+            light3.Range = 10000.0f;
+
+            sasData.PointLights.Add(light1);
+            sasData.PointLights.Add(light2);
+            sasData.PointLights.Add(light3);
         }
 
         public void SetShader(Effect setEffectTo)
