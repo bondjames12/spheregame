@@ -68,6 +68,7 @@ namespace XEngine
                     Animations[AnimationIndex].PlayBack(TimeSpan.Parse("00:00:00"), 1.0f);
                 }
             }
+
             base.Update(gameTime);
         }
 
@@ -110,6 +111,12 @@ namespace XEngine
                 //model.SASData.Model = World;
                 model.SASData.ComputeViewAndProjection();
                 model.SASData.ComputeModel();
+
+
+                //Lighting?????
+                //update lighting information for shaders
+
+
 
             if (DebugMode)
                 X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, Matrix.Identity, Camera);
