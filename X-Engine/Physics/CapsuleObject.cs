@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace XEngine
 {
 
-    public class CapsuleObject : PhysicsObject
+    public class CapsuleObject : XPhysicsObject
     {
 
         public CapsuleObject(float radius, float length, Matrix orientation, Vector3 position)

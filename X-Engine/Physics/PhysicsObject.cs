@@ -15,7 +15,7 @@ namespace XEngine
     /// <summary>
     /// Helps to combine the physics with the graphics.
     /// </summary>
-    public abstract class PhysicsObject
+    public abstract class XPhysicsObject
     {
         protected Body body;
         protected CollisionSkin collision;
@@ -23,9 +23,12 @@ namespace XEngine
         public Vector3 scale = Vector3.One;
 
         public Body PhysicsBody { get { return body; } }
+        /// <summary>
+        /// The Main Collision Skin (primitives collection) that we check collisions against for all the X-Engine Objects
+        /// </summary>
         public CollisionSkin PhysicsSkin { get { return collision; } }
 
-        public PhysicsObject()
+        public XPhysicsObject()
         {
         }
 

@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace XEngine
 {
 
-    public class BoxObject : PhysicsObject
+    public class BoxObject : XPhysicsObject
     {
 
         public BoxObject(Vector3 sideLengths, Matrix orientation, Vector3 position)

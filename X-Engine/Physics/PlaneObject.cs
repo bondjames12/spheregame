@@ -8,7 +8,7 @@ using JigLibX.Physics;
 
 namespace XEngine
 {
-    public class PlaneObject : PhysicsObject
+    public class PlaneObject : XPhysicsObject
     {
         public PlaneObject()
         {

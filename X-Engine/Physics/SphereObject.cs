@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace XEngine
 {
-    public class SphereObject : PhysicsObject
+    public class SphereObject : XPhysicsObject
     {
         public SphereObject(float radius, Matrix orientation, Vector3 position)
         {

@@ -9,7 +9,7 @@ using System.Collections;
 
 namespace XEngine
 {
-    public class CarObject : PhysicsObject
+    public class CarObject : XPhysicsObject
     {
         private Car car;
 

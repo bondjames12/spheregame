@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace XEngine
 {
-    public class BowlingPinObject : PhysicsObject
+    public class BowlingPinObject : XPhysicsObject
     {
         public BowlingPinObject(Matrix orientation, Vector3 position)
         {

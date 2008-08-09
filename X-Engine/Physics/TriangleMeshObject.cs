@@ -9,7 +9,7 @@ using JigLibX.Collision;
 
 namespace XEngine
 {
-    public class TriangleMeshObject : PhysicsObject
+    public class TriangleMeshObject : XPhysicsObject
     {
         TriangleMesh triangleMesh;
 

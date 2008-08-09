@@ -16,7 +16,7 @@ namespace XEngine
         private float Blending = 1.0f;
 
 
-        public XAnimatedActor(XMain X, PhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, 
+        public XAnimatedActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, 
             Vector3 Velocity, float Mass) :
                 base(X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
         {
@@ -75,7 +75,7 @@ namespace XEngine
         {
             if (model != null && model.Loaded)
             {
-            Matrix World = PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
+            Matrix World = PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
 
             Matrix[] transforms = new Matrix[model.Model.Bones.Count];
             model.Model.CopyAbsoluteBoneTransformsTo(transforms);
