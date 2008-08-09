@@ -164,7 +164,9 @@ namespace XEngine
                 model.SASData.Camera.Position.Z = Camera.Position.Z;
                 model.SASData.Projection = Camera.Projection;
                 model.SASData.View = Camera.View;
-                model.SASData.Model = World;
+                //model.SASData.Model = World;
+                //Apply world matrix to root bone of XActors Model
+                model.Model.Root.Transform = World;
                 model.SASData.ComputeViewAndProjection();
 
                 X.Renderer.DrawModel(model, Camera);
