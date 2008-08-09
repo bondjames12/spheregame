@@ -58,26 +58,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Effects\NormalMap.fx">
-      <Name>NormalMap</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Effects\NormalMapSpecular.fx">
-      <Name>NormalMapSpecular</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Effects\Simple.fx">
-      <Name>Simple</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Effects\Solid.fx">
-      <Name>Solid</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
     <Compile Include="Effects\Terrain.fx">
       <Name>Terrain</Name>
       <Importer>EffectImporter</Importer>
@@ -197,6 +177,13 @@
       <Name>wheel</Name>
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\captain_modtool.xsi">
+      <Name>captain_modtool</Name>
+      <Importer>Importer</Importer>
+      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
