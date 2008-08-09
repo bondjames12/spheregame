@@ -83,7 +83,7 @@ namespace Sphere
 #if XBOX == FALSE
             parent.camera.Rotate(new Vector3(mouse.Delta.Y * .0016f, mouse.Delta.X * .0016f, 0));
 #endif
-            parent.camera.Rotate(new Vector3(-gamepad.Thumbstick(XGamePad.Thumbsticks.Right).X * .04f, gamepad.Thumbstick(XGamePad.Thumbsticks.Right).Y * .04f,0));
+            parent.camera.Rotate(new Vector3((-gamepad.Thumbstick(XGamePad.Thumbsticks.Right).Y * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, (gamepad.Thumbstick(XGamePad.Thumbsticks.Right).X * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
 
 //Camera Movement with KB or Gamepad directional pad
             if (keyboard.KeyDown(Keys.W) || gamepad.ButtonDown(Buttons.DPadUp))
