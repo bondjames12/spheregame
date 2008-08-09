@@ -93,7 +93,7 @@ namespace XEngine
                 else
                     X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-                X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
+                //X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
 
                 //Set camera params, compute matrices
                 model.SASData.Camera.NearFarClipping.X = Camera.NearPlane;
