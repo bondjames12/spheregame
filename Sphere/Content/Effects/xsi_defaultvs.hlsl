@@ -19,23 +19,35 @@ XSI_VertexToPixel VSSkinned
 	// Blend between the weighted bone matrices.
 	float4x4 skinTransform = 0;
 
-	skinTransform += Bones[IN.BoneIndices.x] * IN.BoneWeights.x;
-	skinTransform += Bones[IN.BoneIndices.y] * IN.BoneWeights.y;
-	skinTransform += Bones[IN.BoneIndices.z] * IN.BoneWeights.z;
-	skinTransform += Bones[IN.BoneIndices.w] * IN.BoneWeights.w;
+//	skinTransform += Bones[IN.BoneIndices.x] * IN.BoneWeights.x;
+//	skinTransform += Bones[IN.BoneIndices.y] * IN.BoneWeights.y;
+//	skinTransform += Bones[IN.BoneIndices.z] * IN.BoneWeights.z;
+//	skinTransform += Bones[IN.BoneIndices.w] * IN.BoneWeights.w;
+
+//add normal recalc
+	float3 N = IN.normal;  
+    skinTransform += Bones[IN.BoneIndices.x] * IN.BoneWeights.x;  
+    N += normalize(mul(N, skinTransform));  
+    skinTransform += Bones[IN.BoneIndices.y] * IN.BoneWeights.y;  
+    N += normalize(mul(N, skinTransform));  
+    skinTransform += Bones[IN.BoneIndices.z] * IN.BoneWeights.z;  
+    N += normalize(mul(N, skinTransform));  
+    skinTransform += Bones[IN.BoneIndices.w] * IN.BoneWeights.w; 
 
 	// Skin the vertex position.
  	float4 weightedposition = mul(IN.position, skinTransform);
 
 	// transform in screen space
-	OUT.position = mul( mul(weightedposition, View), Projection );
-
+	//OUT.position = mul( mul(weightedposition, View), Projection );
+	OUT.position = mul( mul( mul(weightedposition, Model), View), Projection ); 
+	
 	// position in global space is in TC4
 	OUT.texcoord4 = weightedposition;
 	
 	// Tangent to world space is stored in TC5,6,7
 	
-	float3 N = IN.normal;
+	//recalc'ed about COMMENTED
+	//float3 N = IN.normal;
 	float3 T = (IN.color0 * 2) - 1;
 	float3 B = N.yzx * T.zxy;
 	B = (-T.yzx * N.zxy) + B;
