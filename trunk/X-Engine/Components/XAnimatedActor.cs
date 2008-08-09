@@ -111,7 +111,7 @@ namespace XEngine
                 model.SASData.ComputeViewAndProjection();
                 model.SASData.ComputeModel();
 
-            if (ShowBoundingBox)
+            if (DebugMode)
                 X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, Matrix.Identity, Camera);
 
             //process animation

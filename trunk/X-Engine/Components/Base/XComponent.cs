@@ -6,11 +6,18 @@ namespace XEngine
     public class XComponent : IComparable<XComponent>
     {
         public XMain X;
-        
 
+        /// <summary>
+        /// The DebugMode flag is used to turn on and off debug features of objects such as 
+        /// bounding rendering and on screen status messages.
+        /// </summary>
+        public bool DebugMode = true;
         bool loaded = false;
         bool autoDraw = true;
         public bool NoCull = false;
+        /// <summary>
+        /// Base Drawing Order
+        /// </summary>
         int drawOrder = 20;
 
         /// <summary>
