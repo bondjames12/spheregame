@@ -8,7 +8,7 @@ namespace XEngine
 {
     public class XRenderer : XComponent, XDrawable
     {
-        public List<XActor> ActorsInView = new List<XActor>();
+        //public List<XActor> ActorsInView = new List<XActor>();
 
         public Color ClearColor = Color.CornflowerBlue;
 
@@ -36,7 +36,7 @@ namespace XEngine
 
             List<XActor> Alpha = new List<XActor>();
 
-            ActorsInView.Clear();
+            //ActorsInView.Clear();
             
             //Begin 2D Sprite Batch
             X.spriteBatch.Begin();
@@ -59,14 +59,16 @@ namespace XEngine
 
                     if (component is XActor)
                     {
+                        //Does XActor, XHeightMap,XWater culling, add other types as create them
+                        //Only enter this if the XActor is within the view or its NoCull is set
                         if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
                         {
-                            ActorsInView.Add(((XActor)component));
+                            //ActorsInView.Add(((XActor)component));
 
                             //Add these xactors to another list to be draw at the end since they are alphablendable
                             if (((XActor)component).AlphaBlendable)
                                 Alpha.Add(((XActor)component));
-                            else //draw these xactors now
+                            else //draw this xactor now
                                 component.Draw(gameTime, Camera);
                         }
                     }
@@ -82,10 +84,11 @@ namespace XEngine
                     }
                     else
                     {
-
+                        //Frustum testing?????
                         component.Draw(gameTime, Camera);
                     }
 
+                //This list of XActors are in view and have Alphablending turned on, RENDER THEM LAST SO THEY BLEND WITH EVERYTHING!
                 foreach (XActor actor in Alpha)
                     actor.Draw(gameTime, Camera);
             }

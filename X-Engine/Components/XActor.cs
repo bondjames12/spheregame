@@ -25,8 +25,6 @@ namespace XEngine
 
         public BoundingBox boundingBox { get { if (PhysicsBody.PhysicsBody.CollisionSkin != null) return PhysicsBody.PhysicsBody.CollisionSkin.WorldBoundingBox; else return new BoundingBox(Position, Position);  } }
 
-        public bool ShowBoundingBox = true;
-
         List<int> collisions = new List<int>();
         public List<int> Collisions
         {
@@ -150,7 +148,7 @@ namespace XEngine
                 X.Renderer.DrawModel(model, Camera);
             }
 
-            if (ShowBoundingBox)
+            if (DebugMode)
                 X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, Matrix.Identity, Camera);
         }
 

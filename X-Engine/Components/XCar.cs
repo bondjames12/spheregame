@@ -16,7 +16,6 @@ namespace XEngine
         public Vector3 Position { get { return Car.PhysicsBody.Position; } }
         public Matrix Orientation { get { return Car.PhysicsBody.Orientation; } }
         Vector2 Acceleration = Vector2.Zero;
-        public bool ShowBoundingBox = true;
 
         public XCar(XMain X, XModel Chassis, XModel Wheel, bool FWDrive, bool RWDrive, float maxSteerAngle,
             float steerRate, float wheelSideFriction, float wheelFwdFriction, float wheelTravel,
@@ -78,7 +77,7 @@ namespace XEngine
 
             X.Renderer.DrawModel(Chassis, Camera);
 
-            if (ShowBoundingBox)
+            if (DebugMode)
             {
                 X.DebugDrawer.DrawCube(Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
                 X.DebugDrawer.DrawLine(Vector3.Zero, Car.PhysicsBody.Position, Color.Blue);

@@ -159,7 +159,6 @@ namespace Sphere
             //resources.AddComponent(plane);
             //planeActor = new XActor(X, XActor.ActorType.Box, plane, new Vector3(0, 20, 0), Matrix.Identity, new Vector3(800), new Vector3(0), new Vector3(1000, .01f, 1000), Vector3.Zero, 1);
             //planeActor.Immovable = true;
-            //planeActor.ShowBoundingBox = true;
             
             resources.Load();
             input.Load();
