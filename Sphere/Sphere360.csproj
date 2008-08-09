@@ -117,14 +117,15 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Xml">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\X-Engine\X Engine360.csproj">
       <Project>{F5633A6D-B5F5-4596-AD53-5D46A8C8FCF6}</Project>
       <Name>X Engine360</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XSIXNARuntime\XSIXNARuntime_XBOX.csproj">
+      <Project>{927FFC95-1D05-44CE-A9DA-A057659028F6}</Project>
+      <Name>XSIXNARuntime_XBOX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

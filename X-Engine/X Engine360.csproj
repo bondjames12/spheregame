@@ -83,6 +83,7 @@
     <Compile Include="Components\Utilities\XQuadDrawer.cs" />
     <Compile Include="Components\Utilities\XTools.cs" />
     <Compile Include="Components\XActor.cs" />
+    <Compile Include="Components\XAnimatedActor.cs" />
     <Compile Include="Components\XCar.cs" />
     <Compile Include="Components\XTimer.cs" />
     <Compile Include="Components\Cameras\XCamera.cs" />
@@ -155,14 +156,15 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Xml">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JigLibX\JigLibX360.csproj">
       <Project>{2344e0e4-7fb1-480c-b374-7f95a40fc554}</Project>
       <Name>JigLibX360</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XSIXNARuntime\XSIXNARuntime_XBOX.csproj">
+      <Project>{927FFC95-1D05-44CE-A9DA-A057659028F6}</Project>
+      <Name>XSIXNARuntime_XBOX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
