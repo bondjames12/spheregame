@@ -189,7 +189,7 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F6))
                 if (parent.Car == null)
                 {
-                    parent.Car = new XCar(X, parent.Chassis, parent.Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(0, 3, 0));
+                    parent.Car = new XCar(X, parent.Chassis, parent.Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(10, 3, 0));
                     parent.resources.AddComponent(parent.Car);
                 }
 

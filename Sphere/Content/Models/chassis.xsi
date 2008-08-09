@@ -3,7 +3,7 @@ xsi 0600txt 0032
 SI_FileInfo { 
 	"Sphere", 
 	"Colin", 
-	"Fri Aug 08 11:29:04 2008", 
+	"Sat Aug 09 01:34:33 2008", 
 	"Softimage|XSI version 6", 
 }
 
@@ -267,7 +267,7 @@ SI_MaterialLibrary DefaultLib {
 			30, 
 			1, 
 			"Name","STRING","Image",
-			"tspace_id","STRING","",
+			"tspace_id","STRING","Map__3",
 			"repeats.x","FLOAT",1.000000,
 			"repeats.y","FLOAT",1.000000,
 			"repeats.z","FLOAT",1.000000,
@@ -298,9 +298,9 @@ SI_MaterialLibrary DefaultLib {
 			"bump_filtered","BOOLEAN",0,
 			"tex","Map__4","IMAGE",
 			XSI_ShaderInstanceData { 
-				"Body", 
+				"Lights", 
 				1, 
-				"tspace_id","STRING","",
+				"tspace_id","STRING","Map__3",
 			}
 
 		}
@@ -390,8 +390,8 @@ XSI_ImageLibrary {
 	1, 
 	XSI_Image Map__4 { 
 		"..\\..\\..\\..\\..\\..\\..\\Desktop\\Editing\\Car.jpg", 
-		2048, 
-		2048, 
+		0, 
+		0, 
 		4, 
 		0, 
 		0.000000, 
@@ -532,7 +532,7 @@ SI_Model MDL-Model {
 		"NODE", 
 		"XNA_Asset", 
 		1,
-		"AssetPath","Text","C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Models\\chassis", 
+		"AssetPath","Text","C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Models\\chassis.xsi", 
 	}
 
 	SI_Model MDL-Lights { 
@@ -548,9 +548,9 @@ SI_Model MDL-Model {
 			0.000000, 
 			0.000000, 
 			"XYZ", 
-			0.393701, 
-			0.393701, 
-			0.393701, 
+			1.000000, 
+			1.000000, 
+			1.000000, 
 			1, 
 			0.000000, 
 			0.000000, 
@@ -9378,9 +9378,9 @@ SI_Model MDL-Model {
 			0.000000, 
 			0.000000, 
 			"XYZ", 
-			0.393701, 
-			0.393701, 
-			0.393701, 
+			1.000000, 
+			1.000000, 
+			1.000000, 
 			1, 
 			0.000000, 
 			0.000000, 
@@ -36213,9 +36213,9 @@ SI_Model MDL-Model {
 			0.000000, 
 			0.000000, 
 			"XYZ", 
-			0.393701, 
-			0.393701, 
-			0.393701, 
+			1.000000, 
+			1.000000, 
+			1.000000, 
 			1, 
 			0.000000, 
 			0.000000, 
@@ -137069,9 +137069,9 @@ SI_Model MDL-Model {
 			0.000000, 
 			0.000000, 
 			"XYZ", 
-			0.393701, 
-			0.393701, 
-			0.393701, 
+			1.000000, 
+			1.000000, 
+			1.000000, 
 			1, 
 			0.000000, 
 			0.000000, 
