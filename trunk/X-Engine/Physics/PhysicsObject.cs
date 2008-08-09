@@ -33,7 +33,7 @@ namespace XEngine
         {
             PrimitiveProperties primitiveProperties =
                 new PrimitiveProperties(PrimitiveProperties.MassDistributionEnum.Solid, PrimitiveProperties.MassTypeEnum.Density, mass);
-
+            
             float junk; Vector3 com; Matrix it, itCoM;
 
             collision.GetMassProperties(primitiveProperties, out junk, out com, out it, out itCoM);
@@ -43,22 +43,16 @@ namespace XEngine
             return com;
         }
 
-        Matrix[] boneTransforms;
-        int boneCount = 0;
-
+        
+      
         public virtual Matrix GetWorldMatrix(Model model, Vector3 ModelOffset)
         {
-            boneTransforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(boneTransforms);
+            //THIS DOES NOTHING COMMENTED OUT!!!
+            //Matrix[] boneTransforms;
+            //boneTransforms = new Matrix[model.Bones.Count];
+            //model.CopyAbsoluteBoneTransformsTo(boneTransforms);
 
-            if (boneTransforms == null || boneCount != model.Bones.Count)
-            {
-                boneTransforms = new Matrix[model.Bones.Count];
-                boneCount = model.Bones.Count;
-            }
-
-            model.CopyAbsoluteBoneTransformsTo(boneTransforms);
-
+            
             Matrix World;
             // the body has an orientation but also the primitives in the collision skin
             // owned by the body can be rotated!

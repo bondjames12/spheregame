@@ -19,7 +19,7 @@ namespace XEngine
         {
             body = new Body();
             collision = new CollisionSkin(body);
-            //                                                                                                                          Elasticity = e,StaticRoughness = sr,DynamicRoughness = dr;
+                                                                                                                          //Elasticity = e,StaticRoughness = sr,DynamicRoughness = dr;
             collision.AddPrimitive(new Box(-0.5f * sideLengths, orientation, sideLengths), (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.8f, 0.8f, 0.7f));
             body.CollisionSkin = this.collision;
             Vector3 com = SetMass(1.0f);

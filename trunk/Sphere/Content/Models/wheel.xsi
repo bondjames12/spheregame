@@ -3,7 +3,7 @@ xsi 0600txt 0032
 SI_FileInfo { 
 	"Sphere", 
 	"Colin", 
-	"Fri Aug 08 12:38:19 2008", 
+	"Sat Aug 09 01:34:08 2008", 
 	"Softimage|XSI version 6", 
 }
 
@@ -235,9 +235,9 @@ SI_MaterialLibrary DefaultLib {
 XSI_ImageLibrary { 
 	1, 
 	XSI_Image Map__6 { 
-		"..\\..\\..\\ArtAssets\\Textures\\Car.jpg", 
-		2048, 
-		2048, 
+		"..\\..\\..\\..\\..\\..\\..\\Desktop\\Editing\\Car.jpg", 
+		0, 
+		0, 
 		4, 
 		0, 
 		0.000000, 
@@ -378,7 +378,7 @@ SI_Model MDL-Model {
 		"NODE", 
 		"XNA_Asset", 
 		1,
-		"AssetPath","Text","C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Models\\wheel", 
+		"AssetPath","Text","C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Models\\wheel.xsi", 
 	}
 
 	SI_Model MDL-Tire { 
@@ -394,9 +394,9 @@ SI_Model MDL-Model {
 			0.000000, 
 			0.000000, 
 			"XYZ", 
-			0.393701, 
-			0.393701, 
-			0.393701, 
+			1.000000, 
+			1.000000, 
+			1.000000, 
 			1, 
 			0.000000, 
 			0.000000, 
@@ -3028,9 +3028,9 @@ SI_Model MDL-Model {
 			0.000000, 
 			0.000000, 
 			"XYZ", 
-			0.393701, 
-			0.393701, 
-			0.393701, 
+			1.000000, 
+			1.000000, 
+			1.000000, 
 			1, 
 			0.000000, 
 			0.000000, 

@@ -11,23 +11,12 @@ namespace XEngine
 {
     public class CarObject : PhysicsObject
     {
-
         private Car car;
 
-        public CarObject(bool FWDrive,
-                       bool RWDrive,
-                       float maxSteerAngle,
-                       float steerRate,
-                       float wheelSideFriction,
-                       float wheelFwdFriction,
-                       float wheelTravel,
-                       float wheelRadius,
-                       float wheelZOffset,
-                       float wheelRestingFrac,
-                       float wheelDampingFrac,
-                       int wheelNumRays,
-                       float driveTorque,
-                       float gravity)
+        public CarObject(bool FWDrive, bool RWDrive, float maxSteerAngle, float steerRate, float wheelSideFriction,
+                        float wheelFwdFriction, float wheelTravel, float wheelRadius, float wheelZOffset,
+                        float wheelRestingFrac, float wheelDampingFrac, int wheelNumRays, float driveTorque,
+                        float gravity)
         {
             car = new Car(FWDrive, RWDrive, maxSteerAngle, steerRate,
                 wheelSideFriction, wheelFwdFriction, wheelTravel, wheelRadius,
@@ -36,15 +25,14 @@ namespace XEngine
 
             this.body = car.Chassis.Body;
             this.collision = car.Chassis.Skin;
-            
+         
             SetCarMass(500.0f);
 
             //car.Chassis.Skin.SetMaterialProperties((int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.4f,0.8f,0.7f));
 
-            //Data.Add("BasicEffect");
         }
 
-        //ArrayList Data = new ArrayList();
+
         public Matrix[] GetWorldMatrix(Model model, Vector3 Offset)
         {
             Matrix[] World = new Matrix[5];
@@ -52,8 +40,8 @@ namespace XEngine
             World[0] = base.GetWorldMatrix(model, Offset);
 
             // Draw wheels!
-            Matrix[] boneTransforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(boneTransforms);
+            //Matrix[] boneTransforms = new Matrix[model.Bones.Count];
+            //model.CopyAbsoluteBoneTransformsTo(boneTransforms);
 
             Wheel wh;
 
@@ -129,7 +117,9 @@ namespace XEngine
             float Izz = (1.0f / 12.0f) * mass * (sides.X * sides.X + sides.Y * sides.Y);
 
             Matrix inertia = Matrix.Identity;
-            inertia.M11 = Ixx; inertia.M22 = Iyy; inertia.M33 = Izz;
+            inertia.M11 = Ixx; 
+            inertia.M22 = Iyy; 
+            inertia.M33 = Izz;
             car.Chassis.Body.BodyInertia = inertia;
             car.SetupDefaultWheels();
         }
