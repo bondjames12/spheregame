@@ -101,18 +101,6 @@ namespace XEngine
             PhysicsBody.scale = ModelScale;
             PhysicsBody.PhysicsBody.Velocity = Velocity;
             modeloffset = ModelOffset;
-            //this seems to assign 1 material for the whole actor?!
-            //CHANGE: Modify XActor contruct to create XMaterial objects for every Texture/Effect in the model
-/*
-            try
-            {
-                this.material = new XMaterial(X, model.Model.Meshes[0].Effects[0].Parameters["Texture"].GetValueTexture2D(), true, null, false, null, false, 10);
-            }
-            catch
-            {
-                this.material = new XMaterial(X, model.Model.Meshes[0].Effects[0].Parameters["BasicTexture"].GetValueTexture2D(), true, null, false, null, false, 10);
-            }
-*/
         }
 
         
@@ -126,15 +114,6 @@ namespace XEngine
         {
             return X.Tools.UnprojectVector3(this.Position, Camera, GetWorldMatrix());
         }
-
-        //CHANGE: Changed to a List<Material> to add support for multiple materials per model/actor
-/*        XMaterial material;
-        public XMaterial Material
-        {
-            get { return material; }
-            set { material = value; }
-        }
-*/
 
         public override void Draw(GameTime gameTime, XCamera Camera)
         {
@@ -164,10 +143,9 @@ namespace XEngine
                 model.SASData.Camera.Position.Z = Camera.Position.Z;
                 model.SASData.Projection = Camera.Projection;
                 model.SASData.View = Camera.View;
-                //model.SASData.Model = World;
-                //Apply world matrix to root bone of XActors Model
-                model.Model.Root.Transform = World;
+                model.SASData.Model = World;
                 model.SASData.ComputeViewAndProjection();
+                model.SASData.ComputeModel();
 
                 X.Renderer.DrawModel(model, Camera);
             }
