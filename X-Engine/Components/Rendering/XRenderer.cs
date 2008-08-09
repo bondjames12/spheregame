@@ -25,7 +25,7 @@ namespace XEngine
         public override void Draw(GameTime gameTime, XCamera Camera)
         {
             X.GraphicsDevice.Clear(ClearColor);
-            DrawScene(gameTime, Camera, null);  
+            DrawScene(gameTime, Camera, null);
         }
 
         public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent>NoDraw)
@@ -40,6 +40,11 @@ namespace XEngine
             
             //Begin 2D Sprite Batch
             X.spriteBatch.Begin();
+
+            //draw axis for debug info, so I can get an idea of where i am in the game
+            X.DebugDrawer.DrawLine(Vector3.Zero, new Vector3(1000,0,0), Color.Red);
+            X.DebugDrawer.DrawLine(Vector3.Zero, new Vector3(0,1000,0), Color.Green);
+            X.DebugDrawer.DrawLine(Vector3.Zero, new Vector3(0,0,1000), Color.Blue);
 
             foreach (XComponent component in X.Components)
             {
@@ -97,8 +102,6 @@ namespace XEngine
         {
             foreach (ModelMesh mesh in Model.Model.Meshes)
             {
-                //model.SASData.ComputeModel();
-
                 foreach (Effect effect in mesh.Effects)
                 {
                     if (effect.GetType() == typeof(BasicEffect))
@@ -110,8 +113,7 @@ namespace XEngine
 
                         basiceffect.View = Model.SASData.View;
                         basiceffect.Projection = Model.SASData.Projection;
-                        //apply world matrix after mult by parent mesh(bone) transform
-                        basiceffect.World = Model.SASData.Model * mesh.ParentBone.Transform;
+                        basiceffect.World = Model.SASData.Model;
                         mesh.Draw();
                     }
                     else

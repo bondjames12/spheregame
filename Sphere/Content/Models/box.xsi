@@ -3,7 +3,7 @@ xsi 0600txt 0032
 SI_FileInfo { 
 	"Sphere", 
 	"Colin", 
-	"Sat Aug 09 02:18:21 2008", 
+	"Sat Aug 09 02:28:12 2008", 
 	"Softimage|XSI version 6", 
 }
 
@@ -34,71 +34,294 @@ SI_Ambience {
 }
 
 SI_MaterialLibrary DefaultLib { 
-	1, 
-	XSI_Material Constant { 
-		1, 
-		"RealTime","Constant",
+	2, 
+	XSI_Material im_bleubrick { 
+		3, 
+		"surface","Phong",
+		"shadow","Phong",
+		"Photon","Phong",
+		XSI_MaterialInfo { 
+			1, 
+			1, 
+		}
+
+		XSI_Shader Phong { 
+			"Softimage.material-phong.1", 
+			4, 
+			50, 
+			2, 
+			"Name","STRING","Phong",
+			"specular.red","FLOAT",1.000000,
+			"specular.green","FLOAT",1.000000,
+			"specular.blue","FLOAT",1.000000,
+			"specular.alpha","FLOAT",0.000000,
+			"ambience.red","FLOAT",0.200000,
+			"ambience.green","FLOAT",0.200000,
+			"ambience.blue","FLOAT",0.200000,
+			"ambience.alpha","FLOAT",1.000000,
+			"shiny","FLOAT",43.511002,
+			"transparency.red","FLOAT",0.000000,
+			"transparency.green","FLOAT",0.000000,
+			"transparency.blue","FLOAT",0.000000,
+			"transparency.alpha","FLOAT",0.000000,
+			"trans_glossy","FLOAT",0.000000,
+			"transparent_samples","INTEGER",0,
+			"reflectivity.red","FLOAT",0.000000,
+			"reflectivity.green","FLOAT",0.000000,
+			"reflectivity.blue","FLOAT",0.000000,
+			"reflectivity.alpha","FLOAT",0.000000,
+			"reflect_glossy","FLOAT",0.000000,
+			"reflect_samples","INTEGER",0,
+			"index_of_refraction","FLOAT",1.000000,
+			"translucency","FLOAT",0.000000,
+			"incandescence.red","FLOAT",1.000000,
+			"incandescence.green","FLOAT",1.000000,
+			"incandescence.blue","FLOAT",1.000000,
+			"incandescence.alpha","FLOAT",0.000000,
+			"inc_inten","FLOAT",0.000000,
+			"bump.x","FLOAT",0.000000,
+			"bump.y","FLOAT",0.000000,
+			"bump.z","FLOAT",0.000000,
+			"notrace","BOOLEAN",0,
+			"diffuse_inuse","BOOLEAN",1,
+			"specular_inuse","BOOLEAN",1,
+			"reflect_inuse","BOOLEAN",1,
+			"refract_inuse","BOOLEAN",1,
+			"incand_inuse","BOOLEAN",1,
+			"translucent_inuse","BOOLEAN",1,
+			"radiance.red","FLOAT",1.000000,
+			"radiance.green","FLOAT",1.000000,
+			"radiance.blue","FLOAT",1.000000,
+			"radiance.alpha","FLOAT",1.000000,
+			"radiance_filter","BOOLEAN",1,
+			"scaletrans","FLOAT",1.000000,
+			"inverttrans","BOOLEAN",0,
+			"usealphatrans","BOOLEAN",0,
+			"scalerefl","FLOAT",1.000000,
+			"invertrefl","BOOLEAN",0,
+			"usealpharefl","BOOLEAN",0,
+			"ambient","Fabric","SHADER",
+			"diffuse","Fabric","SHADER",
+		}
+
+		XSI_Shader Fabric { 
+			"Softimage.txt2d-fabric.1", 
+			4, 
+			31, 
+			3, 
+			"Name","STRING","Fabric",
+			"uthread_width","FLOAT",1.000000,
+			"vthread_width","FLOAT",0.050000,
+			"u_wave","FLOAT",0.000000,
+			"v_wave","FLOAT",0.000000,
+			"randomness","FLOAT",0.000000,
+			"width_variation","FLOAT",0.070000,
+			"bright_variation","FLOAT",0.000000,
+			"tspace_id","STRING","",
+			"repeats.x","FLOAT",1.000000,
+			"repeats.y","FLOAT",1.000000,
+			"repeats.z","FLOAT",1.000000,
+			"alt_x","BOOLEAN",0,
+			"alt_y","BOOLEAN",0,
+			"alt_z","BOOLEAN",0,
+			"min.x","FLOAT",0.000000,
+			"min.y","FLOAT",0.000000,
+			"min.z","FLOAT",0.000000,
+			"max.x","FLOAT",8.000000,
+			"max.y","FLOAT",6.000000,
+			"max.z","FLOAT",10.000000,
+			"step.x","FLOAT",0.013000,
+			"step.y","FLOAT",0.013000,
+			"step.z","FLOAT",0.000000,
+			"factor","FLOAT",-2.000000,
+			"torus_u","BOOLEAN",0,
+			"torus_v","BOOLEAN",0,
+			"alpha","BOOLEAN",0,
+			"bump_inuse","BOOLEAN",1,
+			"alpha_output","BOOLEAN",0,
+			"alpha_factor","FLOAT",1.000000,
+			"uthread_color","Rock","SHADER",
+			"vthread_color","Rock1","SHADER",
+			"gap_color","Rock1","SHADER",
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id","STRING","",
+			}
+
+		}
+
+		XSI_Shader Rock1 { 
+			"Softimage.txt3d-rock_v3.1", 
+			4, 
+			35, 
+			0, 
+			"Name","STRING","Rock1",
+			"color1.red","FLOAT",0.648000,
+			"color1.green","FLOAT",0.648000,
+			"color1.blue","FLOAT",0.606000,
+			"color1.alpha","FLOAT",1.000000,
+			"color2.red","FLOAT",0.682000,
+			"color2.green","FLOAT",0.682000,
+			"color2.blue","FLOAT",0.614000,
+			"color2.alpha","FLOAT",1.000000,
+			"grain_size","FLOAT",0.011000,
+			"diffusion","FLOAT",0.000000,
+			"mix_ratio","FLOAT",0.500000,
+			"tspace_id","STRING","",
+			"repeats.x","FLOAT",1.000000,
+			"repeats.y","FLOAT",1.000000,
+			"repeats.z","FLOAT",1.000000,
+			"alt_x","BOOLEAN",0,
+			"alt_y","BOOLEAN",0,
+			"alt_z","BOOLEAN",0,
+			"min.x","FLOAT",0.000000,
+			"min.y","FLOAT",0.000000,
+			"min.z","FLOAT",0.000000,
+			"max.x","FLOAT",5.000000,
+			"max.y","FLOAT",5.000000,
+			"max.z","FLOAT",5.000000,
+			"step.x","FLOAT",0.000000,
+			"step.y","FLOAT",0.000000,
+			"step.z","FLOAT",0.000000,
+			"factor","FLOAT",20.000000,
+			"torus_u","BOOLEAN",0,
+			"torus_v","BOOLEAN",0,
+			"alpha","BOOLEAN",0,
+			"bump_inuse","BOOLEAN",0,
+			"alpha_output","BOOLEAN",0,
+			"alpha_factor","FLOAT",1.000000,
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id","STRING","",
+			}
+
+		}
+
+		XSI_Shader Rock { 
+			"Softimage.txt3d-rock_v3.1", 
+			4, 
+			35, 
+			0, 
+			"Name","STRING","Rock",
+			"color1.red","FLOAT",0.000000,
+			"color1.green","FLOAT",0.233000,
+			"color1.blue","FLOAT",0.614000,
+			"color1.alpha","FLOAT",1.000000,
+			"color2.red","FLOAT",0.106000,
+			"color2.green","FLOAT",0.004000,
+			"color2.blue","FLOAT",0.750000,
+			"color2.alpha","FLOAT",1.000000,
+			"grain_size","FLOAT",0.059000,
+			"diffusion","FLOAT",0.055000,
+			"mix_ratio","FLOAT",0.500000,
+			"tspace_id","STRING","",
+			"repeats.x","FLOAT",1.000000,
+			"repeats.y","FLOAT",1.000000,
+			"repeats.z","FLOAT",1.000000,
+			"alt_x","BOOLEAN",0,
+			"alt_y","BOOLEAN",0,
+			"alt_z","BOOLEAN",0,
+			"min.x","FLOAT",0.000000,
+			"min.y","FLOAT",0.000000,
+			"min.z","FLOAT",0.000000,
+			"max.x","FLOAT",5.000000,
+			"max.y","FLOAT",5.000000,
+			"max.z","FLOAT",5.000000,
+			"step.x","FLOAT",0.000000,
+			"step.y","FLOAT",0.000000,
+			"step.z","FLOAT",0.000000,
+			"factor","FLOAT",5.000000,
+			"torus_u","BOOLEAN",0,
+			"torus_v","BOOLEAN",0,
+			"alpha","BOOLEAN",0,
+			"bump_inuse","BOOLEAN",0,
+			"alpha_output","BOOLEAN",0,
+			"alpha_factor","FLOAT",1.000000,
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id","STRING","",
+			}
+
+		}
+
+	}
+
+	XSI_Material Scene_Material { 
+		3, 
+		"surface","Phong",
+		"shadow","Phong",
+		"Photon","Phong",
 		XSI_MaterialInfo { 
 			0, 
 			0, 
 		}
 
-		XSI_Shader Constant { 
-			"Softimage.DXFx2.1", 
-			16, 
-			8, 
-			1, 
-			"Name","STRING","Constant",
-			"filename","STRING","..\\effects\\Constant.fx",
-			"code","STRING","",
-			"code2","STRING","",
-			"external_ref","BOOLEAN",1,
-			"nb_textures","INTEGER",1,
-			"refresh_flag","INTEGER",0,
-			"tspace_id_0","STRING","Texture_Projection1",
-			"Texture_0","sand_dds","IMAGE",
-			XSI_CustomPSet DirectXFX_Parameters { 
-				"NODE", 
-				"customparamset", 
-				6,
-				"Technique","Text","Static", 
-				"ColorParameter_X","Floating Point Number",0.784000, 
-				"ColorParameter_Y","Floating Point Number",0.953000, 
-				"ColorParameter_Z","Floating Point Number",0.769000, 
-				"ColorParameter_W","Floating Point Number",1.000000, 
-				"AlbedoMap","Text","[sampler2D]", 
-				XSI_CustomParamInfo ColorParameter_X { 
-					-3.40282e+038,
-					3.40282e+038,
-					2053,
-				}
-
-				XSI_CustomParamInfo ColorParameter_Y { 
-					-3.40282e+038,
-					3.40282e+038,
-					2053,
-				}
-
-				XSI_CustomParamInfo ColorParameter_Z { 
-					-3.40282e+038,
-					3.40282e+038,
-					2053,
-				}
-
-				XSI_CustomParamInfo ColorParameter_W { 
-					-3.40282e+038,
-					3.40282e+038,
-					2053,
-				}
-
-			}
-
-			XSI_ShaderInstanceData { 
-				"Mesh", 
-				1, 
-				"tspace_id_0","STRING","Texture_Projection1",
-			}
-
+		XSI_Shader Phong { 
+			"Softimage.material-phong.1", 
+			4, 
+			58, 
+			0, 
+			"Name","STRING","Phong",
+			"ambient.red","FLOAT",0.300000,
+			"ambient.green","FLOAT",0.300000,
+			"ambient.blue","FLOAT",0.300000,
+			"ambient.alpha","FLOAT",0.000000,
+			"diffuse.red","FLOAT",0.700000,
+			"diffuse.green","FLOAT",0.700000,
+			"diffuse.blue","FLOAT",0.700000,
+			"diffuse.alpha","FLOAT",0.000000,
+			"specular.red","FLOAT",1.000000,
+			"specular.green","FLOAT",1.000000,
+			"specular.blue","FLOAT",1.000000,
+			"specular.alpha","FLOAT",0.000000,
+			"ambience.red","FLOAT",0.200000,
+			"ambience.green","FLOAT",0.200000,
+			"ambience.blue","FLOAT",0.200000,
+			"ambience.alpha","FLOAT",1.000000,
+			"shiny","FLOAT",50.000000,
+			"transparency.red","FLOAT",0.000000,
+			"transparency.green","FLOAT",0.000000,
+			"transparency.blue","FLOAT",0.000000,
+			"transparency.alpha","FLOAT",0.000000,
+			"trans_glossy","FLOAT",0.000000,
+			"transparent_samples","INTEGER",0,
+			"reflectivity.red","FLOAT",0.000000,
+			"reflectivity.green","FLOAT",0.000000,
+			"reflectivity.blue","FLOAT",0.000000,
+			"reflectivity.alpha","FLOAT",0.000000,
+			"reflect_glossy","FLOAT",0.000000,
+			"reflect_samples","INTEGER",0,
+			"index_of_refraction","FLOAT",1.000000,
+			"translucency","FLOAT",0.000000,
+			"incandescence.red","FLOAT",1.000000,
+			"incandescence.green","FLOAT",1.000000,
+			"incandescence.blue","FLOAT",1.000000,
+			"incandescence.alpha","FLOAT",0.000000,
+			"inc_inten","FLOAT",0.000000,
+			"bump.x","FLOAT",0.000000,
+			"bump.y","FLOAT",0.000000,
+			"bump.z","FLOAT",0.000000,
+			"notrace","BOOLEAN",0,
+			"diffuse_inuse","BOOLEAN",1,
+			"specular_inuse","BOOLEAN",1,
+			"reflect_inuse","BOOLEAN",1,
+			"refract_inuse","BOOLEAN",1,
+			"incand_inuse","BOOLEAN",1,
+			"translucent_inuse","BOOLEAN",1,
+			"radiance.red","FLOAT",1.000000,
+			"radiance.green","FLOAT",1.000000,
+			"radiance.blue","FLOAT",1.000000,
+			"radiance.alpha","FLOAT",1.000000,
+			"radiance_filter","BOOLEAN",1,
+			"scaletrans","FLOAT",1.000000,
+			"inverttrans","BOOLEAN",0,
+			"usealphatrans","BOOLEAN",0,
+			"scalerefl","FLOAT",1.000000,
+			"invertrefl","BOOLEAN",0,
+			"usealpharefl","BOOLEAN",0,
 		}
 
 	}
@@ -106,57 +329,7 @@ SI_MaterialLibrary DefaultLib {
 }
 
 XSI_ImageLibrary { 
-	1, 
-	XSI_Image sand_dds { 
-		"..\\Textures\\sand.dds", 
-		512, 
-		512, 
-		4, 
-		0, 
-		0.000000, 
-		1.000000, 
-		0.000000, 
-		1.000000, 
-		0.000000, 
-		0, 
-		0, 
-		0, 
-		XSI_ImageFX { 
-			0.000000, 
-			100.000000, 
-			100.000000, 
-			0.000000, 
-			0.000000, 
-			1.000000, 
-			0, 
-			1, 
-			0.250000, 
-			0.250000, 
-			0, 
-			0, 
-			0, 
-			0, 
-		}
-
-		XSI_TimeControl { 
-			0.000000, 
-			0.000000, 
-			1.000000, 
-			1.000000, 
-			XSI_Extrapolation Before { 
-				"HOLD", 
-				0.000000, 
-			}
-
-			XSI_Extrapolation After { 
-				"HOLD", 
-				0.000000, 
-			}
-
-		}
-
-	}
-
+	0, 
 }
 
 SI_Model MDL-Model { 
@@ -260,7 +433,7 @@ SI_Model MDL-Model {
 	}
 
 	SI_GlobalMaterial { 
-		"Constant", 
+		"Scene_Material", 
 		"NODE", 
 	}
 
@@ -268,7 +441,7 @@ SI_Model MDL-Model {
 		"NODE", 
 		"XNA_Asset", 
 		1,
-		"AssetPath","Text","C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Models\\xsibox.xsi", 
+		"AssetPath","Text","C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Models\\box.xsi", 
 	}
 
 	SI_Model MDL-Mesh { 
@@ -440,7 +613,7 @@ SI_Model MDL-Model {
 			XSI_TriangleList TriList00 { 
 				1, 
 				"XSINormal",
-				"Constant", 
+				"im_bleubrick", 
 				12, 
 
 				0,0,
@@ -496,7 +669,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Constant", 
+			"im_bleubrick", 
 			"NODE", 
 		}
 

@@ -57,7 +57,7 @@ namespace XEngine
     }
     #endregion
 
-    public class XDebugDrawer : XComponent
+    public class XDebugDrawer : XComponent, XDrawable
     {
         #region Variables
         private Effect lineRender;
@@ -77,6 +77,7 @@ namespace XEngine
 
         public XDebugDrawer(XMain X) : base(X)
         {
+            DrawOrder = 30;
         }
 
         public override void Load(ContentManager Content)
@@ -92,7 +93,7 @@ namespace XEngine
         public void DrawLine(Vector3 startPoint, Color startColor,
                              Vector3 endPoint, Color endColor)
         {
-            if (numOfLines <= MaxNumOfLines)
+            if (numOfLines < MaxNumOfLines)
             {
                 Line line = new Line(startPoint, startColor, endPoint, endColor);
 
@@ -134,7 +135,7 @@ namespace XEngine
             DrawLine(new Vector3(min.X, max.Y, max.Z), new Vector3(min.X, max.Y, min.Z), color);
             DrawLine(new Vector3(min.X, max.Y, min.Z), new Vector3(max.X, max.Y, min.Z), color);
 
-            Draw(world, camera.View, camera.Projection);
+            //Draw(world, camera.View, camera.Projection);
         }
 
         public void DrawBoundingBox(BoundingBox boundingBox, Color color, Matrix world, XCamera camera)
@@ -160,7 +161,7 @@ namespace XEngine
                 }
             }
 
-            Draw(world, camera.View, camera.Projection);
+            //Draw(world, camera.View, camera.Projection);
         }
 
         void UpdateVertexBuffer()
@@ -183,7 +184,7 @@ namespace XEngine
             buildVertexBuffer = false;
         }
 
-        public void Draw(Matrix world, Matrix view, Matrix projection)
+        public override void Draw(GameTime gameTime, XCamera Camera)//(Matrix world, Matrix view, Matrix projection)
         {
             if (buildVertexBuffer ||
                 numOfPrimitives != numOfLines)
@@ -199,9 +200,9 @@ namespace XEngine
                 X.GraphicsDevice.RenderState.DepthBufferEnable = true;
                 X.GraphicsDevice.VertexDeclaration = decl;
 
-                lineRender.Parameters["World"].SetValue(world);
-                lineRender.Parameters["View"].SetValue(view);
-                lineRender.Parameters["Projection"].SetValue(projection);
+                lineRender.Parameters["World"].SetValue(Matrix.Identity);
+                lineRender.Parameters["View"].SetValue(Camera.View);
+                lineRender.Parameters["Projection"].SetValue(Camera.Projection);
                 lineRender.CurrentTechnique = lineRender.Techniques["LineRendering3D"];
 
                 lineRender.Begin();
@@ -215,6 +216,7 @@ namespace XEngine
             }
 
             numOfLines = 0;
+            lines.Clear();
         }
 
         #endregion

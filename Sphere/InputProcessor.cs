@@ -4,6 +4,7 @@ using System.Text;
 using XEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Sphere
 {
@@ -96,6 +97,7 @@ namespace Sphere
 
             //write camera corrds for debug
             X.Debug.Write("Camera: X" + parent.camera.Position.X.ToString() + " Y:" + parent.camera.Position.Y.ToString() + " Z:" + parent.camera.Position.Z.ToString(), false);
+
             //drive car
             if (parent.Car != null)
             {
@@ -110,10 +112,10 @@ namespace Sphere
             }
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
-                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(1), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
 #else
             if (gamepad.ButtonPressed(Buttons.A))
-                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(1), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
 #endif
 
             if (keyboard.KeyPressed(Keys.F1))
@@ -167,7 +169,7 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F4))
                 for (int x = 0; x < 10; x++)
                     for (int e = x; e < 10; e++)
-                        parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1f), Matrix.Identity, new Vector3(20, x * 1.01f + .5f, e - 0.5f * x)), parent.model, new Vector3(10), new Vector3(0, 0, 0), Vector3.Zero, 10));
+                        parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1f), Matrix.Identity, new Vector3(20, x * 1.01f + .5f, e - 0.5f * x)), parent.model, new Vector3(1), new Vector3(0, 0, 0), Vector3.Zero, 10));
             
             if (keyboard.KeyPressed(Keys.F5))
             {
@@ -175,7 +177,7 @@ namespace Sphere
 
                 for (int i = 0; i < 25; i++)
                 {
-                    XActor actor = new XActor(X, new BoxObject(new Vector3(1),Matrix.Identity,new Vector3(i + 10, 45 - i, 0)), parent.model, new Vector3(10), Vector3.Zero, Vector3.Zero, 1);
+                    XActor actor = new XActor(X, new BoxObject(new Vector3(1),Matrix.Identity,new Vector3(i + 10, 45 - i, 0)), parent.model, new Vector3(1), Vector3.Zero, Vector3.Zero, 1);
                     if (i == 0) actor.Immovable = true;
                     chainBoxes.Add(actor);
                 }
