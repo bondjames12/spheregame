@@ -17,13 +17,13 @@ namespace XEngine
             set { mod = value; ModelNumber = mod.Number; }
         }
 
-        public PhysicsObject PhysicsBody;
+        public XPhysicsObject PhysicsObject;
 
         public Vector3 modeloffset;
 
-        public int PhysicsID { get { return PhysicsBody.PhysicsBody.ID; } }
+        public int PhysicsID { get { return PhysicsObject.PhysicsBody.ID; } }
 
-        public BoundingBox boundingBox { get { if (PhysicsBody.PhysicsBody.CollisionSkin != null) return PhysicsBody.PhysicsBody.CollisionSkin.WorldBoundingBox; else return new BoundingBox(Position, Position);  } }
+        public BoundingBox boundingBox { get { if (PhysicsObject.PhysicsBody.CollisionSkin != null) return PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox; else return new BoundingBox(Position, Position);  } }
 
         List<int> collisions = new List<int>();
         public List<int> Collisions
@@ -31,53 +31,53 @@ namespace XEngine
             get
             {
                 collisions.Clear();
-                for (int i = 0; i < PhysicsBody.PhysicsBody.CollisionSkin.Collisions.Count; i++)
-                    collisions.Add(PhysicsBody.PhysicsBody.CollisionSkin.Collisions[i].SkinInfo.Skin1.ID);
+                for (int i = 0; i < PhysicsObject.PhysicsBody.CollisionSkin.Collisions.Count; i++)
+                    collisions.Add(PhysicsObject.PhysicsBody.CollisionSkin.Collisions[i].SkinInfo.Skin1.ID);
                 return collisions;
             }
         }
 
         public Vector3 Position
         {
-            get { return PhysicsBody.PhysicsBody.Position; }
-            set { PhysicsBody.PhysicsBody.MoveTo(value, Matrix.Identity);  }
+            get { return PhysicsObject.PhysicsBody.Position; }
+            set { PhysicsObject.PhysicsBody.MoveTo(value, Matrix.Identity);  }
         }
 
         public bool Immovable
         {
-            get { return PhysicsBody.PhysicsBody.Immovable; }
-            set { PhysicsBody.PhysicsBody.Immovable = value; }
+            get { return PhysicsObject.PhysicsBody.Immovable; }
+            set { PhysicsObject.PhysicsBody.Immovable = value; }
         }
 
         public Matrix Orientation 
         { 
-            get { return PhysicsBody.PhysicsBody.Orientation; }
-            set { PhysicsBody.PhysicsBody.Orientation = value; }
+            get { return PhysicsObject.PhysicsBody.Orientation; }
+            set { PhysicsObject.PhysicsBody.Orientation = value; }
         }
 
         public Vector3 Velocity
         {
-            get { return PhysicsBody.PhysicsBody.Velocity; }
-            set { PhysicsBody.PhysicsBody.Velocity = value; }
+            get { return PhysicsObject.PhysicsBody.Velocity; }
+            set { PhysicsObject.PhysicsBody.Velocity = value; }
         }
 
         public Vector3 Scale
         {
-            get { return PhysicsBody.scale; }
-            set { PhysicsBody.scale = value; }
+            get { return PhysicsObject.scale; }
+            set { PhysicsObject.scale = value; }
         }
 
         float mass;
         public float Mass
         {
             get { return mass; }
-            set { PhysicsBody.SetMass(value); mass = value; }
+            set { PhysicsObject.SetMass(value); mass = value; }
         }
 
         bool collisionenabled = true;
         public bool CollisionEnabled
         {
-            set { collisionenabled = value; if (value) PhysicsBody.PhysicsBody.EnableBody(); else PhysicsBody.PhysicsBody.DisableBody(); }
+            set { collisionenabled = value; if (value) PhysicsObject.PhysicsBody.EnableBody(); else PhysicsObject.PhysicsBody.DisableBody(); }
             get { return collisionenabled; }
         }
 
@@ -88,16 +88,16 @@ namespace XEngine
             set { rotation = value; Orientation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(rotation.Y), MathHelper.ToRadians(rotation.X), MathHelper.ToRadians(rotation.Z)); }
         }
 
-        public XActor(XMain X, PhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass) : base(X)
+        public XActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass) : base(X)
         {
             model.ParentActor = this;
             this.model = model;
             this.mass = Mass;
-            this.PhysicsBody = Object;
+            this.PhysicsObject = Object;
 
-            PhysicsBody.SetMass(Mass);
-            PhysicsBody.scale = ModelScale;
-            PhysicsBody.PhysicsBody.Velocity = Velocity;
+            PhysicsObject.SetMass(Mass);
+            PhysicsObject.scale = ModelScale;
+            PhysicsObject.PhysicsBody.Velocity = Velocity;
             modeloffset = ModelOffset;
         }
 
@@ -105,7 +105,7 @@ namespace XEngine
 
         public Matrix GetWorldMatrix()
         {
-            return PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
+            return PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
         }
 
         public Vector3 GetScreenCoordinates(XCamera Camera)
@@ -117,7 +117,7 @@ namespace XEngine
         {
             if (model != null && model.Loaded)
             {
-                Matrix World = PhysicsBody.GetWorldMatrix(model.Model, modeloffset);
+                Matrix World = PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
 
                 if (AlphaBlendable)
                 {
@@ -149,12 +149,18 @@ namespace XEngine
             }
 
             if (DebugMode)
-                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, Matrix.Identity, Camera);
+            {
+                //Draw Frustum (Yellow) and Physics Bounding (White), In XActor these should be the same but draw then both anyway just in case
+                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.Yellow, Matrix.Identity, Camera);
+                X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
+                //Not sure if this is different or not from the one above
+                X.DebugDrawer.DrawCube(PhysicsObject.PhysicsSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
+            }
         }
 
         public override void Disable()
         {
-            PhysicsBody.PhysicsBody.DisableBody();
+            PhysicsObject.PhysicsBody.DisableBody();
             base.Disable();
         }
     }

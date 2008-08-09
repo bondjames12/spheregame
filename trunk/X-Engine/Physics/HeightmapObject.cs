@@ -12,7 +12,7 @@ using JigLibX.Utils;
 
 namespace XEngine
 {
-    public class HeightmapObject : PhysicsObject
+    public class HeightmapObject : XPhysicsObject
     {
         public HeightMapInfo info;
 
