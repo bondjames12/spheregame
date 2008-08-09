@@ -59,9 +59,9 @@ namespace XEngine
                             ActorsInView.Add(((XActor)component));
 
                             //Add these xactors to another list to be draw at the end since they are alphablendable
-                            //if (((XActor)component).Material.AlphaBlendable)
-                            //    Alpha.Add(((XActor)component));
-                            //else //draw these xactors now
+                            if (((XActor)component).AlphaBlendable)
+                                Alpha.Add(((XActor)component));
+                            else //draw these xactors now
                                 component.Draw(gameTime, Camera);
                         }
                     }
