@@ -151,11 +151,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\box.x">
-      <Name>box</Name>
-      <Importer>XImporter</Importer>
-      <Processor>Processor</Processor>
-    </Compile>
     <Compile Include="Models\duck.x">
       <Name>duck</Name>
       <Importer>XImporter</Importer>
@@ -177,8 +172,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\xsibox.xsi">
-      <Name>xsibox</Name>
+    <Compile Include="Models\box.xsi">
+      <Name>box</Name>
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
     </Compile>

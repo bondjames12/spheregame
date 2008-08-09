@@ -203,7 +203,7 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F8))
                 if (parent.houseactor == null)
                 {
-                    parent.houseactor = new XAnimatedActor(X, new SphereObject(10f, Matrix.Identity, new Vector3(10, 10, 0)), parent.housemodel, new Vector3(/*0.05f*/1f), new Vector3(0, -1, 0), new Vector3(0), 10);
+                    parent.houseactor = new XAnimatedActor(X, new BoxObject(new Vector3(10f), Matrix.Identity, new Vector3(20, 10, 0)), parent.housemodel, new Vector3(/*0.05f*/1f), new Vector3(0, 0, 0), new Vector3(0), .1f);
                     parent.houseactor.Load(X.Content);
                     parent.houseactor.Immovable = false;
                 }

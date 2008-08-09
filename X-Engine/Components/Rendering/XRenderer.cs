@@ -88,26 +88,13 @@ namespace XEngine
             X.spriteBatch.End();
         }
 
-        public virtual void DrawModel(XModel Model, XCamera Camera)//, Matrix[] World)//, XMaterial material)
+        /// <summary>
+        /// This method only support drawing static models. If you attempt to draw an animated (skinned) model it won't look right
+        /// </summary>
+        /// <param name="Model"></param>
+        /// <param name="Camera"></param>
+        public virtual void DrawModel(XModel Model, XCamera Camera)
         {
-            Matrix[] transforms = new Matrix[Model.Model.Bones.Count];
-            Model.Model.CopyAbsoluteBoneTransformsTo(transforms);
-
-            //process animation
-            XSIAnimationData l_Animations = Model.Model.Tag as XSIAnimationData;
-            bool isSkinned = false;
-            Matrix[] bones = null;
-            if (l_Animations != null)
-            {
-                l_Animations.ComputeBoneTransforms(transforms);
-                bones = l_Animations.BoneTransforms;
-                if (bones != null)
-                {
-                    if (bones.Length > 0)
-                        isSkinned = true;
-                }
-            }
-
             foreach (ModelMesh mesh in Model.Model.Meshes)
             {
                 //model.SASData.ComputeModel();
@@ -130,24 +117,24 @@ namespace XEngine
                     else
                     {
                         // set the shader technique to skinned or Static or the first one, try in that order
-                        if (isSkinned && (effect.Techniques["Skinned"] != null))
-                        {
-                            effect.CurrentTechnique = effect.Techniques["Skinned"];
-                        }
-                        else
-                        {
+                        //if (isSkinned && (effect.Techniques["Skinned"] != null))
+                        //{
+                        //    effect.CurrentTechnique = effect.Techniques["Skinned"];
+                        //}
+                        //else
+                        //{
                             if (effect.Techniques["Static"] != null)
                                 effect.CurrentTechnique = effect.Techniques["Static"];
                             else
                                 effect.CurrentTechnique = effect.Techniques[0];
-                        }
+                        //}
 
                         // bind bones to shader
-                        if (isSkinned)
-                        {
-                            if ((effect.Parameters["Bones"] != null) && isSkinned)
-                                effect.Parameters["Bones"].SetValue(bones);
-                        }
+                        //if (isSkinned)
+                        //{
+                        //    if ((effect.Parameters["Bones"] != null) && isSkinned)
+                        //        effect.Parameters["Bones"].SetValue(bones);
+                        //}
 
                         // bind all other parameters
                         foreach (EffectParameter Parameter in effect.Parameters)

@@ -77,14 +77,14 @@ namespace XEngine
             //Chassis.SASData.ComputeViewAndProjection();
 
             X.Renderer.DrawModel(Chassis, Camera);
+
             if (ShowBoundingBox)
             {
                 X.DebugDrawer.DrawCube(Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
                 X.DebugDrawer.DrawLine(Vector3.Zero, Car.PhysicsBody.Position, Color.Blue);
                 X.DebugDrawer.DrawLine(Vector3.Zero, Car.PhysicsSkin.NewPosition, Color.Red);
             }
-        
-
+            
             //Set camera params, compute matrices on WHEELS!
             Wheel.SASData.Camera.NearFarClipping.X = Camera.NearPlane;
             Wheel.SASData.Camera.NearFarClipping.Y = Camera.FarPlane;
