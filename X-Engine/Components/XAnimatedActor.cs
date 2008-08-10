@@ -31,6 +31,8 @@ namespace XEngine
                     _AnimationIndex = value;
                     if (_AnimationIndex < 0)
                         _AnimationIndex = Animations.Count - 1;
+                    if (_AnimationIndex >= Animations.Count)
+                        _AnimationIndex = 0;
                     _Blending = 0.0f;
                 }
             }

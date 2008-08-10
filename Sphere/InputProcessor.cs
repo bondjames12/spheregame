@@ -216,6 +216,11 @@ namespace Sphere
                     xa.Disable();
                 parent.boxes.Clear();
             }
+
+            if(keyboard.KeyPressed(Keys.Add))
+            {
+                parent.houseactor.AnimationIndex++; 
+            }
             
             //Example Code
 /*            if (!parent.menus.MenuOpen)
