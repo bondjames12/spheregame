@@ -352,8 +352,13 @@ namespace XSIXNARuntime
     {
         public Vector4 Color = new Vector4(0, 0, 0, 0);
         public Vector4 Position = new Vector4(0, 0, 0, 0);        
-        public float Range = 0;                                
-    };
+        public float Range = 0;
+        public XSISASPointLight() {}
+        public XSISASPointLight(Vector4 color, Vector4 position, float range)
+        { Color = color; Position = position; Range = range; }
+        public XSISASPointLight(float cr, float cg, float cb, float cw, float px, float py, float pz, float pw, float range)
+        { Color = new Vector4(cr, cg, cb, cw); Position = new Vector4(px, py, pz, pw); Range = range; }
+    }
 
     public class XSISASSpotLight
     {
@@ -444,7 +449,16 @@ namespace XSIXNARuntime
         {
             if (index < AmbientLights.Count)
             {
-                Parameter.SetValue(AmbientLights[index].Color);
+                try
+                {
+                    //Try set to a vector4 color
+                    Parameter.SetValue(AmbientLights[index].Color);
+                }
+                catch (Exception e)
+                {
+                    //Vector4 failed try a vector3 instead
+                    Parameter.SetValue(new Vector3(AmbientLights[index].Color.X, AmbientLights[index].Color.Y, AmbientLights[index].Color.Z));
+                }
             }
         }
 
