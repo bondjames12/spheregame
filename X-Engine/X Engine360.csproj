@@ -70,10 +70,12 @@
     <Compile Include="Components\Environment\XHeightMap.cs" />
     <Compile Include="Components\Environment\XSkyBox.cs" />
     <Compile Include="Components\Environment\XWater.cs" />
+    <Compile Include="Components\Particles\ParticleSettings.cs" />
+    <Compile Include="Components\Particles\ParticleSettingsReader.cs" />
     <Compile Include="Components\Particles\ParticleVertex.cs" />
+    <Compile Include="Components\Particles\Projectile.cs" />
     <Compile Include="Components\Particles\XParticleEmitter.cs" />
     <Compile Include="Components\Particles\XParticleSystem.cs" />
-    <Compile Include="Components\Particles\XParticleSystemSettings.cs" />
     <Compile Include="Components\Rendering\XMaterial.cs" />
     <Compile Include="Components\Rendering\XRenderer.cs" />
     <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />

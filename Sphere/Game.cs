@@ -22,13 +22,11 @@ namespace Sphere
         public XFreeLookCamera camera;
 
         public XModel model;
-        public XModel duckModel;
 
         public XHeightMap heightmap;
         public XDynamicSky sky;
         public XWater water;
         
-        public XActor duckActor;
         public List<XActor> boxes = new List<XActor>();
 
         public XModel Chassis;
@@ -129,9 +127,6 @@ namespace Sphere
             model = new XModel(X, @"Content\Models\box");
             resources.AddComponent(model);
 
-            duckModel = new XModel(X, @"Content\Models\Duck");
-            resources.AddComponent(duckModel);
-
             Chassis = new XModel(X, @"Content\Models\chassis");
             Wheel = new XModel(X, @"Content\Models\wheel");
 
@@ -175,9 +170,6 @@ namespace Sphere
             //Call engine update
             X.Update(gameTime);
             
-            if (duckActor != null)
-                duckActor.Position = new Vector3(0, (float)Math.Sin((float)gameTime.TotalGameTime.TotalSeconds) * 1.5f + 7, 0);
-
             if (Car != null)
             {
                 chase.ChaseTargetPosition = Car.Position;

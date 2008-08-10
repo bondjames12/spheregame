@@ -15,8 +15,11 @@ namespace XEngine
         #region Fields
 
 
+        // Name of the XML settings file describing this particle system.
+        string settingsName;
+
         // Settings class controls the appearance and animation of this particle system.
-        XParticleSystemSettings settings = new XParticleSystemSettings();
+        ParticleSettings settings;
 
         // Custom effect for drawing point sprite particles. This computes the particle
         // animation entirely in the vertex shader: no per-particle CPU work required!
@@ -141,11 +144,10 @@ namespace XEngine
         /// <summary>
         /// Constructor.
         /// </summary>
-        public XParticleSystem(XMain X, XParticleSystemSettings settings) : base(X)
+        public XParticleSystem(XMain X, string settingsName) : base(X)
         {
             this.settings = settings;
-
-            particles = new ParticleVertex[settings.MaxParticles];
+            this.settingsName = settingsName;
         }
 
         /// <summary>
@@ -153,7 +155,13 @@ namespace XEngine
         /// </summary>
         public override void Load(ContentManager Content)
         {
-            LoadParticleEffect(@"Content\XEngine\Effects\ParticleEffect", Content);
+            //Load xnb file with settings information
+            settings = Content.Load<ParticleSettings>(settingsName);
+
+            //New Array of particles
+            particles = new ParticleVertex[settings.MaxParticles];
+
+            InitializeParticleEffect();
 
             vertexDeclaration = new VertexDeclaration(X.GraphicsDevice,
                                                       ParticleVertex.VertexElements);
@@ -170,9 +178,9 @@ namespace XEngine
         /// <summary>
         /// Helper for loading and initializing the particle effect.
         /// </summary>
-        void LoadParticleEffect(string FXFilename, ContentManager content)
+        void InitializeParticleEffect()
         {
-            Effect effect = content.Load<Effect>(FXFilename);
+            particleEffect = settings.ParticleEffect;
 
             // If we have several particle systems, the content manager will return
             // a single shared effect instance to them all. But we want to preconfigure
@@ -180,7 +188,7 @@ namespace XEngine
             // particle system. By cloning the effect, we prevent one particle system
             // from stomping over the parameter settings of another.
 
-            particleEffect = effect.Clone(X.GraphicsDevice);
+            //particleEffect = effect.Clone(X.GraphicsDevice);
 
             EffectParameterCollection parameters = particleEffect.Parameters;
 
@@ -189,7 +197,7 @@ namespace XEngine
             effectProjectionParameter = parameters["Projection"];
             effectViewportHeightParameter = parameters["ViewportHeight"];
             effectTimeParameter = parameters["CurrentTime"];
-
+/*
             // Set the values of parameters that do not change.
             parameters["Duration"].SetValue((float)settings.Duration.TotalSeconds);
             parameters["DurationRandomness"].SetValue(settings.DurationRandomness);
@@ -220,8 +228,8 @@ namespace XEngine
                 techniqueName = "NonRotatingParticles";
             else
                 techniqueName = "RotatingParticles";
-
-            particleEffect.CurrentTechnique = particleEffect.Techniques[techniqueName];
+*/
+            particleEffect.CurrentTechnique = particleEffect.Techniques[settings.TechniqueName];
         }
 
 

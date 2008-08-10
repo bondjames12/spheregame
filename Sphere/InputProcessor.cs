@@ -196,11 +196,7 @@ namespace Sphere
                 }
 
             if (keyboard.KeyPressed(Keys.F7))
-                if (parent.duckActor == null)
-                {
-                    parent.duckActor = new XActor(X, new BoxObject(new Vector3(10), Matrix.Identity, new Vector3(0, 7, 0)), parent.duckModel, new Vector3(20), new Vector3(0, -2, 0), new Vector3(0), 10);
-                    parent.duckActor.Immovable = true;
-                }
+            { }
 
             if (keyboard.KeyPressed(Keys.F8))
                 if (parent.houseactor == null)
