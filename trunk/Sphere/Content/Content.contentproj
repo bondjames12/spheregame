@@ -183,7 +183,7 @@
     <Compile Include="Models\captain_modtool.xsi">
       <Name>captain_modtool</Name>
       <Importer>Importer</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>Processor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

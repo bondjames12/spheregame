@@ -43,7 +43,7 @@ namespace Sphere
         public XActor planeActor;
 
         public XModel housemodel;
-        public XActor houseactor;
+        public XAnimatedActor houseactor;
 
         public Game()
         {
