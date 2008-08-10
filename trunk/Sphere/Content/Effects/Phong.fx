@@ -6,8 +6,9 @@
 
 float3 AmbientColor
 <
+	string SasBindAddress = "Sas.AmbientLights[0].Color";
 	string SasUiControl = "ColorPicker";
-	string SasUiLabel =  "Ambient";	
+	string SasUiLabel =  "Ambient";
 > = {0.3f, 0.3f, 0.3f};
 
 float3 DiffuseColor

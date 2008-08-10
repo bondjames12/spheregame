@@ -1,17 +1,39 @@
-﻿#region Using Statements
+#region File Description
+//-----------------------------------------------------------------------------
+// ParticleSettingsContent.cs
+//
+// Microsoft XNA Community Game Platform
+// Copyright (C) Microsoft Corporation. All rights reserved.
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 #endregion
 
-namespace XEngine
+namespace ParticlePipeline
 {
     /// <summary>
     /// Settings class describes all the tweakable options used
     /// to control the appearance of a particle system.
     /// </summary>
-    public class XParticleSystemSettings
+    public class ParticleSettingsContent
     {
+        // Effect used to render this particle system.
+        [ContentSerializerIgnore]
+        public MaterialContent ParticleEffect;
+
+
+        // Specifies which effect technique to use. If these particles will never
+        // rotate, we can use a simpler pixel shader that requires less GPU power.
+        [ContentSerializerIgnore]
+        public string TechniqueName;
+
+
         // Name of the texture used by this particle system.
         public string TextureName = null;
 

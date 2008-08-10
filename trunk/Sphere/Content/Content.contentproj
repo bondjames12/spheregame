@@ -41,6 +41,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ParticlePipeline\ParticlePipeline.csproj">
+      <Project>{E77063AA-51E9-42A0-BC02-5A175393BF8C}</Project>
+      <Name>ParticlePipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ShatterExtension\ShatterExtension.csproj">
       <Project>{23A45FA3-6F1F-417C-BC85-0963AC5EFB10}</Project>
       <Name>ShatterExtension</Name>
@@ -49,13 +53,6 @@
       <Project>{924BE388-B6B6-4FFB-9E9E-89CACEDA52CE}</Project>
       <Name>XSIXNARuntime</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\Fonts\CourierNew20.spritefont">
-      <Name>CourierNew20</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Effects\Terrain.fx">
@@ -131,20 +128,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\duck.x">
-      <Name>duck</Name>
-      <Importer>XImporter</Importer>
-      <Processor>Processor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\Fonts\Menu.spritefont">
-      <Name>Menu</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\xengine.png">
       <Name>xengine</Name>
       <Importer>TextureImporter</Importer>
@@ -185,6 +168,153 @@
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Particles\ExplosionSettings.xml">
+      <Name>ExplosionSettings</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>ParticleProcessor</Processor>
+    </Compile>
+    <Compile Include="Particles\ExplosionSmokeSettings.xml">
+      <Name>ExplosionSmokeSettings</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>ParticleProcessor</Processor>
+    </Compile>
+    <Compile Include="Particles\FireSettings.xml">
+      <Name>FireSettings</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>ParticleProcessor</Processor>
+    </Compile>
+    <Compile Include="Particles\ProjectileTrailSettings.xml">
+      <Name>ProjectileTrailSettings</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>ParticleProcessor</Processor>
+    </Compile>
+    <Compile Include="Particles\SmokePlumeSettings.xml">
+      <Name>SmokePlumeSettings</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>ParticleProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Particles\ParticleEffect.fx">
+      <Name>ParticleEffect</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Fonts\CourierNew20.spritefont">
+      <Name>CourierNew20</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Fonts\Menu.spritefont">
+      <Name>Menu</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Particles\explosion.png">
+      <Name>explosion</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Particles\fire.png">
+      <Name>fire</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Particles\smoke.png">
+      <Name>smoke</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Models\box.jpg">
+      <Name>box</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Effects\Constant.fx">
+      <Name>Constant</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </None>
+    <None Include="Effects\Lambert.fx">
+      <Name>Lambert</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </None>
+    <None Include="Effects\Phong.fx">
+      <Name>Phong</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </None>
+    <None Include="Effects\xsi_defaultvs.hlsl">
+      <Name>xsi_defaultvs</Name>
+    </None>
+    <None Include="Effects\xsi_include9.hlsl">
+      <Name>xsi_include9</Name>
+    </None>
+    <None Include="Effects\xsi_lightdef9.hlsl">
+      <Name>xsi_lightdef9</Name>
+    </None>
+    <None Include="Effects\xsi_lightlist9.hlsl">
+      <Name>xsi_lightlist9</Name>
+    </None>
+    <None Include="Models\Car.jpg">
+      <Name>Car</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Effects\default_ambocc_map.png">
+      <Name>default_ambocc_map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Effects\default_normal_map.png">
+      <Name>default_normal_map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Effects\default_surface_map.png">
+      <Name>default_surface_map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\SuperHero_UV.png">
+      <Name>SuperHero_UV</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Textures\default_ambocc_map.png">
+      <Name>default_ambocc_map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\default_normal_map.png">
+      <Name>default_normal_map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\default_surface_map.png">
+      <Name>default_surface_map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Material\" />
