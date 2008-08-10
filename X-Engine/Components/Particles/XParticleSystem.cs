@@ -146,6 +146,7 @@ namespace XEngine
         /// </summary>
         public XParticleSystem(XMain X, string settingsName) : base(X)
         {
+            this.DrawOrder = 50;
             this.settings = settings;
             this.settingsName = settingsName;
         }

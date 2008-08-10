@@ -2,7 +2,7 @@
 <XnaContent>
   <Asset Type="ParticlePipeline.ParticleSettingsContent">
     <TextureName>Particles\smoke</TextureName>
-    <MaxParticles>600</MaxParticles>
+    <MaxParticles>6000</MaxParticles>
     <Duration>PT10S</Duration>
     <DurationRandomness>0</DurationRandomness>
     <EmitterVelocitySensitivity>1</EmitterVelocitySensitivity>
