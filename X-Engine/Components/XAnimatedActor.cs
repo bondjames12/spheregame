@@ -8,19 +8,42 @@ namespace XEngine
 {
     public class XAnimatedActor : XActor, XUpdateable
     {
-        public int AnimationIndex = 0;
-        public int OldAnimationIndex = 0;
+        private int _AnimationIndex;
+        private int _OldAnimationIndex;
         XSIAnimationData l_Animations;
-        public List<XSIAnimationContent> Animations;
+        private List<XSIAnimationContent> Animations;
         public bool Playing = true;
-        private float Blending = 1.0f;
+        private float _Blending;
 
+        /// <summary>
+        /// Change the index to change which animation is playing
+        /// </summary>
+        public int AnimationIndex 
+        { 
+            get 
+            {
+                return _AnimationIndex;
+            }
+            set
+            {
+                if (Animations.Count > 0)
+                {
+                    _AnimationIndex = value;
+                    if (_AnimationIndex < 0)
+                        _AnimationIndex = Animations.Count - 1;
+                    _Blending = 0.0f;
+                }
+            }
+        }
 
         public XAnimatedActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, 
             Vector3 Velocity, float Mass) :
                 base(X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
         {
             model.ParentActor = this;
+            _AnimationIndex = 0;
+            _OldAnimationIndex = 0;
+            _Blending = 1.0f;
         }
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
@@ -49,23 +72,23 @@ namespace XEngine
             {
                 if (Playing)
                 {
-                    if (Blending < 1.0f)
+                    if (_Blending < 1.0f)
                     {
-                        Animations[OldAnimationIndex].PlayBack(TimeSpan.Parse("0"), 1.0f);
-                        Blending += 0.1f;
+                        Animations[_OldAnimationIndex].PlayBack(TimeSpan.Parse("0"), 1.0f);
+                        _Blending += 0.1f;
 
-                        if (Blending > 1.0f)
-                            Blending = 1.0f;
+                        if (_Blending > 1.0f)
+                            _Blending = 1.0f;
                     }
                     else
                     {
-                        OldAnimationIndex = AnimationIndex;
+                        _OldAnimationIndex = _AnimationIndex;
                     }
-                    Animations[AnimationIndex].PlayBack(gameTime.ElapsedGameTime, Blending);
+                    Animations[_AnimationIndex].PlayBack(gameTime.ElapsedGameTime, _Blending);
                 }
                 else
                 {
-                    Animations[AnimationIndex].PlayBack(TimeSpan.Parse("00:00:00"), 1.0f);
+                    Animations[_AnimationIndex].PlayBack(TimeSpan.Parse("00:00:00"), 1.0f);
                 }
             }
 
@@ -114,8 +137,13 @@ namespace XEngine
 
 
                 //Lighting?????
-                //update lighting information for shaders
+                //update lighting information for shaders, apply global lighting environment params
+                model.SASData.AmbientLights.Clear();
+                model.SASData.PointLights.Clear();
+                model.SASData.AmbientLights.Add(new XSISASAmbientLight(X.Environment.LightColorAmbient));
+                model.SASData.PointLights.Add(new XSISASPointLight(X.Environment.LightColor, -X.Environment.LightDirection*100, 10000));
 
+                //model.InitDefaultSASLighting();
 
 
             if (DebugMode)
@@ -138,8 +166,12 @@ namespace XEngine
 
             foreach (ModelMesh mesh in model.Model.Meshes)
             {
-                //model.SASData.ComputeModel();
-
+                //apply world matrix after mult by parent mesh(bone) transform
+                //the order of the multiplication is important!
+                //Relative to world origin, move to position on mesh(mesh.ParentBone.Transform) then to position on world(World)!
+                model.SASData.Model = mesh.ParentBone.Transform * World;
+                model.SASData.ComputeModel();
+                
                 foreach (Effect effect in mesh.Effects)
                 {
                     if (effect.GetType() == typeof(BasicEffect))
@@ -148,12 +180,9 @@ namespace XEngine
                         basiceffect.EnableDefaultLighting();
                         basiceffect.PreferPerPixelLighting = true;
                         basiceffect.Alpha = 0.5f;
-
                         basiceffect.View = model.SASData.View;
                         basiceffect.Projection = model.SASData.Projection;
-                        //apply world matrix after mult by parent mesh(bone) transform
-                        //the order of the multiplication is important!
-                        basiceffect.World = model.SASData.Model * mesh.ParentBone.Transform * World;
+                        basiceffect.World = model.SASData.Model;
                         mesh.Draw();
                     }
                     else
