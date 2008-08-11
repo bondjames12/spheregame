@@ -19,7 +19,7 @@ namespace XEngine
     /// Settings class describes all the tweakable options used
     /// to control the appearance of a particle system.
     /// </summary>
-    public class ParticleSettings
+    public class XParticleSettings
     {
         // Effect used to render this particle system.
         public Effect ParticleEffect;

@@ -8,7 +8,7 @@ namespace XEngine
     /// <summary>
     /// Custom vertex structure for drawing point sprite particles.
     /// </summary>
-    struct ParticleVertex
+    struct XParticleVertex
     {
         // Stores the starting position of the particle.
         public Vector3 Position;
