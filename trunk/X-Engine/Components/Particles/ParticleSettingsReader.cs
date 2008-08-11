@@ -19,12 +19,12 @@ namespace XEngine
     /// <summary>
     /// Content Pipeline class for loading ParticleSettings data from XNB format.
     /// </summary>
-    class ParticleSettingsReader : ContentTypeReader<ParticleSettings>
+    class ParticleSettingsReader : ContentTypeReader<XParticleSettings>
     {
-        protected override ParticleSettings Read(ContentReader input,
-                                                 ParticleSettings existingInstance)
+        protected override XParticleSettings Read(ContentReader input,
+                                                 XParticleSettings existingInstance)
         {
-            ParticleSettings settings = new ParticleSettings();
+            XParticleSettings settings = new XParticleSettings();
 
             settings.ParticleEffect = input.ReadObject<Effect>();
             settings.TechniqueName = input.ReadString();

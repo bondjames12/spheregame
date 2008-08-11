@@ -19,7 +19,7 @@ namespace XEngine
         string settingsName;
 
         // Settings class controls the appearance and animation of this particle system.
-        ParticleSettings settings;
+        XParticleSettings settings;
 
         // Custom effect for drawing point sprite particles. This computes the particle
         // animation entirely in the vertex shader: no per-particle CPU work required!
@@ -34,7 +34,7 @@ namespace XEngine
 
 
         // An array of particles, treated as a circular queue.
-        ParticleVertex[] particles;
+        XParticleVertex[] particles;
 
 
         // A vertex buffer holding our particles. This contains the same data as
@@ -157,18 +157,18 @@ namespace XEngine
         public override void Load(ContentManager Content)
         {
             //Load xnb file with settings information
-            settings = Content.Load<ParticleSettings>(settingsName);
+            settings = Content.Load<XParticleSettings>(settingsName);
 
             //New Array of particles
-            particles = new ParticleVertex[settings.MaxParticles];
+            particles = new XParticleVertex[settings.MaxParticles];
 
             InitializeParticleEffect();
 
             vertexDeclaration = new VertexDeclaration(X.GraphicsDevice,
-                                                      ParticleVertex.VertexElements);
+                                                      XParticleVertex.VertexElements);
 
             // Create a dynamic vertex buffer.
-            int size = ParticleVertex.SizeInBytes * particles.Length;
+            int size = XParticleVertex.SizeInBytes * particles.Length;
 
             vertexBuffer = new DynamicVertexBuffer(X.GraphicsDevice, size,
                                                    BufferUsage.WriteOnly |
@@ -360,7 +360,7 @@ namespace XEngine
 
                 // Set the particle vertex buffer and vertex declaration.
                 device.Vertices[0].SetSource(vertexBuffer, 0,
-                                             ParticleVertex.SizeInBytes);
+                                             XParticleVertex.SizeInBytes);
 
                 device.VertexDeclaration = vertexDeclaration;
 
@@ -418,7 +418,7 @@ namespace XEngine
         /// </summary>
         void AddNewParticlesToVertexBuffer()
         {
-            int stride = ParticleVertex.SizeInBytes;
+            int stride = XParticleVertex.SizeInBytes;
 
             if (firstNewParticle < firstFreeParticle)
             {

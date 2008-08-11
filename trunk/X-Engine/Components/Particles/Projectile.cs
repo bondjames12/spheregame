@@ -21,7 +21,7 @@ namespace XEngine
     /// steady stream of trail particles behind it. After a while it explodes,
     /// creating a sudden burst of explosion and smoke particles.
     /// </summary>
-    class Projectile
+    class XProjectile
     {
         #region Constants
 
@@ -53,7 +53,7 @@ namespace XEngine
         /// <summary>
         /// Constructs a new projectile.
         /// </summary>
-        public Projectile(XMain X, XParticleSystem explosionParticles,
+        public XProjectile(XMain X, XParticleSystem explosionParticles,
                           XParticleSystem explosionSmokeParticles,
                           XParticleSystem projectileTrailParticles)
         {
