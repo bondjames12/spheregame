@@ -16,7 +16,7 @@ namespace XEngine
         public float Mass = 50.0f;
         public Vector3 Velocity;
 
-        public XChaseCamera(XMain X) : base(X) { }
+        public XChaseCamera(XMain X, float NearPlane, float FarPlane) : base(X, NearPlane, FarPlane) { }
 
         public override void Update(GameTime gameTime)
         {

@@ -42,7 +42,7 @@ XSI_VertexToPixel VSSkinned
 	OUT.position = mul( mul( mul(weightedposition, Model), View), Projection ); 
 	
 	// position in global space is in TC4
-	OUT.texcoord4 = weightedposition;
+	OUT.texcoord4 = OUT.position;
 	
 	// Tangent to world space is stored in TC5,6,7
 	
@@ -60,7 +60,6 @@ XSI_VertexToPixel VSSkinned
 	OUT.texcoord6 = normalize(T).xyzz;
 	OUT.texcoord7 = normalize(N).xyzz;
 	
-	// position in global space is stored in TC7
 	
 	// these texture coordinates are used as texture coordinates
 	OUT.texcoord0 = IN.texcoord0;
@@ -88,7 +87,7 @@ XSI_VertexToPixel VSStatic
 	OUT.position = mul( mul(position, View), Projection );
 
 	// position in global space is in TC4
-	OUT.texcoord4 = position;
+	OUT.texcoord4 = OUT.position;
 	
 	// Tangent to world space is stored in TC5,6,7
 	

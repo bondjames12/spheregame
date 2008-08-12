@@ -47,7 +47,7 @@ namespace XEngine
             PointOne = new Vector2(-128);
             PointTwo = new Vector2(128);
             Height = 4;
-            reflectionCamera = new XCamera(X);
+            reflectionCamera = new XCamera(X,1,100);
         }
 
         public XWater(XMain X, Vector2 pointOne, Vector2 pointTwo, float Height) : base(X)
@@ -57,7 +57,7 @@ namespace XEngine
 
             this.Height = Height;
 
-            reflectionCamera = new XCamera(X);
+            reflectionCamera = new XCamera(X,1,100);
         }
 
         float waveLength = .25f;
@@ -182,6 +182,20 @@ namespace XEngine
             effect.Parameters["xCamPos"].SetValue(Camera.Position);
 
             effect.Parameters["xTime"].SetValue((float)gameTime.TotalGameTime.TotalSeconds / 100);
+            
+            //if rendering a depthmap
+            if (Camera.RenderType == RenderTypes.Depth)
+            {
+                //override any techniques with DepthMap technique shader
+                if (effect.Techniques["DepthMapStatic"] != null)
+                    effect.CurrentTechnique = effect.Techniques["DepthMapStatic"];
+                //continue;
+            }
+            else
+            {
+                if (effect.Techniques["Water"] != null)
+                    effect.CurrentTechnique = effect.Techniques["Water"];
+            }
 
             // Draw the water
             effect.Begin();

@@ -15,6 +15,7 @@ namespace Sphere
     {
         GraphicsDeviceManager graphics;
         XMain X;
+
         public MenuManager menus;
         public InputProcessor input;
         public XResourceGroup resources;
@@ -50,8 +51,8 @@ namespace Sphere
 
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
-            graphics.PreferredDepthStencilFormat = SelectStencilMode();
-            graphics.PreferMultiSampling = true;
+            //graphics.PreferredDepthStencilFormat = SelectStencilMode();
+            //graphics.PreferMultiSampling = true;
 
             // use this for 720P
             //graphics.PreferredBackBufferWidth = 1280;
@@ -97,7 +98,7 @@ namespace Sphere
             resources = new XResourceGroup(X);
             input = new InputProcessor(X, this);
             menus = new MenuManager(X);
-            camera = new XFreeLookCamera(X);
+            camera = new XFreeLookCamera(X,1,100);
             camera.Position = new Vector3(0, 10, 0);
 
             base.Initialize();
@@ -133,7 +134,7 @@ namespace Sphere
             resources.AddComponent(Chassis);
             resources.AddComponent(Wheel);
 
-            chase = new XChaseCamera(X);
+            chase = new XChaseCamera(X,1,100);
 
             housemodel = new XModel(X, @"Content\Models\captain_modtool");
             resources.AddComponent(housemodel);

@@ -77,7 +77,7 @@ namespace XEngine
 
         public XDebugDrawer(XMain X) : base(X)
         {
-            DrawOrder = 30;
+            DrawOrder = 200;
         }
 
         public override void Load(ContentManager Content)

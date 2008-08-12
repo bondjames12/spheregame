@@ -18,7 +18,7 @@ namespace XEngine
         public float zoomMax = 50.0f;
         public float zoom = 30.0f;
 
-        public XArcBallCamera(XMain X) : base(X) { }
+        public XArcBallCamera(XMain X, float NearPlane, float FarPlane) : base(X, NearPlane, FarPlane) { }
 
         public void Rotate(float Horizontal, float Vertical)
         {

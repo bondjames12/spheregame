@@ -76,6 +76,7 @@
     <Compile Include="Components\Particles\Projectile.cs" />
     <Compile Include="Components\Particles\XParticleEmitter.cs" />
     <Compile Include="Components\Particles\XParticleSystem.cs" />
+    <Compile Include="Components\Rendering\XDepthMap.cs" />
     <Compile Include="Components\Rendering\XMaterial.cs" />
     <Compile Include="Components\Rendering\XRenderer.cs" />
     <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />

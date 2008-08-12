@@ -117,8 +117,6 @@ namespace XEngine
         {
             if (model != null && model.Loaded)
             {
-                Matrix World = PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
-
                 if (AlphaBlendable)
                 {
                     X.GraphicsDevice.RenderState.AlphaBlendEnable = true;
@@ -131,8 +129,6 @@ namespace XEngine
                 else
                     X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-                //X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
-                
                 //Set camera params, compute matrices
                 model.SASData.Camera.NearFarClipping.X = Camera.NearPlane;
                 model.SASData.Camera.NearFarClipping.Y = Camera.FarPlane;
@@ -141,7 +137,7 @@ namespace XEngine
                 model.SASData.Camera.Position.Z = Camera.Position.Z;
                 model.SASData.Projection = Camera.Projection;
                 model.SASData.View = Camera.View;
-                model.SASData.Model = World;
+                model.SASData.Model = PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
                 model.SASData.ComputeViewAndProjection();
                 model.SASData.ComputeModel();
 

@@ -12,7 +12,7 @@ namespace XEngine
         string Write = "";
         public bool DisplayFrameRate = false;
 
-        public XFrameRate(XMain X) : base(X) { }
+        public XFrameRate(XMain X) : base(X) { DrawOrder = 210;}
 
         public override void Update(GameTime gameTime)
         {

@@ -7,10 +7,14 @@
 
 
 // Camera parameters.
-float4x4 View;
-float4x4 Projection;
+float4x4 View : View;
+float4x4 Projection : Projection;
 float ViewportHeight;
 
+//Added Aug 10:Colin Using a Texture Projection matrix in soft particle calcs
+float4x4 matTexProj <
+	string UIName = "Texture Projection Matrix"; //matric used to transform UV
+>;
 
 // The current time, in seconds.
 float CurrentTime;
@@ -34,9 +38,9 @@ float2 EndSize;
 
 
 // Particle texture and sampler.
-texture Texture;
+texture Texture, DepthMap;
 
-sampler Sampler = sampler_state
+sampler TextureSampler = sampler_state
 {
     Texture = (Texture);
     
@@ -48,6 +52,13 @@ sampler Sampler = sampler_state
     AddressV = Clamp;
 };
 
+sampler DepthSampler = sampler_state 
+{
+    Texture		= (DepthMap);
+   	MipFilter	= LINEAR;
+    MinFilter	= LINEAR;
+    MagFilter	= LINEAR;
+};
 
 // Vertex shader input structure describes the start position and
 // velocity of the particle, and the time at which it was created,
@@ -65,12 +76,15 @@ struct VertexShaderInput
 // color of the particle, plus a 2x2 rotation matrix (packed into
 // a float4 value because we don't have enough color interpolators
 // to send this directly as a float2x2).
+//Aug 8: Colin: Added depth sent through TEXCOORD1. Used to calc soft edges(alpha) to avoid seeing clipping
 struct VertexShaderOutput
 {
     float4 Position : POSITION0;
-    float Size : PSIZE0;
+    float  Size : PSIZE0;
     float4 Color : COLOR0;
     float4 Rotation : COLOR1;
+	float  Depth   : TEXCOORD1;
+	float4 TexDepth	: TEXCOORD2;
 };
 
 
@@ -99,8 +113,7 @@ float4 ComputeParticlePosition(float3 position, float3 velocity,
     // Apply the gravitational force.
     position += Gravity * age * normalizedAge;
     
-    // Apply the camera view and projection transforms.
-    return mul(mul(float4(position, 1), View), Projection);
+	return float4(position, 1);
 }
 
 
@@ -182,7 +195,7 @@ float4 ComputeParticleRotation(float randomValue, float age)
 
 
 // Custom vertex shader animates particles entirely on the GPU.
-VertexShaderOutput VertexShader(VertexShaderInput input)
+VertexShaderOutput VS(VertexShaderInput input)
 {
     VertexShaderOutput output;
     
@@ -196,13 +209,23 @@ VertexShaderOutput VertexShader(VertexShaderInput input)
     float normalizedAge = saturate(age / Duration);
 
     // Compute the particle position, size, color, and rotation.
-    output.Position = ComputeParticlePosition(input.Position, input.Velocity,
+    float4 position = ComputeParticlePosition(input.Position, input.Velocity,
                                               age, normalizedAge);
-    
+											  
+    //Get the depth map texture coordinaes
+	output.TexDepth = mul(position, matTexProj);
+	
+	//output.Pos= mul(output.Pos, matViewProj);
+	// Apply the camera view and projection transforms to get a screen space position
+    output.Position = mul(mul(position, View), Projection);
+	
     output.Size = ComputeParticleSize(output.Position, input.Random.y, normalizedAge);
     output.Color = ComputeParticleColor(output.Position, input.Random.z, normalizedAge);
     output.Rotation = ComputeParticleRotation(input.Random.w, age);
-    
+	
+	//Get depth after view,projection transforms
+	output.Depth = output.Position.z;  
+	
     return output;
 }
 
@@ -211,7 +234,8 @@ VertexShaderOutput VertexShader(VertexShaderInput input)
 struct NonRotatingPixelShaderInput
 {
     float4 Color : COLOR0;
-    
+    float  Depth   : TEXCOORD1; //used for soft particle alpha change
+	float4 TexDepth	: TEXCOORD2;
 #ifdef XBOX
     float2 TextureCoordinate : SPRITETEXCOORD;
 #else
@@ -223,7 +247,28 @@ struct NonRotatingPixelShaderInput
 // Pixel shader for drawing particles that do not rotate.
 float4 NonRotatingPixelShader(NonRotatingPixelShaderInput input) : COLOR0
 {
-    return tex2D(Sampler, input.TextureCoordinate) * input.Color;
+	//Sample the depth from the depth map:
+	float SceneDepth = tex2Dproj(DepthSampler, input.TexDepth);
+	
+	//Depth of the particle:
+	//float CurDepth = input.Depth;
+	
+	//Get depth difference between the particle and the scene:
+	float DepthDiff= SceneDepth-input.Depth;
+	
+	DepthDiff = saturate(DepthDiff);
+	
+	//Lerp between red and yellow according to alpha
+	//float4 red= float4(1.0f,0.0,0,0);
+	//float4 yellow= float4(1.0f,1.0f,0,0);
+	//float4 OUT= lerp(red, yellow, pow(IN.A, 2));
+	float4 final = input.Color;
+	//OUT.a= IN.A;
+	
+	//Adjust transparency according to the depth difference:
+	final.a *= DepthDiff;
+	float4 tex = tex2D(TextureSampler, input.TextureCoordinate);
+	return final * tex;
 }
 
 
@@ -232,7 +277,8 @@ struct RotatingPixelShaderInput
 {
     float4 Color : COLOR0;
     float4 Rotation : COLOR1;
-    
+	float  Depth   : TEXCOORD1; //used for soft particle alpha change
+    float4 TexDepth	: TEXCOORD2;
 #ifdef XBOX
     float2 TextureCoordinate : SPRITETEXCOORD;
 #else
@@ -270,7 +316,20 @@ float4 RotatingPixelShader(RotatingPixelShaderInput input) : COLOR0
     // Undo the offset used to control the rotation origin.
     textureCoordinate += 0.5;
 
-    return tex2D(Sampler, textureCoordinate) * input.Color;
+	//Sample the depth from the depth map:
+	float SceneDepth = tex2Dproj(DepthSampler, input.TexDepth);
+	
+	//Get depth difference between the particle and the scene:
+	float DepthDiff= SceneDepth-input.Depth;
+	
+	DepthDiff = saturate(DepthDiff);
+
+	float4 final = input.Color;
+
+	//Adjust transparency according to the depth difference:
+	final.a *= DepthDiff;
+	float4 tex = tex2D(TextureSampler, textureCoordinate);
+	return final * tex;
 }
 
 
@@ -279,8 +338,8 @@ technique NonRotatingParticles
 {
     pass P0
     {
-        VertexShader = compile vs_1_1 VertexShader();
-        PixelShader = compile ps_1_1 NonRotatingPixelShader();
+        VertexShader = compile vs_2_0 VS();
+        PixelShader = compile ps_2_0 NonRotatingPixelShader();
     }
 }
 
@@ -290,7 +349,7 @@ technique RotatingParticles
 {
     pass P0
     {
-        VertexShader = compile vs_1_1 VertexShader();
+        VertexShader = compile vs_2_0 VS();
         PixelShader = compile ps_2_0 RotatingPixelShader();
     }
 }
