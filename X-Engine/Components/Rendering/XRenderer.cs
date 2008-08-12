@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
-using XSIXNARuntime;
 
 namespace XEngine
 {
@@ -11,21 +10,37 @@ namespace XEngine
         //public List<XActor> ActorsInView = new List<XActor>();
 
         public Color ClearColor = Color.CornflowerBlue;
-
-        //Effect shadowalphaEffect;
-        //Texture2D shadowalphaTex;
+        //This No Draw list is used to tell what Drawable components are for debug
+        //it is used to skip drawing these in render passes other then the final pass the user sees (aka depthmap, shadow mapping, etc)
+        public List<XComponent> DebugNoDraw;
 
         public XRenderer(XMain X) : base(X) 
         {
-            //load shadow resources
-            //shadowalphaEffect = X.Content.Load<Effect>("Content/XEngine/Effects/shadowalphaQuad");
-            //shadowalphaTex = X.Content.Load<Texture2D>("Content/XEngine/Textures/shadowalphaTex");
+            DebugNoDraw = new List<XComponent>();
+            DebugNoDraw.Add(X.Debug);
+            DebugNoDraw.Add(X.DebugDrawer);
+            DebugNoDraw.Add(X.Console);
+            DebugNoDraw.Add(X.FrameRate);
         }
 
         public override void Draw(GameTime gameTime, XCamera Camera)
         {
-            X.GraphicsDevice.Clear(ClearColor);
+            X.DepthMap.StartRenderToDepthMap();
+            Camera.RenderType = RenderTypes.Depth;
+            DrawScene(gameTime, Camera, DebugNoDraw);
+            X.DepthMap.EndRenderToDepthMap();
+
+            Camera.RenderType = RenderTypes.Normal;
+            X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, ClearColor, 1.0f, 0);
             DrawScene(gameTime, Camera, null);
+
+            using (SpriteBatch sprite = new SpriteBatch(X.GraphicsDevice))
+            {
+                sprite.Begin(SpriteBlendMode.None, SpriteSortMode.Texture, SaveStateMode.SaveState);
+                sprite.Draw(X.DepthMap.depthMap, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 0.4f, SpriteEffects.None, 1);
+                sprite.End();
+            }
+
         }
 
         public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent>NoDraw)
@@ -37,14 +52,14 @@ namespace XEngine
             List<XActor> Alpha = new List<XActor>();
 
             //ActorsInView.Clear();
-            
+
             //Begin 2D Sprite Batch
             X.spriteBatch.Begin();
 
             //draw axis for debug info, so I can get an idea of where i am in the game
-            X.DebugDrawer.DrawLine(Vector3.Zero, new Vector3(1000,0,0), Color.Red);
-            X.DebugDrawer.DrawLine(Vector3.Zero, new Vector3(0,1000,0), Color.Green);
-            X.DebugDrawer.DrawLine(Vector3.Zero, new Vector3(0,0,1000), Color.Blue);
+            X.DebugDrawer.DrawLine(new Vector3(-1000, 0, 0), new Vector3(1000, 0, 0), Color.Red);
+            X.DebugDrawer.DrawLine(new Vector3(0, -1000, 0), new Vector3(0, 1000, 0), Color.Green);
+            X.DebugDrawer.DrawLine(new Vector3(0, 0, -1000), new Vector3(0, 0, 1000), Color.Blue);
 
             foreach (XComponent component in X.Components)
             {
@@ -105,72 +120,54 @@ namespace XEngine
         {
             foreach (ModelMesh mesh in Model.Model.Meshes)
             {
+                Model.SASData.ComputeModel();
+
                 foreach (Effect effect in mesh.Effects)
                 {
                     if (effect.GetType() == typeof(BasicEffect))
                     {
+                        //if rendering a depthmap
+                        if (Camera.RenderType == RenderTypes.Depth)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Basiceffect object! Please give a shader:" + mesh.Name);
+                            return; //we can't render meshes using basiceffect into our depth MAP!!!!!
+                        }
                         BasicEffect basiceffect = (BasicEffect)effect;
                         basiceffect.EnableDefaultLighting();
                         basiceffect.PreferPerPixelLighting = true;
                         basiceffect.Alpha = 0.5f;
-
                         basiceffect.View = Model.SASData.View;
                         basiceffect.Projection = Model.SASData.Projection;
                         basiceffect.World = Model.SASData.Model;
-                        mesh.Draw();
+                        continue;
                     }
                     else
                     {
-                        // set the shader technique to skinned or Static or the first one, try in that order
-                        //if (isSkinned && (effect.Techniques["Skinned"] != null))
-                        //{
-                        //    effect.CurrentTechnique = effect.Techniques["Skinned"];
-                        //}
-                        //else
-                        //{
-                            if (effect.Techniques["Static"] != null)
-                                effect.CurrentTechnique = effect.Techniques["Static"];
-                            else
-                                effect.CurrentTechnique = effect.Techniques[0];
-                        //}
-
-                        // bind bones to shader
-                        //if (isSkinned)
-                        //{
-                        //    if ((effect.Parameters["Bones"] != null) && isSkinned)
-                        //        effect.Parameters["Bones"].SetValue(bones);
-                        //}
-
-                        // bind all other parameters
+                        // bind SAS shader parameters
                         foreach (EffectParameter Parameter in effect.Parameters)
                         {
                             Model.SASData.SetEffectParameterValue(Parameter);
                         }
+
+                        //if rendering a depthmap
+                        if (Camera.RenderType == RenderTypes.Depth)
+                        {
+                            //override any techniques with DepthMap technique shader
+                            if (effect.Techniques["DepthMapStatic"] != null)
+                                effect.CurrentTechnique = effect.Techniques["DepthMapStatic"];
+                            else
+                            {//if we get there there is no DepthMap shader so we can't render this into our depth MAP!!
+                                break;
+                            }
+                            continue;
+                        }
+
+                        if (effect.Techniques["Static"] != null)
+                            effect.CurrentTechnique = effect.Techniques["Static"];
+                        else
+                            effect.CurrentTechnique = effect.Techniques[0];
+                        
                     }
-
-                    /*
-                    effect.Parameters["World"].SetValue(World[0]);
-                    //effect.Parameters["Bones"].SetValue(bones);
-
-                    //if this throws and exception DID YOU FORGET TO SET THE MODEL PROCESSOR???????
-                    //TO OUR CUSTOM ONE?? X-Model????
-                    effect.CurrentTechnique = effect.Techniques["Model"];
-                    
-                    effect.Parameters["View"].SetValue(Camera.View);
-                    effect.Parameters["Projection"].SetValue(Camera.Projection);
-                    
-                    effect.Parameters["vecEye"].SetValue(new Vector4(Camera.Position, 1));
-
-                    material.SetupEffect(effect);
-
-                    Vector4[] LightDir = { -X.Environment.LightDirection, new Vector4(0.719f, 0.342f, 0.604f, .5f) };
-
-                    Vector4[] LightColor = { X.Environment.LightColor, X.Environment.LightColorAmbient };
-
-                    effect.Parameters["vecLightDir"].SetValue(LightDir);
-                    effect.Parameters["LightColor"].SetValue(LightColor);
-                    effect.Parameters["NumLights"].SetValue(LightDir.Length);
-                     */
                 }
                 mesh.Draw();
             }

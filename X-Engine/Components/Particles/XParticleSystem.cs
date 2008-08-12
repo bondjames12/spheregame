@@ -26,12 +26,12 @@ namespace XEngine
         Effect particleEffect;
 
 
+
         // Shortcuts for accessing frequently changed effect parameters.
         EffectParameter effectViewParameter;
         EffectParameter effectProjectionParameter;
         EffectParameter effectViewportHeightParameter;
         EffectParameter effectTimeParameter;
-
 
         // An array of particles, treated as a circular queue.
         XParticleVertex[] particles;
@@ -198,6 +198,7 @@ namespace XEngine
             effectProjectionParameter = parameters["Projection"];
             effectViewportHeightParameter = parameters["ViewportHeight"];
             effectTimeParameter = parameters["CurrentTime"];
+
 /*
             // Set the values of parameters that do not change.
             parameters["Duration"].SetValue((float)settings.Duration.TotalSeconds);
@@ -328,7 +329,8 @@ namespace XEngine
         /// </summary>
         public override void Draw(GameTime gameTime, XCamera Camera)
         {
-            SetCamera(Camera.View, Camera.Projection);
+            effectViewParameter.SetValue(Camera.View);
+            effectProjectionParameter.SetValue(Camera.Projection);
 
             GraphicsDevice device = X.GraphicsDevice;
 
@@ -482,18 +484,6 @@ namespace XEngine
         #endregion
 
         #region Public Methods
-
-
-        /// <summary>
-        /// Sets the camera view and projection matrices
-        /// that will be used to draw this particle system.
-        /// </summary>
-        public void SetCamera(Matrix view, Matrix projection)
-        {
-            effectViewParameter.SetValue(view);
-            effectProjectionParameter.SetValue(projection);
-        }
-
 
         /// <summary>
         /// Adds a new particle to the system.

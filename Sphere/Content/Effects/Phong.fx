@@ -6,12 +6,11 @@
 
 float3 AmbientColor
 <
-	string SasBindAddress = "Sas.AmbientLights[0].Color";
 	string SasUiControl = "ColorPicker";
 	string SasUiLabel =  "Ambient";
 > = {0.3f, 0.3f, 0.3f};
 
-float3 DiffuseColor
+float3 DiffuseColor : DIFFUSE
 <
 	string SasUiControl = "ColorPicker";
 	string SasUiLabel =  "Diffuse";	
@@ -171,17 +170,18 @@ float4 Phong_2
 	return result;
 }
 
+
 //**********************************************************************
 // Techniques
 //**********************************************************************
-
+#include <DepthMapPixelShader.hlsl>
 
 technique Static
 {
 	pass p0
 	{		
 		VertexShader = compile vs_2_0 VSStatic();
-		PixelShader = compile ps_2_0 Phong_2();
+		PixelShader = compile ps_3_0 Phong_2();
 	}
 }
 
@@ -190,7 +190,8 @@ technique Skinned
 	pass p0
 	{		
 		VertexShader = compile vs_2_0 VSSkinned();
-		PixelShader = compile ps_2_0 Phong_2();
+		PixelShader = compile ps_3_0 Phong_2();
 	}
 }
+
 

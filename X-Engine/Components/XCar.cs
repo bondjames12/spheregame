@@ -73,7 +73,7 @@ namespace XEngine
             Chassis.SASData.Projection = Camera.Projection;
             Chassis.SASData.View = Camera.View;
             Chassis.SASData.Model = World[0];
-            //Chassis.SASData.ComputeViewAndProjection();
+            Chassis.SASData.ComputeViewAndProjection();
 
             X.Renderer.DrawModel(Chassis, Camera);
 

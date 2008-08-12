@@ -23,6 +23,7 @@ namespace XEngine
         public XRenderer Renderer;
         public XDebugDrawer DebugDrawer;
         public XTools Tools;
+        public XDepthMap DepthMap;
         public XEnvironmentParameters Environment;
         public PhysicsSystem Physics;
         public Vector3 Gravity { get { return Physics.Gravity; } set { Physics.Gravity = value; } }
@@ -46,14 +47,16 @@ namespace XEngine
             Debug = new XDebug(this);
             FrameRate = new XFrameRate(this);
             Console = new XConsole(this);
-            Renderer = new XRenderer(this);
             DebugDrawer = new XDebugDrawer(this);
+            DepthMap = new XDepthMap(this);
             Tools = new XTools(this);
             Environment = new XEnvironmentParameters(this);
             Physics = new PhysicsSystem();
             Physics.EnableFreezing = true;
             Physics.SolverType = PhysicsSystem.Solver.Normal;
             Physics.CollisionSystem = new CollisionSystemSAP();
+            //Rendering should be the last thing! The constructor requires some componnets like debug, debugdrawer to allready exist!
+            Renderer = new XRenderer(this);
         }
 
         public void LoadContent()

@@ -105,18 +105,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XEngine\Effects\Model.fx">
-      <Name>Model</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
-    <Compile Include="XEngine\Effects\SkinnedModel.fx">
-      <Name>SkinnedModel</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="XEngine\Effects\Skybox.fx">
       <Name>Skybox</Name>
       <Importer>EffectImporter</Importer>
@@ -128,13 +116,6 @@
       <Name>SkyBox</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="XEngine\Effects\shadowalphaQuad.fx">
-      <Name>shadowalphaQuad</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

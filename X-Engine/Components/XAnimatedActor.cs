@@ -189,6 +189,27 @@ namespace XEngine
                     }
                     else
                     {
+
+                        // bind SAS shader parameters
+                        foreach (EffectParameter Parameter in effect.Parameters)
+                            model.SASData.SetEffectParameterValue(Parameter);
+                        
+                        // bind bones to shader
+                        if (isSkinned)
+                        {
+                            if ((effect.Parameters["Bones"] != null) && isSkinned)
+                                effect.Parameters["Bones"].SetValue(bones);
+                        }
+
+                        //if rendering a depthmap
+                        if (Camera.RenderType == RenderTypes.Depth)
+                        {
+                            //override any techniques with DepthMap technique shader
+                            if (effect.Techniques["DepthMapSkinned"] != null)
+                                effect.CurrentTechnique = effect.Techniques["DepthMapSkinned"];
+                            continue;
+                        }
+
                         // set the shader technique to skinned or Static or the first one, try in that order
                         if (isSkinned && (effect.Techniques["Skinned"] != null))
                         {
@@ -201,44 +222,7 @@ namespace XEngine
                             else
                                 effect.CurrentTechnique = effect.Techniques[0];
                         }
-
-                        // bind bones to shader
-                        if (isSkinned)
-                        {
-                            if ((effect.Parameters["Bones"] != null) && isSkinned)
-                                effect.Parameters["Bones"].SetValue(bones);
-                        }
-
-                        // bind all other parameters
-                        foreach (EffectParameter Parameter in effect.Parameters)
-                        {
-                            model.SASData.SetEffectParameterValue(Parameter);
-                        }
                     }
-
-                    /*
-                    effect.Parameters["World"].SetValue(World[0]);
-                    //effect.Parameters["Bones"].SetValue(bones);
-
-                    //if this throws and exception DID YOU FORGET TO SET THE MODEL PROCESSOR???????
-                    //TO OUR CUSTOM ONE?? X-Model????
-                    effect.CurrentTechnique = effect.Techniques["Model"];
-                    
-                    effect.Parameters["View"].SetValue(Camera.View);
-                    effect.Parameters["Projection"].SetValue(Camera.Projection);
-                    
-                    effect.Parameters["vecEye"].SetValue(new Vector4(Camera.Position, 1));
-
-                    material.SetupEffect(effect);
-
-                    Vector4[] LightDir = { -X.Environment.LightDirection, new Vector4(0.719f, 0.342f, 0.604f, .5f) };
-
-                    Vector4[] LightColor = { X.Environment.LightColor, X.Environment.LightColorAmbient };
-
-                    effect.Parameters["vecLightDir"].SetValue(LightDir);
-                    effect.Parameters["LightColor"].SetValue(LightColor);
-                    effect.Parameters["NumLights"].SetValue(LightDir.Length);
-                     */
                 }
                 mesh.Draw();
             }

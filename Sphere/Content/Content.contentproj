@@ -55,13 +55,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Effects\Terrain.fx">
-      <Name>Terrain</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Heightmaps\gcanyon.png">
       <Name>gcanyon</Name>
       <Importer>TextureImporter</Importer>
@@ -300,6 +293,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Effects\Constant_NoTexture.fx">
+      <Name>Constant_NoTexture</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </None>
+    <None Include="Effects\DepthMapPixelShader.hlsl">
+      <Name>DepthMapPixelShader</Name>
+    </None>
     <None Include="Textures\default_ambocc_map.png">
       <Name>default_ambocc_map</Name>
       <Importer>TextureImporter</Importer>
@@ -315,6 +316,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Particles\RedSettings.xml">
+      <Name>RedSettings</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>ParticleProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Material\" />

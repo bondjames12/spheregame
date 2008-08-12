@@ -157,6 +157,20 @@ namespace XEngine
                 effect.Parameters["ViewInv"].SetValue(Matrix.Invert(Camera.View));
                 effect.Parameters["LightDirection"].SetValue(-Params.LightDirection);
 
+                //if rendering a depthmap
+                if (Camera.RenderType == RenderTypes.Depth)
+                {
+                    //override any techniques with DepthMap technique shader
+                    if (effect.Techniques["DepthMapStatic"] != null)
+                        effect.CurrentTechnique = effect.Techniques["DepthMapStatic"];
+                    //continue;
+                }
+                else
+                {
+                    if (effect.Techniques["SkyDome"] != null)
+                        effect.CurrentTechnique = effect.Techniques["SkyDome"];
+                }
+
                 effect.Begin();
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                 {
