@@ -30,7 +30,7 @@ namespace XEngine
             PresentationParameters pp = X.GraphicsDevice.PresentationParameters;
             renderTarget = new RenderTarget2D(X.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, 1, X.GraphicsDevice.DisplayMode.Format);
             X.GraphicsDevice.SetRenderTarget(0, renderTarget);
-            X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+            X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
 
         }
 

@@ -30,7 +30,7 @@ namespace Sphere
         public MenuManager(XMain X) : base(X)
         {
             DrawOrder = 500;
-
+            
             Buttons.Add("Button 1");
             Buttons.Add("Button 2");
             Buttons.Add("Exit");

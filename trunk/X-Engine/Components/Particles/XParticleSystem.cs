@@ -32,6 +32,10 @@ namespace XEngine
         EffectParameter effectProjectionParameter;
         EffectParameter effectViewportHeightParameter;
         EffectParameter effectTimeParameter;
+        EffectParameter effectDepthMapParameter;
+        EffectParameter effectTextureProjectionParameter;
+
+        Matrix textureProjection = new Matrix(0.5f, 0.0f,	0.0f,	0.0f,    0.0f,	-0.5f,	0.0f,	0.0f,    0.0f,	0.0f,	0.5f,	0.0f,    0.5f,	0.5f,	0.5f,	1.0f);
 
         // An array of particles, treated as a circular queue.
         XParticleVertex[] particles;
@@ -147,7 +151,6 @@ namespace XEngine
         public XParticleSystem(XMain X, string settingsName) : base(X)
         {
             this.DrawOrder = 50;
-            this.settings = settings;
             this.settingsName = settingsName;
         }
 
@@ -198,6 +201,8 @@ namespace XEngine
             effectProjectionParameter = parameters["Projection"];
             effectViewportHeightParameter = parameters["ViewportHeight"];
             effectTimeParameter = parameters["CurrentTime"];
+            effectDepthMapParameter = parameters["DepthMap"];
+            effectTextureProjectionParameter = parameters["matTexProj"];
 
 /*
             // Set the values of parameters that do not change.
@@ -359,6 +364,10 @@ namespace XEngine
                 // Set an effect parameter describing the current time. All the vertex
                 // shader particle animation is keyed off this value.
                 effectTimeParameter.SetValue(currentTime);
+
+                //set depthmap and texture projection parameters
+                effectDepthMapParameter.SetValue(X.DepthMap.depthMap);
+                effectTextureProjectionParameter.SetValue(textureProjection);
 
                 // Set the particle vertex buffer and vertex declaration.
                 device.Vertices[0].SetSource(vertexBuffer, 0,

@@ -3,7 +3,7 @@ xsi 0600txt 0032
 SI_FileInfo { 
 	"Sphere", 
 	"Colin", 
-	"Sat Aug 09 01:34:33 2008", 
+	"Mon Aug 11 17:45:12 2008", 
 	"Softimage|XSI version 6", 
 }
 
@@ -33,353 +33,189 @@ SI_Ambience {
 	0.400000, 
 }
 
-SI_MaterialLibrary DefaultLib { 
-	4, 
-	XSI_Material Scene_Material { 
-		3, 
-		"surface","Phong",
-		"shadow","Phong",
-		"Photon","Phong",
+SI_MaterialLibrary Sphere { 
+	2, 
+	XSI_Material Phong { 
+		1, 
+		"RealTime","Phong",
 		XSI_MaterialInfo { 
 			0, 
 			0, 
 		}
 
 		XSI_Shader Phong { 
-			"Softimage.material-phong.1", 
-			4, 
-			58, 
-			0, 
+			"Softimage.DXFx2.1", 
+			16, 
+			9, 
+			3, 
 			"Name","STRING","Phong",
-			"ambient.red","FLOAT",0.300000,
-			"ambient.green","FLOAT",0.300000,
-			"ambient.blue","FLOAT",0.300000,
-			"ambient.alpha","FLOAT",0.000000,
-			"diffuse.red","FLOAT",0.700000,
-			"diffuse.green","FLOAT",0.700000,
-			"diffuse.blue","FLOAT",0.700000,
-			"diffuse.alpha","FLOAT",0.000000,
-			"specular.red","FLOAT",1.000000,
-			"specular.green","FLOAT",1.000000,
-			"specular.blue","FLOAT",1.000000,
-			"specular.alpha","FLOAT",0.000000,
-			"ambience.red","FLOAT",0.400000,
-			"ambience.green","FLOAT",0.400000,
-			"ambience.blue","FLOAT",0.400000,
-			"ambience.alpha","FLOAT",1.000000,
-			"shiny","FLOAT",50.000000,
-			"transparency.red","FLOAT",0.000000,
-			"transparency.green","FLOAT",0.000000,
-			"transparency.blue","FLOAT",0.000000,
-			"transparency.alpha","FLOAT",0.000000,
-			"trans_glossy","FLOAT",0.000000,
-			"transparent_samples","INTEGER",0,
-			"reflectivity.red","FLOAT",0.000000,
-			"reflectivity.green","FLOAT",0.000000,
-			"reflectivity.blue","FLOAT",0.000000,
-			"reflectivity.alpha","FLOAT",0.000000,
-			"reflect_glossy","FLOAT",0.000000,
-			"reflect_samples","INTEGER",0,
-			"index_of_refraction","FLOAT",1.000000,
-			"translucency","FLOAT",0.000000,
-			"incandescence.red","FLOAT",1.000000,
-			"incandescence.green","FLOAT",1.000000,
-			"incandescence.blue","FLOAT",1.000000,
-			"incandescence.alpha","FLOAT",0.000000,
-			"inc_inten","FLOAT",0.000000,
-			"bump.x","FLOAT",0.000000,
-			"bump.y","FLOAT",0.000000,
-			"bump.z","FLOAT",0.000000,
-			"notrace","BOOLEAN",0,
-			"diffuse_inuse","BOOLEAN",1,
-			"specular_inuse","BOOLEAN",1,
-			"reflect_inuse","BOOLEAN",1,
-			"refract_inuse","BOOLEAN",1,
-			"incand_inuse","BOOLEAN",1,
-			"translucent_inuse","BOOLEAN",1,
-			"radiance.red","FLOAT",1.000000,
-			"radiance.green","FLOAT",1.000000,
-			"radiance.blue","FLOAT",1.000000,
-			"radiance.alpha","FLOAT",1.000000,
-			"radiance_filter","BOOLEAN",1,
-			"scaletrans","FLOAT",1.000000,
-			"inverttrans","BOOLEAN",0,
-			"usealphatrans","BOOLEAN",0,
-			"scalerefl","FLOAT",1.000000,
-			"invertrefl","BOOLEAN",0,
-			"usealpharefl","BOOLEAN",0,
-		}
+			"filename","STRING","..\\Effects\\Phong.fx",
+			"code2","STRING","",
+			"external_ref","BOOLEAN",1,
+			"nb_textures","INTEGER",3,
+			"refresh_flag","INTEGER",0,
+			"tspace_id_0","STRING","",
+			"tspace_id_1","STRING","",
+			"tspace_id_2","STRING","",
+			"Texture_0","Car_jpg1","IMAGE",
+			"Texture_1","default_ambocc_map_png","IMAGE",
+			"Texture_2","default_normal_map_png","IMAGE",
+			XSI_CustomPSet DirectXFX_Parameters { 
+				"NODE", 
+				"customparamset", 
+				14,
+				"Technique","Text","Static", 
+				"DiffuseColor_X","Floating Point Number",0.000000, 
+				"DiffuseColor_Y","Floating Point Number",0.000000, 
+				"DiffuseColor_Z","Floating Point Number",0.000000, 
+				"SpecularColor_X","Floating Point Number",0.635000, 
+				"SpecularColor_Y","Floating Point Number",0.192000, 
+				"SpecularColor_Z","Floating Point Number",0.773000, 
+				"SpecularPower","Floating Point Number",21.636999, 
+				"AmbientMap","Text","[sampler2D]", 
+				"AlbedoMap","Text","[sampler2D]", 
+				"NormalMap","Text","[sampler2D]", 
+				"AmbientColor_X","Floating Point Number",0.773000, 
+				"AmbientColor_Y","Floating Point Number",0.078000, 
+				"AmbientColor_Z","Floating Point Number",0.078000, 
+				XSI_CustomParamInfo DiffuseColor_X { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
 
-	}
+				XSI_CustomParamInfo DiffuseColor_Y { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
 
-	XSI_Material MatD3D02 { 
-		3, 
-		"surface","Phong",
-		"shadow","Phong",
-		"Photon","Phong",
-		XSI_MaterialInfo { 
-			0, 
-			0, 
-		}
+				XSI_CustomParamInfo DiffuseColor_Z { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
 
-		XSI_Shader Phong { 
-			"Softimage.material-phong.1", 
-			4, 
-			58, 
-			0, 
-			"Name","STRING","Phong",
-			"ambient.red","FLOAT",1.000000,
-			"ambient.green","FLOAT",1.000000,
-			"ambient.blue","FLOAT",1.000000,
-			"ambient.alpha","FLOAT",0.000000,
-			"diffuse.red","FLOAT",0.800000,
-			"diffuse.green","FLOAT",0.784314,
-			"diffuse.blue","FLOAT",0.984314,
-			"diffuse.alpha","FLOAT",0.000000,
-			"specular.red","FLOAT",0.000000,
-			"specular.green","FLOAT",0.000000,
-			"specular.blue","FLOAT",0.000000,
-			"specular.alpha","FLOAT",0.000000,
-			"ambience.red","FLOAT",0.400000,
-			"ambience.green","FLOAT",0.400000,
-			"ambience.blue","FLOAT",0.400000,
-			"ambience.alpha","FLOAT",1.000000,
-			"shiny","FLOAT",1.071773,
-			"transparency.red","FLOAT",1.000000,
-			"transparency.green","FLOAT",1.000000,
-			"transparency.blue","FLOAT",1.000000,
-			"transparency.alpha","FLOAT",0.000000,
-			"trans_glossy","FLOAT",0.000000,
-			"transparent_samples","INTEGER",0,
-			"reflectivity.red","FLOAT",0.000000,
-			"reflectivity.green","FLOAT",0.000000,
-			"reflectivity.blue","FLOAT",0.000000,
-			"reflectivity.alpha","FLOAT",0.000000,
-			"reflect_glossy","FLOAT",0.000000,
-			"reflect_samples","INTEGER",0,
-			"index_of_refraction","FLOAT",1.000000,
-			"translucency","FLOAT",0.000000,
-			"incandescence.red","FLOAT",1.000000,
-			"incandescence.green","FLOAT",1.000000,
-			"incandescence.blue","FLOAT",1.000000,
-			"incandescence.alpha","FLOAT",0.000000,
-			"inc_inten","FLOAT",0.000000,
-			"bump.x","FLOAT",0.000000,
-			"bump.y","FLOAT",0.000000,
-			"bump.z","FLOAT",0.000000,
-			"notrace","BOOLEAN",0,
-			"diffuse_inuse","BOOLEAN",1,
-			"specular_inuse","BOOLEAN",1,
-			"reflect_inuse","BOOLEAN",1,
-			"refract_inuse","BOOLEAN",1,
-			"incand_inuse","BOOLEAN",1,
-			"translucent_inuse","BOOLEAN",1,
-			"radiance.red","FLOAT",1.000000,
-			"radiance.green","FLOAT",1.000000,
-			"radiance.blue","FLOAT",1.000000,
-			"radiance.alpha","FLOAT",1.000000,
-			"radiance_filter","BOOLEAN",1,
-			"scaletrans","FLOAT",0.000000,
-			"inverttrans","BOOLEAN",0,
-			"usealphatrans","BOOLEAN",0,
-			"scalerefl","FLOAT",1.000000,
-			"invertrefl","BOOLEAN",0,
-			"usealpharefl","BOOLEAN",0,
-		}
+				XSI_CustomParamInfo SpecularColor_X { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
 
-	}
+				XSI_CustomParamInfo SpecularColor_Y { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
 
-	XSI_Material _07___Default { 
-		3, 
-		"surface","Phong",
-		"shadow","Phong",
-		"Photon","Phong",
-		XSI_MaterialInfo { 
-			0, 
-			0, 
-		}
+				XSI_CustomParamInfo SpecularColor_Z { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
 
-		XSI_Shader Phong { 
-			"Softimage.material-phong.1", 
-			4, 
-			54, 
-			1, 
-			"Name","STRING","Phong",
-			"ambient.red","FLOAT",0.588235,
-			"ambient.green","FLOAT",0.588235,
-			"ambient.blue","FLOAT",0.588235,
-			"ambient.alpha","FLOAT",0.000000,
-			"specular.red","FLOAT",0.000000,
-			"specular.green","FLOAT",0.000000,
-			"specular.blue","FLOAT",0.000000,
-			"specular.alpha","FLOAT",0.000000,
-			"ambience.red","FLOAT",0.400000,
-			"ambience.green","FLOAT",0.400000,
-			"ambience.blue","FLOAT",0.400000,
-			"ambience.alpha","FLOAT",1.000000,
-			"shiny","FLOAT",2.000000,
-			"transparency.red","FLOAT",1.000000,
-			"transparency.green","FLOAT",1.000000,
-			"transparency.blue","FLOAT",1.000000,
-			"transparency.alpha","FLOAT",0.000000,
-			"trans_glossy","FLOAT",0.000000,
-			"transparent_samples","INTEGER",0,
-			"reflectivity.red","FLOAT",0.000000,
-			"reflectivity.green","FLOAT",0.000000,
-			"reflectivity.blue","FLOAT",0.000000,
-			"reflectivity.alpha","FLOAT",0.000000,
-			"reflect_glossy","FLOAT",0.000000,
-			"reflect_samples","INTEGER",0,
-			"index_of_refraction","FLOAT",1.000000,
-			"translucency","FLOAT",0.000000,
-			"incandescence.red","FLOAT",1.000000,
-			"incandescence.green","FLOAT",1.000000,
-			"incandescence.blue","FLOAT",1.000000,
-			"incandescence.alpha","FLOAT",0.000000,
-			"inc_inten","FLOAT",0.000000,
-			"bump.x","FLOAT",0.000000,
-			"bump.y","FLOAT",0.000000,
-			"bump.z","FLOAT",0.000000,
-			"notrace","BOOLEAN",0,
-			"diffuse_inuse","BOOLEAN",1,
-			"specular_inuse","BOOLEAN",1,
-			"reflect_inuse","BOOLEAN",1,
-			"refract_inuse","BOOLEAN",1,
-			"incand_inuse","BOOLEAN",1,
-			"translucent_inuse","BOOLEAN",1,
-			"radiance.red","FLOAT",1.000000,
-			"radiance.green","FLOAT",1.000000,
-			"radiance.blue","FLOAT",1.000000,
-			"radiance.alpha","FLOAT",1.000000,
-			"radiance_filter","BOOLEAN",1,
-			"scaletrans","FLOAT",0.000000,
-			"inverttrans","BOOLEAN",0,
-			"usealphatrans","BOOLEAN",0,
-			"scalerefl","FLOAT",1.000000,
-			"invertrefl","BOOLEAN",0,
-			"usealpharefl","BOOLEAN",0,
-			"diffuse","Image","SHADER",
-		}
+				XSI_CustomParamInfo SpecularPower { 
+					1,
+					200,
+					2053,
+				}
 
-		XSI_Shader Image { 
-			"Softimage.txt2d-image-explicit.1", 
-			4, 
-			30, 
-			1, 
-			"Name","STRING","Image",
-			"tspace_id","STRING","Map__3",
-			"repeats.x","FLOAT",1.000000,
-			"repeats.y","FLOAT",1.000000,
-			"repeats.z","FLOAT",1.000000,
-			"alt_x","BOOLEAN",0,
-			"alt_y","BOOLEAN",0,
-			"alt_z","BOOLEAN",0,
-			"min.x","FLOAT",0.000000,
-			"min.y","FLOAT",0.000000,
-			"min.z","FLOAT",0.000000,
-			"max.x","FLOAT",1.000000,
-			"max.y","FLOAT",1.000000,
-			"max.z","FLOAT",1.000000,
-			"step.x","FLOAT",0.001000,
-			"step.y","FLOAT",0.001000,
-			"step.z","FLOAT",0.001000,
-			"factor","FLOAT",5.000000,
-			"torus_u","BOOLEAN",0,
-			"torus_v","BOOLEAN",0,
-			"alpha","BOOLEAN",0,
-			"bump_inuse","BOOLEAN",0,
-			"alpha_output","BOOLEAN",0,
-			"alpha_factor","FLOAT",1.000000,
-			"eccmax","FLOAT",20.000000,
-			"maxminor","FLOAT",16.000000,
-			"disc_r","FLOAT",0.300000,
-			"bilinear","BOOLEAN",1,
-			"filtered","BOOLEAN",0,
-			"bump_filtered","BOOLEAN",0,
-			"tex","Map__4","IMAGE",
+				XSI_CustomParamInfo AmbientColor_X { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo AmbientColor_Y { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo AmbientColor_Z { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+			}
+
 			XSI_ShaderInstanceData { 
-				"Lights", 
+				"Body", 
 				1, 
-				"tspace_id","STRING","Map__3",
+				"tspace_id_0","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Body", 
+				1, 
+				"tspace_id_1","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Body", 
+				1, 
+				"tspace_id_2","STRING","",
 			}
 
 		}
 
 	}
 
-	XSI_Material MatD3D03 { 
-		3, 
-		"surface","Phong",
-		"shadow","Phong",
-		"Photon","Phong",
+	XSI_Material Constant_NoTexture { 
+		1, 
+		"RealTime","Constant_NoTexture",
 		XSI_MaterialInfo { 
 			0, 
 			0, 
 		}
 
-		XSI_Shader Phong { 
-			"Softimage.material-phong.1", 
-			4, 
-			58, 
+		XSI_Shader Constant_NoTexture { 
+			"Softimage.DXFx2.1", 
+			16, 
+			6, 
 			0, 
-			"Name","STRING","Phong",
-			"ambient.red","FLOAT",0.000000,
-			"ambient.green","FLOAT",0.000000,
-			"ambient.blue","FLOAT",0.000000,
-			"ambient.alpha","FLOAT",0.000000,
-			"diffuse.red","FLOAT",1.000000,
-			"diffuse.green","FLOAT",1.000000,
-			"diffuse.blue","FLOAT",1.000000,
-			"diffuse.alpha","FLOAT",0.000000,
-			"specular.red","FLOAT",0.000000,
-			"specular.green","FLOAT",0.000000,
-			"specular.blue","FLOAT",0.000000,
-			"specular.alpha","FLOAT",0.000000,
-			"ambience.red","FLOAT",0.400000,
-			"ambience.green","FLOAT",0.400000,
-			"ambience.blue","FLOAT",0.400000,
-			"ambience.alpha","FLOAT",1.000000,
-			"shiny","FLOAT",1.071773,
-			"transparency.red","FLOAT",1.000000,
-			"transparency.green","FLOAT",1.000000,
-			"transparency.blue","FLOAT",1.000000,
-			"transparency.alpha","FLOAT",0.000000,
-			"trans_glossy","FLOAT",0.000000,
-			"transparent_samples","INTEGER",0,
-			"reflectivity.red","FLOAT",0.000000,
-			"reflectivity.green","FLOAT",0.000000,
-			"reflectivity.blue","FLOAT",0.000000,
-			"reflectivity.alpha","FLOAT",0.000000,
-			"reflect_glossy","FLOAT",0.000000,
-			"reflect_samples","INTEGER",0,
-			"index_of_refraction","FLOAT",1.000000,
-			"translucency","FLOAT",0.000000,
-			"incandescence.red","FLOAT",1.000000,
-			"incandescence.green","FLOAT",1.000000,
-			"incandescence.blue","FLOAT",1.000000,
-			"incandescence.alpha","FLOAT",0.000000,
-			"inc_inten","FLOAT",0.000000,
-			"bump.x","FLOAT",0.000000,
-			"bump.y","FLOAT",0.000000,
-			"bump.z","FLOAT",0.000000,
-			"notrace","BOOLEAN",0,
-			"diffuse_inuse","BOOLEAN",1,
-			"specular_inuse","BOOLEAN",1,
-			"reflect_inuse","BOOLEAN",1,
-			"refract_inuse","BOOLEAN",1,
-			"incand_inuse","BOOLEAN",1,
-			"translucent_inuse","BOOLEAN",1,
-			"radiance.red","FLOAT",1.000000,
-			"radiance.green","FLOAT",1.000000,
-			"radiance.blue","FLOAT",1.000000,
-			"radiance.alpha","FLOAT",1.000000,
-			"radiance_filter","BOOLEAN",1,
-			"scaletrans","FLOAT",0.000000,
-			"inverttrans","BOOLEAN",0,
-			"usealphatrans","BOOLEAN",0,
-			"scalerefl","FLOAT",1.000000,
-			"invertrefl","BOOLEAN",0,
-			"usealpharefl","BOOLEAN",0,
+			"Name","STRING","Constant_NoTexture",
+			"filename","STRING","..\\Effects\\Constant_NoTexture.fx",
+			"code2","STRING","",
+			"external_ref","BOOLEAN",1,
+			"nb_textures","INTEGER",0,
+			"refresh_flag","INTEGER",0,
+			XSI_CustomPSet DirectXFX_Parameters { 
+				"NODE", 
+				"customparamset", 
+				5,
+				"Technique","Text","Static", 
+				"ColorParameter_X","Floating Point Number",0.893000, 
+				"ColorParameter_Y","Floating Point Number",1.000000, 
+				"ColorParameter_Z","Floating Point Number",1.000000, 
+				"ColorParameter_W","Floating Point Number",1.000000, 
+				XSI_CustomParamInfo ColorParameter_X { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo ColorParameter_Y { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo ColorParameter_Z { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo ColorParameter_W { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+			}
+
 		}
 
 	}
@@ -387,11 +223,11 @@ SI_MaterialLibrary DefaultLib {
 }
 
 XSI_ImageLibrary { 
-	1, 
-	XSI_Image Map__4 { 
-		"..\\..\\..\\..\\..\\..\\..\\Desktop\\Editing\\Car.jpg", 
-		0, 
-		0, 
+	3, 
+	XSI_Image default_ambocc_map_png { 
+		"..\\Effects\\default_ambocc_map.png", 
+		64, 
+		64, 
 		4, 
 		0, 
 		0.000000, 
@@ -402,6 +238,174 @@ XSI_ImageLibrary {
 		0, 
 		0, 
 		0, 
+		XSI_ImageFX { 
+			0.000000, 
+			100.000000, 
+			100.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			0, 
+			1, 
+			2.000000, 
+			2.000000, 
+			0, 
+			0, 
+			0, 
+			0, 
+		}
+
+		XSI_ImageFX2 { 
+			0.000000, 
+			2.200000, 
+			0, 
+			"", 
+			0.000000, 
+			0, 
+			0, 
+			1.000000, 
+			1024, 
+			0, 
+			9729, 
+			9729, 
+			0, 
+			0, 
+		}
+
+		XSI_TimeControl { 
+			0.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			XSI_Extrapolation Before { 
+				"HOLD", 
+				0.000000, 
+			}
+
+			XSI_Extrapolation After { 
+				"HOLD", 
+				0.000000, 
+			}
+
+		}
+
+	}
+
+	XSI_Image Car_jpg1 { 
+		"Car.jpg", 
+		2048, 
+		2048, 
+		4, 
+		0, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		0, 
+		0, 
+		0, 
+		XSI_ImageFX { 
+			0.000000, 
+			100.000000, 
+			100.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			0, 
+			1, 
+			0.062500, 
+			0.062500, 
+			0, 
+			0, 
+			0, 
+			0, 
+		}
+
+		XSI_ImageFX2 { 
+			0.000000, 
+			2.200000, 
+			0, 
+			"", 
+			0.000000, 
+			0, 
+			0, 
+			1.000000, 
+			1024, 
+			0, 
+			9729, 
+			9729, 
+			0, 
+			0, 
+		}
+
+		XSI_TimeControl { 
+			0.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			XSI_Extrapolation Before { 
+				"HOLD", 
+				0.000000, 
+			}
+
+			XSI_Extrapolation After { 
+				"HOLD", 
+				0.000000, 
+			}
+
+		}
+
+	}
+
+	XSI_Image default_normal_map_png { 
+		"..\\Effects\\default_normal_map.png", 
+		64, 
+		64, 
+		4, 
+		0, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		0, 
+		0, 
+		0, 
+		XSI_ImageFX { 
+			0.000000, 
+			100.000000, 
+			100.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			0, 
+			1, 
+			2.000000, 
+			2.000000, 
+			0, 
+			0, 
+			0, 
+			0, 
+		}
+
+		XSI_ImageFX2 { 
+			0.000000, 
+			2.200000, 
+			0, 
+			"", 
+			0.000000, 
+			0, 
+			0, 
+			1.000000, 
+			1024, 
+			0, 
+			9729, 
+			9729, 
+			0, 
+			0, 
+		}
+
 		XSI_TimeControl { 
 			0.000000, 
 			0.000000, 
@@ -524,7 +528,7 @@ SI_Model MDL-Model {
 	}
 
 	SI_GlobalMaterial { 
-		"Scene_Material", 
+		"Phong", 
 		"NODE", 
 	}
 
@@ -6503,7 +6507,7 @@ SI_Model MDL-Model {
 			XSI_TriangleList TriList00 { 
 				2, 
 				"XSINormal","Map__3",
-				"_07___Default", 
+				"Constant_NoTexture", 
 				712, 
 
 				0,0,0,
@@ -9359,7 +9363,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"_07___Default", 
+			"Constant_NoTexture", 
 			"NODE", 
 		}
 
@@ -24282,7 +24286,7 @@ SI_Model MDL-Model {
 			XSI_TriangleList TriList00 { 
 				1, 
 				"XSINormal",
-				"MatD3D03", 
+				"Constant_NoTexture", 
 				2976, 
 
 				0,0,
@@ -36194,7 +36198,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"MatD3D03", 
+			"Constant_NoTexture", 
 			"NODE", 
 		}
 
@@ -101122,7 +101126,7 @@ SI_Model MDL-Model {
 			XSI_TriangleList TriList00 { 
 				2, 
 				"XSINormal","Map__3",
-				"_07___Default", 
+				"Phong", 
 				8980, 
 
 				0,0,0,
@@ -137050,7 +137054,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"_07___Default", 
+			"Phong", 
 			"NODE", 
 		}
 
@@ -140625,7 +140629,7 @@ SI_Model MDL-Model {
 			XSI_TriangleList TriList00 { 
 				1, 
 				"XSINormal",
-				"MatD3D02", 
+				"Constant_NoTexture", 
 				788, 
 
 				0,0,
@@ -143785,7 +143789,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"MatD3D02", 
+			"Constant_NoTexture", 
 			"NODE", 
 		}
 

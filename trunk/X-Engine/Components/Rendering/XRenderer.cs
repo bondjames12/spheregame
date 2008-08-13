@@ -13,6 +13,8 @@ namespace XEngine
         //This No Draw list is used to tell what Drawable components are for debug
         //it is used to skip drawing these in render passes other then the final pass the user sees (aka depthmap, shadow mapping, etc)
         public List<XComponent> DebugNoDraw;
+        //This is another no draw list but this time is excludes depending on class type. All classes with type in this list will not be drawn!
+        public List<Type> DebugNoDrawTypes;
 
         public XRenderer(XMain X) : base(X) 
         {
@@ -21,18 +23,24 @@ namespace XEngine
             DebugNoDraw.Add(X.DebugDrawer);
             DebugNoDraw.Add(X.Console);
             DebugNoDraw.Add(X.FrameRate);
+            //The menumanager is also added to this list elsewhere in the code, no access from here
+
+            //Add particle systems to the DebugNoDrawTypes list
+            DebugNoDrawTypes = new List<Type>();
+            DebugNoDrawTypes.Add(typeof(XParticleSystem));
+
         }
 
         public override void Draw(GameTime gameTime, XCamera Camera)
         {
             X.DepthMap.StartRenderToDepthMap();
             Camera.RenderType = RenderTypes.Depth;
-            DrawScene(gameTime, Camera, DebugNoDraw);
+            DrawScene(gameTime, Camera, DebugNoDraw, DebugNoDrawTypes);
             X.DepthMap.EndRenderToDepthMap();
 
             Camera.RenderType = RenderTypes.Normal;
             X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, ClearColor, 1.0f, 0);
-            DrawScene(gameTime, Camera, null);
+            DrawScene(gameTime, Camera, null,null);
 
             using (SpriteBatch sprite = new SpriteBatch(X.GraphicsDevice))
             {
@@ -43,7 +51,7 @@ namespace XEngine
 
         }
 
-        public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent>NoDraw)
+        public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent> NoDrawComponents, List<Type> NoDrawTypes)
         {
             X.GraphicsDevice.RenderState.DepthBufferEnable = true;
             X.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
@@ -67,9 +75,14 @@ namespace XEngine
                 if(!(component is XDrawable) || (component is XRenderer))
                     continue;
 
+                //Is this XComponent on the NoDraw types list??
+                if (NoDrawTypes != null)
+                    if (NoDrawTypes.Contains(component.GetType()))
+                        continue;
+
                 //Is this XComponent on the NoDraw list?
-                if (NoDraw != null)
-                    if (NoDraw.Contains(component))
+                if (NoDrawComponents != null)
+                    if (NoDrawComponents.Contains(component))
                         continue;
 
                     if (component is XActor)

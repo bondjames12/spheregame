@@ -88,8 +88,11 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Notes\Creating Great XBL Community Games Notes.htm" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <Content Include="Notes\Xbox How to optimize preformance.txt" />
+    <Content Include="Notes\XNA and XSI integration Notes.txt" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
@@ -123,6 +126,10 @@
     <ProjectReference Include="..\JigLibX\JigLibX.csproj">
       <Project>{948C059E-FCC0-4461-8B9D-26FD44706507}</Project>
       <Name>JigLibX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Trees\Trees.csproj">
+      <Project>{2FC75B34-F066-4545-9D4B-CDFCAEBA5FCF}</Project>
+      <Name>Trees</Name>
     </ProjectReference>
     <ProjectReference Include="..\X-Engine\X Engine.csproj">
       <Project>{219B7B7B-9CF7-4D3F-925C-85573E11A3E7}</Project>

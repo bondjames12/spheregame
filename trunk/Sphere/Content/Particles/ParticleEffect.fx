@@ -38,11 +38,11 @@ float2 EndSize;
 
 
 // Particle texture and sampler.
-texture Texture, DepthMap;
+texture ParticleTexture, DepthMap;
 
 sampler TextureSampler = sampler_state
 {
-    Texture = (Texture);
+    Texture = (ParticleTexture);
     
     MinFilter = Linear;
     MagFilter = Linear;
@@ -212,24 +212,57 @@ VertexShaderOutput VS(VertexShaderInput input)
     float4 position = ComputeParticlePosition(input.Position, input.Velocity,
                                               age, normalizedAge);
 											  
-    //Get the depth map texture coordinaes
+    //Get the depthmap texture coordinaes
 	output.TexDepth = mul(position, matTexProj);
 	
 	//output.Pos= mul(output.Pos, matViewProj);
 	// Apply the camera view and projection transforms to get a screen space position
     output.Position = mul(mul(position, View), Projection);
 	
+	//Get depth after view,projection transforms
+	output.Depth = output.Position.z/output.Position.w;  
+	
     output.Size = ComputeParticleSize(output.Position, input.Random.y, normalizedAge);
     output.Color = ComputeParticleColor(output.Position, input.Random.z, normalizedAge);
     output.Rotation = ComputeParticleRotation(input.Random.w, age);
 	
-	//Get depth after view,projection transforms
-	output.Depth = output.Position.z;  
-	
     return output;
 }
+/*
 
+The length the ray travels in a particle sphere and the corresponding
+opacity can be computed by a custom fragment shader program.
+The fragment program gets some of its inputs from the vertex
+shader: 
+the particle position in camera space (P), 
+the shaded
+billboard point in camera space (Q),
+ the particle radius (r), and
+the screen coordinates of the shaded point (scr). 
+The fragmentprogram also gets uniform parameters, including the texture of the
+depth values of opaque objects (Depth), 
+the density (tau), 
+camera’s front clipping plane distance (f). 
+The fragment program
+calls the following function to compute the particle opacity at the
+shaded fragment:
 
+float Opacity(float3 P, float3 Q, float r, float2 scr)
+{
+	float alpha = 0;
+	float d = length(P.xy - Q.xy);
+	if(d < r) 
+	{
+		float w = sqrt(r*r - d*d);
+		float F = P.z - w;
+		float B = P.z + w;
+		float Zs = tex2D(Depth, scr);
+		float ds = min(Zs, B) - max(f, F);
+		alpha = 1 - exp(-tau * (1-d/r) * ds);
+	}
+	return alpha;
+}
+*/
 // Pixel shader input structure for particles that do not rotate.
 struct NonRotatingPixelShaderInput
 {
@@ -248,27 +281,21 @@ struct NonRotatingPixelShaderInput
 float4 NonRotatingPixelShader(NonRotatingPixelShaderInput input) : COLOR0
 {
 	//Sample the depth from the depth map:
-	float SceneDepth = tex2Dproj(DepthSampler, input.TexDepth);
+//float SceneDepth = tex2Dproj(DepthSampler, input.TexDepth);
 	
 	//Depth of the particle:
-	//float CurDepth = input.Depth;
+//float CurDepth = input.Depth;
 	
 	//Get depth difference between the particle and the scene:
-	float DepthDiff= SceneDepth-input.Depth;
+//float DepthDiff= SceneDepth - CurDepth;
 	
-	DepthDiff = saturate(DepthDiff);
+//DepthDiff = saturate(DepthDiff);
 	
-	//Lerp between red and yellow according to alpha
-	//float4 red= float4(1.0f,0.0,0,0);
-	//float4 yellow= float4(1.0f,1.0f,0,0);
-	//float4 OUT= lerp(red, yellow, pow(IN.A, 2));
-	float4 final = input.Color;
-	//OUT.a= IN.A;
+	float4 final = tex2D(TextureSampler, input.TextureCoordinate) * input.Color;
 	
 	//Adjust transparency according to the depth difference:
-	final.a *= DepthDiff;
-	float4 tex = tex2D(TextureSampler, input.TextureCoordinate);
-	return final * tex;
+//final.a *= DepthDiff;
+	return final;// * tex;
 }
 
 
@@ -317,19 +344,24 @@ float4 RotatingPixelShader(RotatingPixelShaderInput input) : COLOR0
     textureCoordinate += 0.5;
 
 	//Sample the depth from the depth map:
-	float SceneDepth = tex2Dproj(DepthSampler, input.TexDepth);
+//float SceneDepth = tex2Dproj(DepthSampler, input.TexDepth);
+	
+	//Depth of the particle:
+//float CurDepth = input.Depth;
 	
 	//Get depth difference between the particle and the scene:
-	float DepthDiff= SceneDepth-input.Depth;
+//float DepthDiff= SceneDepth-input.Depth;
 	
-	DepthDiff = saturate(DepthDiff);
-
-	float4 final = input.Color;
-
+//DepthDiff = saturate(DepthDiff);
+	
+	
+	float4 final = tex2D(TextureSampler, input.TextureCoordinate) * input.Color;
+	
+	
 	//Adjust transparency according to the depth difference:
-	final.a *= DepthDiff;
-	float4 tex = tex2D(TextureSampler, textureCoordinate);
-	return final * tex;
+//final.a *= DepthDiff;
+	
+	return final;
 }
 
 

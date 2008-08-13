@@ -135,7 +135,7 @@ namespace XEngine
             DrawLine(new Vector3(min.X, max.Y, max.Z), new Vector3(min.X, max.Y, min.Z), color);
             DrawLine(new Vector3(min.X, max.Y, min.Z), new Vector3(max.X, max.Y, min.Z), color);
 
-            //Draw(world, camera.View, camera.Projection);
+            Draw(world, camera.View, camera.Projection);
         }
 
         public void DrawBoundingBox(BoundingBox boundingBox, Color color, Matrix world, XCamera camera)
@@ -161,7 +161,7 @@ namespace XEngine
                 }
             }
 
-            //Draw(world, camera.View, camera.Projection);
+            Draw(world, camera.View, camera.Projection);
         }
 
         void UpdateVertexBuffer()
@@ -184,7 +184,7 @@ namespace XEngine
             buildVertexBuffer = false;
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera)//(Matrix world, Matrix view, Matrix projection)
+        public void Draw(Matrix world, Matrix view, Matrix projection)
         {
             if (buildVertexBuffer ||
                 numOfPrimitives != numOfLines)
@@ -200,9 +200,9 @@ namespace XEngine
                 X.GraphicsDevice.RenderState.DepthBufferEnable = true;
                 X.GraphicsDevice.VertexDeclaration = decl;
 
-                lineRender.Parameters["World"].SetValue(Matrix.Identity);
-                lineRender.Parameters["View"].SetValue(Camera.View);
-                lineRender.Parameters["Projection"].SetValue(Camera.Projection);
+                lineRender.Parameters["World"].SetValue(world);
+                lineRender.Parameters["View"].SetValue(view);
+                lineRender.Parameters["Projection"].SetValue(projection);
                 lineRender.CurrentTechnique = lineRender.Techniques["LineRendering3D"];
 
                 lineRender.Begin();

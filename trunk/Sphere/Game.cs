@@ -27,6 +27,7 @@ namespace Sphere
         public XHeightMap heightmap;
         public XDynamicSky sky;
         public XWater water;
+        public XTreeSystem trees;
         
         public List<XActor> boxes = new List<XActor>();
 
@@ -51,7 +52,7 @@ namespace Sphere
 
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
-            //graphics.PreferredDepthStencilFormat = SelectStencilMode();
+            graphics.PreferredDepthStencilFormat = SelectStencilMode();
             //graphics.PreferMultiSampling = true;
 
             // use this for 720P
@@ -94,12 +95,17 @@ namespace Sphere
             X.FrameRate.DisplayFrameRate = true;
             X.Console.AutoDraw = false;
             X.Debug.StartPosition.Y = 200;
- 
+
             resources = new XResourceGroup(X);
             input = new InputProcessor(X, this);
             menus = new MenuManager(X);
-            camera = new XFreeLookCamera(X,1,100);
-            camera.Position = new Vector3(0, 10, 0);
+            //menu to the debugnodraw list
+            X.Renderer.DebugNoDraw.Add(menus);
+            camera = new XFreeLookCamera(X,1,1000);
+            camera.Position = new Vector3(0, 10, 50);
+
+            chase = new XChaseCamera(X, 1, 1000);
+            
 
             base.Initialize();
         }
@@ -119,8 +125,8 @@ namespace Sphere
 
             // load scene objects/content
             sky = new XDynamicSky(X, X.Environment);
-            heightmap = new XHeightMap(X, @"Content\Textures\Heightmap", X.Environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Textures\TextureMap");
-
+            heightmap = new XHeightMap(X, @"Content\Images\Heightmaps\Level1", X.Environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Images\Terrainmaps\Level1");
+ 
             //resources.AddComponent(environment);
             resources.AddComponent(heightmap);
             resources.AddComponent(sky);
@@ -134,19 +140,15 @@ namespace Sphere
             resources.AddComponent(Chassis);
             resources.AddComponent(Wheel);
 
-            chase = new XChaseCamera(X,1,100);
-
             housemodel = new XModel(X, @"Content\Models\captain_modtool");
             resources.AddComponent(housemodel);
 
-            //Model xsibox = Content.Load<Model>(@"Content\Models\xsibox");
-
-            //plane = new XModel(X, @"Content\plane");
-            //resources.AddComponent(plane);
-            //planeActor = new XActor(X, XActor.ActorType.Box, plane, new Vector3(0, 20, 0), Matrix.Identity, new Vector3(800), new Vector3(0), new Vector3(1000, .01f, 1000), Vector3.Zero, 1);
-            //planeActor.Immovable = true;
-            
             resources.Load();
+
+            trees = new XTreeSystem(X, @"Content\Images\Treemaps\Level1", heightmap.Heights);
+            trees.Load(Content);
+            trees.GenerateTrees(camera);
+
             input.Load();
             base.LoadContent();
         }

@@ -26,7 +26,7 @@ struct vertexOutput {
 	float3 WorldNormal	    	: TEXCOORD1;
 	float3 WorldEyeDirection	: TEXCOORD2;
 	half3  WorldTangent			: TEXCOORD3;
-	float Depth					: TEXCOORD4;
+	float4 Position				: TEXCOORD4;
   	float2 UV					: TEXCOORD5;
   	half Fog 					: TEXCOORD6;
   	half2 Altitudes 			: TEXCOORD7; 
@@ -151,7 +151,7 @@ vertexOutput mainVS (appdata IN)
 	OUT.Altitudes.y = Pw.y;
 
 	OUT.UV = IN.UV0;
-	OUT.Depth = IN.Position.z;
+	OUT.Position = OUT.HPosition; //save the screen space position i texcoord4
 	
 	return OUT;
 }
@@ -226,12 +226,44 @@ float4 mainPS(vertexOutput IN) : COLOR0
 	return colorOutput;
 }
 
+//This pixel shader requires XSI_VertexToPixel in xsi_include9.hlsl
+//takes the screen space pixel position and divides Z by W 
+
+float4 DepthMapPixelShader(vertexOutput IN) : COLOR0
+{
+	//In our shaders texcoord4 contains the global space position of the pixel
+    return IN.Position.z/IN.Position.w;
+}
+
+//The X and Y coordinates of the PSIn.Position contain the X and Y values of the screen coordinate
+// of the current pixel, but the Z coordinate is also very useful as it contains the distance between
+// the camera and the pixel.
+//However, this vector is the result of a multiplication of a vector and a 4x4 matrix, which happened 
+//in the vertex shader. the result of such a multiplication has 4 components: X,Y,Z and W. We cannot
+// use any of the X,Y or Z components immediately, we first need to divide them by the W component. 
+//The W component is called the ?homogeneous? component, you can find more explanation on this 
+//in the ?Extra Reading? section of my site.
+//After dividing the Z compontent by the homogeneous component, the result will be between 0 and 1,
+// where 0 corresponds to pixels at the near clipping plane and 1 to pixels at the far clipping plane, 
+//as defined in the creation of the Projection matrix.
+//http://www.riemers.net/eng/Tutorials/XNA/Csharp/Series3/Shadow_map.php
 
 technique SkyDome 
 {
 	pass p0
 	{
-		VertexShader = compile vs_1_1 mainVS();
-		PixelShader = compile ps_2_b mainPS();
+		VertexShader = compile vs_3_0 mainVS();
+		PixelShader = compile ps_3_0 mainPS();
 	}
 }
+
+technique DepthMapStatic
+{
+    pass Pass0
+    {
+        VertexShader = compile vs_3_0 mainVS();
+        PixelShader = compile ps_3_0 DepthMapPixelShader();
+    }
+}
+
+

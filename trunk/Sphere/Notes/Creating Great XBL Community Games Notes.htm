@@ -1,0 +1,344 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+        <h1 class="firstHeading">
+            Creating Great Community Games</h1>
+        <div id="bodyContent">
+            <h3 id="siteSub">
+                <a href="http://xnawiki.com/index.php?title=Main_Page">From XNA Wiki</a></h3>
+            <div id="contentSub">
+            </div>
+            <div id="jump-to-nav">
+                Jump to: <a href="http://xnawiki.com/index.php?title=Creating_Great_Community_Games#column-one">
+                    navigation</a>, <a href="http://xnawiki.com/index.php?title=Creating_Great_Community_Games#searchInput">
+                        search</a><br />
+                http://xnawiki.com/index.php?title=Creating_Great_Community_Games</div>
+            <!-- start content -->
+            <p>
+                These are some design and other considerations when making a game for the Xbox LIVE
+                Community Games (as gathered from notes taken during Gamefest 2008):
+            </p>
+            <ul>
+                <li>Design Considerations
+                    <ul>
+                        <li>Starting
+                            <ul>
+                                <li>There is automatically a standard XBLCG splash screen
+                                    <ul>
+                                        <li>Fills the 3-5 seconds of boot up time </li>
+                                    </ul>
+                                </li>
+                                <li>Keep load time low </li>
+                                <li>Never freeze the screen; use asynchronous loading when you can </li>
+                                <li>Load just what you need to move the player along </li>
+                                <li>Play an animation if the loading is &gt; 1 seconds </li>
+                            </ul>
+                        </li>
+                        <li>Menus
+                            <ul>
+                                <li>Use the "Press A or Start" screen as a "sign in" so you know which player is primary
+                                </li>
+                                <li>All menus should navigate the same </li>
+                                <li>Menu work isn't glamorous; use GSM sample to get started </li>
+                            </ul>
+                        </li>
+                        <li>Exiting
+                            <ul>
+                                <li>If it's a trial mode, display a sell screen with one button to take them to the
+                                    game offer </li>
+                            </ul>
+                        </li>
+                        <li>Main Menu
+                            <ul>
+                                <li>If only one mode, consider using "Start Game" instead of "Single Player" or anything
+                                </li>
+                                <li>If multiple modes, consider just listing them all on the main menu instead of sub-menus
+                                </li>
+                                <li>If it's a trial mode, have an option to purchase the game from the main menu </li>
+                            </ul>
+                        </li>
+                        <li>Help &amp; Options
+                            <ul>
+                                <li>Brief how-to-play
+                                    <ul>
+                                        <li>Controls, tutorials, etc </li>
+                                    </ul>
+                                </li>
+                                <li>Control options (customizable controls) </li>
+                                <li>Audio/video settings </li>
+                                <li>Credits </li>
+                                <li>For all options, provide a way to easily reset to defaults
+                                    <ul>
+                                        <li>e.g. Press X to Restore Default </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Pause Menu
+                            <ul>
+                                <li>Should have these options:
+                                    <ul>
+                                        <li>Resume </li>
+                                        <li>Purchase </li>
+                                        <li>Help &amp; Options </li>
+                                        <li>Save (if applicable) </li>
+                                        <li>Quit </li>
+                                    </ul>
+                                </li>
+                                <li>All games should have a pause menu </li>
+                                <li>In multiplayer - pausing stops input; not game
+                                    <ul>
+                                        <li>Otherwise if I pause my game, my friend's game stops too </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>User Experience
+                            <ul>
+                                <li>A = confirm, B = cancel </li>
+                                <li>Start = Pauses, Back = scoreboard, map, some other game function </li>
+                                <li>Allow navigation with both DPad and left thumbstick </li>
+                                <li>Tool tips where appropriate </li>
+                                <li>Design for simplicity </li>
+                                <li>User won't be 20 inches from screen
+                                    <ul>
+                                        <li>Check font sizes </li>
+                                        <li>Make sure the user can see what they need to see </li>
+                                    </ul>
+                                </li>
+                                <li>Game doesn't need all the options
+                                    <ul>
+                                        <li>No need for resolution, graphical quality, etc. All Xboxs are (basically) the same.
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Profiles
+                            <ul>
+                                <li>Hard to get right, but users will appreciate it </li>
+                                <li>PlayerIndex.One is not always the right player </li>
+                                <li>Be flexible with requirements
+                                    <ul>
+                                        <li>Have fallbacks for users with Silver accounts, offline accounts </li>
+                                        <li>Check for parental settings (such as networking being disabled) </li>
+                                        <li>Test with lots of the various configurations of security settings </li>
+                                    </ul>
+                                </li>
+                                <li>Allow gamers to sign-in/sign-out
+                                    <ul>
+                                        <li>If sign-out during game, elegantly return to main menu </li>
+                                    </ul>
+                                </li>
+                                <li>Use gamertags and gamer pictures where appropriate to personalize </li>
+                                <li>Allow viewing of other profiles
+                                    <ul>
+                                        <li>E.g. clicking on profile in high score should bring up Guide with details on profile
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Tech Considerations
+                    <ul>
+                        <li>Resolutions
+                            <ul>
+                                <li>1280x720 is always safe bet
+                                    <ul>
+                                        <li>Letterboxes on 480i/p, scales up to 1080p </li>
+                                    </ul>
+                                </li>
+                                <li>Consider adjusting based on actual display </li>
+                            </ul>
+                        </li>
+                        <li>Scaling
+                            <ul>
+                                <li>Xbox 360 will scale to match output display settings </li>
+                            </ul>
+                        </li>
+                        <li>Standard Definition
+                            <ul>
+                                <li>Be aware of font sizes/positions </li>
+                            </ul>
+                        </li>
+                        <li>Color
+                            <ul>
+                                <li>Check gamma/saturation levels </li>
+                                <li>Watch for color critical gameplay
+                                    <ul>
+                                        <li>E.g. in Hexic HD, you can put glyphs on pieces for people who have trouble with
+                                            colors </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Letterboxing
+                            <ul>
+                                <li>16:9 letterboxes on 4:3 </li>
+                                <li>4:3 does not pillar box on 16:9
+                                    <ul>
+                                        <li>It gets stretched </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Safe Regions
+                            <ul>
+                                <li>Overscan 0-20% </li>
+                                <li>All critical information should be in inner 80% </li>
+                                <li>All important information should be in inner 90% </li>
+                                <li>Should still render 100% </li>
+                            </ul>
+                        </li>
+                        <li>Audio
+                            <ul>
+                                <li>Test different configurations (headphones, stereo, 5.1, etc) </li>
+                                <li>Compare in-game volumes to Xbox 360 startup sound volume </li>
+                                <li>Music
+                                    <ul>
+                                        <li>Gamer can override with Guide </li>
+                                        <li>Use Song + MediaPlayer to play music </li>
+                                        <li>Or use XACT and place in Music category </li>
+                                    </ul>
+                                </li>
+                                <li>Compression
+                                    <ul>
+                                        <li>Use XMA in XACT </li>
+                                        <li>Use MP3 or WMA for Song API </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Input
+                            <ul>
+                                <li>Make use of controller subtypes where appropriate
+                                    <ul>
+                                        <li>Different controllers provide different data </li>
+                                    </ul>
+                                </li>
+                                <li>Unplugged/disconnected controller should pause game </li>
+                                <li>Use gamer defaults (invert thumbstick, trigger for gas, etc) </li>
+                                <li>Don’t use keyboard for gameplay
+                                    <ul>
+                                        <li>Only for text entry </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Storage
+                            <ul>
+                                <li>Treat storage APIs asynchronously (because they are) </li>
+                                <li>Use correct locations
+                                    <ul>
+                                        <li>Saved games should be tied to profile </li>
+                                        <li>High scores should not </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Multiplayer
+                            <ul>
+                                <li>Add Quick Match feature
+                                    <ul>
+                                        <li>Just perform query in background and join best session </li>
+                                    </ul>
+                                </li>
+                                <li>Custom Match
+                                    <ul>
+                                        <li>Use parameters, filtering, etc, </li>
+                                        <li>LIVE API only returns 25 sessions </li>
+                                    </ul>
+                                </li>
+                                <li>Support Invites
+                                    <ul>
+                                        <li>In-process is a bit more work </li>
+                                        <li>Helps sell the game
+                                            <ul>
+                                                <li>If user A invites user B to play your game and user B doesn’t own it, he is automatically
+                                                    shown the purchase page </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>Lobby
+                                    <ul>
+                                        <li>Display match settings </li>
+                                        <li>Support “ready up” </li>
+                                    </ul>
+                                </li>
+                                <li>Be sure to test, over the internet, your max players </li>
+                                <li>Use simulated latency and packet loss when testing </li>
+                                <li>Voice is automatic, but you may need to manage for bandwidth </li>
+                                <li>Consider game management (e.g. kicking players, etc) </li>
+                            </ul>
+                        </li>
+                        <li>Content Size
+                            <ul>
+                                <li>150MB max </li>
+                                <li>All content compressed by default in 3.0 </li>
+                                <li>Audio compression – use XMA </li>
+                                <li>Texture compression – use DXT if you can </li>
+                                <li>Smaller textures if possible (e.g. use 1024 instead of 2048) </li>
+                                <li>For small games, load the whole thing up front </li>
+                                <li>JIT (just-in-time) loading is tricky
+                                    <ul>
+                                        <li>Hard to get just right </li>
+                                        <li>Can cause content “popping” </li>
+                                    </ul>
+                                </li>
+                                <li>ContentManager “per zone”
+                                    <ul>
+                                        <li>One for UI, one per level, dispose when needed </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Testing
+                            <ul>
+                                <li>Submitting is real </li>
+                                <li>Testing is very important
+                                    <ul>
+                                        <li>Leverage peers to help test </li>
+                                    </ul>
+                                </li>
+                                <li>Considerations
+                                    <ul>
+                                        <li>Resolutions </li>
+                                        <li>Profile Levels (Gold/Silver, Online/Offline, Signed-in/Signed-out) </li>
+                                        <li>Multiple Storage devices </li>
+                                        <li>Multiplayer over the internet </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Selling Your Game
+                    <ul>
+                        <li>Game Metadata
+                            <ul>
+                                <li>Title </li>
+                                <li>Description </li>
+                                <li>Capabilities (multiplayer, number of players, etc) </li>
+                                <li>Thumbnail, screenshots, box art </li>
+                            </ul>
+                        </li>
+                        <li>Trial Mode
+                            <ul>
+                                <li>Time limited sessions </li>
+                                <li>Showcase in that time </li>
+                                <li>Enable purchase in-game </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+	
+	</body>
+</html>

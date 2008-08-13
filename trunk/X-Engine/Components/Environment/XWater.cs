@@ -291,8 +291,9 @@ namespace XEngine
             NoDraw.Add(this);
             NoDraw.Add(X.Debug);
             NoDraw.Add(X.Console);
+            NoDraw.Add(X.DebugDrawer);
 
-            X.Renderer.DrawScene(gameTime, Camera, NoDraw);
+            X.Renderer.DrawScene(gameTime, Camera, NoDraw, null);
         }
 
         public virtual void DrawReflectedScene(GameTime gameTime, XCamera Camera)
@@ -301,8 +302,9 @@ namespace XEngine
             NoDraw.Add(this);
             NoDraw.Add(X.Debug);
             NoDraw.Add(X.Console);
+            NoDraw.Add(X.DebugDrawer);
 
-            X.Renderer.DrawScene(gameTime, Camera, NoDraw);
+            X.Renderer.DrawScene(gameTime, Camera, NoDraw, null);
         }
     }
 }
