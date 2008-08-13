@@ -1,0 +1,38 @@
+Performance Stuff
+
+    * **** Optimize because you must, not because you can. ****
+    * Offload to GPU on Xbox is almost always a win, usually a win on Windows
+    * Utilize multicore on both Xbox 360 and Windows
+          o Set processor affinity on Xbox 360 (let Windows task scheduler do it on Windows)
+          o Make sure to have your thread sleep on Windows so that the task scheduler doesn’t give it too much priority (1ms is enough)
+          o Thread when you see yourself having a gigantic loop where each item doesn’t rely on other items in the list
+          o Make sure you abort all the threads when your game exits or else the threads will keep running.
+    * Remember the debugger adds a little overhead
+    * Be math aware
+          o Remember algebra. Try to optimize the algorithms.
+          o Use approximation values where they work (good example: approximate square root instead of square root)
+    * Manually inline
+    * Short methods
+    * Operator overloads
+
+Correct, I am referring to value types, such as structs. It's a moot point for reference types and tinuy data types
+ like ints. Reference passing can even hurt performance with ints, bools, etc.. However, passing around large
+  value types like XNA Matrix types by value can be insanely slow. All I'm saying is that's why operator 
+  overloading on larger value types is slow, especially on Xbox. All the extra copying adds up. This also 
+  occurs with value-type properties. Accessing Matrix types through properties incurs a significant memory 
+  copying overhead (again, more substantially on Xbox) that can add up if used often enough in tight loops.
+  
+  
+  The Xbox CPU is a PowerPC RISC processor, but this only matters to the code generator in the compiler.
+   Specifically, the in-order execution of the Xbox CPU makes compiler instruction scheduling more important
+    than for Intel/AMD hardware. Virtual calls in particular are painfully slow on Xbox, along with general 
+    floating-point math (which is truly unfortunate for a project like a physics simulator). Unfortunately, 
+    the main roadblock to Xbox performance is the CLR, which is outside of end user control. There are certainly
+     ways to optimize the C#/IL like manual inlining (the Xbox CLR is horrible at inlining) but at the end of
+      the day, you'll see around an order of magnitude performance difference between C# code execution on Xbox
+       and Windows. I really hope the XNA team improves on this. Don't forget that the Xbox CLR is not optimized 
+       specifically for the Xbox hardware, while the Desktop CLR is specifically optimized for Intel/AMD hardware. 
+       Granted. The point I was trying to make was that you need to look at the root cause of why a certain piece 
+       of code performs poorly. If you blindly replace an operator overload with a method call, you're not going
+        to help yourself because the method call will suffer the same issues as the overload: lack of inlining and 
+        pass-by-value (bad for large data types).

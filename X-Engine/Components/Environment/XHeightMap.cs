@@ -15,7 +15,7 @@ namespace XEngine
         int HEIGHT;
 
         HeightmapObject Object;
-        HeightMapInfo Heights;
+        public HeightMapInfo Heights;
 
         public int environmentalParametersNumber;
         XEnvironmentParameters parameters;
@@ -140,6 +140,7 @@ namespace XEngine
             terrainIndexBuffer = new IndexBuffer(X.GraphicsDevice, typeof(int), (WIDTH - 1) * (HEIGHT - 1) * 6, BufferUsage.WriteOnly);
             terrainIndexBuffer.SetData(terrainIndices);
 
+            //create physics object for collisions!
             Object = new HeightmapObject(Heights, Vector2.Zero);
 
             boundingBox = new BoundingBox(new Vector3(-(WIDTH / 2), 0, -(HEIGHT / 2)), new Vector3((WIDTH / 2), maxheight, (HEIGHT / 2)));

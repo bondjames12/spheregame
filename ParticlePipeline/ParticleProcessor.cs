@@ -33,7 +33,7 @@ namespace ParticlePipeline
                                                         "Particles\\ParticleEffect.fx");
 
             // Set the texture to be used by this material.
-            effect.Textures["Texture"] = new ExternalReference<TextureContent>(
+            effect.Textures["ParticleTexture"] = new ExternalReference<TextureContent>(
                                                         input.TextureName + ".png");
 
             // Set parameters describing how the material should be rendered.

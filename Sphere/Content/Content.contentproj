@@ -87,8 +87,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\HeightMap.bmp">
-      <Name>HeightMap</Name>
+    <Compile Include="Images\Heightmaps\Level1.bmp">
+      <Name>Level1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -97,8 +97,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\TextureMap.bmp">
-      <Name>TextureMap</Name>
+    <Compile Include="Images\Terrainmaps\Level1.bmp">
+      <Name>Level1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -322,6 +322,13 @@
       <Name>RedSettings</Name>
       <Importer>XmlImporter</Importer>
       <Processor>ParticleProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Treemaps\Level1.bmp">
+      <Name>Level1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

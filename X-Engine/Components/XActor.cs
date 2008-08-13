@@ -90,8 +90,11 @@ namespace XEngine
 
         public XActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass) : base(X)
         {
-            model.ParentActor = this;
-            this.model = model;
+            if (model != null)
+            {
+                this.model = model;
+                model.ParentActor = this;
+            }
             this.mass = Mass;
             this.PhysicsObject = Object;
 

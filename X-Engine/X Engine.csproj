@@ -84,6 +84,8 @@
     <Compile Include="Components\Base\XComponent.cs" />
     <Compile Include="Components\Cameras\XArcBallCamera.cs" />
     <Compile Include="Components\Cameras\XChaseCamera.cs" />
+    <Compile Include="Components\Environment\XTree.cs" />
+    <Compile Include="Components\Environment\XTreeSystem.cs" />
     <Compile Include="Components\Environment\XDynamicSky.cs" />
     <Compile Include="Components\Environment\XHeightMap.cs" />
     <Compile Include="Components\Environment\XSkyBox.cs" />
@@ -168,6 +170,10 @@
     <ProjectReference Include="..\JigLibX\JigLibX.csproj">
       <Project>{8C96785C-F085-4DA6-83AD-AEE47591B5CF}</Project>
       <Name>JigLibX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Trees\Trees.csproj">
+      <Project>{2FC75B34-F066-4545-9D4B-CDFCAEBA5FCF}</Project>
+      <Name>Trees</Name>
     </ProjectReference>
     <ProjectReference Include="..\XSIXNARuntime\XSIXNARuntime.csproj">
       <Project>{924BE388-B6B6-4FFB-9E9E-89CACEDA52CE}</Project>

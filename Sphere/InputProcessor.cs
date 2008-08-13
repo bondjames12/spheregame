@@ -196,7 +196,17 @@ namespace Sphere
                 }
 
             if (keyboard.KeyPressed(Keys.F7))
-            { }
+            {//spawn a row of Xactors
+                List<XActor> row = new List<XActor>();
+
+                for (int i = -127; i <= 127; i++)
+                {
+                    Vector3 pos = new Vector3((float)i - 0.5f, parent.heightmap.Heights.GetHeight(new Vector3(i, 0, 0)), 0);
+                    XActor actor = new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, pos), parent.model, new Vector3(1), Vector3.Zero, Vector3.Zero, 1);
+                    actor.Immovable = true;
+                    row.Add(actor);
+                }
+            }
 
             if (keyboard.KeyPressed(Keys.F8))
                 if (parent.houseactor == null)
