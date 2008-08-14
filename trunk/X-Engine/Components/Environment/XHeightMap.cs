@@ -148,7 +148,7 @@ namespace XEngine
             base.Load(Content);
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref XCamera Camera)
         {
             if (Loaded)
             {

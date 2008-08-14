@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
@@ -19,7 +20,9 @@ namespace XEngine
             triggered = false;
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+
+
+        public override void Update(ref GameTime gameTime)
         {
             if ((continuous) || (!continuous && !triggered))
                 if (CheckForIntersection())

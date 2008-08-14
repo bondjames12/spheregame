@@ -60,7 +60,7 @@ namespace XEngine
             
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
             //X.GraphicsDevice.RenderState.DepthBufferWriteEnable = false;
             //X.GraphicsDevice.RenderState.DepthBufferEnable = false;

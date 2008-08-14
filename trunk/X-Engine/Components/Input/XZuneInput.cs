@@ -13,9 +13,9 @@ namespace XEngine
             GamePad = new XGamePad(X, 1);
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
-            GamePad.Update(gameTime);
+            GamePad.Update(ref gameTime);
         }
 
         public enum States { Last, Current }

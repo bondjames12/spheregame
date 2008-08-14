@@ -46,16 +46,25 @@ namespace XEngine
             return com;
         }
 
-        
-      
+
+
+        Matrix[] boneTransforms;
+        int boneCount = 0;
+
         public virtual Matrix GetWorldMatrix(Model model, Vector3 ModelOffset)
         {
             //THIS DOES NOTHING COMMENTED OUT!!!
-            //Matrix[] boneTransforms;
-            //boneTransforms = new Matrix[model.Bones.Count];
-            //model.CopyAbsoluteBoneTransformsTo(boneTransforms);
+            boneTransforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(boneTransforms);
 
-            
+            if (boneTransforms == null || boneCount != model.Bones.Count)
+            {
+                boneTransforms = new Matrix[model.Bones.Count];
+                boneCount = model.Bones.Count;
+            }
+
+            model.CopyAbsoluteBoneTransformsTo(boneTransforms);
+
             Matrix World;
             // the body has an orientation but also the primitives in the collision skin
             // owned by the body can be rotated!

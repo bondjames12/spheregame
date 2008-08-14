@@ -73,14 +73,14 @@ namespace XEngine
             // Create a tree generator for each kind of tree defined above in treeFiles
             for (int i = 0; i < TreeTypes.Length; i++)
             {
-                TreeGenerator generator = new TreeGenerator(X.GraphicsDevice, cloudSystem);
+                TreeGenerator generator = new TreeGenerator(X.GraphicsDevice, cloudSystem,X.Content.Load<Effect>("Content/Effects/Lambert"));
                 generator.LoadFromFile(treePath + TreeTypes[i].Profile);
 
                 // Set the texture assigned to newly generated trees.
                 //TODO: Add custom shader for tree trunks to allow Engine lighting, etc
-                generator.TrunkEffect.Texture = X.Content.Load<Texture2D>(texturePath + TreeTypes[i].BarkTexture);
-                generator.TrunkEffect.TextureEnabled = true;
-                generator.TrunkEffect.EnableDefaultLighting();
+                generator.TrunkEffect.Parameters["AmbientMap"].SetValue(X.Content.Load<Texture2D>(texturePath + TreeTypes[i].BarkTexture));
+                //generator.TrunkEffect.TextureEnabled = true;
+                //generator.TrunkEffect.EnableDefaultLighting();
                 generator.LeafTexture = X.Content.Load<Texture>(texturePath + TreeTypes[i].LeafTexture);
                 generators.Add(generator);
             }
@@ -130,8 +130,8 @@ namespace XEngine
             foreach (Vector3 pos in treeMap)
             {
                 // Generate a tree.
-                TreeModel tree = generators[0].GenerateTreeMesh(rand.Next(), rand.Next(8,12), true, rand.Next(0,2));
-                XTree Xtree = new XTree(X, new BoxObject(tree.boundingBox.Max, Matrix.Identity, pos), null, Vector3.One, Vector3.Zero, Vector3.Zero, 1000);
+                TreeModel tree = generators[rand.Next(0,3)].GenerateTreeMesh(rand.Next(), rand.Next(8,12), true, rand.Next(0,2));
+                XTree Xtree = new XTree(X, XActor.ActorType.Box, null, pos, Matrix.Identity, Vector3.One, Vector3.Zero, Vector3.One, Vector3.Zero,1000);
                 Xtree.Immovable = true;
                 Xtree.tree = tree;
                 // Set the trunk's projection matrix, used in drawing function, static

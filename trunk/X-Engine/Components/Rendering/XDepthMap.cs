@@ -11,6 +11,7 @@ namespace XEngine
         XMain X;
         //Used to render the depth scene to
         public RenderTarget2D renderTarget;
+        public DepthStencilBuffer depthbuffer;
         //Used to save the depthmap onto form the depth scene render
         public Texture2D depthMap;
 
@@ -28,7 +29,8 @@ namespace XEngine
         {
             //Initialize the Rendertarget to render the depth scene to using the device Presentation parameters
             PresentationParameters pp = X.GraphicsDevice.PresentationParameters;
-            renderTarget = new RenderTarget2D(X.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, 1, X.GraphicsDevice.DisplayMode.Format);
+            renderTarget = new RenderTarget2D(X.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, 1, SurfaceFormat.Single);//X.GraphicsDevice.DisplayMode.Format);
+            //depthbuffer = new DepthStencilBuffer(X.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, DepthFormat.Depth16);
             X.GraphicsDevice.SetRenderTarget(0, renderTarget);
             X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
 

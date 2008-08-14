@@ -121,7 +121,7 @@ namespace XEngine
             base.Load(Content);
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             if (X.GraphicsDevice.Viewport.Width != reflection.Width || X.GraphicsDevice.Viewport.Height != reflection.Height)
             {
@@ -150,8 +150,8 @@ namespace XEngine
                 reflectionCamera.Up = reflectionCamUp;
                 reflectionCamera.Target = reflectionCamTarget;
 
-                camera.Update(gameTime);
-                reflectionCamera.Update(gameTime);
+                camera.Update(ref gameTime);
+                reflectionCamera.Update(ref gameTime);
 
                 Refract(gameTime, camera);
                 Reflect(gameTime, reflectionCamera);
@@ -161,7 +161,7 @@ namespace XEngine
         XCamera camera;
         Matrix reflectionViewMatrix = Matrix.Identity;
 
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
             CullMode Cullprevious = X.GraphicsDevice.RenderState.CullMode;
             X.GraphicsDevice.RenderState.CullMode = CullMode.None;
@@ -293,7 +293,7 @@ namespace XEngine
             NoDraw.Add(X.Console);
             NoDraw.Add(X.DebugDrawer);
 
-            X.Renderer.DrawScene(gameTime, Camera, NoDraw, null);
+            X.Renderer.DrawScene(ref gameTime,ref  Camera, NoDraw, null);
         }
 
         public virtual void DrawReflectedScene(GameTime gameTime, XCamera Camera)
@@ -304,7 +304,7 @@ namespace XEngine
             NoDraw.Add(X.Console);
             NoDraw.Add(X.DebugDrawer);
 
-            X.Renderer.DrawScene(gameTime, Camera, NoDraw, null);
+            X.Renderer.DrawScene(ref gameTime,ref Camera, NoDraw, null);
         }
     }
 }

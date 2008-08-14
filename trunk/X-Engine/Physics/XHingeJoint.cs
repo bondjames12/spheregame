@@ -15,7 +15,7 @@ namespace XEngine
             hinge.EnableHinge();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             hinge.UpdateController((float)gameTime.ElapsedGameTime.TotalSeconds);
         }

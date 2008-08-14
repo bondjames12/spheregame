@@ -17,7 +17,7 @@ namespace XEngine
             : base(X)
         {
             DrawOrder = 299;
-            AutoDraw = false;
+            AutoDraw = true;
         }
 
         public void Write(string Text, bool Static)
@@ -28,7 +28,7 @@ namespace XEngine
                 toWrite.Add(Text);
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
             int offset = (int)StartPosition.Y;
             foreach (string Text in toWrite)
