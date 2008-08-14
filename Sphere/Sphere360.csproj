@@ -119,6 +119,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Trees\Trees360.csproj">
+      <Project>{EA489419-E1BE-4AEA-838B-74AA4ACC98DE}</Project>
+      <Name>Trees360</Name>
+    </ProjectReference>
     <ProjectReference Include="..\X-Engine\X Engine360.csproj">
       <Project>{F5633A6D-B5F5-4596-AD53-5D46A8C8FCF6}</Project>
       <Name>X Engine360</Name>

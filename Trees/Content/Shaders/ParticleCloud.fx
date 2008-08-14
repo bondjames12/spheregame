@@ -43,6 +43,7 @@ struct VertexOutput
 {
 	float4 position : POSITION;
 	float2 texCoords : TEXCOORD0;
+	float4  Depth : TEXCOORD4;
 	float4 color : COLOR;
 };
 
@@ -73,6 +74,9 @@ VertexOutput VS_Main(VertexInput input)
 	vert.position += float4(offset.x * BillboardRight + offset.y * BillboardUp, 0);
 	vert.position = mul(vert.position, Projection);
 	
+	//Used for depth map
+	vert.Depth = vert.position;
+	
 	// Set the texture coordinates
 	vert.texCoords = (0.5 * input.offset + float2(0.5,0.5));
 	
@@ -91,6 +95,26 @@ float4 PS_Main(VertexOutput vert) : COLOR
 {
 	// This is a particle system so keep the pixel shader as fast as possible.
 	return tex2D(Sampler, vert.texCoords) * vert.color;
+}
+
+//
+//  Fragment shader for rendering a depth map
+//
+float4 DepthMapPixelShader(VertexOutput vert) : COLOR
+{
+    float depth = vert.Depth.z/vert.Depth.w;
+	return float4(depth,depth, depth,1.0f);
+}
+
+technique DepthMapStatic
+{
+	pass p0
+	{
+		CullMode = None;
+			
+		VertexShader = compile vs_2_0 VS_Main();
+		PixelShader = compile ps_2_0 DepthMapPixelShader();
+	}
 }
 
 technique UnsortedParticles

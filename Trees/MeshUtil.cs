@@ -83,7 +83,7 @@ namespace Feldthaus.Xna
                 normal = Vector3.TransformNormal(normal, transform);
 
                 // Get the texture coordinates for this vertex.
-                Vector2 tcoord;
+                Vector2 tcoord = new Vector2();
                 tcoord.X = (float)(i) / (float)(radialSegments);
                 tcoord.Y = startTCoordY;
 
@@ -124,7 +124,7 @@ namespace Feldthaus.Xna
                 normal = Vector3.TransformNormal(normal, transform);
                 
                 // Get the texture coordinates for this vertex.
-                Vector2 tcoord;
+                Vector2 tcoord = new Vector2();
                 tcoord.X = (float)(i) / (float)(radialSegments);
                 tcoord.Y = endTCoordY;
                 

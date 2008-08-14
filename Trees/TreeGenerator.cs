@@ -222,7 +222,8 @@ namespace Feldthaus.Xna
         List<int> treeIndices = new List<int>();
         ParticleCloud cloud;
 
-        BasicEffect trunkEffect;
+        //BasicEffect trunkEffect;
+        Effect trunkEffect;
         Texture leafTexture;
 
         private static readonly NumberFormatInfo numberFormat = new NumberFormatInfo();
@@ -258,7 +259,8 @@ namespace Feldthaus.Xna
         /// Gets the basic effect applied to the trunk of every newly-generated tree.
         /// The trunk's effect can be changed after the tree has been created, if desired.
         /// </summary>
-        public BasicEffect TrunkEffect
+        //public BasicEffect TrunkEffect
+        public Effect TrunkEffect
         {
             get { return trunkEffect; }
         }
@@ -280,11 +282,13 @@ namespace Feldthaus.Xna
         /// </summary>
         /// <param name="device">The graphics device.</param>
         /// <param name="cloudSystem">The particle cloud system. One system can be shared among many tree generators.</param>
-        public TreeGenerator(GraphicsDevice device, ParticleCloudSystem cloudSystem)
+        public TreeGenerator(GraphicsDevice device, ParticleCloudSystem cloudSystem, Effect trunk)
         {
             graphicsDevice = device;
             this.cloudSystem = cloudSystem;
-            trunkEffect = new BasicEffect(device, new EffectPool());
+            //trunkEffect = new BasicEffect(device, new EffectPool());
+            // Load the tree effect.
+            trunkEffect = trunk;
         }
 
         /// <summary>

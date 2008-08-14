@@ -69,7 +69,7 @@ namespace XEngine
             base.Load(Content);
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             if (Loaded)
             {
@@ -84,7 +84,7 @@ namespace XEngine
             }
         }
 
-        public override void Draw(GameTime gameTime, XCamera camera)
+        public override void Draw(ref GameTime gameTime, ref  XCamera camera)
         {
             if (Loaded)
             {

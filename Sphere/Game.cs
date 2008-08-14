@@ -56,12 +56,12 @@ namespace Sphere
             //graphics.PreferMultiSampling = true;
 
             // use this for 720P
-            //graphics.PreferredBackBufferWidth = 1280;
-            //graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
  
             // for NTSC, use a 4:3 ratio
-            graphics.PreferredBackBufferWidth = 720;
-            graphics.PreferredBackBufferHeight = 480;
+            //graphics.PreferredBackBufferWidth = 720;
+            //graphics.PreferredBackBufferHeight = 480;
         }
 
 
@@ -101,7 +101,7 @@ namespace Sphere
             menus = new MenuManager(X);
             //menu to the debugnodraw list
             X.Renderer.DebugNoDraw.Add(menus);
-            camera = new XFreeLookCamera(X,1,1000);
+            camera = new XFreeLookCamera(X,.01f,1000f);
             camera.Position = new Vector3(0, 10, 50);
 
             chase = new XChaseCamera(X, 1, 1000);
@@ -131,7 +131,7 @@ namespace Sphere
             resources.AddComponent(heightmap);
             resources.AddComponent(sky);
 
-            model = new XModel(X, @"Content\Models\box");
+            model = new XModel(X, @"Content\Models\barrel_low");
             resources.AddComponent(model);
 
             Chassis = new XModel(X, @"Content\Models\chassis");
@@ -142,6 +142,8 @@ namespace Sphere
 
             housemodel = new XModel(X, @"Content\Models\captain_modtool");
             resources.AddComponent(housemodel);
+
+            
 
             resources.Load();
 
@@ -170,6 +172,10 @@ namespace Sphere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // If enabling this option does NOT reduce frame rate,
+            // we must be GPU bound
+            //System.Threading.Thread.Sleep(1);
+
             //Call engine update
             X.Update(gameTime);
             
@@ -194,7 +200,7 @@ namespace Sphere
         protected override void Draw(GameTime gameTime)
         {
             // TODO: Add your drawing code here
-            X.Renderer.Draw(gameTime, camera);
+            X.Renderer.Draw(ref gameTime,ref camera.Base);
            
             base.Draw(gameTime);
         }

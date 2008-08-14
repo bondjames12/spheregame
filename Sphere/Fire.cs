@@ -30,8 +30,8 @@ namespace Sphere
 
         public void Update(GameTime gameTime)
         {
-            smoke.Update(gameTime);
-            fire.Update(gameTime);
+            smoke.Update(ref gameTime);
+            fire.Update(ref gameTime);
         }
     }
 }

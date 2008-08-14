@@ -27,7 +27,8 @@ namespace Sphere
         public void Load()
         {
 #if XBOX == FALSE
-            mouse = new XMouse(X);    
+            mouse = new XMouse(X);
+            //mouse.Reset = false;
 #endif
             keyboard = new XKeyboard(X);
             gamepad = new XGamePad(X, 1);
@@ -86,14 +87,18 @@ namespace Sphere
             parent.camera.Rotate(new Vector3((gamepad.Thumbstick(XGamePad.Thumbsticks.Right).Y * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, (-gamepad.Thumbstick(XGamePad.Thumbsticks.Right).X * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
 
 //Camera Movement with KB or Gamepad directional pad
+            float speed = 40f;
+            if(keyboard.KeyDown(Keys.LeftShift)) speed = 2f;
+            if(keyboard.KeyDown(Keys.LeftControl)) speed = 200f;
+
             if (keyboard.KeyDown(Keys.W) || gamepad.ButtonDown(Buttons.DPadUp))
-                parent.camera.Translate(Vector3.Forward * 40f);
+                parent.camera.Translate(Vector3.Forward * speed);
             if (keyboard.KeyDown(Keys.S) || gamepad.ButtonDown(Buttons.DPadDown))
-                parent.camera.Translate(Vector3.Backward * 40);
+                parent.camera.Translate(Vector3.Backward * speed);
             if (keyboard.KeyDown(Keys.A) || gamepad.ButtonDown(Buttons.DPadLeft))
-                parent.camera.Translate(Vector3.Left * 40);
+                parent.camera.Translate(Vector3.Left * speed);
             if (keyboard.KeyDown(Keys.D) || gamepad.ButtonDown(Buttons.DPadRight))
-                parent.camera.Translate(Vector3.Right * 40);
+                parent.camera.Translate(Vector3.Right * speed);
 
             //write camera corrds for debug
             X.Debug.Write("Camera: X" + parent.camera.Position.X.ToString() + " Y:" + parent.camera.Position.Y.ToString() + " Z:" + parent.camera.Position.Z.ToString(), false);
@@ -112,7 +117,7 @@ namespace Sphere
             }
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
-                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(1), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(X, XActor.ActorType.Box, parent.model, parent.camera.Position, Matrix.Identity, new Vector3(1), new Vector3(0, 0, 0), new Vector3(1), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
 #else
             if (gamepad.ButtonPressed(Buttons.A))
                 parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(1), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
@@ -130,7 +135,7 @@ namespace Sphere
                 {
                     parent.water = new XWater(X, new Vector2(-128, -128), new Vector2(128, 128), 6);
                     parent.water.Load(parent.Content);
-                    parent.water.Update(gameTime);
+                    parent.water.Update(ref gameTime);
                     parent.resources.AddComponent(parent.water);
                 }
 
@@ -169,7 +174,7 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F4))
                 for (int x = 0; x < 10; x++)
                     for (int e = x; e < 10; e++)
-                        parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1f), Matrix.Identity, new Vector3(20, x * 1.01f + .5f, e - 0.5f * x)), parent.model, new Vector3(1), new Vector3(0, 0, 0), Vector3.Zero, 10));
+                        parent.boxes.Add(new XActor(X, XActor.ActorType.Box, parent.model, new Vector3(20, x * 1.01f + 1, e - 0.5f * x), Matrix.Identity, new Vector3(1), new Vector3(0, 0, 0), new Vector3(1), Vector3.Zero, 10));            
             
             if (keyboard.KeyPressed(Keys.F5))
             {
@@ -177,7 +182,7 @@ namespace Sphere
 
                 for (int i = 0; i < 25; i++)
                 {
-                    XActor actor = new XActor(X, new BoxObject(new Vector3(1),Matrix.Identity,new Vector3(i + 10, 45 - i, 0)), parent.model, new Vector3(1), Vector3.Zero, Vector3.Zero, 1);
+                    XActor actor = new XActor(X, XActor.ActorType.Box, parent.model, new Vector3(i + 10, 45 - i, 0), Matrix.Identity, new Vector3(1), Vector3.Zero, Vector3.One, Vector3.Zero, 1);
                     if (i == 0) actor.Immovable = true;
                     chainBoxes.Add(actor);
                 }
@@ -196,22 +201,13 @@ namespace Sphere
                 }
 
             if (keyboard.KeyPressed(Keys.F7))
-            {//spawn a row of Xactors
-                List<XActor> row = new List<XActor>();
-
-                for (int i = -127; i <= 127; i++)
-                {
-                    Vector3 pos = new Vector3((float)i - 0.5f, parent.heightmap.Heights.GetHeight(new Vector3(i, 0, 0)), 0);
-                    XActor actor = new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, pos), parent.model, new Vector3(1), Vector3.Zero, Vector3.Zero, 1);
-                    actor.Immovable = true;
-                    row.Add(actor);
-                }
+            {
             }
 
             if (keyboard.KeyPressed(Keys.F8))
                 if (parent.houseactor == null)
                 {
-                    parent.houseactor = new XAnimatedActor(X, new BoxObject(new Vector3(10f), Matrix.Identity, new Vector3(20, 10, 0)), parent.housemodel, new Vector3(/*0.05f*/1f), new Vector3(0, 0, 0), new Vector3(0), .1f);
+                    parent.houseactor = new XAnimatedActor(X, XActor.ActorType.Box,parent.housemodel, new Vector3(20, 10, 0), Matrix.Identity, new Vector3(/*0.05f*/1f), new Vector3(0, 0, 0), new Vector3(10), Vector3.Zero, .1f);
                     parent.houseactor.Load(X.Content);
                     parent.houseactor.Immovable = false;
                 }
@@ -227,6 +223,25 @@ namespace Sphere
             {
                 parent.houseactor.AnimationIndex++; 
             }
+
+            if(keyboard.KeyPressed(Keys.F10))
+            {
+                XTextureGenerator texGen = new XTextureGenerator(X);
+                texGen.GetMandelBrot(new Vector2(0.25f, 0),3);
+
+                /*
+                if (pad.Buttons.A == ButtonState.Pressed)
+                zoom /= 1.05f;
+
+                if (pad.Buttons.B == ButtonState.Pressed)
+                    zoom *= 1.05f;
+
+                float panSensitivity = 0.01f * (float)Math.Log(zoom + 1);
+
+                pan += new Vector2(pad.ThumbSticks.Left.X, -pad.ThumbSticks.Left.Y) * panSensitivity;
+                */
+            }
+            
             
             //Example Code
 /*            if (!parent.menus.MenuOpen)

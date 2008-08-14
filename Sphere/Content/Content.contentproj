@@ -240,11 +240,11 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </None>
-    <None Include="Effects\Lambert.fx">
+    <Compile Include="Effects\Lambert.fx">
       <Name>Lambert</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
-    </None>
+    </Compile>
     <None Include="Effects\Phong.fx">
       <Name>Phong</Name>
       <Importer>EffectImporter</Importer>
@@ -301,6 +301,16 @@
     <None Include="Effects\DepthMapPixelShader.hlsl">
       <Name>DepthMapPixelShader</Name>
     </None>
+    <Compile Include="Effects\Mandelbrot.fx">
+      <Name>Mandelbrot</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\barrel_low.xsi">
+      <Name>barrel_low</Name>
+      <Importer>Importer</Importer>
+      <Processor>Processor</Processor>
+    </Compile>
     <None Include="Textures\default_ambocc_map.png">
       <Name>default_ambocc_map</Name>
       <Importer>TextureImporter</Importer>

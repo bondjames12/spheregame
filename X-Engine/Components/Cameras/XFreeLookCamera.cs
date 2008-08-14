@@ -6,8 +6,12 @@ namespace XEngine
     {
         Vector3 movement;
         Vector3 rotation;
+        public XCamera Base;
 
-        public XFreeLookCamera(XMain X, float NearPlane, float FarPlane) : base(X, NearPlane, FarPlane) { }
+        public XFreeLookCamera(XMain X, float NearPlane, float FarPlane) : base(X, NearPlane, FarPlane)
+        {
+            Base = this;
+        }
 
         public void Translate(Vector3 Movement)
         {
@@ -19,7 +23,7 @@ namespace XEngine
             rotation += Rotation;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             movement *= new Vector3((float)gameTime.ElapsedGameTime.TotalSeconds);
 
@@ -34,7 +38,7 @@ namespace XEngine
 
             Target = Vector3.Add(Position, Forward);
 
-            base.Update(gameTime);
+            base.Update(ref gameTime);
         }
     }
 }

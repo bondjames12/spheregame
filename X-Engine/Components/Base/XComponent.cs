@@ -78,11 +78,11 @@ namespace XEngine
             loaded = true;
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update(ref GameTime gameTime)
         {
         }
 
-        public virtual void Draw(GameTime gameTime, XCamera Camera)
+        public virtual void Draw(ref GameTime gameTime,ref XCamera Camera)
         {
         }
 
