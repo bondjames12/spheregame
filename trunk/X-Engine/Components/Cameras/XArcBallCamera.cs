@@ -42,7 +42,7 @@ namespace XEngine
             verticalAngleMax = VerticleMax;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             // Keep vertical angle within tolerances
             verticalAngle = MathHelper.Clamp(verticalAngle, verticalAngleMin, verticalAngleMax);
@@ -71,7 +71,7 @@ namespace XEngine
             Target = Position + this.RotationMatrix.Forward;
             Up = RotationMatrix.Up;
 
-            base.Update(gameTime);
+            base.Update(ref gameTime);
         }
 
         /// <summary>

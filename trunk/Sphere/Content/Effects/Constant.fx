@@ -42,10 +42,7 @@ sampler2D AlbedoSampler = sampler_state
 // Pixel Shaders
 //**********************************************************************
 
-float4 PS
-(
-	XSI_VertexToPixel IN
-) : COLOR
+float4 PS(XSI_VertexToPixel IN) : COLOR0
 {
 	float4 albedotex = tex2D(AlbedoSampler, IN.texcoord0);
 	albedotex.w = 1;

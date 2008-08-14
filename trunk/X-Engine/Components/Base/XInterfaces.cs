@@ -5,12 +5,12 @@ namespace XEngine
 {
     public interface XUpdateable
     {
-        void Update(GameTime gameTime);
+        void Update(ref GameTime gameTime);
     }
 
     public interface XDrawable
     {
-        void Draw(GameTime gameTime, XCamera Camera);
+        void Draw(ref GameTime gameTime,ref XCamera Camera);
         void SetProjection(Matrix Projection);
     }
 }

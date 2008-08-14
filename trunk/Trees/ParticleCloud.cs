@@ -47,6 +47,7 @@ namespace Feldthaus.Xna
         private bool hasAxis = false;
         private Texture texture;
         private bool sortingEnabled;
+        private bool depthMapRendering;
         #endregion
 
         #region Properties
@@ -133,6 +134,13 @@ namespace Feldthaus.Xna
             get { return sortingEnabled; }
             set { sortingEnabled = value; }
         }
+
+
+        public bool DepthMapRendering
+        {
+            get { return depthMapRendering; }
+            set { depthMapRendering = value; }
+        } //? sortedTechnique : unsortedTechnique
         #endregion
         
         /// <summary>

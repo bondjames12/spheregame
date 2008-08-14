@@ -49,7 +49,7 @@ namespace Sphere
             //logo = Content.Load<Texture2D>(@"Content\Textures\xengine");
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref XCamera Camera)
         {
             if (!MenuOpen) return; //the menu is not open DON'T DRAW IT
             X.spriteBatch.Draw(Black, new Rectangle(X.GraphicsDevice.Viewport.Width - ((int)(X.GraphicsDevice.Viewport.Width * scrollamount)), 0, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height), new Color(255, 255, 255, 25));
@@ -95,7 +95,7 @@ namespace Sphere
             MenuOpen = false;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             if (updating)
             {

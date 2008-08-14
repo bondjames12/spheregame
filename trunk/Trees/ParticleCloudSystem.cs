@@ -60,6 +60,7 @@ namespace Feldthaus.Xna
         private EffectParameter textureParam;
         private EffectTechnique sortedTechnique;
         private EffectTechnique unsortedTechnique;
+        private EffectTechnique depthTechnique;
         private bool obsoleteProjection;
         
         private Vector3[] positionBuffer = new Vector3[MaxParticlesPerRender];
@@ -172,12 +173,15 @@ namespace Feldthaus.Xna
             // Get the technique handles
             sortedTechnique = particleEffect.Techniques["SortedParticles"];
             unsortedTechnique = particleEffect.Techniques["UnsortedParticles"];
+            depthTechnique = particleEffect.Techniques["DepthMapStatic"];
 
             // Verify that the required techniques are indeed there.
             if (sortedTechnique == null)
                 throw new Exception(particleEffectPath + " is not a valid shader for particle clouds. SortedParticles technique is not defined.");
             if (unsortedTechnique == null)
                 throw new Exception(particleEffectPath + " is not a valid shader for particle clouds. UnsortedParticles technique is not defined.");
+            if (depthTechnique == null)
+                throw new Exception(particleEffectPath + " is not a valid shader for particle clouds. DepthMapStatic technique is not defined.");
             
             // Initialize vertex buffer.
             ParticleCloudVertex[] vertices = new ParticleCloudVertex[MaxParticlesPerRender * 4];
@@ -269,7 +273,10 @@ namespace Feldthaus.Xna
             int numRenders = 1 + numParticles / (MaxParticlesPerRender + 1);
 
             // Set the correct effect technique
-            particleEffect.CurrentTechnique = cloud.SortingEnabled ? sortedTechnique : unsortedTechnique;
+            if (cloud.DepthMapRendering)
+                particleEffect.CurrentTechnique = depthTechnique;
+            else
+                particleEffect.CurrentTechnique = cloud.SortingEnabled ? sortedTechnique : unsortedTechnique;
 
             // Set vertex and index stuff
             device.VertexDeclaration = vertexDeclaration;

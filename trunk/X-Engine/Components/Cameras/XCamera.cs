@@ -59,7 +59,7 @@ namespace XEngine
             return Matrix.Identity;
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             View = Matrix.CreateLookAt(Position, Target, Up);
             Frustrum = new BoundingFrustum(View * Projection);

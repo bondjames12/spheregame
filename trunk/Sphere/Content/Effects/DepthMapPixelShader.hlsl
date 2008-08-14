@@ -4,7 +4,8 @@
 float4 DepthMapPixelShader(XSI_VertexToPixel IN) : COLOR0
 {
 	//In our shaders texcoord4 contains the global space position of the pixel
-    return IN.texcoord4.z/IN.texcoord4.w;
+	float depth = IN.texcoord4.z/IN.texcoord4.w;
+    return float4(depth,depth,depth,1);
 }
 
 //The X and Y coordinates of the PSIn.Position contain the X and Y values of the screen coordinate

@@ -18,7 +18,7 @@ namespace XEngine
 
         public XChaseCamera(XMain X, float NearPlane, float FarPlane) : base(X, NearPlane, FarPlane) { }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             Matrix transform = Matrix.Identity;
             transform.Forward = ChaseTargetForward;
@@ -50,7 +50,7 @@ namespace XEngine
 
             Up = Vector3.Transform(Vector3.Up, rotation);
 
-            base.Update(gameTime);
+            base.Update(ref gameTime);
         }
     }
 }
