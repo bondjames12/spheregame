@@ -78,7 +78,7 @@ namespace XEngine
 
             foreach(XComponent Component in Components)
                 if (Component is XUpdateable)
-                    Component.Update(gameTime);
+                    Component.Update(ref gameTime);
         }
     }
 }

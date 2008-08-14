@@ -7,15 +7,9 @@ namespace XEngine
 {
     public class XActor : XComponent, XDrawable
     {
-        public int ModelNumber;
         public bool AlphaBlendable = false;
 
-        XModel mod;
-        public XModel model
-        {
-            get { return mod; }
-            set { mod = value; ModelNumber = mod.Number; }
-        }
+        public XModel model;
 
         public XPhysicsObject PhysicsObject;
 
@@ -88,6 +82,16 @@ namespace XEngine
             set { rotation = value; Orientation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(rotation.Y), MathHelper.ToRadians(rotation.X), MathHelper.ToRadians(rotation.Z)); }
         }
 
+        public enum ActorType { Box, Capsule, Plane, Sphere, Mesh, BowlingPin }
+
+        ActorType type;
+        public ActorType Type
+        {
+            get { return type; }
+            set { type = value;}
+        }
+
+/*
         public XActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass) : base(X)
         {
             if (model != null)
@@ -103,6 +107,38 @@ namespace XEngine
             PhysicsObject.PhysicsBody.Velocity = Velocity;
             modeloffset = ModelOffset;
         }
+*/
+        public XActor(XMain X, ActorType type, XModel model, Vector3 Position, Matrix Rotation, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Size, Vector3 Velocity, float Mass)
+            : base(X)
+        {
+            switch (type)
+            {
+                case ActorType.Box:
+                    this.PhysicsObject = new BoxObject(Size, Rotation, Position); break;
+                case ActorType.Capsule:
+                    this.PhysicsObject = new CapsuleObject(Size.X, Size.Y, Rotation, Position); break;
+                case ActorType.Mesh:
+                    this.PhysicsObject = new TriangleMeshObject(model, Rotation, Position); break;
+                case ActorType.Plane:
+                    this.PhysicsObject = new PlaneObject(); break;
+                case ActorType.Sphere:
+                    this.PhysicsObject = new SphereObject(Size.X, Rotation, Position); break;
+                case ActorType.BowlingPin:
+                    this.PhysicsObject = new BowlingPinObject(Rotation, Position); break;
+            }
+
+            if (model != null)
+            {
+                this.model = model;
+                model.ParentActor = this;
+            }
+            this.type = type;
+            this.mass = Mass;
+            this.PhysicsObject.SetMass(Mass);
+            this.PhysicsObject.scale = ModelScale;
+            this.PhysicsObject.PhysicsBody.Velocity = Velocity;
+            this.modeloffset = ModelOffset;
+        }
 
         
 
@@ -116,7 +152,7 @@ namespace XEngine
             return X.Tools.UnprojectVector3(this.Position, Camera, GetWorldMatrix());
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
             if (model != null && model.Loaded)
             {
@@ -133,18 +169,18 @@ namespace XEngine
                     X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
                 //Set camera params, compute matrices
-                model.SASData.Camera.NearFarClipping.X = Camera.NearPlane;
-                model.SASData.Camera.NearFarClipping.Y = Camera.FarPlane;
-                model.SASData.Camera.Position.X = Camera.Position.X;
-                model.SASData.Camera.Position.Y = Camera.Position.Y;
-                model.SASData.Camera.Position.Z = Camera.Position.Z;
+                //model.SASData.Camera.NearFarClipping.X = Camera.NearPlane;
+                //model.SASData.Camera.NearFarClipping.Y = Camera.FarPlane;
+                //model.SASData.Camera.Position.X = Camera.Position.X;
+                //model.SASData.Camera.Position.Y = Camera.Position.Y;
+                //model.SASData.Camera.Position.Z = Camera.Position.Z;
                 model.SASData.Projection = Camera.Projection;
                 model.SASData.View = Camera.View;
                 model.SASData.Model = PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
                 model.SASData.ComputeViewAndProjection();
-                model.SASData.ComputeModel();
+                //model.SASData.ComputeModel();
 
-                X.Renderer.DrawModel(model, Camera);
+                X.Renderer.DrawModel(ref model,ref Camera);
             }
 
             if (DebugMode)

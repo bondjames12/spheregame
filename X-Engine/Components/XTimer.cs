@@ -18,7 +18,7 @@ namespace XEngine
 
         public XTimer(XMain X) : base(X) { }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             if (IsRunning)
             {

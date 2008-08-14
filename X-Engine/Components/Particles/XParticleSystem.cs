@@ -248,7 +248,7 @@ namespace XEngine
         /// <summary>
         /// Updates the particle system.
         /// </summary>
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             if (gameTime == null)
                 throw new ArgumentNullException("gameTime");
@@ -332,7 +332,7 @@ namespace XEngine
         /// <summary>
         /// Draws the particle system.
         /// </summary>
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
             effectViewParameter.SetValue(Camera.View);
             effectProjectionParameter.SetValue(Camera.Projection);

@@ -16,7 +16,7 @@ namespace XEngine
             idleTime = new XTimer(X);
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             UpdateStates();
 

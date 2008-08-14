@@ -38,9 +38,9 @@ namespace XEngine
             }
         }
 
-        public XAnimatedActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, 
-            Vector3 Velocity, float Mass) :
-                base(X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
+        public XAnimatedActor(XMain X, ActorType type, XModel model, Vector3 Position, Matrix Rotation, 
+            Vector3 ModelScale, Vector3 ModelOffset, Vector3 Size, Vector3 Velocity, float Mass) :
+                base(X, type, model, Position, Rotation, ModelScale, ModelOffset, Size, Velocity, Mass)
         {
             model.ParentActor = this;
             _AnimationIndex = 0;
@@ -68,7 +68,7 @@ namespace XEngine
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             if ((Animations != null) && (Animations.Count > 0))
             {
@@ -94,10 +94,10 @@ namespace XEngine
                 }
             }
 
-            base.Update(gameTime);
+            base.Update(ref gameTime);
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
             if (model != null && model.Loaded)
             {

@@ -16,12 +16,7 @@ namespace XEngine
         public string Filename;
         public XActor ParentActor;
 
-        private XSISASContainer sasData = new XSISASContainer();
-        public XSISASContainer SASData
-        {
-            get { return sasData; }
-            set { sasData = value; }
-        }
+        public XSISASContainer SASData = new XSISASContainer();
 
         public XModel(XMain X, string Filename) : base(X)
         {
@@ -56,9 +51,9 @@ namespace XEngine
             light2.Range = 10000.0f;
             light3.Range = 10000.0f;
 
-            sasData.PointLights.Add(light1);
-            sasData.PointLights.Add(light2);
-            sasData.PointLights.Add(light3);
+            SASData.PointLights.Add(light1);
+            SASData.PointLights.Add(light2);
+            SASData.PointLights.Add(light3);
         }
 
         public void SetShader(Effect setEffectTo)

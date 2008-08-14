@@ -44,7 +44,7 @@ namespace XEngine
             Acceleration.X += Amount;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             if (Acceleration.Y != 0)
                 Car.Car.Accelerate = Acceleration.Y;
@@ -59,7 +59,7 @@ namespace XEngine
             Acceleration = Vector2.Zero;
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
             //World Matrix Compute function
             Matrix[] World = Car.GetWorldMatrix(Chassis.Model, Vector3.Zero);
@@ -75,7 +75,7 @@ namespace XEngine
             Chassis.SASData.Model = World[0];
             Chassis.SASData.ComputeViewAndProjection();
 
-            X.Renderer.DrawModel(Chassis, Camera);
+            X.Renderer.DrawModel(ref Chassis,ref  Camera);
 
             if (DebugMode)
             {
@@ -96,16 +96,16 @@ namespace XEngine
             Wheel.SASData.ComputeViewAndProjection();
 
             Wheel.SASData.Model = World[1];
-            X.Renderer.DrawModel(Wheel, Camera);
+            X.Renderer.DrawModel(ref Wheel,ref Camera);
 
             Wheel.SASData.Model = World[2];
-            X.Renderer.DrawModel(Wheel, Camera);
+            X.Renderer.DrawModel(ref Wheel,ref Camera);
 
             Wheel.SASData.Model = World[3];
-            X.Renderer.DrawModel(Wheel, Camera);
+            X.Renderer.DrawModel(ref Wheel,ref Camera);
 
             Wheel.SASData.Model = World[4];
-            X.Renderer.DrawModel(Wheel, Camera);
+            X.Renderer.DrawModel(ref Wheel,ref Camera);
 
         }
     }

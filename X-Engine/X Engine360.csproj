@@ -69,6 +69,12 @@
     <Compile Include="Components\Environment\XDynamicSky.cs" />
     <Compile Include="Components\Environment\XHeightMap.cs" />
     <Compile Include="Components\Environment\XSkyBox.cs" />
+    <Compile Include="Components\Environment\XTree.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Components\Environment\XTreeSystem.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Components\Environment\XWater.cs" />
     <Compile Include="Components\Particles\ParticleSettings.cs" />
     <Compile Include="Components\Particles\ParticleSettingsReader.cs" />
@@ -164,6 +170,10 @@
     <ProjectReference Include="..\JigLibX\JigLibX360.csproj">
       <Project>{2344e0e4-7fb1-480c-b374-7f95a40fc554}</Project>
       <Name>JigLibX360</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Trees\Trees360.csproj">
+      <Project>{EA489419-E1BE-4AEA-838B-74AA4ACC98DE}</Project>
+      <Name>Trees360</Name>
     </ProjectReference>
     <ProjectReference Include="..\XSIXNARuntime\XSIXNARuntime_XBOX.csproj">
       <Project>{927FFC95-1D05-44CE-A9DA-A057659028F6}</Project>

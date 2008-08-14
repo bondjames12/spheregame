@@ -31,27 +31,27 @@ namespace XEngine
 
         }
 
-        public override void Draw(GameTime gameTime, XCamera Camera)
+        public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
-            X.DepthMap.StartRenderToDepthMap();
-            Camera.RenderType = RenderTypes.Depth;
-            DrawScene(gameTime, Camera, DebugNoDraw, DebugNoDrawTypes);
-            X.DepthMap.EndRenderToDepthMap();
+            //X.DepthMap.StartRenderToDepthMap();
+            //Camera.RenderType = RenderTypes.Depth;
+            //DrawScene(ref gameTime,ref Camera, DebugNoDraw, DebugNoDrawTypes);
+            //X.DepthMap.EndRenderToDepthMap();
 
             Camera.RenderType = RenderTypes.Normal;
             X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, ClearColor, 1.0f, 0);
-            DrawScene(gameTime, Camera, null,null);
+            DrawScene(ref gameTime,ref Camera, null , null);
 
-            using (SpriteBatch sprite = new SpriteBatch(X.GraphicsDevice))
-            {
-                sprite.Begin(SpriteBlendMode.None, SpriteSortMode.Texture, SaveStateMode.SaveState);
-                sprite.Draw(X.DepthMap.depthMap, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 0.4f, SpriteEffects.None, 1);
-                sprite.End();
-            }
+            //using (SpriteBatch sprite = new SpriteBatch(X.GraphicsDevice))
+            //{
+            //    sprite.Begin(SpriteBlendMode.None, SpriteSortMode.Texture, SaveStateMode.SaveState);
+            //    sprite.Draw(X.DepthMap.depthMap, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 0.4f, SpriteEffects.None, 1);
+            //    sprite.End();
+            //}
 
         }
 
-        public void DrawScene(GameTime gameTime, XCamera Camera, List<XComponent> NoDrawComponents, List<Type> NoDrawTypes)
+        public void DrawScene(ref GameTime gameTime,ref XCamera Camera, List<XComponent> NoDrawComponents, List<Type> NoDrawTypes)
         {
             X.GraphicsDevice.RenderState.DepthBufferEnable = true;
             X.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
@@ -64,10 +64,13 @@ namespace XEngine
             //Begin 2D Sprite Batch
             X.spriteBatch.Begin();
 
-            //draw axis for debug info, so I can get an idea of where i am in the game
-            X.DebugDrawer.DrawLine(new Vector3(-1000, 0, 0), new Vector3(1000, 0, 0), Color.Red);
-            X.DebugDrawer.DrawLine(new Vector3(0, -1000, 0), new Vector3(0, 1000, 0), Color.Green);
-            X.DebugDrawer.DrawLine(new Vector3(0, 0, -1000), new Vector3(0, 0, 1000), Color.Blue);
+            if (DebugMode)
+            {
+                //draw axis for debug info, so I can get an idea of where i am in the game
+                X.DebugDrawer.DrawLine(new Vector3(-1000, 0, 0), new Vector3(1000, 0, 0), Color.Red);
+                X.DebugDrawer.DrawLine(new Vector3(0, -1000, 0), new Vector3(0, 1000, 0), Color.Green);
+                X.DebugDrawer.DrawLine(new Vector3(0, 0, -1000), new Vector3(0, 0, 1000), Color.Blue);
+            }
 
             foreach (XComponent component in X.Components)
             {
@@ -85,41 +88,42 @@ namespace XEngine
                     if (NoDrawComponents.Contains(component))
                         continue;
 
-                    if (component is XActor)
-                    {
-                        //Does XActor, XHeightMap,XWater culling, add other types as create them
-                        //Only enter this if the XActor is within the view or its NoCull is set
-                        if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                        {
-                            //ActorsInView.Add(((XActor)component));
+                if (component is XActor)
+                {
+                    //Does XActor, XHeightMap,XWater culling, add other types as create them
+                    //Only enter this if the XActor is within the view or its NoCull is set
+                    //if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
+                    //{
+                        //ActorsInView.Add(((XActor)component));
 
-                            //Add these xactors to another list to be draw at the end since they are alphablendable
-                            if (((XActor)component).AlphaBlendable)
-                                Alpha.Add(((XActor)component));
-                            else //draw this xactor now
-                                component.Draw(gameTime, Camera);
-                        }
-                    }
-                    else if (component is XHeightMap)
-                    {
-                        if (Camera.Frustrum.Contains(((XHeightMap)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                            component.Draw(gameTime, Camera);
-                    }
-                    else if (component is XWater)
-                    {
-                        if (Camera.Frustrum.Contains(((XWater)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                            component.Draw(gameTime, Camera);
-                    }
-                    else
-                    {
-                        //Frustum testing?????
-                        component.Draw(gameTime, Camera);
-                    }
+                        //Add these xactors to another list to be draw at the end since they are alphablendable
+                        if (((XActor)component).AlphaBlendable)
+                            Alpha.Add(((XActor)component));
+                        else //draw this xactor now
+                            component.Draw(ref gameTime, ref  Camera);
+                    //}
+                }
+                else if (component is XHeightMap)
+                {
+                    //if (Camera.Frustrum.Contains(((XHeightMap)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
+                        component.Draw(ref gameTime, ref  Camera);
+                }
+                else if (component is XWater)
+                {
+                    //if (Camera.Frustrum.Contains(((XWater)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
+                        component.Draw(ref gameTime, ref  Camera);
+                }
+                else
+                {
+                    //Frustum testing????? Dynamicsky console debug debug drawer, menu manager
+                    component.Draw(ref gameTime, ref  Camera);
+                }
+            }//end xcomponent foreach loop
 
-                //This list of XActors are in view and have Alphablending turned on, RENDER THEM LAST SO THEY BLEND WITH EVERYTHING!
-                foreach (XActor actor in Alpha)
-                    actor.Draw(gameTime, Camera);
-            }
+            //This list of XActors are in view and have Alphablending turned on, RENDER THEM LAST SO THEY BLEND WITH EVERYTHING!
+            foreach (XActor actor in Alpha)
+                actor.Draw(ref gameTime, ref  Camera);
+
             //End Sprite Batch
             X.spriteBatch.End();
         }
@@ -129,7 +133,7 @@ namespace XEngine
         /// </summary>
         /// <param name="Model"></param>
         /// <param name="Camera"></param>
-        public virtual void DrawModel(XModel Model, XCamera Camera)
+        public virtual void DrawModel(ref XModel Model,ref XCamera Camera)
         {
             foreach (ModelMesh mesh in Model.Model.Meshes)
             {
@@ -137,7 +141,7 @@ namespace XEngine
 
                 foreach (Effect effect in mesh.Effects)
                 {
-                    if (effect.GetType() == typeof(BasicEffect))
+                    /*if (effect.GetType() == typeof(BasicEffect))
                     {
                         //if rendering a depthmap
                         if (Camera.RenderType == RenderTypes.Depth)
@@ -155,7 +159,7 @@ namespace XEngine
                         continue;
                     }
                     else
-                    {
+                    {*/
                         // bind SAS shader parameters
                         foreach (EffectParameter Parameter in effect.Parameters)
                         {
@@ -163,7 +167,7 @@ namespace XEngine
                         }
 
                         //if rendering a depthmap
-                        if (Camera.RenderType == RenderTypes.Depth)
+                        /*if (Camera.RenderType == RenderTypes.Depth)
                         {
                             //override any techniques with DepthMap technique shader
                             if (effect.Techniques["DepthMapStatic"] != null)
@@ -173,14 +177,14 @@ namespace XEngine
                                 break;
                             }
                             continue;
-                        }
+                        }*/
 
                         if (effect.Techniques["Static"] != null)
                             effect.CurrentTechnique = effect.Techniques["Static"];
                         else
                             effect.CurrentTechnique = effect.Techniques[0];
                         
-                    }
+                    //}
                 }
                 mesh.Draw();
             }

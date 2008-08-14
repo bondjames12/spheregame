@@ -31,7 +31,7 @@ namespace XEngine
         /// Updates the emitter, creating the appropriate number of particles
         /// in the appropriate positions.
         /// </summary>
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             if (gameTime == null)
                 throw new ArgumentNullException("gameTime");

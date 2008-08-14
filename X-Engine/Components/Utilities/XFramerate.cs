@@ -14,7 +14,7 @@ namespace XEngine
 
         public XFrameRate(XMain X) : base(X) { DrawOrder = 210;}
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             float elapsed = (float)gameTime.ElapsedRealTime.TotalSeconds;
             frameCount++;

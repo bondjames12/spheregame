@@ -38,7 +38,7 @@ namespace XEngine
         float right;
         float length;
 
-        public override void Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
             GetState();
 

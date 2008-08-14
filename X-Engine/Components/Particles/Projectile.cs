@@ -86,7 +86,7 @@ namespace XEngine
             age += elapsedTime;
 
             // Update the particle emitter, which will create our particle trail.
-            trailEmitter.Update(gameTime);//, position);
+            trailEmitter.Update(ref gameTime);//, position);
 
             // If enough time has passed, explode! Note how we pass our velocity
             // in to the AddParticle method: this lets the explosion be influenced
