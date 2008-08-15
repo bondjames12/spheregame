@@ -8,10 +8,10 @@ namespace XEngine
 {
     public class XCar : XComponent, XUpdateable, XDrawable
     {
-        CarObject Car;
+        public CarObject Car;
 
-        XModel Chassis;
-        XModel Wheel;
+        public XModel Chassis;
+        public XModel Wheel;
 
         public Vector3 Position { get { return Car.PhysicsBody.Position; } }
         public Matrix Orientation { get { return Car.PhysicsBody.Orientation; } }
