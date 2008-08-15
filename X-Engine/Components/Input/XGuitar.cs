@@ -10,6 +10,7 @@ namespace XEngine
 
         public XGuitar(XMain X, int GamepadNumber) : base(X)
         {
+            DrawOrder = 0;
             GamePad = new XGamePad(X, GamepadNumber);
         }
 

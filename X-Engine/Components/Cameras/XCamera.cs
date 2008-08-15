@@ -35,6 +35,7 @@ namespace XEngine
             Projection = GenerateProjection(X, MathHelper.PiOver4, ProjectionType.Perspective,NearPlane,  FarPlane);
             RenderType = RenderTypes.Normal;
             Base = this;
+            DrawOrder = 50000;
         }
 
         public enum ProjectionType { Perspective, Orthographic }

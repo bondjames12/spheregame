@@ -145,7 +145,7 @@ namespace Sphere
             resources.AddComponent(Chassis);
             resources.AddComponent(Wheel);
 
-            housemodel = new XModel(X, @"Content\Models\barrel_low");
+            housemodel = new XModel(X, @"Content\Models\captain_modtool");
             resources.AddComponent(housemodel);
 
             Car = new XCar(X, Chassis, Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(-10, 3, 0));
@@ -182,25 +182,30 @@ namespace Sphere
             // we must be GPU bound
             //System.Threading.Thread.Sleep(1);
 
-            
-            //Call engine update
-            X.Update(gameTime);
-            
             //Input processor update KB,Mouse,Gamepad
             input.Update(gameTime);
 
-            if (Car != null)
-            {
-                chase.ChaseTargetPosition = Car.Position;
-                chase.ChaseTargetForward = Car.Orientation.Forward;
-                chase.Up = Car.Orientation.Up;
-            }
+            //Call engine update
+            X.Update(gameTime);
 
+            //this logic should be integrated into the main update loop somewhere
+            //must be after physics and position updates then set the final camera positions then call update
             if (currentCamera == driverCamera)
             {
                 //set position is Head bone of the Car model!
                 driverCamera.Position = Vector3.Transform(Vector3.Zero, Matrix.Identity * Car.Car.GetWorldMatrix(Car.Chassis.Model, Vector3.Zero)[0] * Car.Chassis.Model.Bones["Head"].Transform);
+                driverCamera.Update(ref gameTime);
             }
+
+            if (currentCamera == chase)
+            {
+                chase.ChaseTargetPosition = Car.Position;
+                chase.ChaseTargetForward = Car.Orientation.Forward;
+                chase.Up = Car.Orientation.Up;
+                chase.Update(ref gameTime);
+            }
+
+            
 
             //XNA Update
             base.Update(gameTime);

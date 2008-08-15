@@ -13,10 +13,12 @@ namespace XEngine
 
         public Vector3 modeloffset;
 
+        #region Properties
         public int PhysicsID { get { return PhysicsObject.PhysicsBody.ID; } }
 
         public BoundingBox boundingBox { get { if (PhysicsObject.PhysicsBody.CollisionSkin != null) return PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox; else return new BoundingBox(Position, Position);  } }
 
+       
         List<int> collisions = new List<int>();
         public List<int> Collisions
         {
@@ -79,10 +81,13 @@ namespace XEngine
             get { return rotation; }
             set { rotation = value; Orientation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(rotation.Y), MathHelper.ToRadians(rotation.X), MathHelper.ToRadians(rotation.Z)); }
         }
+ #endregion
 
         public XActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass)
             : base(X)
         {
+            DrawOrder = 100;
+
             if (model != null)
             {
                 this.model = model;
@@ -160,5 +165,49 @@ namespace XEngine
             PhysicsObject.PhysicsBody.DisableBody();
             base.Disable();
         }
+
+        /*
+        List<Boundary> boundaries;
+
+        public void UpdateDebug(ref GameTime gameTime)
+        {
+            boundaries.Clear();
+            ReadOnlyCollection<Body> bodies = PhysicsSystem.CurrentPhysicsSystem.Bodies;
+            foreach (Body body in bodies)
+            {
+                for (int i = 0; i < body.CollisionSkin.NumPrimitives; i++)
+                {
+                    Primitive p = body.CollisionSkin.GetPrimitiveOldWorld(i);
+                    if (p.Type == (int)JigLibX.Geometry.PrimitiveType.Sphere)
+                    {
+                        Boundary b = new Boundary();
+                        Sphere s = p as Sphere;
+                        b.Scale = s.Radius;
+                        b.Model = sphere;
+                        b.Transform = Matrix.CreateTranslation(s.Position);
+                        boundaries.Add(b);
+                    }
+                }
+            }
+        }
+
+        public void DrawDebug(ref GameTime gameTime,ref  XCamera Camera) 
+        { 
+            foreach (Boundary b in boundaries) 
+            { 
+                Matrix[] transforms = new Matrix[b.Model.Bones.Count]; 
+                b.Model.CopyAbsoluteBoneTransformsTo(transforms); 
+                foreach (ModelMesh m in b.Model.Meshes) 
+                { 
+                    foreach (BasicEffect effect in m.Effects) 
+                    { 
+                        effect.World = Matrix.CreateScale(b.Scale) * b.Transform; 
+                        effect.View = Camera.View; 
+                        effect.Projection = CameraProjection; 
+                    } 
+                    m.Draw(); 
+                } 
+            } 
+        } */
     }
 }

@@ -17,14 +17,12 @@ namespace XEngine
         public XSkyBox(XMain X)
             : base(X)
         {
-            DrawOrder = 21;
+            DrawOrder = 19;
         }
 
         public XSkyBox(XMain X, string Front, string Back, string Left, string Right, string Top, string Bottom) : base(X)
         {
             Filenames = new string[] { Bottom, Front, Back, Top, Left, Right };
-
-            DrawOrder = 21;
         }
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)

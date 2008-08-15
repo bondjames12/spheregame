@@ -16,7 +16,7 @@ namespace XEngine
         public XDebug(XMain X)
             : base(X)
         {
-            DrawOrder = 299;
+            DrawOrder = 300;
             AutoDraw = true;
         }
 

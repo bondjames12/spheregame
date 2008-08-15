@@ -55,33 +55,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Heightmaps\gcanyon.png">
-      <Name>gcanyon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Heightmaps\map2.png">
-      <Name>map2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Terrainmaps\gcanyonTerrain.png">
-      <Name>gcanyonTerrain</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Terrainmaps\map1Terrain.png">
-      <Name>map1Terrain</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Terrainmaps\mapLargeTerrain.png">
-      <Name>mapLargeTerrain</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\fire.png">
       <Name>fire</Name>
       <Importer>TextureImporter</Importer>
@@ -337,6 +310,13 @@
   <ItemGroup>
     <Compile Include="Images\Treemaps\Level1.bmp">
       <Name>Level1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Heightmaps\Level2.bmp">
+      <Name>Level2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

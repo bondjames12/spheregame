@@ -18,7 +18,20 @@ namespace XEngine
         public bool AlphaBlendable = false;
         public bool NoCull = false;
         /// <summary>
-        /// Base Drawing Order
+        /// Base Drawing Order and Updating order!!!!!!
+        /// Use this base ordering scheme
+        /// Base is 20
+        /// Game Console = 1000
+        /// 2D Menu 500-600
+        /// 2D Debug Text 300-400 (xframerate=301) 
+        /// 2D Debug 200 - 300
+        /// Game objects 100-200
+        /// Particle sytems 50-100
+        /// Terrain(21), water(22) 20-50
+        /// Far Away objects (sky=19) 0-20
+        /// Cameras 0-10
+        /// Game Input 0
+        /// 
         /// </summary>
         int drawOrder = 20;
 

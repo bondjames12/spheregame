@@ -23,6 +23,7 @@ namespace XEngine
 
         public XMouse(XMain X) : base(X)
         {
+            DrawOrder = 0;
             Delta = Vector2.Zero;
             ScrollPosition = 0;
             ScrollDelta = 0;

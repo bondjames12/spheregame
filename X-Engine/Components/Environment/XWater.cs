@@ -44,6 +44,7 @@ namespace XEngine
         public XWater(XMain X)
             : base(X)
         {
+            DrawOrder = 22;
             PointOne = new Vector2(-128);
             PointTwo = new Vector2(128);
             Height = 4;
