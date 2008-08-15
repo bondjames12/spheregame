@@ -21,6 +21,8 @@ namespace Sphere
         public XResourceGroup resources;
 
         public XFreeLookCamera camera;
+        public XChaseCamera chase;
+        public XCamera currentCamera;
 
         public XModel model;
 
@@ -37,7 +39,7 @@ namespace Sphere
 
         public Fire fire;
 
-        public XChaseCamera chase;
+        
 
         public XModel plane;
         public XActor planeActor;
@@ -103,9 +105,8 @@ namespace Sphere
             X.Renderer.DebugNoDraw.Add(menus);
             camera = new XFreeLookCamera(X,.01f,1000f);
             camera.Position = new Vector3(0, 10, 50);
-
-            chase = new XChaseCamera(X, 1, 1000);
-            
+            chase = new XChaseCamera(X, .01f, 1000f);
+            currentCamera = chase;
 
             base.Initialize();
         }
@@ -140,10 +141,11 @@ namespace Sphere
             resources.AddComponent(Chassis);
             resources.AddComponent(Wheel);
 
-            housemodel = new XModel(X, @"Content\Models\captain_modtool");
+            housemodel = new XModel(X, @"Content\Models\barrel_low");
             resources.AddComponent(housemodel);
 
-            
+            Car = new XCar(X, Chassis, Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(-10, 3, 0));
+            resources.AddComponent(Car);
 
             resources.Load();
 
@@ -200,7 +202,7 @@ namespace Sphere
         protected override void Draw(GameTime gameTime)
         {
             // TODO: Add your drawing code here
-            X.Renderer.Draw(ref gameTime,ref camera.Base);
+            X.Renderer.Draw(ref gameTime, ref currentCamera);
            
             base.Draw(gameTime);
         }

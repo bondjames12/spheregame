@@ -51,10 +51,17 @@ namespace XEngine
             DepthMap = new XDepthMap(this);
             Tools = new XTools(this);
             Environment = new XEnvironmentParameters(this);
+
+
             Physics = new PhysicsSystem();
             Physics.EnableFreezing = true;
             Physics.SolverType = PhysicsSystem.Solver.Normal;
-            Physics.CollisionSystem = new CollisionSystemSAP();
+            Physics.CollisionSystem = new CollisionSystemGrid(32, 32, 32, 32, 32, 32);
+            Physics.CollisionSystem.UseSweepTests = true;
+            
+            //New system
+            //Physics.CollisionSystem = new CollisionSystemSAP();
+
             //Rendering should be the last thing! The constructor requires some componnets like debug, debugdrawer to allready exist!
             Renderer = new XRenderer(this);
         }
@@ -71,10 +78,21 @@ namespace XEngine
             GC.Collect();
         }
 
+        const float StepSize = 1.00f / 100.0f;  // or whatever your sim rate is
+        double phase_;
         public void Update(GameTime gameTime)
         {
             if (UpdatePhysics)
-                PhysicsSystem.CurrentPhysicsSystem.Integrate((float)gameTime.ElapsedGameTime.TotalSeconds);
+            {
+                phase_ += gameTime.ElapsedGameTime.TotalSeconds;
+                if (phase_ > 0.1) phase_ = 0.1; // lock to 10 fps assumed worst case
+                while (phase_ > 0)
+                {
+                    PhysicsSystem.CurrentPhysicsSystem.Integrate(StepSize);
+                    phase_ -= StepSize;
+                }
+                this.Debug.Write("Physics Integration dt coefficient:" + StepSize.ToString(), false);
+            }
 
             foreach(XComponent Component in Components)
                 if (Component is XUpdateable)

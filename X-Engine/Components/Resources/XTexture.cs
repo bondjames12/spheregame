@@ -101,7 +101,7 @@ namespace XEngine
 
         public void Draw(GameTime gameTime, Rectangle rectangle, float Rotation, Color color)
         {
-            if (Loaded)
+            if (loaded)
             {
                 if (!Animated)
                     X.spriteBatch.Draw(texture, rectangle, Color.White);

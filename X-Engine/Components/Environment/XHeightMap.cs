@@ -150,7 +150,7 @@ namespace XEngine
 
         public override void Draw(ref GameTime gameTime, ref XCamera Camera)
         {
-            if (Loaded)
+            if (loaded)
             {
                 X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
 

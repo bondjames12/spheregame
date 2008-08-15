@@ -7,8 +7,6 @@ namespace XEngine
 {
     public class XActor : XComponent, XDrawable
     {
-        public bool AlphaBlendable = false;
-
         public XModel model;
 
         public XPhysicsObject PhysicsObject;
@@ -82,65 +80,23 @@ namespace XEngine
             set { rotation = value; Orientation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(rotation.Y), MathHelper.ToRadians(rotation.X), MathHelper.ToRadians(rotation.Z)); }
         }
 
-        public enum ActorType { Box, Capsule, Plane, Sphere, Mesh, BowlingPin }
-
-        ActorType type;
-        public ActorType Type
-        {
-            get { return type; }
-            set { type = value;}
-        }
-
-/*
-        public XActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass) : base(X)
-        {
-            if (model != null)
-            {
-                this.model = model;
-                model.ParentActor = this;
-            }
-            this.mass = Mass;
-            this.PhysicsObject = Object;
-
-            PhysicsObject.SetMass(Mass);
-            PhysicsObject.scale = ModelScale;
-            PhysicsObject.PhysicsBody.Velocity = Velocity;
-            modeloffset = ModelOffset;
-        }
-*/
-        public XActor(XMain X, ActorType type, XModel model, Vector3 Position, Matrix Rotation, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Size, Vector3 Velocity, float Mass)
+        public XActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass)
             : base(X)
         {
-            switch (type)
-            {
-                case ActorType.Box:
-                    this.PhysicsObject = new BoxObject(Size, Rotation, Position); break;
-                case ActorType.Capsule:
-                    this.PhysicsObject = new CapsuleObject(Size.X, Size.Y, Rotation, Position); break;
-                case ActorType.Mesh:
-                    this.PhysicsObject = new TriangleMeshObject(model, Rotation, Position); break;
-                case ActorType.Plane:
-                    this.PhysicsObject = new PlaneObject(); break;
-                case ActorType.Sphere:
-                    this.PhysicsObject = new SphereObject(Size.X, Rotation, Position); break;
-                case ActorType.BowlingPin:
-                    this.PhysicsObject = new BowlingPinObject(Rotation, Position); break;
-            }
-
             if (model != null)
             {
                 this.model = model;
                 model.ParentActor = this;
             }
-            this.type = type;
+            this.PhysicsObject = Object;
             this.mass = Mass;
             this.PhysicsObject.SetMass(Mass);
             this.PhysicsObject.scale = ModelScale;
             this.PhysicsObject.PhysicsBody.Velocity = Velocity;
+            this.PhysicsObject.PhysicsBody.SetDeactivationTime(0.1f);
+            this.PhysicsObject.PhysicsBody.SetActivityThreshold(5f, 5f);
             this.modeloffset = ModelOffset;
         }
-
-        
 
         public Matrix GetWorldMatrix()
         {
@@ -154,7 +110,7 @@ namespace XEngine
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
-            if (model != null && model.Loaded)
+            if (model != null && model.loaded)
             {
                 if (AlphaBlendable)
                 {
@@ -180,16 +136,22 @@ namespace XEngine
                 model.SASData.ComputeViewAndProjection();
                 //model.SASData.ComputeModel();
 
+                X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
+
                 X.Renderer.DrawModel(ref model,ref Camera);
+
+                //restore render modes (shader files might have changes this!
+                X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
             }
 
             if (DebugMode)
             {
                 //Draw Frustum (Yellow) and Physics Bounding (White), In XActor these should be the same but draw then both anyway just in case
                 X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.Yellow, Matrix.Identity, Camera);
-                X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
+                //X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
                 //Not sure if this is different or not from the one above
-                X.DebugDrawer.DrawCube(PhysicsObject.PhysicsSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
+                //X.DebugDrawer.DrawCube(PhysicsObject.PhysicsSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
+                //
             }
         }
 

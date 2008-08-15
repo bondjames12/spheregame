@@ -102,6 +102,9 @@ namespace Sphere
 
             //write camera corrds for debug
             X.Debug.Write("Camera: X" + parent.camera.Position.X.ToString() + " Y:" + parent.camera.Position.Y.ToString() + " Z:" + parent.camera.Position.Z.ToString(), false);
+            X.Debug.Write("Box Actors in List:" + parent.boxes.Count.ToString(), false);
+            X.Debug.Write("Press F6 to switch Camera. Current: " + parent.currentCamera.Name, false);
+
 
             //drive car
             if (parent.Car != null)
@@ -117,10 +120,10 @@ namespace Sphere
             }
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
-                parent.boxes.Add(new XActor(X, XActor.ActorType.Box, parent.model, parent.camera.Position, Matrix.Identity, new Vector3(1), new Vector3(0, 0, 0), new Vector3(1), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(X, new CapsuleObject(1,1,Matrix.Identity,parent.camera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
 #else
             if (gamepad.ButtonPressed(Buttons.A))
-                parent.boxes.Add(new XActor(X, new BoxObject(new Vector3(1), Matrix.Identity, parent.camera.Position), parent.model, new Vector3(1), new Vector3(0, 0, 0), Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(X, new CapsuleObject(1,1,Matrix.Identity,parent.camera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
 #endif
 
             if (keyboard.KeyPressed(Keys.F1))
@@ -133,7 +136,7 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F3))
                 if (parent.water == null)
                 {
-                    parent.water = new XWater(X, new Vector2(-128, -128), new Vector2(128, 128), 6);
+                    parent.water = new XWater(X, new Vector2(-128, -128), new Vector2(128, 128), 3f);
                     parent.water.Load(parent.Content);
                     parent.water.Update(ref gameTime);
                     parent.resources.AddComponent(parent.water);
@@ -174,7 +177,7 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F4))
                 for (int x = 0; x < 10; x++)
                     for (int e = x; e < 10; e++)
-                        parent.boxes.Add(new XActor(X, XActor.ActorType.Box, parent.model, new Vector3(20, x * 1.01f + 1, e - 0.5f * x), Matrix.Identity, new Vector3(1), new Vector3(0, 0, 0), new Vector3(1), Vector3.Zero, 10));            
+                        parent.boxes.Add(new XActor(X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(20, x * 1.01f + 1, e - 0.5f * x)), parent.model, Vector3.One, Vector3.Zero, Vector3.Zero, 10));            
             
             if (keyboard.KeyPressed(Keys.F5))
             {
@@ -182,7 +185,7 @@ namespace Sphere
 
                 for (int i = 0; i < 25; i++)
                 {
-                    XActor actor = new XActor(X, XActor.ActorType.Box, parent.model, new Vector3(i + 10, 45 - i, 0), Matrix.Identity, new Vector3(1), Vector3.Zero, Vector3.One, Vector3.Zero, 1);
+                    XActor actor = new XActor(X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(i + 10, 45 - i, 0)), parent.model, Vector3.One, Vector3.Zero, Vector3.Zero, 10);
                     if (i == 0) actor.Immovable = true;
                     chainBoxes.Add(actor);
                 }
@@ -192,25 +195,30 @@ namespace Sphere
                     XHingeJoint hinge = new XHingeJoint(X, chainBoxes[i - 1], chainBoxes[i], Vector3.Backward, new Vector3(0.5f, -0.5f, 0.0f), 1.0f, 90.0f, 90.0f, 0.2f, 0.2f);
                 }
             }
-            
+
             if (keyboard.KeyPressed(Keys.F6))
-                if (parent.Car == null)
-                {
-                    parent.Car = new XCar(X, parent.Chassis, parent.Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(10, 3, 0));
-                    parent.resources.AddComponent(parent.Car);
-                }
+            {
+                if (parent.currentCamera is XChaseCamera)
+                    parent.currentCamera = parent.camera;
+                else
+                    parent.currentCamera = parent.chase;
+            }
+                
 
             if (keyboard.KeyPressed(Keys.F7))
             {
             }
 
             if (keyboard.KeyPressed(Keys.F8))
-                if (parent.houseactor == null)
-                {
-                    parent.houseactor = new XAnimatedActor(X, XActor.ActorType.Box,parent.housemodel, new Vector3(20, 10, 0), Matrix.Identity, new Vector3(/*0.05f*/1f), new Vector3(0, 0, 0), new Vector3(10), Vector3.Zero, .1f);
-                    parent.houseactor.Load(X.Content);
-                    parent.houseactor.Immovable = false;
-                }
+            {
+                //if (parent.houseactor == null)
+                //{
+                parent.houseactor = new XAnimatedActor(X, new BoxObject(new Vector3(5,5,1),Matrix.Identity,new Vector3(2,2,2)), parent.housemodel, Vector3.One, Vector3.Zero, Vector3.Zero, .1f);
+                parent.houseactor.Load(X.Content);
+                parent.houseactor.Immovable = false;
+                parent.boxes.Add(parent.houseactor);
+                //}
+            }
 
             if (keyboard.KeyPressed(Keys.F9))
             {
@@ -241,7 +249,16 @@ namespace Sphere
                 pan += new Vector2(pad.ThumbSticks.Left.X, -pad.ThumbSticks.Left.Y) * panSensitivity;
                 */
             }
-            
+
+            if(keyboard.KeyPressed(Keys.PageUp))
+            {
+                
+            }
+
+            if (keyboard.KeyPressed(Keys.PageDown))
+            {
+                
+            }
             
             //Example Code
 /*            if (!parent.menus.MenuOpen)

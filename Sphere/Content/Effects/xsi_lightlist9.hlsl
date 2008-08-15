@@ -2,11 +2,15 @@
 // lights
 float4 lightpos0
 <
-	string SasBindAddress = "Sas.PointLights[0].Position"; 
+	string SasBindAddress = "Sas.PointLights[0].Position";
+    string UIName =  "Lamp 0 Position";
+    string Space = "World";
 >;
 float4 lightcol0
 <
-	string SasBindAddress = "Sas.PointLights[0].Color"; 
+	string SasBindAddress = "Sas.PointLights[0].Color";
+	string UIWidget = "Color";
+	string UIName =  "Lamp 0 Color";
 >;
 
 float4 lightpos1

@@ -38,9 +38,9 @@ namespace XEngine
             }
         }
 
-        public XAnimatedActor(XMain X, ActorType type, XModel model, Vector3 Position, Matrix Rotation, 
-            Vector3 ModelScale, Vector3 ModelOffset, Vector3 Size, Vector3 Velocity, float Mass) :
-                base(X, type, model, Position, Rotation, ModelScale, ModelOffset, Size, Velocity, Mass)
+        public XAnimatedActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale,
+                                    Vector3 ModelOffset, Vector3 Velocity, float Mass) :
+                base(X, Object, model,ModelScale, ModelOffset, Velocity, Mass)
         {
             model.ParentActor = this;
             _AnimationIndex = 0;
@@ -99,7 +99,7 @@ namespace XEngine
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
-            if (model != null && model.Loaded)
+            if (model != null && model.loaded)
             {
             Matrix World = PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
 
@@ -119,7 +119,7 @@ namespace XEngine
                 else
                     X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-                //X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
+                X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
 
                 //Set camera params, compute matrices
                 model.SASData.Camera.NearFarClipping.X = Camera.NearPlane;

@@ -3,7 +3,7 @@ xsi 0600txt 0032
 SI_FileInfo { 
 	"Sphere", 
 	"Colin", 
-	"Mon Aug 11 16:55:42 2008", 
+	"Fri Aug 15 03:13:18 2008", 
 	"Softimage|XSI version 6", 
 }
 
@@ -34,7 +34,7 @@ SI_Ambience {
 }
 
 SI_MaterialLibrary DefaultLib { 
-	2, 
+	1, 
 	XSI_Material Constant { 
 		1, 
 		"RealTime","Constant",
@@ -46,10 +46,11 @@ SI_MaterialLibrary DefaultLib {
 		XSI_Shader Constant { 
 			"Softimage.DXFx2.1", 
 			16, 
-			7, 
+			8, 
 			1, 
 			"Name","STRING","Constant",
 			"filename","STRING","..\\Effects\\Constant.fx",
+			"code","STRING","",
 			"code2","STRING","",
 			"external_ref","BOOLEAN",1,
 			"nb_textures","INTEGER",1,
@@ -92,62 +93,16 @@ SI_MaterialLibrary DefaultLib {
 
 			}
 
-		}
+			XSI_ShaderInstanceData { 
+				"Tire", 
+				1, 
+				"tspace_id_0","STRING","",
+			}
 
-	}
-
-	XSI_Material Constant_NoTexture { 
-		1, 
-		"RealTime","Constant_NoTexture",
-		XSI_MaterialInfo { 
-			0, 
-			0, 
-		}
-
-		XSI_Shader Constant_NoTexture { 
-			"Softimage.DXFx2.1", 
-			16, 
-			6, 
-			0, 
-			"Name","STRING","Constant_NoTexture",
-			"filename","STRING","..\\Effects\\Constant_NoTexture.fx",
-			"code2","STRING","",
-			"external_ref","BOOLEAN",1,
-			"nb_textures","INTEGER",0,
-			"refresh_flag","INTEGER",0,
-			XSI_CustomPSet DirectXFX_Parameters { 
-				"NODE", 
-				"customparamset", 
-				5,
-				"Technique","Text","Static", 
-				"ColorParameter_X","Floating Point Number",0.294000, 
-				"ColorParameter_Y","Floating Point Number",1.000000, 
-				"ColorParameter_Z","Floating Point Number",0.235000, 
-				"ColorParameter_W","Floating Point Number",1.000000, 
-				XSI_CustomParamInfo ColorParameter_X { 
-					-3.40282e+038,
-					3.40282e+038,
-					2053,
-				}
-
-				XSI_CustomParamInfo ColorParameter_Y { 
-					-3.40282e+038,
-					3.40282e+038,
-					2053,
-				}
-
-				XSI_CustomParamInfo ColorParameter_Z { 
-					-3.40282e+038,
-					3.40282e+038,
-					2053,
-				}
-
-				XSI_CustomParamInfo ColorParameter_W { 
-					-3.40282e+038,
-					3.40282e+038,
-					2053,
-				}
-
+			XSI_ShaderInstanceData { 
+				"Rim", 
+				1, 
+				"tspace_id_0","STRING","",
 			}
 
 		}
@@ -345,9 +300,9 @@ SI_Model MDL-Model {
 		}
 
 		XSI_Transform { 
-			-0.000000, 
 			0.000000, 
-			-0.000000, 
+			0.000000, 
+			0.000000, 
 			0.000000, 
 			0.000000, 
 			0.000000, 
@@ -2103,7 +2058,7 @@ SI_Model MDL-Model {
 			XSI_TriangleList TriList00 { 
 				2, 
 				"XSINormal","Map__5",
-				"Constant_NoTexture", 
+				"Constant", 
 				214, 
 
 				0,0,0,
@@ -2967,7 +2922,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Constant_NoTexture", 
+			"Constant", 
 			"NODE", 
 		}
 
@@ -2979,9 +2934,9 @@ SI_Model MDL-Model {
 		}
 
 		XSI_Transform { 
-			-0.000000, 
-			-0.000000, 
-			-0.000000, 
+			0.000000, 
+			0.000000, 
+			0.000000, 
 			0.000000, 
 			0.000000, 
 			0.000000, 
@@ -8711,7 +8666,7 @@ SI_Model MDL-Model {
 			XSI_TriangleList TriList00 { 
 				2, 
 				"XSINormal","Map__5",
-				"Constant_NoTexture", 
+				"Constant", 
 				756, 
 
 				0,0,0,
@@ -11743,7 +11698,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Constant_NoTexture", 
+			"Constant", 
 			"NODE", 
 		}
 

@@ -107,9 +107,9 @@ namespace XEngine
 
             Heighmap.GetData(colors);
 
-            for (int x = 0; x < Width; x++)
+            for (int x = 1; x < Width; x++)
             {
-                for (int y = 0; y < Height; y++)
+                for (int y = 1; y < Height; y++)
                 {
                     if (colors[x + y * Width].R == 0)
                         treeMap.Add(new Vector3(x - WidthAdjust, heightMapInfo.GetHeight(new Vector3(x - WidthAdjust, 0, y - HeightAdjust)) - YAdjust, y - HeightAdjust));
@@ -131,7 +131,7 @@ namespace XEngine
             {
                 // Generate a tree.
                 TreeModel tree = generators[rand.Next(0,3)].GenerateTreeMesh(rand.Next(), rand.Next(8,12), true, rand.Next(0,2));
-                XTree Xtree = new XTree(X, XActor.ActorType.Box, null, pos, Matrix.Identity, Vector3.One, Vector3.Zero, Vector3.One, Vector3.Zero,1000);
+                XTree Xtree = new XTree(X, new BoxObject(new Vector3(1,10,1), Matrix.Identity, pos), null, Vector3.One, Vector3.Zero, Vector3.Zero,1000);
                 Xtree.Immovable = true;
                 Xtree.tree = tree;
                 // Set the trunk's projection matrix, used in drawing function, static
@@ -141,7 +141,7 @@ namespace XEngine
 
                 //compute a world matrix from position on treeMap
                 //tested out a scale value that sorta matchs the car we have
-                Xtree.World = Matrix.Identity /* Matrix.CreateScale(0.037f)*/ * Matrix.CreateTranslation(pos);
+                Xtree.World = Matrix.Identity * Matrix.CreateTranslation(pos);
 
                 //Add to TreeModel list
                 trees.Add(Xtree);

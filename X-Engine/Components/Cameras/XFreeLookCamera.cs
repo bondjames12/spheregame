@@ -6,11 +6,11 @@ namespace XEngine
     {
         Vector3 movement;
         Vector3 rotation;
-        public XCamera Base;
+        
 
         public XFreeLookCamera(XMain X, float NearPlane, float FarPlane) : base(X, NearPlane, FarPlane)
         {
-            Base = this;
+            
         }
 
         public void Translate(Vector3 Movement)

@@ -71,7 +71,7 @@ namespace XEngine
 
         public override void Update(ref GameTime gameTime)
         {
-            if (Loaded)
+            if (loaded)
             {
                 if (RealTime)
                 {
@@ -86,7 +86,7 @@ namespace XEngine
 
         public override void Draw(ref GameTime gameTime, ref  XCamera camera)
         {
-            if (Loaded)
+            if (loaded)
             {
                 Matrix[] boneTransforms = new Matrix[domeModel.Bones.Count];
                 domeModel.CopyAbsoluteBoneTransformsTo(boneTransforms);

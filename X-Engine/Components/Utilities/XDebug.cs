@@ -33,13 +33,13 @@ namespace XEngine
             int offset = (int)StartPosition.Y;
             foreach (string Text in toWrite)
             {
-                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.White);
+                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
                 offset += RowHeight;
             }
             toWrite.Clear();
             foreach (string Text in toWriteStatic)
             {
-                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.White);
+                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
                 offset += RowHeight;
             }
         }

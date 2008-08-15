@@ -44,7 +44,7 @@ namespace XEngine
 
             Matrix rotation = Matrix.Identity;
             rotation.Forward = Target - Position;
-            rotation.Up = Vector3.Cross(Vector3.Up, rotation.Forward);
+            rotation.Up = Up;// this causes the rotation to be wrong ??Vector3.Cross(Vector3.Up, rotation.Forward);
             rotation.Right = Vector3.Cross(Vector3.Left, rotation.Forward);
             RotationMatrix = rotation;
 
