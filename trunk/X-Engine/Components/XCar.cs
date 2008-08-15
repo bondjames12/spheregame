@@ -23,6 +23,10 @@ namespace XEngine
             int wheelNumRays, float driveTorque, float gravity, Vector3 Position)
             : base(X)
         {
+            //since the car has alphablended windows we set this to true so in the render loop its last
+            //this way you can see everything through the window!
+            //remember alphablending is draw order dependent!
+            AlphaBlendable = true;
             this.Chassis = Chassis;
             this.Wheel = Wheel;
 
@@ -30,7 +34,7 @@ namespace XEngine
                 wheelTravel, wheelRadius, wheelZOffset, wheelRestingFrac, wheelDampingFrac, wheelNumRays,
                 driveTorque, gravity);
             Car.Car.EnableCar();
-
+            //Car.PhysicsBody.SetDeactivationTime(99999999f);
             Car.PhysicsBody.Position = Position;
         }
 
@@ -75,7 +79,12 @@ namespace XEngine
             Chassis.SASData.Model = World[0];
             Chassis.SASData.ComputeViewAndProjection();
 
+            X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
+
             X.Renderer.DrawModel(ref Chassis,ref  Camera);
+
+            //the car has alphablended windows turn this off now or else other things go transparent!
+            X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
             if (DebugMode)
             {

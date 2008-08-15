@@ -11,6 +11,7 @@ namespace XEngine
 
     public class XCamera : XComponent, XUpdateable
     {
+        public XCamera Base;
         public Vector3 Position = Vector3.Zero;
         public Vector3 Target = new Vector3(0, 0, -10);
         public Vector3 Up = new Vector3(0, 1, 0);
@@ -33,6 +34,7 @@ namespace XEngine
         {
             Projection = GenerateProjection(X, MathHelper.PiOver4, ProjectionType.Perspective,NearPlane,  FarPlane);
             RenderType = RenderTypes.Normal;
+            Base = this;
         }
 
         public enum ProjectionType { Perspective, Orthographic }

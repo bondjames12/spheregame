@@ -12,21 +12,15 @@ namespace XEngine
         /// bounding rendering and on screen status messages.
         /// </summary>
         public bool DebugMode = true;
-        bool loaded = false;
+        //Whether the component's "Load()" method has been called.
+        public bool loaded = false;
         bool autoDraw = true;
+        public bool AlphaBlendable = false;
         public bool NoCull = false;
         /// <summary>
         /// Base Drawing Order
         /// </summary>
         int drawOrder = 20;
-
-        /// <summary>
-        /// Gets whether the component's "Load()" method has been called.
-        /// </summary>
-        public bool Loaded
-        {
-            get { return loaded; }
-        }
 
         string name;
         public string Name

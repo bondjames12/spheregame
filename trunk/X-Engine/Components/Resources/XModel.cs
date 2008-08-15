@@ -58,7 +58,7 @@ namespace XEngine
 
         public void SetShader(Effect setEffectTo)
         {
-            if (Loaded)
+            if (loaded)
             {
                 foreach (ModelMesh mesh in model.Meshes)
                 {

@@ -68,7 +68,9 @@
     <Compile Include="Collision\CollisionSystem.cs" />
     <Compile Include="Collision\CollisionSystemBrute.cs" />
     <Compile Include="Collision\CollisionSystemGrid.cs" />
-    <Compile Include="Collision\CollisionSystemSAP.cs" />
+    <Compile Include="Collision\CollisionSystemSAP.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Collision\Detecion\BoxBox.cs" />
     <Compile Include="Collision\Detecion\BoxHeightmap.cs" />
     <Compile Include="Collision\Detecion\BoxPlane.cs" />

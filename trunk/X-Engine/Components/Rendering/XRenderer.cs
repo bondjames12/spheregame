@@ -57,7 +57,7 @@ namespace XEngine
             X.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
             X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-            List<XActor> Alpha = new List<XActor>();
+            List<XComponent> Alpha = new List<XComponent>();
 
             //ActorsInView.Clear();
 
@@ -88,29 +88,31 @@ namespace XEngine
                     if (NoDrawComponents.Contains(component))
                         continue;
 
+                //Add these components to another list to be draw at the end since they are alphablendable
+                //after adding it to the list continue to the next component in this loop!
+                if (component.AlphaBlendable)
+                {
+                    Alpha.Add(component);
+                    continue;
+                }
+
                 if (component is XActor)
                 {
                     //Does XActor, XHeightMap,XWater culling, add other types as create them
                     //Only enter this if the XActor is within the view or its NoCull is set
-                    //if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                    //{
-                        //ActorsInView.Add(((XActor)component));
-
-                        //Add these xactors to another list to be draw at the end since they are alphablendable
-                        if (((XActor)component).AlphaBlendable)
-                            Alpha.Add(((XActor)component));
-                        else //draw this xactor now
-                            component.Draw(ref gameTime, ref  Camera);
-                    //}
+                    if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
+                    {
+                        component.Draw(ref gameTime, ref  Camera);
+                    }
                 }
                 else if (component is XHeightMap)
                 {
-                    //if (Camera.Frustrum.Contains(((XHeightMap)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
+                    if (Camera.Frustrum.Contains(((XHeightMap)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
                         component.Draw(ref gameTime, ref  Camera);
                 }
                 else if (component is XWater)
                 {
-                    //if (Camera.Frustrum.Contains(((XWater)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
+                    if (Camera.Frustrum.Contains(((XWater)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
                         component.Draw(ref gameTime, ref  Camera);
                 }
                 else
@@ -121,8 +123,8 @@ namespace XEngine
             }//end xcomponent foreach loop
 
             //This list of XActors are in view and have Alphablending turned on, RENDER THEM LAST SO THEY BLEND WITH EVERYTHING!
-            foreach (XActor actor in Alpha)
-                actor.Draw(ref gameTime, ref  Camera);
+            foreach (XComponent cmpt in Alpha)
+                cmpt.Draw(ref gameTime, ref  Camera);
 
             //End Sprite Batch
             X.spriteBatch.End();
@@ -135,56 +137,38 @@ namespace XEngine
         /// <param name="Camera"></param>
         public virtual void DrawModel(ref XModel Model,ref XCamera Camera)
         {
-            foreach (ModelMesh mesh in Model.Model.Meshes)
+            for (int i = 0; i < Model.Model.Meshes.Count; i++)
             {
+                ModelMesh mesh = Model.Model.Meshes[i];
+
                 Model.SASData.ComputeModel();
 
-                foreach (Effect effect in mesh.Effects)
+                for(int j = 0; j < mesh.Effects.Count; j++)
                 {
-                    /*if (effect.GetType() == typeof(BasicEffect))
+                    Effect effect = mesh.Effects[j];
+                    // bind SAS shader parameters
+                    foreach (EffectParameter Parameter in effect.Parameters)
                     {
-                        //if rendering a depthmap
-                        if (Camera.RenderType == RenderTypes.Depth)
-                        {
-                            System.Diagnostics.Debug.WriteLine("Basiceffect object! Please give a shader:" + mesh.Name);
-                            return; //we can't render meshes using basiceffect into our depth MAP!!!!!
+                        Model.SASData.SetEffectParameterValue(Parameter);
+                    }
+
+                    //if rendering a depthmap
+                    if (Camera.RenderType == RenderTypes.Depth)
+                    {
+                        //override any techniques with DepthMap technique shader
+                        if (effect.Techniques["DepthMapStatic"] != null)
+                            effect.CurrentTechnique = effect.Techniques["DepthMapStatic"];
+                        else
+                        {//if we get there there is no DepthMap shader so we can't render this into our depth MAP!!
+                            break;
                         }
-                        BasicEffect basiceffect = (BasicEffect)effect;
-                        basiceffect.EnableDefaultLighting();
-                        basiceffect.PreferPerPixelLighting = true;
-                        basiceffect.Alpha = 0.5f;
-                        basiceffect.View = Model.SASData.View;
-                        basiceffect.Projection = Model.SASData.Projection;
-                        basiceffect.World = Model.SASData.Model;
                         continue;
                     }
+
+                    if (effect.Techniques["Static"] != null)
+                        effect.CurrentTechnique = effect.Techniques["Static"];
                     else
-                    {*/
-                        // bind SAS shader parameters
-                        foreach (EffectParameter Parameter in effect.Parameters)
-                        {
-                            Model.SASData.SetEffectParameterValue(Parameter);
-                        }
-
-                        //if rendering a depthmap
-                        /*if (Camera.RenderType == RenderTypes.Depth)
-                        {
-                            //override any techniques with DepthMap technique shader
-                            if (effect.Techniques["DepthMapStatic"] != null)
-                                effect.CurrentTechnique = effect.Techniques["DepthMapStatic"];
-                            else
-                            {//if we get there there is no DepthMap shader so we can't render this into our depth MAP!!
-                                break;
-                            }
-                            continue;
-                        }*/
-
-                        if (effect.Techniques["Static"] != null)
-                            effect.CurrentTechnique = effect.Techniques["Static"];
-                        else
-                            effect.CurrentTechnique = effect.Techniques[0];
-                        
-                    //}
+                        effect.CurrentTechnique = effect.Techniques[0];
                 }
                 mesh.Draw();
             }

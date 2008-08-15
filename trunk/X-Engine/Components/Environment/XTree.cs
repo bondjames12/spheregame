@@ -18,11 +18,12 @@ namespace XEngine
         public bool RenderLeaves;
         public Matrix World;
 
-        public XTree(XMain X, ActorType Type, XModel model,Vector3 Position, Matrix Rotation, Vector3 ModelScale,
-            Vector3 ModelOffset, Vector3 Size, Vector3 Velocity, float Mass)
-            : base(X,  Type,  model, Position,Rotation, ModelScale, ModelOffset, Size, Velocity,Mass)
+        public XTree(XMain X, XPhysicsObject Object, XModel model,Vector3 ModelScale,
+            Vector3 ModelOffset, Vector3 Velocity, float Mass)
+            : base(X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
         {
-
+            
+            //this.PhysicsObject = new BoxObject(new Vector3(1,10,1), Rotation, Position);
             
         }
 
@@ -49,6 +50,8 @@ namespace XEngine
 
             // Draw the tree's leaves (this has its own effect)
             tree.Leaves.Draw(World, Camera.View, Camera.Position);
+
+            X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
             if (DebugMode)
             {

@@ -901,7 +901,7 @@ namespace JigLibX.Physics
 
                         body0.ApplyBodyWorldImpulseAux(ref impulse, ref ptInfo.info.R0);
                         if (body1 != null)
-                            body1.ApplyNegativeBodyWorldImpulseAux(ref impulse,ref ptInfo.info.R1);
+                            body1.ApplyNegativeBodyWorldImpulseAux(ref impulse, ref ptInfo.info.R1);
                         //prepare our return value
                         gotOne = true;
 
@@ -991,7 +991,7 @@ namespace JigLibX.Physics
                             Vector3.Multiply(ref T, impulseToReverse, out frictionImpulseVec);
 
                             Vector3 origAccumulatedFrictionImpulse = ptInfo.AccumulatedFrictionImpulse;
-                            
+
                             //ptInfo.AccumulatedFrictionImpulse += frictionImpulseVec;
                             Vector3.Add(ref ptInfo.AccumulatedFrictionImpulse, ref frictionImpulseVec, out ptInfo.AccumulatedFrictionImpulse);
 
@@ -1285,9 +1285,9 @@ namespace JigLibX.Physics
                     Vector3 actualImpulse = (ptInfo.AccumulatedNormalImpulseAux - orig) * N;
 
                     if (body0 != null)
-                        body0.ApplyBodyWorldImpulseAux(ref actualImpulse,ref ptInfo.info.R0);
+                        body0.ApplyBodyWorldImpulseAux(ref actualImpulse, ref ptInfo.info.R0);
                     if (body1 != null)
-                        body1.ApplyNegativeBodyWorldImpulseAux(ref actualImpulse,ref ptInfo.info.R1);
+                        body1.ApplyNegativeBodyWorldImpulseAux(ref actualImpulse, ref ptInfo.info.R1);
 
                 }
             }
@@ -1382,10 +1382,18 @@ namespace JigLibX.Physics
             }
         }
 
-        private int MoreCollPtPenetration(CollPointInfo info1, CollPointInfo info2)
+        private class MoreCollPtPenetration : IComparer<CollPointInfo>
         {
-            if (info1.InitialPenetration == info2.InitialPenetration) return 0;
-            return (info1.InitialPenetration < info2.InitialPenetration) ? 1 : -1;
+            /// <summary>
+            /// A static instance is all we need, no need for garbage
+            /// </summary>
+            public static MoreCollPtPenetration Instance = new MoreCollPtPenetration();
+
+            public int Compare(CollPointInfo info1, CollPointInfo info2)
+            {
+                if (info1.InitialPenetration == info2.InitialPenetration) return 0;
+                return (info1.InitialPenetration < info2.InitialPenetration) ? 1 : -1;
+            }
         }
 
         private void PreProcessCollisionFast(CollisionInfo collision, float dt)
@@ -1403,7 +1411,8 @@ namespace JigLibX.Physics
             const int keep = 3;
             if (collision.NumCollPts > keep)
             {
-                Array.Sort( collision.PointInfo, MoreCollPtPenetration);
+                //limit the sorting to the valid range of collision points
+                Array.Sort(collision.PointInfo, 0, collision.NumCollPts, MoreCollPtPenetration.Instance);
                 collision.NumCollPts = keep;
             }
 
@@ -1613,9 +1622,9 @@ namespace JigLibX.Physics
                     //Vector3 impulse = N * ptInfo.AccumulatedNormalImpulseAux;
                     Vector3 impulse;
                     Vector3.Multiply(ref N, ptInfo.AccumulatedNormalImpulseAux, out impulse);
-                    body0.ApplyBodyWorldImpulseAux(ref impulse,ref ptInfo.info.R0);
+                    body0.ApplyBodyWorldImpulseAux(ref impulse, ref ptInfo.info.R0);
                     if (body1 != null)
-                        body1.ApplyNegativeBodyWorldImpulseAux(ref impulse,ref ptInfo.info.R1);
+                        body1.ApplyNegativeBodyWorldImpulseAux(ref impulse, ref ptInfo.info.R1);
                 }
             }
         }
@@ -1820,7 +1829,7 @@ namespace JigLibX.Physics
             }
         }
 
-     
+
         /// <summary>
         /// Integrates the system forwards by dt - the caller is
         /// responsible for making sure that repeated calls to this use
@@ -2066,7 +2075,7 @@ namespace JigLibX.Physics
                     {
                         freeContacts.Push(new Contact());
                     }
-                
+
                     Contact contact = freeContacts.Pop();
                     contact.Impulse = new Contact.CachedImpulse(ptInfo.AccumulatedNormalImpulse, ptInfo.AccumulatedNormalImpulseAux, ref fricImpulse);
                     contact.Pair = new Contact.BodyPair(collInfo.SkinInfo.Skin0.Owner, collInfo.SkinInfo.Skin1.Owner, ref ptInfo.info.R0, ref ptInfo.info.R1);
@@ -2077,4 +2086,3 @@ namespace JigLibX.Physics
         }
     }
 }
-

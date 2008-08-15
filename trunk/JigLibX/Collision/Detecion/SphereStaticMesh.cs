@@ -88,7 +88,8 @@ namespace JigLibX.Collision
                                 Vector3 triPointSTNorm = oldSphereCen - triangle.GetPoint(s, t);
                                 JiggleMath.NormalizeSafe(ref triPointSTNorm);
 
-                                Vector3 collisionN = triangle.Normal;
+                                //Vector3 collisionN = triangle.Normal;
+                                Vector3 collisionN = (dist > float.Epsilon) ? triPointSTNorm : triangle.Normal;
 
                                 // since impulse get applied at the old position
                                 Vector3 pt = oldSphere.Center - oldSphere.Radius * collisionN;

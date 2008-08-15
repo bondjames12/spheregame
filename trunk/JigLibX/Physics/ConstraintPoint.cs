@@ -48,8 +48,8 @@ namespace JigLibX.Physics
             this.allowedDistance = allowedDistance;
             this.timescale = timescale;
 
-            if (timescale < JiggleMath.Epsilon)
-                timescale = JiggleMath.Epsilon;
+            if (this.timescale < JiggleMath.Epsilon)
+                this.timescale = JiggleMath.Epsilon;
 
             if (body0 != null) body0.AddConstraint(this);
             if (body1 != null) body1.AddConstraint(this);
