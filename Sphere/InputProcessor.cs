@@ -82,26 +82,28 @@ namespace Sphere
 
 //mouse code
 #if XBOX == FALSE
-            parent.camera.Rotate(new Vector3(mouse.Delta.Y * .0016f, mouse.Delta.X * .0016f, 0));
+            parent.freeCamera.Rotate(new Vector3(mouse.Delta.Y * .0016f, mouse.Delta.X * .0016f, 0));
+            parent.driverCamera.Rotate(new Vector3(mouse.Delta.Y * .0016f, mouse.Delta.X * .0016f, 0));
 #endif
-            parent.camera.Rotate(new Vector3((gamepad.Thumbstick(XGamePad.Thumbsticks.Right).Y * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, (-gamepad.Thumbstick(XGamePad.Thumbsticks.Right).X * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
-
+            parent.freeCamera.Rotate(new Vector3((gamepad.Thumbstick(XGamePad.Thumbsticks.Right).Y * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, (-gamepad.Thumbstick(XGamePad.Thumbsticks.Right).X * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
+            
 //Camera Movement with KB or Gamepad directional pad
             float speed = 40f;
             if(keyboard.KeyDown(Keys.LeftShift)) speed = 2f;
             if(keyboard.KeyDown(Keys.LeftControl)) speed = 200f;
 
             if (keyboard.KeyDown(Keys.W) || gamepad.ButtonDown(Buttons.DPadUp))
-                parent.camera.Translate(Vector3.Forward * speed);
+                parent.freeCamera.Translate(Vector3.Forward * speed);
             if (keyboard.KeyDown(Keys.S) || gamepad.ButtonDown(Buttons.DPadDown))
-                parent.camera.Translate(Vector3.Backward * speed);
+                parent.freeCamera.Translate(Vector3.Backward * speed);
             if (keyboard.KeyDown(Keys.A) || gamepad.ButtonDown(Buttons.DPadLeft))
-                parent.camera.Translate(Vector3.Left * speed);
+                parent.freeCamera.Translate(Vector3.Left * speed);
             if (keyboard.KeyDown(Keys.D) || gamepad.ButtonDown(Buttons.DPadRight))
-                parent.camera.Translate(Vector3.Right * speed);
+                parent.freeCamera.Translate(Vector3.Right * speed);
 
             //write camera corrds for debug
-            X.Debug.Write("Camera: X" + parent.camera.Position.X.ToString() + " Y:" + parent.camera.Position.Y.ToString() + " Z:" + parent.camera.Position.Z.ToString(), false);
+            X.Debug.Write("Free Camera: X" + parent.freeCamera.Position.X.ToString() + " Y:" + parent.freeCamera.Position.Y.ToString() + " Z:" + parent.freeCamera.Position.Z.ToString(), false);
+            X.Debug.Write("Driver Camera: X" + parent.driverCamera.Position.X.ToString() + " Y:" + parent.driverCamera.Position.Y.ToString() + " Z:" + parent.driverCamera.Position.Z.ToString(), false);
             X.Debug.Write("Box Actors in List:" + parent.boxes.Count.ToString(), false);
             X.Debug.Write("Press F6 to switch Camera. Current: " + parent.currentCamera.Name, false);
 
@@ -120,7 +122,7 @@ namespace Sphere
             }
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
-                parent.boxes.Add(new XActor(X, new CapsuleObject(1,1,Matrix.Identity,parent.camera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(X, new CapsuleObject(1, 1, Matrix.Identity, parent.freeCamera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
 #else
             if (gamepad.ButtonPressed(Buttons.A))
                 parent.boxes.Add(new XActor(X, new CapsuleObject(1,1,Matrix.Identity,parent.camera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
@@ -198,10 +200,23 @@ namespace Sphere
 
             if (keyboard.KeyPressed(Keys.F6))
             {
-                if (parent.currentCamera is XChaseCamera)
-                    parent.currentCamera = parent.camera;
-                else
+                if (parent.currentCamera == parent.chase)
+                {
+                    parent.currentCamera = parent.freeCamera;
+                    return;
+                }
+
+                if (parent.currentCamera == parent.freeCamera)
+                {
+                    parent.currentCamera = parent.driverCamera;
+                    return;
+                }
+
+                if (parent.currentCamera == parent.driverCamera)
+                {
                     parent.currentCamera = parent.chase;
+                    return;
+                }
             }
                 
 

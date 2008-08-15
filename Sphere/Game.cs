@@ -20,7 +20,8 @@ namespace Sphere
         public InputProcessor input;
         public XResourceGroup resources;
 
-        public XFreeLookCamera camera;
+        public XFreeLookCamera freeCamera;
+        public XFreeLookCamera driverCamera;
         public XChaseCamera chase;
         public XCamera currentCamera;
 
@@ -103,8 +104,11 @@ namespace Sphere
             menus = new MenuManager(X);
             //menu to the debugnodraw list
             X.Renderer.DebugNoDraw.Add(menus);
-            camera = new XFreeLookCamera(X,.01f,1000f);
-            camera.Position = new Vector3(0, 10, 50);
+
+            //Make some Cameras
+            freeCamera = new XFreeLookCamera(X, .01f, 1000f);
+            freeCamera.Position = new Vector3(0, 10, 50);
+            driverCamera = new XFreeLookCamera(X, 0.01f, 1000f);
             chase = new XChaseCamera(X, .01f, 1000f);
             currentCamera = chase;
 
@@ -151,7 +155,7 @@ namespace Sphere
 
             trees = new XTreeSystem(X, @"Content\Images\Treemaps\Level1", heightmap.Heights);
             trees.Load(Content);
-            trees.GenerateTrees(camera);
+            trees.GenerateTrees(freeCamera);
 
             input.Load();
             base.LoadContent();
@@ -178,9 +182,13 @@ namespace Sphere
             // we must be GPU bound
             //System.Threading.Thread.Sleep(1);
 
+            
             //Call engine update
             X.Update(gameTime);
             
+            //Input processor update KB,Mouse,Gamepad
+            input.Update(gameTime);
+
             if (Car != null)
             {
                 chase.ChaseTargetPosition = Car.Position;
@@ -188,8 +196,11 @@ namespace Sphere
                 chase.Up = Car.Orientation.Up;
             }
 
-            //Input processor update KB,Mouse,Gamepad
-            input.Update(gameTime);
+            if (currentCamera == driverCamera)
+            {
+                //set position is Head bone of the Car model!
+                driverCamera.Position = Vector3.Transform(Vector3.Zero, Matrix.Identity * Car.Car.GetWorldMatrix(Car.Chassis.Model, Vector3.Zero)[0] * Car.Chassis.Model.Bones["Head"].Transform);
+            }
 
             //XNA Update
             base.Update(gameTime);
@@ -203,7 +214,8 @@ namespace Sphere
         {
             // TODO: Add your drawing code here
             X.Renderer.Draw(ref gameTime, ref currentCamera);
-           
+
+            
             base.Draw(gameTime);
         }
     }
