@@ -16,6 +16,7 @@ namespace XEngine
 
         public XGamePad(XMain X, int GamepadNumber) : base(X)
         {
+            DrawOrder = 0;
             this.GamepadNumber = GamepadNumber;
 
             if (GamepadNumber == 1)

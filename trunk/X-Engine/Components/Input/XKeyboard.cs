@@ -12,6 +12,7 @@ namespace XEngine
 
         public XKeyboard(XMain X) : base(X)
         {
+            DrawOrder = 0;
             UpdateStates();
             idleTime = new XTimer(X);
         }

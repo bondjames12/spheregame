@@ -10,6 +10,7 @@ namespace XEngine
 
         public XZuneInput(XMain X) : base(X)
         {
+            DrawOrder = 0;
             GamePad = new XGamePad(X, 1);
         }
 

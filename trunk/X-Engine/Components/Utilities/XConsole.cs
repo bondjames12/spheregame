@@ -19,6 +19,7 @@ namespace XEngine
 
         public XConsole(XMain X) : base(X) 
         {
+            DrawOrder = 1000;
             backgroundTexture = new XTexture(X, @"Content\XEngine\Textures\ConsoleBackground");
         }
 

@@ -45,6 +45,7 @@ namespace XEngine
             RTextureFile = RTexture;
             GTextureFile = GTexture;
             BTextureFile = BTexture;
+            DrawOrder = 21;
         }
 
         public override void Load(ContentManager Content)

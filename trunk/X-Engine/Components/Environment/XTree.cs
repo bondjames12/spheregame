@@ -22,9 +22,7 @@ namespace XEngine
             Vector3 ModelOffset, Vector3 Velocity, float Mass)
             : base(X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
         {
-            
-            //this.PhysicsObject = new BoxObject(new Vector3(1,10,1), Rotation, Position);
-            
+           
         }
 
         /// <summary>

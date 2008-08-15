@@ -125,7 +125,7 @@ namespace Sphere
                 parent.boxes.Add(new XActor(X, new CapsuleObject(1, 1, Matrix.Identity, parent.freeCamera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
 #else
             if (gamepad.ButtonPressed(Buttons.A))
-                parent.boxes.Add(new XActor(X, new CapsuleObject(1,1,Matrix.Identity,parent.camera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.camera.Target - parent.camera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(X, new CapsuleObject(1,1,Matrix.Identity,parent.freeCamera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
 #endif
 
             if (keyboard.KeyPressed(Keys.F1))

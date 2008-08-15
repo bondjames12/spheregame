@@ -27,6 +27,7 @@ namespace XEngine
             //this way you can see everything through the window!
             //remember alphablending is draw order dependent!
             AlphaBlendable = true;
+            DrawOrder = 100;
             this.Chassis = Chassis;
             this.Wheel = Wheel;
 
@@ -89,9 +90,9 @@ namespace XEngine
             if (DebugMode)
             {
                 //Draw Bounding Box/Frustum
-                X.DebugDrawer.DrawCube(Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
-                X.DebugDrawer.DrawLine(Vector3.Zero, Car.PhysicsBody.Position, Color.Blue);
-                X.DebugDrawer.DrawLine(Vector3.Zero, Car.PhysicsSkin.NewPosition, Color.Red);
+                //X.DebugDrawer.DrawCube(Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
+                //X.DebugDrawer.DrawLine(Vector3.Zero, Car.PhysicsBody.Position, Color.Blue);
+                //X.DebugDrawer.DrawLine(Vector3.Zero, Car.PhysicsSkin.NewPosition, Color.Red);
             }
             
             //Set camera params, compute matrices on WHEELS!

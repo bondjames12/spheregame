@@ -94,6 +94,10 @@ namespace XEngine
                 this.Debug.Write("Physics Integration dt coefficient:" + StepSize.ToString(), false);
             }
 
+            //for (int i = 0; i < Components.Count; i++)
+            //{
+            //    XComponent 
+            //}
             foreach(XComponent Component in Components)
                 if (Component is XUpdateable)
                     Component.Update(ref gameTime);
