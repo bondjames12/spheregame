@@ -76,7 +76,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders\ParticleCloud.fx">
+    <Compile Include="Effects\ParticleCloud.fx">
       <Name>ParticleCloud</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
@@ -123,5 +123,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Shaders\" />
   </ItemGroup>
 </Project>

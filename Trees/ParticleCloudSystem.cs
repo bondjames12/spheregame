@@ -120,7 +120,7 @@ namespace Feldthaus.Xna
             this.device = device;
             this.content = content;
             if (particleEffectPath == null)
-                this.particleEffectPath = "Content/Shaders/ParticleCloud";
+                this.particleEffectPath = "Content/Effects/ParticleCloud";
             else
                 this.particleEffectPath = particleEffectPath;
         }
