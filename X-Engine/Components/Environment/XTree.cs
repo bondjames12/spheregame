@@ -32,31 +32,36 @@ namespace XEngine
         /// <param name="Camera"></param>
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
-            if (Camera.RenderType == RenderTypes.Depth)
-            {
-                tree.Trunk.Effect.CurrentTechnique = tree.Trunk.Effect.Techniques["DepthMapStatic"];
-                tree.Leaves.DepthMapRendering = true;
-            }
-            else
-            {
-                tree.Trunk.Effect.CurrentTechnique = tree.Trunk.Effect.Techniques["Static"];
-                tree.Leaves.DepthMapRendering = false;
-            }
+            if (Camera.Frustrum.Contains(tree.boundingBox) != ContainmentType.Disjoint || NoCull)
+            { 
+           
+                if (Camera.RenderType == RenderTypes.Depth)
+                {
+                    tree.Trunk.Effect.CurrentTechnique = tree.Trunk.Effect.Techniques["DepthMapStatic"];
+                    tree.Leaves.DepthMapRendering = true;
+                }
+                else
+                {
+                    tree.Trunk.Effect.CurrentTechnique = tree.Trunk.Effect.Techniques["Static"];
+                    tree.Leaves.DepthMapRendering = false;
+                }
 
-            // Draw the tree's trunk
-            tree.Trunk.Draw(World, Camera.View);
+                // Draw the tree's trunk
+                tree.Trunk.Draw(World, Camera.View);
 
-            // Draw the tree's leaves (this has its own effect)
-            tree.Leaves.Draw(World, Camera.View, Camera.Position);
+                // Draw the tree's leaves (this has its own effect)
+                tree.Leaves.Draw(World, Camera.View, Camera.Position);
 
-            X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
+                X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-            if (DebugMode)
-            {
-
-                //Draw Frustum (Yellow) and Physics Bounding (White), In XActor these should be the same but draw then both anyway just in case
-                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.Yellow, Matrix.Identity, Camera);
-                //X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
+                if (DebugMode)
+                {
+                    //model.Model.Meshes[0].BoundingSphere.
+                    //Draw Frustum (Yellow) and Physics Bounding (White), In XActor these should be the same but draw then both anyway just in case
+                    X.DebugDrawer.DrawCube(tree.boundingBox.Min, tree.boundingBox.Max, Color.Yellow, Matrix.Identity, Camera);
+                    X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, Matrix.Identity, Camera);
+                    //X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
+                }
             }
         }
     }

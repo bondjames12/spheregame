@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using XSIXNARuntime;
+using JigLibX.Geometry;
 
 namespace XEngine
 {
@@ -16,7 +17,20 @@ namespace XEngine
         #region Properties
         public int PhysicsID { get { return PhysicsObject.PhysicsBody.ID; } }
 
-        public BoundingBox boundingBox { get { if (PhysicsObject.PhysicsBody.CollisionSkin != null) return PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox; else return new BoundingBox(Position, Position);  } }
+        public BoundingBox boundingBox
+        { 
+            get 
+            { 
+                if (PhysicsObject.PhysicsBody.CollisionSkin != null) 
+                    return PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox;
+                else 
+                    return new BoundingBox(Position, Position);  
+            }
+            /*set
+            {
+                PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox = value;
+            }*/
+        }
 
        
         List<int> collisions = new List<int>();
@@ -103,6 +117,30 @@ namespace XEngine
             this.modeloffset = ModelOffset;
         }
 
+        public XActor(XMain X, XModel model, Vector3 Position, Vector3 ModelOffset, Vector3 Velocity, float Mass)
+            : base(X)
+        {
+            DrawOrder = 100;
+
+            if (model != null)
+            {
+                this.model = model;
+                model.ParentActor = this;
+            }
+            //this.PhysicsObject = Object;
+            //this.PhysicsObject.scale = ModelScale;
+            this.PhysicsObject = new XSIBoneMapObject(Position,model.Model.Bones);
+            this.Scale = Vector3.One;
+
+            this.mass = Mass;
+            this.PhysicsObject.SetMass(Mass);
+            
+            this.PhysicsObject.PhysicsBody.Velocity = Velocity;
+            this.PhysicsObject.PhysicsBody.SetDeactivationTime(0.1f);
+            this.PhysicsObject.PhysicsBody.SetActivityThreshold(5f, 5f);
+            this.modeloffset = ModelOffset;
+        }
+
         public Matrix GetWorldMatrix()
         {
             return PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
@@ -151,12 +189,20 @@ namespace XEngine
 
             if (DebugMode)
             {
-                //Draw Frustum (Yellow) and Physics Bounding (White), In XActor these should be the same but draw then both anyway just in case
-                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.Yellow, Matrix.Identity, Camera);
-                //X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
-                //Not sure if this is different or not from the one above
-                //X.DebugDrawer.DrawCube(PhysicsObject.PhysicsSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
-                //
+                for(int i=0;i<PhysicsObject.PhysicsSkin.NumPrimitives;i++)
+                {
+                    Primitive prim = PhysicsObject.PhysicsSkin.GetPrimitiveNewWorld(i);
+                    if (prim is JigLibX.Geometry.Box)
+                    {
+                        JigLibX.Geometry.Box box = (JigLibX.Geometry.Box)prim;
+                        //BoundingVolumeRenderer.RenderBoundingBox(box.GetCentre(), box., box.SideLengths, Color.White, ref Camera.View, ref Camera.Projection);
+                    }
+                    if (prim is JigLibX.Geometry.Sphere)
+                    {
+                        JigLibX.Geometry.Sphere sph = (JigLibX.Geometry.Sphere)prim;
+                        BoundingVolumeRenderer.RenderBoundingSphere(sph.Position, sph.Radius, Color.White, ref Camera.View,ref Camera.Projection);
+                    }
+                }
             }
         }
 

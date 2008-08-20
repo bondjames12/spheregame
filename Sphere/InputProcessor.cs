@@ -122,7 +122,7 @@ namespace Sphere
             }
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
-                parent.boxes.Add(new XActor(X, new CapsuleObject(1, 1, Matrix.Identity, parent.freeCamera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(X,parent.model, parent.freeCamera.Position, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
 #else
             if (gamepad.ButtonPressed(Buttons.A))
                 parent.boxes.Add(new XActor(X, new CapsuleObject(1,1,Matrix.Identity,parent.freeCamera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));

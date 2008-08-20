@@ -143,6 +143,16 @@ namespace XEngine
                 //tested out a scale value that sorta matchs the car we have
                 Xtree.World = Matrix.Identity * Matrix.CreateTranslation(pos);
 
+                //Xtree.boundingBox = tree.boundingBox; //this is only used for frustrum culling , we don't need this line
+                //we do however need to translate the frustrum box to the position of the tree
+                Vector3[] bbcorners = tree.boundingBox.GetCorners();
+                for (int i = 0; i < bbcorners.Length; i++)
+                {
+                    bbcorners[i] = Vector3.Transform(bbcorners[i], Xtree.World);
+                }
+                tree.boundingBox = BoundingBox.CreateFromPoints(bbcorners);
+                
+
                 //Add to TreeModel list
                 trees.Add(Xtree);
             }

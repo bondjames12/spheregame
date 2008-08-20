@@ -23,7 +23,7 @@ namespace XEngine
             // add a small box at the buttom
             Primitive box = new Box(new Vector3(-0.1f,-0.1f,-0.1f), Matrix.Identity, Vector3.One * 0.2f);
             // add a sphere in the middle
-            Primitive sphere = new Sphere(new Vector3(0.0f, 0.0f, 0.3f), 0.3f);
+            Primitive sphere = new JigLibX.Geometry.Sphere(new Vector3(0.0f, 0.0f, 0.3f), 0.3f);
 
             collision.AddPrimitive(capsule, (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.1f, 0.5f, 0.5f));
             collision.AddPrimitive(box, (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.1f, 0.5f, 0.5f));

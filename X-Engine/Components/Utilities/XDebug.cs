@@ -31,14 +31,19 @@ namespace XEngine
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
             int offset = (int)StartPosition.Y;
-            foreach (string Text in toWrite)
+            for(int i=0;i<toWrite.Count;i++)
             {
+                string Text = toWrite[i];
+            
                 X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
                 offset += RowHeight;
             }
             toWrite.Clear();
-            foreach (string Text in toWriteStatic)
+
+            for(int j=0;j<toWriteStatic.Count;j++)
             {
+                string Text = toWriteStatic[j];
+            
                 X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
                 offset += RowHeight;
             }

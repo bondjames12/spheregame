@@ -80,6 +80,7 @@ namespace XEngine
 
         const float StepSize = 1.00f / 100.0f;  // or whatever your sim rate is
         double phase_;
+
         public void Update(GameTime gameTime)
         {
             if (UpdatePhysics)
@@ -94,13 +95,18 @@ namespace XEngine
                 this.Debug.Write("Physics Integration dt coefficient:" + StepSize.ToString(), false);
             }
 
-            //for (int i = 0; i < Components.Count; i++)
-            //{
-            //    XComponent 
-            //}
-            foreach(XComponent Component in Components)
+
+            for (int i = 0; i < Components.Count; i++)
+            {
+                XComponent Component = Components[i];
                 if (Component is XUpdateable)
                     Component.Update(ref gameTime);
+            }
+            
+                
         }
-    }
+
+        
+
+    }  
 }

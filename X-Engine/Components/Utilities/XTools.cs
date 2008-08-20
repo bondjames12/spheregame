@@ -136,6 +136,80 @@ namespace XEngine
                 return Vector2.Zero;
         }
 
+        /// <param name="Input">Format: { {M11:# M12:# M13:# M14:#} {M21:# M22:# M23:# M24:#} {M31:# M32:# M33:# M34:#} {M41:# M42:# M43:# M44:#} }</param>
+        public Matrix ParseMatrix(string Input)
+        {
+            Input = Input.Replace("{", "");
+            Input = Input.Replace("}", "");
+            //Input = Input.Replace(" ", "");
+
+            string[] values = Input.Split(' ');
+
+            Matrix res = new Matrix();
+
+            foreach (string val in values)
+            {
+                string[] keypair = val.Split(':');
+                if (keypair.Length == 2)
+                {
+                    switch (keypair[0])
+                    {
+                        case "M11":
+                            res.M11 = float.Parse(keypair[1]);
+                            break;
+                        case "M12":
+                            res.M12 = float.Parse(keypair[1]);
+                            break;
+                        case "M13":
+                            res.M13 = float.Parse(keypair[1]);
+                            break;
+                        case "M14":
+                            res.M14 = float.Parse(keypair[1]);
+                            break;
+                        case "M21":
+                            res.M21 = float.Parse(keypair[1]);
+                            break;
+                        case "M22":
+                            res.M22 = float.Parse(keypair[1]);
+                            break;
+                        case "M23":
+                            res.M23 = float.Parse(keypair[1]);
+                            break;
+                        case "M24":
+                            res.M24 = float.Parse(keypair[1]);
+                            break;
+                        case "M31":
+                            res.M31 = float.Parse(keypair[1]);
+                            break;
+                        case "M32":
+                            res.M32 = float.Parse(keypair[1]);
+                            break;
+                        case "M33":
+                            res.M33 = float.Parse(keypair[1]);
+                            break;
+                        case "M34":
+                            res.M34 = float.Parse(keypair[1]);
+                            break;
+                        case "M41":
+                            res.M41 = float.Parse(keypair[1]);
+                            break;
+                        case "M42":
+                            res.M42 = float.Parse(keypair[1]);
+                            break;
+                        case "M43":
+                            res.M43 = float.Parse(keypair[1]);
+                            break;
+                        case "M44":
+                            res.M44 = float.Parse(keypair[1]);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            return res;
+        }
+
         public Vector3 GetPositionOnHeightMap(Vector3 Position, HeightmapObject Actor, Vector3 Offset)
         {
             return new Vector3(Position.X, Actor.info.GetHeight(Position), Position.Z) + Offset;
