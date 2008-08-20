@@ -4,6 +4,7 @@ using XEngine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Threading;
 
 
 namespace Sphere
@@ -15,6 +16,7 @@ namespace Sphere
     {
         GraphicsDeviceManager graphics;
         XMain X;
+        
 
         public MenuManager menus;
         public InputProcessor input;
@@ -39,8 +41,6 @@ namespace Sphere
         public XCar Car;
 
         public Fire fire;
-
-        
 
         public XModel plane;
         public XActor planeActor;
@@ -112,6 +112,9 @@ namespace Sphere
             chase = new XChaseCamera(X, .01f, 1000f);
             currentCamera = chase;
 
+
+            BoundingVolumeRenderer.InitializeBuffers(X.GraphicsDevice, 50);
+
             base.Initialize();
         }
 
@@ -136,7 +139,7 @@ namespace Sphere
             resources.AddComponent(heightmap);
             resources.AddComponent(sky);
 
-            model = new XModel(X, @"Content\Models\barrel_low");
+            model = new XModel(X, @"Content\Models\TestBoxModel");
             resources.AddComponent(model);
 
             Chassis = new XModel(X, @"Content\Models\chassis");
@@ -185,8 +188,13 @@ namespace Sphere
             //Input processor update KB,Mouse,Gamepad
             input.Update(gameTime);
 
-            //Call engine update
-            X.Update(gameTime);
+            
+           //Call engine update
+           X.Update(gameTime);
+
+            
+
+            
 
             //this logic should be integrated into the main update loop somewhere
             //must be after physics and position updates then set the final camera positions then call update

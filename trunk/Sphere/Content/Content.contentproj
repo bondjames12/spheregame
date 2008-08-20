@@ -284,6 +284,11 @@
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
     </Compile>
+    <Compile Include="Models\TestBoxModel.xsi">
+      <Name>TestBoxModel</Name>
+      <Importer>Importer</Importer>
+      <Processor>Processor</Processor>
+    </Compile>
     <None Include="Textures\default_ambocc_map.png">
       <Name>default_ambocc_map</Name>
       <Importer>TextureImporter</Importer>

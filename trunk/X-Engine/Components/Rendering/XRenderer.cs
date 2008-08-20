@@ -72,8 +72,10 @@ namespace XEngine
                 X.DebugDrawer.DrawLine(new Vector3(0, 0, -1000), new Vector3(0, 0, 1000), Color.Blue);
             }
 
-            foreach (XComponent component in X.Components)
+            for(int i=0;i<X.Components.Count;i++)
             {
+                XComponent component = X.Components[i];
+            
                 //is this XComponent Drawable? and not the renderer?
                 if(!(component is XDrawable) || (component is XRenderer))
                     continue;
@@ -100,7 +102,8 @@ namespace XEngine
                 {
                     //Does XActor, XHeightMap,XWater culling, add other types as create them
                     //Only enter this if the XActor is within the view or its NoCull is set
-                    if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
+                    //if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
+                    if ((component is XTree) || Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
                     {
                         component.Draw(ref gameTime, ref  Camera);
                     }
@@ -123,8 +126,8 @@ namespace XEngine
             }//end xcomponent foreach loop
 
             //This list of XActors are in view and have Alphablending turned on, RENDER THEM LAST SO THEY BLEND WITH EVERYTHING!
-            foreach (XComponent cmpt in Alpha)
-                cmpt.Draw(ref gameTime, ref  Camera);
+            for (int j = 0; j < Alpha.Count; j++)
+                Alpha[j].Draw(ref gameTime, ref  Camera);
 
             //End Sprite Batch
             X.spriteBatch.End();
@@ -141,15 +144,28 @@ namespace XEngine
             {
                 ModelMesh mesh = Model.Model.Meshes[i];
 
+                //calc new boundingsphere with new position from World/Model matrix
+                BoundingSphere bs = mesh.BoundingSphere.Transform(Matrix.CreateTranslation(Model.SASData.Model.Translation));
+                
+                //Is it in view?
+                if (Camera.Frustrum.Contains(bs) == ContainmentType.Disjoint)
+                    continue;
+
+                //render boundingspheres for each mesh!
+                if (DebugMode)
+                {
+                    BoundingVolumeRenderer.RenderBoundingSphere(bs, ref Camera.View, ref Camera.Projection);
+                }
+
                 Model.SASData.ComputeModel();
 
                 for(int j = 0; j < mesh.Effects.Count; j++)
                 {
                     Effect effect = mesh.Effects[j];
                     // bind SAS shader parameters
-                    foreach (EffectParameter Parameter in effect.Parameters)
+                    for(int k=0;k<effect.Parameters.Count;k++)
                     {
-                        Model.SASData.SetEffectParameterValue(Parameter);
+                        Model.SASData.SetEffectParameterValue(effect.Parameters[k]);
                     }
 
                     //if rendering a depthmap

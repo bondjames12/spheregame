@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using SMath = System.Math;
 
 namespace XEngine
 {
@@ -220,4 +221,166 @@ namespace XEngine
 
         #endregion
     }
+    
+	public static class BoundingVolumeRenderer
+	{
+		static GraphicsDevice device;
+		static VertexDeclaration vertexDeclaration;
+		static BasicEffect effect;
+
+		static VertexBuffer sphereBuffer;
+		static int numberOfSphereVerts;
+
+        static VertexBuffer boxBuffer;
+        const int numberOfBoxVerts = 19;
+	
+		public static void InitializeBuffers(GraphicsDevice device, int numberOfSphereVertices)
+		{
+			BoundingVolumeRenderer.device = device;
+			vertexDeclaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);
+			effect = new BasicEffect(device, null);
+
+			//generate the sphere buffer **************************************************************
+			numberOfSphereVerts = numberOfSphereVertices;
+			VertexPositionColor[] vertices = new VertexPositionColor[numberOfSphereVerts];
+
+			float step = MathHelper.TwoPi / (float)(numberOfSphereVerts - 1);
+
+			for (int i = 0; i < numberOfSphereVerts; i++)
+			{
+				float angle = step * (float)i;
+				vertices[i] = new VertexPositionColor(
+					new Vector3((float)SMath.Cos(angle), 0f, (float)SMath.Sin(angle)),
+					Color.White);
+			}
+
+			sphereBuffer = new VertexBuffer(device,VertexPositionColor.SizeInBytes * vertices.Length,
+                BufferUsage.None);
+
+			sphereBuffer.SetData<VertexPositionColor>(vertices);
+
+            //Generate Box vertex buffer*************************************************************
+            Vector3[] corners = { new Vector3(-1, 1, 1), new Vector3(1, 1, 1), new Vector3(1, -1, 1), new Vector3(-1, -1, 1), new Vector3(-1, 1, -1), new Vector3(1, 1, -1), new Vector3(1, -1, -1), new Vector3(-1, -1, -1), new Vector3(-1, -1, 1), new Vector3(-1, 1, 1), new Vector3(-1, 1, -1), new Vector3(1, 1, 1), new Vector3(1, 1, -1), new Vector3(1, -1, 1), new Vector3(1, -1, -1), new Vector3(-1, -1, 1), new Vector3(-1, -1, -1), new Vector3(-1, 1, -1), new Vector3(-1, -1, -1) };
+            VertexPositionColor[] boxvertices = new VertexPositionColor[corners.Length];
+
+            for (int i = 0; i < corners.Length; i++)
+            {
+                boxvertices[i] = new VertexPositionColor(corners[i], Color.White);
+            }
+            boxBuffer = new VertexBuffer(device, VertexPositionColor.SizeInBytes * boxvertices.Length, BufferUsage.None);
+            boxBuffer.SetData<VertexPositionColor>(boxvertices);
+            //***************************************************************************************
+		}
+
+		public static void RenderBoundingSphere(BoundingSphere sphere, ref Matrix view, ref Matrix projection)
+		{
+			device.VertexDeclaration = vertexDeclaration;
+			device.Vertices[0].SetSource(sphereBuffer, 0, VertexPositionColor.SizeInBytes);
+
+			effect.View = view;
+			effect.Projection = projection;
+
+			Matrix scale = Matrix.CreateScale(sphere.Radius);
+			Matrix translation = Matrix.CreateTranslation(sphere.Center);
+
+			effect.Begin();
+
+			for (int i = 0; i < effect.CurrentTechnique.Passes.Count; i++)
+			{
+				EffectPass pass = effect.CurrentTechnique.Passes[i];
+
+				pass.Begin();
+
+				effect.DiffuseColor = Vector3.UnitY;
+				effect.World = scale * translation;
+				effect.CommitChanges();
+				device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfSphereVerts - 1);
+
+				effect.DiffuseColor = Vector3.UnitZ;
+				effect.World = scale * Matrix.CreateRotationX(MathHelper.PiOver2) * translation;
+				effect.CommitChanges();
+				device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfSphereVerts - 1);
+
+				effect.DiffuseColor = Vector3.UnitX;
+				effect.World = scale * Matrix.CreateRotationZ(MathHelper.PiOver2) * translation;
+				effect.CommitChanges();
+				device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfSphereVerts - 1);
+				
+				pass.End();
+			}
+
+			effect.End();
+		}
+
+        public static void RenderBoundingSphere(Vector3 center, float radius, Color color, ref Matrix view, ref Matrix projection)
+        {
+            device.VertexDeclaration = vertexDeclaration;
+            device.Vertices[0].SetSource(sphereBuffer, 0, VertexPositionColor.SizeInBytes);
+
+            effect.View = view;
+            effect.Projection = projection;
+
+            Matrix scale = Matrix.CreateScale(radius);
+            Matrix translation = Matrix.CreateTranslation(center);
+
+            effect.Begin();
+
+            for (int i = 0; i < effect.CurrentTechnique.Passes.Count; i++)
+            {
+                EffectPass pass = effect.CurrentTechnique.Passes[i];
+
+                pass.Begin();
+
+                effect.DiffuseColor = color.ToVector3();
+                effect.World = scale * translation;
+                effect.CommitChanges();
+                device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfSphereVerts - 1);
+
+                effect.DiffuseColor = color.ToVector3();
+                effect.World = scale * Matrix.CreateRotationX(MathHelper.PiOver2) * translation;
+                effect.CommitChanges();
+                device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfSphereVerts - 1);
+
+                effect.DiffuseColor = color.ToVector3();
+                effect.World = scale * Matrix.CreateRotationZ(MathHelper.PiOver2) * translation;
+                effect.CommitChanges();
+                device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfSphereVerts - 1);
+
+                pass.End();
+            }
+
+            effect.End();
+        }
+
+        public static void RenderBoundingBox(Vector3 pos, Matrix orient, Vector3 sideLengths, Color color, ref Matrix view, ref Matrix projection)
+        {
+            device.VertexDeclaration = vertexDeclaration;
+            device.Vertices[0].SetSource(boxBuffer, 0, VertexPositionColor.SizeInBytes);
+
+            effect.View = view;
+            effect.Projection = projection;
+
+            Matrix scale = Matrix.CreateScale(sideLengths);
+            Matrix translation = Matrix.CreateTranslation(pos);
+
+            effect.Begin();
+
+            for (int i = 0; i < effect.CurrentTechnique.Passes.Count; i++)
+            {
+                EffectPass pass = effect.CurrentTechnique.Passes[i];
+
+                pass.Begin();
+
+                effect.DiffuseColor = color.ToVector3();
+                effect.World = scale * translation * orient;
+                effect.CommitChanges();
+                device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfBoxVerts - 1);
+
+                pass.End();
+            }
+
+            effect.End();
+        }
+	}
+    
 }

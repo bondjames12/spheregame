@@ -62,6 +62,8 @@
     <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\Audio\AudioManager.cs" />
+    <Compile Include="Components\Audio\IAudioEmitter.cs" />
     <Compile Include="Components\Base\XInterfaces.cs" />
     <Compile Include="Components\Base\XComponent.cs" />
     <Compile Include="Components\Cameras\XArcBallCamera.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Components\Rendering\XRenderer.cs" />
     <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />
     <Compile Include="Components\Scripting\XTriggerVolume.cs" />
+    <Compile Include="Components\Threading\ThreadManager.cs" />
     <Compile Include="Components\Utilities\TextureGenerator.cs" />
     <Compile Include="Components\Utilities\XDebugDrawer.cs" />
     <Compile Include="Components\Utilities\XQuadDrawer.cs" />
