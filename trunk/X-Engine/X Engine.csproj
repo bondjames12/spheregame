@@ -104,7 +104,6 @@
     <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />
     <Compile Include="Components\Scripting\XTriggerVolume.cs" />
     <Compile Include="Components\Threading\ThreadManager.cs" />
-    <Compile Include="Components\Utilities\BoundingVolumeRenderer.cs" />
     <Compile Include="Components\Utilities\TextureGenerator.cs" />
     <Compile Include="Components\Utilities\XDebugDrawer.cs" />
     <Compile Include="Components\Utilities\XQuadDrawer.cs" />
