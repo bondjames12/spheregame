@@ -95,7 +95,7 @@
     <Compile Include="Components\Particles\ParticleSettings.cs" />
     <Compile Include="Components\Particles\ParticleSettingsReader.cs" />
     <Compile Include="Components\Particles\ParticleVertex.cs" />
-    <Compile Include="Components\Particles\Projectile.cs" />
+    <Compile Include="Components\Particles\XProjectile.cs" />
     <Compile Include="Components\Particles\XParticleEmitter.cs" />
     <Compile Include="Components\Particles\XParticleSystem.cs" />
     <Compile Include="Components\Rendering\XDepthMap.cs" />

@@ -18,6 +18,10 @@ namespace XEngine
         // Name of the XML settings file describing this particle system.
         string settingsName;
 
+        //This flag is used by outside classes to determine is this system has any active particles
+        //if its set to false it means the system is idle and can be removed
+        public bool dead = false;
+
         // Settings class controls the appearance and animation of this particle system.
         XParticleSettings settings;
 
@@ -150,7 +154,7 @@ namespace XEngine
         /// </summary>
         public XParticleSystem(XMain X, string settingsName) : base(X)
         {
-            this.DrawOrder = 50;
+            this.DrawOrder = 180;
             this.settingsName = settingsName;
         }
 
@@ -265,7 +269,10 @@ namespace XEngine
             // so we can reset it back to zero any time the active queue is empty.
 
             if (firstActiveParticle == firstFreeParticle)
+            {
                 currentTime = 0;
+                dead = true;
+            }
 
             if (firstRetiredParticle == firstActiveParticle)
                 drawCounter = 0;
@@ -499,6 +506,9 @@ namespace XEngine
         /// </summary>
         public void AddParticle(Vector3 position, Vector3 velocity)
         {
+            //set this to true so we know not to mess with this system since its active!
+            dead = false;
+
             // Figure out where in the circular queue to allocate the new particle.
             int nextFreeParticle = firstFreeParticle + 1;
 

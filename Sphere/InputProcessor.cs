@@ -129,8 +129,20 @@ namespace Sphere
 #endif
 
             if (keyboard.KeyPressed(Keys.F1))
-                if (parent.fire == null)
-                    parent.fire = new Fire(X);
+            {
+                XParticleSystem explosion = new XParticleSystem(X, "Content\\Particles\\ExplosionSettings");
+                XParticleSystem smoketrail = new XParticleSystem(X, "Content\\Particles\\ProjectileTrailSettings");
+                XParticleSystem smoke = new XParticleSystem(X, "Content\\Particles\\ExplosionSmokeSettings");
+
+                explosion.Load(X.Content);
+                smoketrail.Load(X.Content);
+                smoke.Load(X.Content);
+
+                // Create a new projectile The real work of moving
+                // and creating particles is handled inside the Projectile class.
+                //parent.Projectiles.Add(new XProjectile(X,explosion,smoke,smoketrail));
+                XProjectile p = new XProjectile(X, explosion, smoke, smoketrail);
+            }
 
             if (keyboard.KeyDown(Keys.F2))
                 parent.sky.Theta -= .5f * (float)gameTime.ElapsedGameTime.TotalSeconds;

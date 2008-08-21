@@ -21,7 +21,7 @@ namespace XEngine
     /// steady stream of trail particles behind it. After a while it explodes,
     /// creating a sudden burst of explosion and smoke particles.
     /// </summary>
-    class XProjectile
+    public class XProjectile : XComponent, XUpdateable
     {
         #region Constants
 
@@ -44,6 +44,8 @@ namespace XEngine
         Vector3 position;
         Vector3 velocity;
         float age;
+        //if this gets to be true we should stop rendering this and delete it!
+        bool dead = false;
 
         static Random random = new Random();
 
@@ -55,7 +57,7 @@ namespace XEngine
         /// </summary>
         public XProjectile(XMain X, XParticleSystem explosionParticles,
                           XParticleSystem explosionSmokeParticles,
-                          XParticleSystem projectileTrailParticles)
+                          XParticleSystem projectileTrailParticles) : base(X)
         {
             this.explosionParticles = explosionParticles;
             this.explosionSmokeParticles = explosionSmokeParticles;
@@ -69,15 +71,30 @@ namespace XEngine
 
             // Use the particle emitter helper to output our trail particles.
             trailEmitter = new XParticleEmitter(X,projectileTrailParticles,
-                                               trailParticlesPerSecond);//CHANGE, position);
+                                               trailParticlesPerSecond, position);
         }
-
 
         /// <summary>
         /// Updates the projectile.
         /// </summary>
-        public bool Update(GameTime gameTime)
+        public override void Update(ref GameTime gameTime)
         {
+            //if dead then disable all XComponents related to this projectile
+            //but we can't do it right away because the explosion is not finished yet!
+            if (dead)
+            {
+                //set flag trailemitter that its dead (it will disable itself and its particle system automatically)
+                trailEmitter.dead = true;
+                //check if our explosion and explosion smoke particle systems are dead if so disable them and then disable ourself!
+                if (explosionParticles.dead && explosionSmokeParticles.dead)
+                {
+                    explosionParticles.Disable();
+                    explosionSmokeParticles.Disable();
+                    this.Disable();
+                }
+                return;
+            }
+
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // Simple projectile physics.
@@ -86,7 +103,8 @@ namespace XEngine
             age += elapsedTime;
 
             // Update the particle emitter, which will create our particle trail.
-            trailEmitter.Update(ref gameTime);//, position);
+            trailEmitter.newPosition = position;
+            //trailEmitter.Update(gameTime, position);
 
             // If enough time has passed, explode! Note how we pass our velocity
             // in to the AddParticle method: this lets the explosion be influenced
@@ -98,11 +116,9 @@ namespace XEngine
 
                 for (int i = 0; i < numExplosionSmokeParticles; i++)
                     explosionSmokeParticles.AddParticle(position, velocity);
-
-                return false;
+                //add some code to remove this projectile it is now dead!
+                dead = true;                
             }
-                
-            return true;
         }
     }
 }

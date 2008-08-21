@@ -40,8 +40,6 @@ namespace Sphere
         public XModel Wheel;
         public XCar Car;
 
-        public Fire fire;
-
         public XModel plane;
         public XActor planeActor;
 

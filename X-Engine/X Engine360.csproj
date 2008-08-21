@@ -124,6 +124,7 @@
     <Compile Include="Components\Utilities\XFramerate.cs" />
     <Compile Include="Components\Environment\XEnvironmentParameters.cs" />
     <Compile Include="Physics\XHingeJoint.cs" />
+    <Compile Include="Physics\XSIBoneMapObject.cs" />
     <Compile Include="XMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
