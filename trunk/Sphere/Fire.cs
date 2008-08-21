@@ -16,22 +16,22 @@ namespace Sphere
 
         public Fire(XMain X)
         {
-            smokeSYS = new XParticleSystem(X, "Content\\Particles\\SmokePlumeSettings");
-            fireSYS = new XParticleSystem(X, "Content\\Particles\\FireSettings");
+            //smokeSYS = new XParticleSystem(X, "Content\\Particles\\ExplosionSmokeSettings");
+            //fireSYS = new XParticleSystem(X, "Content\\Particles\\ExplosionSettings");
 
-            smoke = new XParticleEmitter(X, smokeSYS, 250);
-            fire = new XParticleEmitter(X, fireSYS, 150);
+            //smoke = new XParticleEmitter(X, smokeSYS,4);
+            //fire = new XParticleEmitter(X, fireSYS, 1);
 
-            content = new XResourceGroup(X);
-            content.AddComponent(smokeSYS);
-            content.AddComponent(fireSYS);
-            content.Load();
+            //content = new XResourceGroup(X);
+            //content.AddComponent(smokeSYS);
+            //content.AddComponent(fireSYS);
+            //content.Load();
         }
 
         public void Update(GameTime gameTime)
         {
-            smoke.Update(ref gameTime);
-            fire.Update(ref gameTime);
+            //smoke.Update(ref gameTime);
+            //fire.Update(ref gameTime);
         }
     }
 }

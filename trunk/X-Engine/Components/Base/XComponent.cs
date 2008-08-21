@@ -25,8 +25,8 @@ namespace XEngine
         /// 2D Menu 500-600
         /// 2D Debug Text 300-400 (xframerate=301) 
         /// 2D Debug 200 - 300
-        /// Game objects 100-200
-        /// Particle sytems 50-100
+        /// Particle sytems 180-200
+        /// Game objects 100-180
         /// Terrain(21), water(22) 20-50
         /// Far Away objects (sky=19) 0-20
         /// Cameras 0-10
