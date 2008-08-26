@@ -42,6 +42,16 @@ namespace XEngine
             set { name = value; }
         }
 
+        int componentID;
+        public int ComponentID
+        {
+            get { return componentID; }
+            set
+            {
+                componentID = value;
+            }
+        }
+
         /// <summary>
         /// Gets or sets if the renderer should automatically draw the component in the main draw loop.
         /// </summary>
@@ -71,7 +81,7 @@ namespace XEngine
         }
 
 
-        public XComponent(XMain X)
+        public XComponent(ref XMain X)
         {
             this.X = X;
             X.Components.Add(this);

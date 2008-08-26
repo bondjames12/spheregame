@@ -46,7 +46,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -179,9 +179,9 @@
       <Project>{EA489419-E1BE-4AEA-838B-74AA4ACC98DE}</Project>
       <Name>Trees360</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XSIXNARuntime\XSIXNARuntime_XBOX.csproj">
+    <ProjectReference Include="..\XSIXNARuntime\XSIXNARuntime360.csproj">
       <Project>{927FFC95-1D05-44CE-A9DA-A057659028F6}</Project>
-      <Name>XSIXNARuntime_XBOX</Name>
+      <Name>XSIXNARuntime360</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

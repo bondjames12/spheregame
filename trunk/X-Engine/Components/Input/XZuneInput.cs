@@ -8,10 +8,10 @@ namespace XEngine
     {
         XGamePad GamePad;
 
-        public XZuneInput(XMain X) : base(X)
+        public XZuneInput(ref XMain X) : base(ref X)
         {
             DrawOrder = 0;
-            GamePad = new XGamePad(X, 1);
+            GamePad = new XGamePad(ref X, 1);
         }
 
         public override void Update(ref GameTime gameTime)

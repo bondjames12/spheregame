@@ -21,6 +21,7 @@ namespace XEngine
         protected CollisionSkin collision;
 
         public Vector3 scale = Vector3.One;
+        public Vector3 centerOfMass = Vector3.Zero;
 
         public Body PhysicsBody { get { return body; } }
         /// <summary>
@@ -42,8 +43,14 @@ namespace XEngine
             collision.GetMassProperties(primitiveProperties, out junk, out com, out it, out itCoM);
             body.BodyInertia = itCoM;
             body.Mass = junk;
+            centerOfMass = com;
 
             return com;
+        }
+
+        public float GetMass()
+        {
+            return body.Mass;
         }
 
 

@@ -9,22 +9,44 @@ namespace XEngine
     public class XActor : XComponent, XDrawable
     {
         public XModel model;
-
+        public int modelNumber; //the number to the Xmodel we are using
         public XPhysicsObject PhysicsObject;
 
-        public Vector3 modeloffset;
+        //not used yet
+        //public Vector3 modeloffset;
+        //public Vector3 rotation;
+        
+        #region Editor Properties
 
-        #region Properties
-        public int PhysicsID { get { return PhysicsObject.PhysicsBody.ID; } }
+
+        //Some of these are still used by the engine and should be copied, renamed with _editor and the null checking taken off for speed
+        public XPhysicsObject PhysicsObject_editor
+        {
+            get { return PhysicsObject; }
+            set { PhysicsObject = value; }
+        }
+
+        public XModel model_editor
+        {
+            get { return model; }
+            set { model = value; modelNumber = model.Number; }
+        }
+
+        public int PhysicsID { get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.ID; else return 0; } }
 
         public BoundingBox boundingBox
         { 
             get 
-            { 
-                if (PhysicsObject.PhysicsBody.CollisionSkin != null) 
-                    return PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox;
-                else 
-                    return new BoundingBox(Position, Position);  
+            {
+                if (PhysicsObject != null)
+                {
+                    if (PhysicsObject.PhysicsBody.CollisionSkin != null)
+                        return PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox;
+                    else
+                        return new BoundingBox(Position, Position);
+                }
+                else
+                    return new BoundingBox();
             }
             /*set
             {
@@ -38,112 +60,147 @@ namespace XEngine
         {
             get
             {
-                collisions.Clear();
-                for (int i = 0; i < PhysicsObject.PhysicsBody.CollisionSkin.Collisions.Count; i++)
-                    collisions.Add(PhysicsObject.PhysicsBody.CollisionSkin.Collisions[i].SkinInfo.Skin1.ID);
-                return collisions;
+                if(PhysicsObject != null)
+                {
+                    collisions.Clear();
+                    for (int i = 0; i < PhysicsObject.PhysicsBody.CollisionSkin.Collisions.Count; i++)
+                        collisions.Add(PhysicsObject.PhysicsBody.CollisionSkin.Collisions[i].SkinInfo.Skin1.ID);
+                    return collisions;
+                }
+                else return collisions;
             }
         }
 
         public Vector3 Position
         {
-            get { return PhysicsObject.PhysicsBody.Position; }
-            set { PhysicsObject.PhysicsBody.MoveTo(value, Matrix.Identity);  }
+            get
+            {
+                if (PhysicsObject != null)
+                    return PhysicsObject.PhysicsBody.Position;
+                else
+                    return Vector3.Zero;
+            }
+            set
+            {
+                if (PhysicsObject != null)
+                    PhysicsObject.PhysicsBody.MoveTo(value, Matrix.Identity);
+                else ;
+            }
         }
 
         public bool Immovable
         {
-            get { return PhysicsObject.PhysicsBody.Immovable; }
-            set { PhysicsObject.PhysicsBody.Immovable = value; }
+            get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.Immovable; else return true; }
+            set { if (PhysicsObject != null) PhysicsObject.PhysicsBody.Immovable = value; else ; }
         }
 
         public Matrix Orientation 
-        { 
-            get { return PhysicsObject.PhysicsBody.Orientation; }
-            set { PhysicsObject.PhysicsBody.Orientation = value; }
+        {
+            get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.Orientation; else return Matrix.Identity; }
+            set { if (PhysicsObject != null) PhysicsObject.PhysicsBody.Orientation = value; else ; }
         }
 
         public Vector3 Velocity
         {
-            get { return PhysicsObject.PhysicsBody.Velocity; }
-            set { PhysicsObject.PhysicsBody.Velocity = value; }
+            get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.Velocity; else return Vector3.Zero; }
+            set { if (PhysicsObject != null) PhysicsObject.PhysicsBody.Velocity = value; else ; }
         }
 
         public Vector3 Scale
         {
-            get { return PhysicsObject.scale; }
-            set { PhysicsObject.scale = value; }
+            get { if (PhysicsObject != null) return PhysicsObject.scale; else return Vector3.One; }
+            set { if (PhysicsObject != null) PhysicsObject.scale = value; else ; }
         }
 
-        float mass;
-        public float Mass
+        
+        public float Mass_editor
         {
-            get { return mass; }
-            set { PhysicsObject.SetMass(value); mass = value; }
+            get { return PhysicsObject.PhysicsBody.Mass; }
+            set 
+            {
+                if (PhysicsObject != null)
+                {
+                    PhysicsObject.SetMass(value);
+                }
+                else ;
+            }
         }
 
         bool collisionenabled = true;
         public bool CollisionEnabled
         {
-            set { collisionenabled = value; if (value) PhysicsObject.PhysicsBody.EnableBody(); else PhysicsObject.PhysicsBody.DisableBody(); }
+            set 
+            {
+                if (PhysicsObject != null)
+                {
+                    collisionenabled = value;
+                    if (value) PhysicsObject.PhysicsBody.EnableBody(); else PhysicsObject.PhysicsBody.DisableBody();
+                }
+                else ;
+            }
             get { return collisionenabled; }
         }
 
-        Vector3 rotation;
-        public Vector3 Rotation
+        
+        /*public Vector3 Rotation_editor
         {
             get { return rotation; }
             set { rotation = value; Orientation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(rotation.Y), MathHelper.ToRadians(rotation.X), MathHelper.ToRadians(rotation.Z)); }
-        }
+        }*/
  #endregion
 
-        public XActor(XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass)
-            : base(X)
+        public XActor(ref XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass)
+            : base(ref X)
         {
             DrawOrder = 100;
 
             if (model != null)
             {
                 this.model = model;
-                model.ParentActor = this;
+                model.Parent = this;
+                this.modelNumber = model.Number;
             }
             this.PhysicsObject = Object;
-            this.mass = Mass;
+            PhysicsObject.SetMass(Mass);
+            //this.mass = Mass;
             this.PhysicsObject.SetMass(Mass);
             this.PhysicsObject.scale = ModelScale;
             this.PhysicsObject.PhysicsBody.Velocity = Velocity;
             this.PhysicsObject.PhysicsBody.SetDeactivationTime(0.1f);
             this.PhysicsObject.PhysicsBody.SetActivityThreshold(5f, 5f);
-            this.modeloffset = ModelOffset;
+            //this.modeloffset = ModelOffset;
         }
 
-        public XActor(XMain X, XModel model, Vector3 Position, Vector3 ModelOffset, Vector3 Velocity, float Mass)
-            : base(X)
+        public XActor(ref XMain X, XModel model, Vector3 Position, Vector3 ModelOffset, Vector3 Velocity, float Mass)
+            : base(ref X)
         {
             DrawOrder = 100;
 
             if (model != null)
             {
                 this.model = model;
-                model.ParentActor = this;
+                model.Parent = this;
+                this.modelNumber = model.Number;
             }
-            //this.PhysicsObject = Object;
-            //this.PhysicsObject.scale = ModelScale;
-            this.PhysicsObject = new XSIBoneMapObject(Position,model.Model.Bones);
-            this.Scale = Vector3.One;
-
-            this.mass = Mass;
-            this.PhysicsObject.SetMass(Mass);
-            
-            this.PhysicsObject.PhysicsBody.Velocity = Velocity;
-            this.PhysicsObject.PhysicsBody.SetDeactivationTime(0.1f);
-            this.PhysicsObject.PhysicsBody.SetActivityThreshold(5f, 5f);
-            this.modeloffset = ModelOffset;
+            if (model.Model != null)
+            {
+                this.PhysicsObject = new XSIBoneMapObject(Position, model.Model.Bones);
+                //this.PhysicsObject = Object;
+                //this.PhysicsObject.scale = ModelScale;
+                this.Scale = Vector3.One;
+                //this.mass = Mass;
+                PhysicsObject.SetMass(Mass);
+                this.PhysicsObject.SetMass(Mass);
+                this.PhysicsObject.PhysicsBody.Velocity = Velocity;
+                this.PhysicsObject.PhysicsBody.SetDeactivationTime(0.1f);
+                this.PhysicsObject.PhysicsBody.SetActivityThreshold(5f, 5f);
+                //this.modeloffset = ModelOffset;
+            }
         }
 
         public Matrix GetWorldMatrix()
         {
-            return PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
+            return PhysicsObject.GetWorldMatrix(model.Model, Vector3.Zero);//modeloffset);
         }
 
         public Vector3 GetScreenCoordinates(XCamera Camera)
@@ -153,7 +210,9 @@ namespace XEngine
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
-            if (model != null && model.loaded)
+            //null checks are for editor!
+            //remove these eventually maybe using a compiler directive for an editorer version of the DLL?
+            if (model != null && PhysicsObject != null && model.loaded)
             {
                 if (AlphaBlendable)
                 {
@@ -175,7 +234,7 @@ namespace XEngine
                 //model.SASData.Camera.Position.Z = Camera.Position.Z;
                 model.SASData.Projection = Camera.Projection;
                 model.SASData.View = Camera.View;
-                model.SASData.Model = PhysicsObject.GetWorldMatrix(model.Model, modeloffset);
+                model.SASData.Model = PhysicsObject.GetWorldMatrix(model.Model, Vector3.Zero); //modeloffset);
                 model.SASData.ComputeViewAndProjection();
                 //model.SASData.ComputeModel();
 
@@ -185,75 +244,32 @@ namespace XEngine
 
                 //restore render modes (shader files might have changes this!
                 X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
-            }
 
-            if (DebugMode)
-            {
-                for(int i=0;i<PhysicsObject.PhysicsSkin.NumPrimitives;i++)
+                if (DebugMode)
                 {
-                    Primitive prim = PhysicsObject.PhysicsSkin.GetPrimitiveNewWorld(i);
-                    if (prim is JigLibX.Geometry.Box)
+                    for (int i = 0; i < PhysicsObject.PhysicsSkin.NumPrimitives; i++)
                     {
-                        JigLibX.Geometry.Box box = (JigLibX.Geometry.Box)prim;
-                        //BoundingVolumeRenderer.RenderBoundingBox(box.GetCentre(), box., box.SideLengths, Color.White, ref Camera.View, ref Camera.Projection);
-                    }
-                    if (prim is JigLibX.Geometry.Sphere)
-                    {
-                        JigLibX.Geometry.Sphere sph = (JigLibX.Geometry.Sphere)prim;
-                        BoundingVolumeRenderer.RenderBoundingSphere(sph.Position, sph.Radius, Color.White, ref Camera.View,ref Camera.Projection);
+                        Primitive prim = PhysicsObject.PhysicsSkin.GetPrimitiveNewWorld(i);
+                        if (prim is JigLibX.Geometry.Box)
+                        {
+                            JigLibX.Geometry.Box box = (JigLibX.Geometry.Box)prim;
+                            //BoundingVolumeRenderer.RenderBoundingBox(box.GetCentre(), box., box.SideLengths, Color.White, ref Camera.View, ref Camera.Projection);
+                        }
+                        if (prim is JigLibX.Geometry.Sphere)
+                        {
+                            JigLibX.Geometry.Sphere sph = (JigLibX.Geometry.Sphere)prim;
+                            BoundingVolumeRenderer.RenderBoundingSphere(sph.Position, sph.Radius, Color.White, ref Camera.View, ref Camera.Projection);
+                        }
                     }
                 }
-            }
+            }//end if (model != null && model.loaded)
         }
 
         public override void Disable()
         {
-            PhysicsObject.PhysicsBody.DisableBody();
+            if (PhysicsObject != null) PhysicsObject.PhysicsBody.DisableBody();
+            this.model.Disable();
             base.Disable();
         }
-
-        /*
-        List<Boundary> boundaries;
-
-        public void UpdateDebug(ref GameTime gameTime)
-        {
-            boundaries.Clear();
-            ReadOnlyCollection<Body> bodies = PhysicsSystem.CurrentPhysicsSystem.Bodies;
-            foreach (Body body in bodies)
-            {
-                for (int i = 0; i < body.CollisionSkin.NumPrimitives; i++)
-                {
-                    Primitive p = body.CollisionSkin.GetPrimitiveOldWorld(i);
-                    if (p.Type == (int)JigLibX.Geometry.PrimitiveType.Sphere)
-                    {
-                        Boundary b = new Boundary();
-                        Sphere s = p as Sphere;
-                        b.Scale = s.Radius;
-                        b.Model = sphere;
-                        b.Transform = Matrix.CreateTranslation(s.Position);
-                        boundaries.Add(b);
-                    }
-                }
-            }
-        }
-
-        public void DrawDebug(ref GameTime gameTime,ref  XCamera Camera) 
-        { 
-            foreach (Boundary b in boundaries) 
-            { 
-                Matrix[] transforms = new Matrix[b.Model.Bones.Count]; 
-                b.Model.CopyAbsoluteBoneTransformsTo(transforms); 
-                foreach (ModelMesh m in b.Model.Meshes) 
-                { 
-                    foreach (BasicEffect effect in m.Effects) 
-                    { 
-                        effect.World = Matrix.CreateScale(b.Scale) * b.Transform; 
-                        effect.View = Camera.View; 
-                        effect.Projection = CameraProjection; 
-                    } 
-                    m.Draw(); 
-                } 
-            } 
-        } */
     }
 }

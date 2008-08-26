@@ -14,13 +14,13 @@ namespace XEngine
         Effect effect;
         Model model;
 
-        public XSkyBox(XMain X)
-            : base(X)
+        public XSkyBox(ref XMain X)
+            : base(ref X)
         {
             DrawOrder = 19;
         }
 
-        public XSkyBox(XMain X, string Front, string Back, string Left, string Right, string Top, string Bottom) : base(X)
+        public XSkyBox(ref XMain X, string Front, string Back, string Left, string Right, string Top, string Bottom) : base(ref X)
         {
             Filenames = new string[] { Bottom, Front, Back, Top, Left, Right };
         }

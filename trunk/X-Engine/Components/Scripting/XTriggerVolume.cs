@@ -13,7 +13,7 @@ namespace XEngine
 
         public event TriggerVolumeEventHandler Triggered;
 
-        public XTriggerVolume(XMain X, XActor Actor, bool Continuous) : base(X)
+        public XTriggerVolume(ref XMain X, XActor Actor, bool Continuous) : base(ref X)
         {
             this.actor = Actor;
             this.continuous = Continuous;

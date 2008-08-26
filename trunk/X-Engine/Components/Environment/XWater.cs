@@ -41,24 +41,24 @@ namespace XEngine
 
         public BoundingBox boundingBox = new BoundingBox();
 
-        public XWater(XMain X)
-            : base(X)
+        public XWater(ref XMain X)
+            : base(ref X)
         {
             DrawOrder = 22;
             PointOne = new Vector2(-128);
             PointTwo = new Vector2(128);
             Height = 4;
-            reflectionCamera = new XCamera(X,1,100);
+            reflectionCamera = new XCamera(ref X,1,100);
         }
 
-        public XWater(XMain X, Vector2 pointOne, Vector2 pointTwo, float Height) : base(X)
+        public XWater(ref XMain X, Vector2 pointOne, Vector2 pointTwo, float Height) : base(ref X)
         {
             PointOne = pointOne;
             PointTwo = pointTwo;
 
             this.Height = Height;
 
-            reflectionCamera = new XCamera(X,1,100);
+            reflectionCamera = new XCamera(ref X,1,100);
         }
 
         float waveLength = .25f;

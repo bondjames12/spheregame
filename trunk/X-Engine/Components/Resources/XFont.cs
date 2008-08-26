@@ -12,7 +12,7 @@ namespace XEngine
         SpriteFont font;
         string filename;
 
-        public XFont(XMain X, string Filename) : base(X)
+        public XFont(XMain X, string Filename) : base(ref X)
         {
             filename = Filename;
         }

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("XSIXNARuntime")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("Avid")]
-[assembly: AssemblyCopyright("Copyright © Avid 2007")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

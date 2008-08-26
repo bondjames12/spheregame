@@ -34,7 +34,7 @@ namespace XEngine
         public GraphicsDevice GraphicsDevice;
         public IServiceProvider Services;
 
-        public XMain(GraphicsDevice GraphicsDevice, IServiceProvider Services)
+        public XMain(GraphicsDevice GraphicsDevice,IServiceProvider Services)
         {
             Components = new List<XComponent>();
 

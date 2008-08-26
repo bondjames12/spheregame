@@ -8,7 +8,7 @@ namespace XEngine
         Vector3 rotation;
         
 
-        public XFreeLookCamera(XMain X, float NearPlane, float FarPlane) : base(X, NearPlane, FarPlane)
+        public XFreeLookCamera(ref XMain X, float NearPlane, float FarPlane) : base(ref X, NearPlane, FarPlane)
         {
             
         }

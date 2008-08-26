@@ -7,41 +7,47 @@ namespace XEngine
 {
     public class XTimer : XComponent, XUpdateable
     {
-        public float PassedTime;
-        public float StartTime;
-        public float StopTime;
+        /// <summary>
+        /// Elapsed time since timer start in Milliseconds
+        /// </summary>
+        public double PassedTime;
+        public double StartTime;
+        public double StopTime;
+        private GameTime LastUpdate = new GameTime();
 
         public bool IsRunning;
 
-        float PauseTime;
-        float TimePassedWhileStopped;
+        double PauseTime;
+        double TimePassedWhileStopped;
 
-        public XTimer(XMain X) : base(X) { }
+        public XTimer(ref XMain X) : base(ref X) { }
 
         public override void Update(ref GameTime gameTime)
         {
+            LastUpdate = gameTime;
+
             if (IsRunning)
             {
-                PassedTime = gameTime.TotalGameTime.Seconds - StartTime;
+                PassedTime = gameTime.TotalRealTime.TotalMilliseconds - StartTime;
                 PassedTime -= TimePassedWhileStopped;
             }
         }
 
-        public void Start(GameTime gameTime)
+        public void Start()
         {
-            StartTime = gameTime.TotalGameTime.Seconds;
+            StartTime = LastUpdate.TotalRealTime.TotalMilliseconds;
             IsRunning = true;
         }
 
-        public void Pause(GameTime gameTime)
+        public void Pause()
         {
-            PauseTime = gameTime.TotalGameTime.Seconds;
+            PauseTime = LastUpdate.TotalRealTime.TotalMilliseconds;
             IsRunning = false;
         }
 
-        public void Resume(GameTime gameTime)
+        public void Resume()
         {
-            TimePassedWhileStopped += gameTime.TotalGameTime.Seconds - PauseTime;
+            TimePassedWhileStopped += LastUpdate.TotalRealTime.TotalMilliseconds - PauseTime;
             IsRunning = true;
         }
 
@@ -61,12 +67,12 @@ namespace XEngine
             IsRunning = false;
         }
 
-        public void TogglePaused(GameTime gameTime)
+        public void TogglePaused( )
         {
             if (IsRunning)
-                Pause(gameTime);
+                Pause();
             else
-                Resume(gameTime);
+                Resume();
         }
     }
 }

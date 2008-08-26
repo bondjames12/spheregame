@@ -70,13 +70,14 @@ namespace XEngine
 
         static VertexPositionColor[] lineVertices;
         private int numOfPrimitives = 0;
-        private int MaxNumOfLines = 5024;
+        private int MaxNumOfLines = 1000000;
 
         #endregion
 
         #region Methods
 
-        public XDebugDrawer(XMain X) : base(X)
+        public XDebugDrawer(XMain X)
+            : base(ref X)
         {
             DrawOrder = 200;
         }
@@ -236,7 +237,6 @@ namespace XEngine
 	
 		public static void InitializeBuffers(GraphicsDevice device, int numberOfSphereVertices)
 		{
-			BoundingVolumeRenderer.device = device;
 			vertexDeclaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);
 			effect = new BasicEffect(device, null);
 
@@ -274,6 +274,10 @@ namespace XEngine
 
 		public static void RenderBoundingSphere(BoundingSphere sphere, ref Matrix view, ref Matrix projection)
 		{
+            //this null check is here in case we never ran the InitializeBuffers method of this class
+            //if this is the case the device will be null
+            if (device == null) return;
+
 			device.VertexDeclaration = vertexDeclaration;
 			device.Vertices[0].SetSource(sphereBuffer, 0, VertexPositionColor.SizeInBytes);
 
@@ -314,6 +318,10 @@ namespace XEngine
 
         public static void RenderBoundingSphere(Vector3 center, float radius, Color color, ref Matrix view, ref Matrix projection)
         {
+            //this null check is here in case we never ran the InitializeBuffers method of this class
+            //if this is the case the device will be null
+            if (device == null) return;
+
             device.VertexDeclaration = vertexDeclaration;
             device.Vertices[0].SetSource(sphereBuffer, 0, VertexPositionColor.SizeInBytes);
 

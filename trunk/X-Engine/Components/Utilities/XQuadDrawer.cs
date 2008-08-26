@@ -14,8 +14,8 @@ namespace XEngine
         short[] ib = null;
 
 
-        public XQuadDrawer(XMain X)
-            : base(X)
+        public XQuadDrawer(ref XMain X)
+            : base(ref X)
         {
         }
 

@@ -17,10 +17,10 @@ namespace XEngine
         XTexture backgroundTexture;
         static bool LastLineReturnValue = true;
 
-        public XConsole(XMain X) : base(X) 
+        public XConsole(XMain X) : base(ref X) 
         {
             DrawOrder = 1000;
-            backgroundTexture = new XTexture(X, @"Content\XEngine\Textures\ConsoleBackground");
+            backgroundTexture = new XTexture(ref X, @"Content\XEngine\Textures\ConsoleBackground");
         }
 
         public override void Load(ContentManager Content)

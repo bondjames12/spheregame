@@ -14,7 +14,7 @@ namespace XEngine
 
         XTimer idleTime;
 
-        public XGamePad(XMain X, int GamepadNumber) : base(X)
+        public XGamePad(ref XMain X, int GamepadNumber) : base(ref X)
         {
             DrawOrder = 0;
             this.GamepadNumber = GamepadNumber;
@@ -30,8 +30,8 @@ namespace XEngine
 
             GetState();
 
-            idleTime = new XTimer(X);
-            vibrationTimer = new XTimer(X);
+            idleTime = new XTimer(ref X);
+            vibrationTimer = new XTimer(ref X);
         }
 
         XTimer vibrationTimer;
@@ -44,7 +44,7 @@ namespace XEngine
             GetState();
 
             if (CurrentState == LastState)
-                idleTime.Start(gameTime);
+                idleTime.Start();
             else
                 idleTime.Reset();
 
@@ -215,7 +215,7 @@ namespace XEngine
             length = Time;
 
             GamePad.SetVibration(index, Left, Right);
-            vibrationTimer.Start(gameTime);
+            vibrationTimer.Start();
         }
 
         public void Rumble(float Amount, float Time, GameTime gameTime)

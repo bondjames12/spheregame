@@ -12,7 +12,8 @@ namespace XEngine
         string Write = "";
         public bool DisplayFrameRate = false;
 
-        public XFrameRate(XMain X) : base(X)
+        public XFrameRate(XMain X)
+            : base(ref X)
         { 
             DrawOrder = 301;
         }

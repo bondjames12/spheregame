@@ -152,7 +152,7 @@ namespace XEngine
         /// <summary>
         /// Constructor.
         /// </summary>
-        public XParticleSystem(XMain X, string settingsName) : base(X)
+        public XParticleSystem(ref XMain X, string settingsName) : base(ref X)
         {
             this.DrawOrder = 180;
             this.settingsName = settingsName;

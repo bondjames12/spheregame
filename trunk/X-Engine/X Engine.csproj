@@ -40,7 +40,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\x86\Debug</OutputPath>
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -48,6 +48,7 @@
     <NoStdLib>true</NoStdLib>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -86,6 +87,10 @@
     <Compile Include="Components\Base\XComponent.cs" />
     <Compile Include="Components\Cameras\XArcBallCamera.cs" />
     <Compile Include="Components\Cameras\XChaseCamera.cs" />
+    <Compile Include="Components\Resources\Gif Animation\GifAnimationContentTypeReader.cs" />
+    <Compile Include="Components\Resources\XTextureSequence.cs" />
+    <Compile Include="Components\Resources\XGifTexture.cs" />
+    <Compile Include="Components\XProp.cs" />
     <Compile Include="Components\Environment\XTree.cs" />
     <Compile Include="Components\Environment\XTreeSystem.cs" />
     <Compile Include="Components\Environment\XDynamicSky.cs" />

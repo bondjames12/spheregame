@@ -9,7 +9,7 @@ namespace XEngine
         public int number;
         public bool Shadows;
 
-        public XEnvironmentParameters(XMain X) : base(X)
+        public XEnvironmentParameters(XMain X) : base(ref X)
         {
             LightDirection = new Vector4(100.0f, -100.0f, 100.0f, 1.0f);
             LightColor = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);

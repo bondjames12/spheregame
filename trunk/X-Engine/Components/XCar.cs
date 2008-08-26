@@ -17,11 +17,11 @@ namespace XEngine
         public Matrix Orientation { get { return Car.PhysicsBody.Orientation; } }
         Vector2 Acceleration = Vector2.Zero;
 
-        public XCar(XMain X, XModel Chassis, XModel Wheel, bool FWDrive, bool RWDrive, float maxSteerAngle,
+        public XCar(ref XMain X, XModel Chassis, XModel Wheel, bool FWDrive, bool RWDrive, float maxSteerAngle,
             float steerRate, float wheelSideFriction, float wheelFwdFriction, float wheelTravel,
             float wheelRadius, float wheelZOffset, float wheelRestingFrac, float wheelDampingFrac,
             int wheelNumRays, float driveTorque, float gravity, Vector3 Position)
-            : base(X)
+            : base(ref X)
         {
             //since the car has alphablended windows we set this to true so in the render loop its last
             //this way you can see everything through the window!
