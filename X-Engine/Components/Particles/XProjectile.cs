@@ -55,9 +55,9 @@ namespace XEngine
         /// <summary>
         /// Constructs a new projectile.
         /// </summary>
-        public XProjectile(XMain X, XParticleSystem explosionParticles,
+        public XProjectile(ref XMain X, XParticleSystem explosionParticles,
                           XParticleSystem explosionSmokeParticles,
-                          XParticleSystem projectileTrailParticles) : base(X)
+                          XParticleSystem projectileTrailParticles) : base(ref X)
         {
             this.explosionParticles = explosionParticles;
             this.explosionSmokeParticles = explosionSmokeParticles;
@@ -70,7 +70,7 @@ namespace XEngine
             velocity.Z = (float)(random.NextDouble() - 0.5) * sidewaysVelocityRange;
 
             // Use the particle emitter helper to output our trail particles.
-            trailEmitter = new XParticleEmitter(X,projectileTrailParticles,
+            trailEmitter = new XParticleEmitter(ref X,projectileTrailParticles,
                                                trailParticlesPerSecond, position);
         }
 
@@ -104,7 +104,7 @@ namespace XEngine
 
             // Update the particle emitter, which will create our particle trail.
             trailEmitter.newPosition = position;
-            //trailEmitter.Update(gameTime, position);
+            //trailEmitter.Update(gameTime, position); //changed XRenderer will call update on this class automatically
 
             // If enough time has passed, explode! Note how we pass our velocity
             // in to the AddParticle method: this lets the explosion be influenced
@@ -116,7 +116,7 @@ namespace XEngine
 
                 for (int i = 0; i < numExplosionSmokeParticles; i++)
                     explosionSmokeParticles.AddParticle(position, velocity);
-                //add some code to remove this projectile it is now dead!
+                //flag as dead
                 dead = true;                
             }
         }

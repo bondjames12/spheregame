@@ -53,8 +53,8 @@ namespace XEngine
 
 
 
-        public XTreeSystem(XMain X, string TreeMapFile, HeightMapInfo heightMapInfo)
-            : base(X)
+        public XTreeSystem(ref XMain X, string TreeMapFile, HeightMapInfo heightMapInfo)
+            : base(ref X)
         {
             treeMapFile = TreeMapFile;
             this.heightMapInfo = heightMapInfo;
@@ -131,7 +131,7 @@ namespace XEngine
             {
                 // Generate a tree.
                 TreeModel tree = generators[rand.Next(0,3)].GenerateTreeMesh(rand.Next(), rand.Next(8,12), true, rand.Next(0,2));
-                XTree Xtree = new XTree(X, new BoxObject(new Vector3(1,10,1), Matrix.Identity, pos), null, Vector3.One, Vector3.Zero, Vector3.Zero,1000);
+                XTree Xtree = new XTree(ref X, new BoxObject(new Vector3(1,10,1), Matrix.Identity, pos), null, Vector3.One, Vector3.Zero, Vector3.Zero,1000);
                 Xtree.Immovable = true;
                 Xtree.tree = tree;
                 // Set the trunk's projection matrix, used in drawing function, static

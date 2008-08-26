@@ -21,7 +21,7 @@ namespace XEngine
 
         public float Specularity;
 
-        public XMaterial(XMain X, string Texture, bool EnableTextureMapping, string NormalMap, bool EnableNormalMapping, Vector4? DiffuseColor, bool AlphaBlendable, float Specularity)
+        public XMaterial(ref XMain X, string Texture, bool EnableTextureMapping, string NormalMap, bool EnableNormalMapping, Vector4? DiffuseColor, bool AlphaBlendable, float Specularity)
         {
             if (!string.IsNullOrEmpty(Texture))
                 texture = X.Content.Load<Texture2D>(Texture);
@@ -43,7 +43,7 @@ namespace XEngine
             this.Specularity = Specularity;
         }
 
-        public XMaterial(XMain X, Texture2D Texture, bool EnableTextureMapping, Texture2D NormalMap, bool EnableNormalMapping, Vector4? DiffuseColor, bool AlphaBlendable, float Specularity)
+        public XMaterial(ref XMain X, Texture2D Texture, bool EnableTextureMapping, Texture2D NormalMap, bool EnableNormalMapping, Vector4? DiffuseColor, bool AlphaBlendable, float Specularity)
         {
             if (Texture != null)
                 texture = Texture;

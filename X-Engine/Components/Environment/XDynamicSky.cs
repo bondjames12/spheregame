@@ -22,7 +22,7 @@ namespace XEngine
             set { parameters = value; environmentalParametersNumber = value.number; }
         }
 
-        public XDynamicSky(XMain X, XEnvironmentParameters Parameters) : base(X)
+        public XDynamicSky(ref XMain X,XEnvironmentParameters Parameters) : base(ref X)
         {
             if (Parameters != null)
                 this.Params = Parameters;

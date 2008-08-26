@@ -7,18 +7,24 @@ namespace XEngine
 {
     public class XModel : XComponent
     {
-        Model model;
+        public Model Model;
 
         public int Number;
         public static int Count;
 
-        public Model Model { get { return model; } }
         public string Filename;
-        public XActor ParentActor;
+        public object Parent;
 
         public XSISASContainer SASData = new XSISASContainer();
 
-        public XModel(XMain X, string Filename) : base(X)
+        #region EditorProperties
+
+        public Model Model_editor { get { return Model; } }
+        public string Filename_editor { get {return Filename;} set { Filename = value;} }
+
+        #endregion
+
+        public XModel(ref XMain X, string Filename) : base(ref X)
         {
             this.Filename = Filename;
 
@@ -29,7 +35,7 @@ namespace XEngine
         public override void Load(ContentManager Content)
         {
             base.Load(Content);
-            this.model = Content.Load<Model>(Filename);
+            this.Model = Content.Load<Model>(Filename);
         }
 
         public void InitDefaultSASLighting()
@@ -60,7 +66,7 @@ namespace XEngine
         {
             if (loaded)
             {
-                foreach (ModelMesh mesh in model.Meshes)
+                foreach (ModelMesh mesh in Model.Meshes)
                 {
                     foreach (ModelMeshPart part in mesh.MeshParts)
                     {

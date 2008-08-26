@@ -16,7 +16,7 @@ namespace XEngine
         //This is another no draw list but this time is excludes depending on class type. All classes with type in this list will not be drawn!
         public List<Type> DebugNoDrawTypes;
 
-        public XRenderer(XMain X) : base(X) 
+        public XRenderer(XMain X) : base(ref X) 
         {
             DebugNoDraw = new List<XComponent>();
             DebugNoDraw.Add(X.Debug);
@@ -28,26 +28,43 @@ namespace XEngine
             //Add particle systems to the DebugNoDrawTypes list
             DebugNoDrawTypes = new List<Type>();
             DebugNoDrawTypes.Add(typeof(XParticleSystem));
+            DebugNoDrawTypes.Add(typeof(XDynamicSky));
 
         }
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
+            
             //X.DepthMap.StartRenderToDepthMap();
+            //make a camera to look at the players camera, center and target!
+            //this is for testing (very slow to remake every frame)
+            //XCamera sunCam = new XCamera(X, 100f, 300f);
+            //sunCam.Position = new Vector3(-X.Environment.LightDirection.X * 200f,-X.Environment.LightDirection.Y * 200f,-X.Environment.LightDirection.Z * 200f);
+            //sunCam.Target = Vector3.Zero;
+            //sunCam.Up = Vector3.Up;
+            //sunCam.Update(ref gameTime);
+            //Camera.ShadowView = sunCam.View;
+            //Camera.ShadowProjection = sunCam.Projection;
+            //sunCam.RenderType = RenderTypes.Depth;
             //Camera.RenderType = RenderTypes.Depth;
             //DrawScene(ref gameTime,ref Camera, DebugNoDraw, DebugNoDrawTypes);
+            //sunCam.Disable();
             //X.DepthMap.EndRenderToDepthMap();
 
+            //Camera.ShadowProjection = Camera.Projection;
+            //Camera.ShadowView = Camera.View;
             Camera.RenderType = RenderTypes.Normal;
             X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, ClearColor, 1.0f, 0);
             DrawScene(ref gameTime,ref Camera, null , null);
 
-            //using (SpriteBatch sprite = new SpriteBatch(X.GraphicsDevice))
+            
+           //using (SpriteBatch sprite = new SpriteBatch(X.GraphicsDevice))
             //{
             //    sprite.Begin(SpriteBlendMode.None, SpriteSortMode.Texture, SaveStateMode.SaveState);
-            //    sprite.Draw(X.DepthMap.depthMap, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 0.4f, SpriteEffects.None, 1);
+            //    sprite.Draw(X.DepthMap.depthMap, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 0.2f, SpriteEffects.None, 1);
             //    sprite.End();
             //}
+             
 
         }
 
@@ -70,6 +87,34 @@ namespace XEngine
                 X.DebugDrawer.DrawLine(new Vector3(-1000, 0, 0), new Vector3(1000, 0, 0), Color.Red);
                 X.DebugDrawer.DrawLine(new Vector3(0, -1000, 0), new Vector3(0, 1000, 0), Color.Green);
                 X.DebugDrawer.DrawLine(new Vector3(0, 0, -1000), new Vector3(0, 0, 1000), Color.Blue);
+
+                /*X
+                for (int x = -100; x < 100; x++)
+                {
+                    X.DebugDrawer.DrawLine(new Vector3(x, -1000, 0), new Vector3(x, 1000, 0), Color.Red);
+                    for (int z = -100; z < 100; z++)
+                    {
+                        X.DebugDrawer.DrawLine(new Vector3(x, -1000, z), new Vector3(x, 1000, z), Color.Red);
+                    }
+
+                }
+
+                //Y
+                for (int y = -100; y < 100; y++)
+                {
+                    X.DebugDrawer.DrawLine(new Vector3(0, y, -1000), new Vector3(0, y, 1000), Color.Green);
+                    for (int z = -100; z < 100; z++)
+                    {
+                        X.DebugDrawer.DrawLine(new Vector3(-1000, y, z), new Vector3(1000, y, z), Color.Blue);
+                        X.DebugDrawer.DrawLine(new Vector3(z, y, -1000), new Vector3(z, y, 1000), Color.Green);
+                    }
+                }
+
+                //Z
+                for (int z = -100; z < 100; z++)
+                {
+                    X.DebugDrawer.DrawLine(new Vector3(-1000, 0, z), new Vector3(1000, 0, z), Color.Blue);
+                }*/
             }
 
             for(int i=0;i<X.Components.Count;i++)
@@ -103,7 +148,7 @@ namespace XEngine
                     //Does XActor, XHeightMap,XWater culling, add other types as create them
                     //Only enter this if the XActor is within the view or its NoCull is set
                     //if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                    if ((component is XTree) || Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
+                    if (component.NoCull || (component is XTree) || Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint)
                     {
                         component.Draw(ref gameTime, ref  Camera);
                     }
@@ -167,6 +212,8 @@ namespace XEngine
                     {
                         Model.SASData.SetEffectParameterValue(effect.Parameters[k]);
                     }
+                    if(Model.Parent is XProp)
+                     effect.Parameters["AmbientMap"].SetValue(((XProp)Model.Parent).gif.GetTexture());
 
                     //if rendering a depthmap
                     if (Camera.RenderType == RenderTypes.Depth)

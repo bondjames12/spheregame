@@ -14,7 +14,7 @@ namespace XEngine
         public Vector2 StartPosition = new Vector2(5, 3);
 
         public XDebug(XMain X)
-            : base(X)
+            : base(ref X)
         {
             DrawOrder = 300;
             AutoDraw = true;
@@ -31,6 +31,17 @@ namespace XEngine
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
             int offset = (int)StartPosition.Y;
+
+            if (DebugMode)
+            {
+                //write debug text with the camera position passed into this draw method
+                string Text = "Current Camera Name: " + Camera.Name;
+                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
+                offset += RowHeight;
+                Text = "Curent Camera Position X" + Camera.Position.X.ToString() + " Y:" + Camera.Position.Y.ToString() + " Z:" + Camera.Position.Z.ToString();
+                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
+                offset += RowHeight;     
+            }
             for(int i=0;i<toWrite.Count;i++)
             {
                 string Text = toWrite[i];

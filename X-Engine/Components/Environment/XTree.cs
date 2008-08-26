@@ -18,9 +18,9 @@ namespace XEngine
         public bool RenderLeaves;
         public Matrix World;
 
-        public XTree(XMain X, XPhysicsObject Object, XModel model,Vector3 ModelScale,
+        public XTree(ref XMain X, XPhysicsObject Object, XModel model,Vector3 ModelScale,
             Vector3 ModelOffset, Vector3 Velocity, float Mass)
-            : base(X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
+            : base(ref X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
         {
            
         }

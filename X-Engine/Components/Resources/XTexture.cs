@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XEngine
 {
+    /// <summary>
+    /// A class which renders and updates an Animated strip texture
+    /// </summary>
     public class XTexture : XComponent, XUpdateable
     {
         Texture2D texture;
@@ -20,10 +23,10 @@ namespace XEngine
 
         Cell[] cells;
 
-        public XTexture(XMain X, string Filename) : base(X)
+        public XTexture(ref XMain X, string Filename) : base(ref X)
         {
             filename = Filename;
-            timer = new XTimer(X);
+            timer = new XTimer(ref X);
         }
 
         public void Animate(int NumRows, int NumColumns, int NumCells, float AnimationTime, bool Start)
@@ -110,7 +113,7 @@ namespace XEngine
                     if (timer.PassedTime > AnimationTime && IsRunning)
                     {
                         timer.Reset();
-                        timer.Start(gameTime);
+                        timer.Start();
 
                         if (CurrentCell < TotalCells - 1)
                             CurrentCell++;

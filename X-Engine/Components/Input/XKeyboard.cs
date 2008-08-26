@@ -10,11 +10,11 @@ namespace XEngine
 
         XTimer idleTime;
 
-        public XKeyboard(XMain X) : base(X)
+        public XKeyboard(ref XMain X) : base(ref X)
         {
             DrawOrder = 0;
             UpdateStates();
-            idleTime = new XTimer(X);
+            idleTime = new XTimer(ref X);
         }
 
         public override void Update(ref GameTime gameTime)
@@ -22,7 +22,7 @@ namespace XEngine
             UpdateStates();
 
             if (CurrentState == LastState)
-                idleTime.Start(gameTime);
+                idleTime.Start();
             else
                 idleTime.Reset();
         }

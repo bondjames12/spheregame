@@ -27,15 +27,28 @@ namespace XEngine
 
         Matrix World;
 
-        public string TextureMapFile;
-        public string RTextureFile;
-        public string GTextureFile;
-        public string BTextureFile;
-        public string HeightMapFile;
+        private string TextureMapFile;
+        private string RTextureFile;
+        private string GTextureFile;
+        private string BTextureFile;
+        private string HeightMapFile;
+
+        public string TextureMap
+        { get { return TextureMapFile; } set { TextureMapFile = value; }  }
+        public string RTexture
+        { get { return RTextureFile; } set { RTextureFile = value; } }
+        public string GTexture
+        { get { return GTextureFile; } set { GTextureFile = value; } }
+        public string BTexture
+        { get { return BTextureFile; } set { BTextureFile = value; } }
+        public string HeightMap
+        { get { return HeightMapFile; } set { HeightMapFile = value; } }
+
+
 
         public BoundingBox boundingBox = new BoundingBox();
 
-        public XHeightMap(XMain X, string HeightMap, XEnvironmentParameters Params, string RTexture, string GTexture, string BTexture, string TextureMap) : base(X) 
+        public XHeightMap(ref XMain X, string HeightMap, XEnvironmentParameters Params, string RTexture, string GTexture, string BTexture, string TextureMap) : base(ref X) 
         {
             if (Params != null)
                 this.Params = Params;
@@ -50,7 +63,7 @@ namespace XEngine
 
         public override void Load(ContentManager Content)
         {
-            Heights = HeightMapInfo.GenerateFromHeightmap(X, X.Content.Load<Texture2D>(HeightMapFile), 1.0f);
+            Heights = HeightMapInfo.GenerateFromHeightmap(ref X, X.Content.Load<Texture2D>(HeightMapFile), 1.0f);
 
             effect = Content.Load<Effect>(@"Content\XEngine\Effects\Terrain");
 
@@ -158,6 +171,8 @@ namespace XEngine
                 effect.Parameters["WorldViewProj"].SetValue(World * Camera.View * Camera.Projection);
                 effect.Parameters["ViewInv"].SetValue(Matrix.Invert(Camera.View));
                 effect.Parameters["LightDirection"].SetValue(-Params.LightDirection);
+                //effect.Parameters["xShadowMap"].SetValue(X.DepthMap.depthMap);
+                //effect.Parameters["LightWorldViewProj"].SetValue(World * Camera.ShadowView * Camera.ShadowProjection);
 
                 //if rendering a depthmap
                 if (Camera.RenderType == RenderTypes.Depth)

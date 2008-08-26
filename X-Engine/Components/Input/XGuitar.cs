@@ -8,10 +8,10 @@ namespace XEngine
     {
         XGamePad GamePad;
 
-        public XGuitar(XMain X, int GamepadNumber) : base(X)
+        public XGuitar(ref XMain X, int GamepadNumber) : base(ref X)
         {
             DrawOrder = 0;
-            GamePad = new XGamePad(X, GamepadNumber);
+            GamePad = new XGamePad(ref X, GamepadNumber);
         }
 
         public override void Update(ref GameTime gameTime)

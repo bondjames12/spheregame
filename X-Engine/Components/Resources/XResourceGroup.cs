@@ -8,8 +8,8 @@ namespace XEngine
         ContentManager content;
         List<XComponent> components;
 
-        public XResourceGroup(XMain X)
-            : base(X)
+        public XResourceGroup(ref XMain X)
+            : base(ref X)
         {
             content = new ContentManager(X.Services);
             components = new List<XComponent>();

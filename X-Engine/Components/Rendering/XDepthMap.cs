@@ -29,10 +29,10 @@ namespace XEngine
         {
             //Initialize the Rendertarget to render the depth scene to using the device Presentation parameters
             PresentationParameters pp = X.GraphicsDevice.PresentationParameters;
-            renderTarget = new RenderTarget2D(X.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, 1, SurfaceFormat.Single);//X.GraphicsDevice.DisplayMode.Format);
-            //depthbuffer = new DepthStencilBuffer(X.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, DepthFormat.Depth16);
+            renderTarget = new RenderTarget2D(X.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, 1, X.GraphicsDevice.DisplayMode.Format);
+            depthbuffer = new DepthStencilBuffer(X.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, DepthFormat.Depth16);
             X.GraphicsDevice.SetRenderTarget(0, renderTarget);
-            X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
+            X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
 
         }
 
@@ -48,6 +48,14 @@ namespace XEngine
             depthMap = renderTarget.GetTexture();
             //for testing? saves the texture to a file!
             //depthMap.Save("depthmap.bmp", ImageFileFormat.Bmp);
+        }
+
+        public Matrix GetDepthTextureProjection()
+        {
+            float tx = 0.5f + (0.5f / depthMap.Width);
+            float ty = 0.5f + (0.5f / depthMap.Height);
+            return new Matrix(0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, tx, ty, 0.0f, 1.0f);
+
         }
 
     }

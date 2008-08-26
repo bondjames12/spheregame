@@ -54,20 +54,22 @@ namespace XEngine
                     }
                 }
             }
-            
-            //add list of prims to collision skin
-
-
 
             body = new Body();
-            collision = new CollisionSkin(body);
-            //Elasticity = e,StaticRoughness = sr,DynamicRoughness = dr;
-            foreach (Primitive prim in prims)
+
+            if (prims.Count > 0)
             {
-                collision.AddPrimitive(prim, (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.8f, 0.8f, 0.7f));
+                collision = new CollisionSkin(body);
+                //Elasticity = e,StaticRoughness = sr,DynamicRoughness = dr;
+                foreach (Primitive prim in prims)
+                {
+                    collision.AddPrimitive(prim, (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.8f, 0.8f, 0.7f));
+                }
+                body.CollisionSkin = this.collision;
+
             }
-            //collision.AddPrimitive(new Box(-0.5f * sideLengths, orientation, sideLengths), (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.8f, 0.8f, 0.7f));
-            body.CollisionSkin = this.collision;
+            
+            
             Vector3 com = SetMass(1.0f);
             body.MoveTo(position, Matrix.Identity);
             collision.ApplyLocalTransform(new Transform(-com, Matrix.Identity));

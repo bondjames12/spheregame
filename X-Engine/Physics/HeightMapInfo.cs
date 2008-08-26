@@ -131,7 +131,7 @@ namespace XEngine
             return MathHelper.Lerp(topHeight, bottomHeight, zNormalized);
         }
 
-        public static HeightMapInfo GenerateFromHeightmap(XMain X, Texture2D Heighmap, float TerrainScale)
+        public static HeightMapInfo GenerateFromHeightmap(ref XMain X, Texture2D Heighmap, float TerrainScale)
         {
             int Width = Heighmap.Width;
             int Height = Heighmap.Height;

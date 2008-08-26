@@ -21,7 +21,7 @@ namespace XEngine
 
         XTimer idleTime;
 
-        public XMouse(XMain X) : base(X)
+        public XMouse(ref XMain X) : base(ref X)
         {
             DrawOrder = 0;
             Delta = Vector2.Zero;
@@ -39,7 +39,7 @@ namespace XEngine
             InitialPosition = new Vector2(CurrentState.X, CurrentState.Y);
             CurrentPosition = InitialPosition;
 
-            idleTime = new XTimer(X);
+            idleTime = new XTimer(ref X);
         }
 
         public override void Update(ref GameTime gameTime)
@@ -61,7 +61,7 @@ namespace XEngine
             ScrollDelta = ScrollPosition - LastState.ScrollWheelValue;
 
             if (CurrentState == LastState)
-                idleTime.Start(gameTime);
+                idleTime.Start();
             else
                 idleTime.Reset();
         }

@@ -9,7 +9,7 @@ namespace XEngine
     {
         BoundingBox box;
 
-        public XCubeTriggerVolume(XMain X, XActor Actor, bool Continuous, Vector3 Point1, Vector3 Point2) : base(X, Actor, Continuous)
+        public XCubeTriggerVolume(ref XMain X, XActor Actor, bool Continuous, Vector3 Point1, Vector3 Point2) : base(ref X, Actor, Continuous)
         {
             box = new BoundingBox(Point1, Point2);
         }

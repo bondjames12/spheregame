@@ -54,8 +54,8 @@ namespace XEngine
         /// <summary>
         /// Constructs a new particle emitter object.
         /// </summary>
-        public XParticleEmitter(XMain X, XParticleSystem particleSystem,
-                               float particlesPerSecond, Vector3 initialPosition) : base(X)
+        public XParticleEmitter(ref XMain X, XParticleSystem particleSystem,
+                               float particlesPerSecond, Vector3 initialPosition) : base(ref X)
         {
             this.particleSystem = particleSystem;
 

@@ -8,7 +8,7 @@ namespace XEngine
 {
     public class XTextureGenerator : XComponent
     {
-        public XTextureGenerator(XMain X) : base(X) { }
+        public XTextureGenerator(ref XMain X) : base(ref X) { }
 
         public Texture2D GetFlatColor(Color color)
         {
