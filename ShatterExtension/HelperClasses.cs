@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 #endregion
 
-namespace ShatterExtension
+namespace PipelineExtensions
 {
     /// <summary>
     /// Enumerates each element 3 times, once for each vertex in a triangle

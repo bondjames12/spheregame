@@ -14,7 +14,7 @@ namespace Sphere
 
         XResourceGroup content;
 
-        public Fire(XMain X)
+        public Fire(ref XMain X)
         {
             //smokeSYS = new XParticleSystem(X, "Content\\Particles\\ExplosionSmokeSettings");
             //fireSYS = new XParticleSystem(X, "Content\\Particles\\ExplosionSettings");

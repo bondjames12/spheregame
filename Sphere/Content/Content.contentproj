@@ -45,9 +45,13 @@
       <Project>{E77063AA-51E9-42A0-BC02-5A175393BF8C}</Project>
       <Name>ParticlePipeline</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ShatterExtension\ShatterExtension.csproj">
+    <ProjectReference Include="..\..\ShatterExtension\ModelPipelineExtensions.csproj">
       <Project>{23A45FA3-6F1F-417C-BC85-0963AC5EFB10}</Project>
-      <Name>ShatterExtension</Name>
+      <Name>ModelPipelineExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TexturePipelineExtensions\TexturePipelineExtensions.csproj">
+      <Project>{939F5307-4DD5-4881-A277-0A852E2B5152}</Project>
+      <Name>TexturePipelineExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XSIXNARuntime\XSIXNARuntime.csproj">
       <Project>{924BE388-B6B6-4FFB-9E9E-89CACEDA52CE}</Project>
@@ -81,16 +85,19 @@
       <Name>grass</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_TextureFormat>DxtCompressed</ProcessorParameters_TextureFormat>
     </Compile>
     <Compile Include="Textures\rock.dds">
       <Name>rock</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_TextureFormat>DxtCompressed</ProcessorParameters_TextureFormat>
     </Compile>
     <Compile Include="Textures\sand.dds">
       <Name>sand</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_TextureFormat>DxtCompressed</ProcessorParameters_TextureFormat>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -98,13 +105,6 @@
       <Name>xengine</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\box.xsi">
-      <Name>box</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +205,7 @@
       <Name>box</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_TextureFormat>DxtCompressed</ProcessorParameters_TextureFormat>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +240,7 @@
       <Name>Car</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_TextureFormat>DxtCompressed</ProcessorParameters_TextureFormat>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -246,16 +248,19 @@
       <Name>default_ambocc_map</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_TextureFormat>DxtCompressed</ProcessorParameters_TextureFormat>
     </None>
     <None Include="Effects\default_normal_map.png">
       <Name>default_normal_map</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_TextureFormat>DxtCompressed</ProcessorParameters_TextureFormat>
     </None>
     <None Include="Effects\default_surface_map.png">
       <Name>default_surface_map</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_TextureFormat>DxtCompressed</ProcessorParameters_TextureFormat>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +291,16 @@
     </Compile>
     <Compile Include="Models\TestBoxModel.xsi">
       <Name>TestBoxModel</Name>
+      <Importer>Importer</Importer>
+      <Processor>Processor</Processor>
+    </Compile>
+    <Compile Include="Models\grass1.xsi">
+      <Name>grass1</Name>
+      <Importer>Importer</Importer>
+      <Processor>Processor</Processor>
+    </Compile>
+    <Compile Include="Models\tv.xsi">
+      <Name>tv</Name>
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
     </Compile>
@@ -325,9 +340,22 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Models\box.xsi">
+      <Name>box</Name>
+      <Importer>Importer</Importer>
+      <Processor>Processor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Simple.gif">
+      <Name>Simple</Name>
+      <Importer>GifAminationImporter</Importer>
+      <Processor>GifAnimationProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Material\" />
+    <Folder Include="XSI\Sphere\Pictures\Plant Sprites\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

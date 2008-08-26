@@ -137,7 +137,11 @@ namespace JigLibX.Collision
         /// <returns></returns>
         public Primitive GetPrimitiveLocal(int prim)
         {
-            return primitivesLocal[prim];
+            //if we return a null it means we tried to go past the array in this lookup
+            if (prim >= primitivesLocal.Count)
+                return null;
+            else
+                return primitivesLocal[prim];
         }
 
         /// <summary>

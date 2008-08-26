@@ -100,10 +100,15 @@ float4 Lambert_2
 	// sample our textures
 	//*************************************************
 	float3 normaltex = tex2D(NormalSampler, IN.texcoord0) * 2 - 1;
-	float3 ambienttex = tex2D(AmbientSampler, IN.texcoord0);
+	float4 ambienttex = tex2D(AmbientSampler, IN.texcoord0);
 	float3 albedotex = tex2D(AlbedoSampler, IN.texcoord0);
 	
-	AmbientColor = AmbientColor * ambienttex;
+	float4 materialcolor;
+	materialcolor[0] = AmbientColor[0] * ambienttex[0];
+	materialcolor[1] = AmbientColor[1] * ambienttex[1];
+	materialcolor[2] = AmbientColor[2] * ambienttex[2];
+	materialcolor[3] = ambienttex[3];
+	
 	DiffuseColor = DiffuseColor * albedotex;
 	
 	TangentToWorldSpace[0] = IN.texcoord5.xyz;
@@ -147,9 +152,12 @@ float4 Lambert_2
 	
 	
 	float4 result;
-	result.xyz = AmbientColor + lightcolor ;	
-	result.w = 1;
-
+	//result.xyz = AmbientColor + lightcolor ;	
+	//result.w = 1;
+	result[0] = materialcolor[0] + lightcolor[0];
+	result[1] = materialcolor[1] + lightcolor[1];
+	result[2] = materialcolor[2] + lightcolor[2];
+	result[3] = materialcolor[3];
 
 	return result;
 }
