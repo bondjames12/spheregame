@@ -12,13 +12,13 @@ namespace XEngine
 {
     class XSIBoneMapObject : XPhysicsObject
     {
-        public XSIBoneMapObject(Vector3 position,  ModelBoneCollection bones)
+        public XSIBoneMapObject(Vector3 position,  ref XModel model)
         {
             //create a list to hold the collision primitives
             List<Primitive> prims = new List<Primitive>();
 
             //parse for collision bones
-            foreach (ModelBone bone in bones)
+            foreach (ModelBone bone in model.Model.Bones)
             {
                 string[] keypairs = bone.Name.ToLower().Split('_');
                 //if checks for valid naming convention on collision bones
@@ -56,19 +56,25 @@ namespace XEngine
             }
 
             body = new Body();
+            collision = new CollisionSkin(body);
 
             if (prims.Count > 0)
             {
-                collision = new CollisionSkin(body);
                 //Elasticity = e,StaticRoughness = sr,DynamicRoughness = dr;
                 foreach (Primitive prim in prims)
                 {
                     collision.AddPrimitive(prim, (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.8f, 0.8f, 0.7f));
                 }
-                body.CollisionSkin = this.collision;
-
             }
-            
+            else
+            {//no collision prims detected from XSI so create a default one here using the mesh bounding spheres
+                foreach(ModelMesh mesh in model.Model.Meshes)
+                {
+                    collision.AddPrimitive(new JigLibX.Geometry.Sphere(mesh.BoundingSphere.Center, mesh.BoundingSphere.Radius), (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.8f, 0.8f, 0.7f));
+                }
+            }
+
+            body.CollisionSkin = this.collision;
             
             Vector3 com = SetMass(1.0f);
             body.MoveTo(position, Matrix.Identity);

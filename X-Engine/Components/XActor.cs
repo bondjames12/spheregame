@@ -184,7 +184,7 @@ namespace XEngine
             }
             if (model.Model != null)
             {
-                this.PhysicsObject = new XSIBoneMapObject(Position, model.Model.Bones);
+                this.PhysicsObject = new XSIBoneMapObject(Position,ref model);
                 //this.PhysicsObject = Object;
                 //this.PhysicsObject.scale = ModelScale;
                 this.Scale = Vector3.One;
