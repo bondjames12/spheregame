@@ -18,7 +18,7 @@ namespace Sphere
         XKeyboard keyboard;
         XGamePad gamepad;
 
-        public InputProcessor(XMain X, Game parent)
+        public InputProcessor(ref XMain X, Game parent)
         {
             this.X = X;
             this.parent = parent;
@@ -27,11 +27,11 @@ namespace Sphere
         public void Load()
         {
 #if XBOX == FALSE
-            mouse = new XMouse(X);
+            mouse = new XMouse(ref X);
             //mouse.Reset = false;
 #endif
-            keyboard = new XKeyboard(X);
-            gamepad = new XGamePad(X, 1);
+            keyboard = new XKeyboard(ref X);
+            gamepad = new XGamePad(ref X, 1);
         }
 
         /// <summary>
@@ -105,7 +105,6 @@ namespace Sphere
             X.Debug.Write("Free Camera: X" + parent.freeCamera.Position.X.ToString() + " Y:" + parent.freeCamera.Position.Y.ToString() + " Z:" + parent.freeCamera.Position.Z.ToString(), false);
             X.Debug.Write("Driver Camera: X" + parent.driverCamera.Position.X.ToString() + " Y:" + parent.driverCamera.Position.Y.ToString() + " Z:" + parent.driverCamera.Position.Z.ToString(), false);
             X.Debug.Write("Box Actors in List:" + parent.boxes.Count.ToString(), false);
-            X.Debug.Write("Press F6 to switch Camera. Current: " + parent.currentCamera.Name, false);
 
 
             //drive car
@@ -122,7 +121,13 @@ namespace Sphere
             }
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
-                parent.boxes.Add(new XActor(X,parent.model, parent.freeCamera.Position, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
+            {
+                parent.boxes.Add(new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
+            }
+            if (mouse.ButtonPressed(XMouse.Buttons.Right))
+            {
+                XProp prop = new XProp(ref X, new XModel(ref X, @"Content\Models\tv"), parent.currentCamera.Position, Vector3.Zero, Matrix.Identity, Vector3.One);
+            }
 #else
             if (gamepad.ButtonPressed(Buttons.A))
                 parent.boxes.Add(new XActor(X, new CapsuleObject(1,1,Matrix.Identity,parent.freeCamera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
@@ -130,9 +135,9 @@ namespace Sphere
 
             if (keyboard.KeyPressed(Keys.F1))
             {
-                XParticleSystem explosion = new XParticleSystem(X, "Content\\Particles\\ExplosionSettings");
-                XParticleSystem smoketrail = new XParticleSystem(X, "Content\\Particles\\ProjectileTrailSettings");
-                XParticleSystem smoke = new XParticleSystem(X, "Content\\Particles\\ExplosionSmokeSettings");
+                XParticleSystem explosion = new XParticleSystem(ref X, "Content\\Particles\\ExplosionSettings");
+                XParticleSystem smoketrail = new XParticleSystem(ref X, "Content\\Particles\\ProjectileTrailSettings");
+                XParticleSystem smoke = new XParticleSystem(ref X, "Content\\Particles\\ExplosionSmokeSettings");
 
                 explosion.Load(X.Content);
                 smoketrail.Load(X.Content);
@@ -141,7 +146,7 @@ namespace Sphere
                 // Create a new projectile The real work of moving
                 // and creating particles is handled inside the Projectile class.
                 //parent.Projectiles.Add(new XProjectile(X,explosion,smoke,smoketrail));
-                XProjectile p = new XProjectile(X, explosion, smoke, smoketrail);
+                XProjectile p = new XProjectile(ref X, explosion, smoke, smoketrail);
             }
 
             if (keyboard.KeyDown(Keys.F2))
@@ -150,7 +155,7 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F3))
                 if (parent.water == null)
                 {
-                    parent.water = new XWater(X, new Vector2(-128, -128), new Vector2(128, 128), 3f);
+                    parent.water = new XWater(ref X, new Vector2(-128, -128), new Vector2(128, 128), 3f);
                     parent.water.Load(parent.Content);
                     parent.water.Update(ref gameTime);
                     parent.resources.AddComponent(parent.water);
@@ -191,7 +196,7 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F4))
                 for (int x = 0; x < 10; x++)
                     for (int e = x; e < 10; e++)
-                        parent.boxes.Add(new XActor(X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(20, x * 1.01f + 1, e - 0.5f * x)), parent.model, Vector3.One, Vector3.Zero, Vector3.Zero, 10));            
+                        parent.boxes.Add(new XActor(ref X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(20, x * 1.01f + 1, e - 0.5f * x)), parent.model, Vector3.One, Vector3.Zero, Vector3.Zero, 10));            
             
             if (keyboard.KeyPressed(Keys.F5))
             {
@@ -199,14 +204,14 @@ namespace Sphere
 
                 for (int i = 0; i < 25; i++)
                 {
-                    XActor actor = new XActor(X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(i + 10, 45 - i, 0)), parent.model, Vector3.One, Vector3.Zero, Vector3.Zero, 10);
+                    XActor actor = new XActor(ref X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(i + 10, 45 - i, 0)), parent.model, Vector3.One, Vector3.Zero, Vector3.Zero, 10);
                     if (i == 0) actor.Immovable = true;
                     chainBoxes.Add(actor);
                 }
 
                 for (int i = 1; i < 25; i++)
                 {
-                    XHingeJoint hinge = new XHingeJoint(X, chainBoxes[i - 1], chainBoxes[i], Vector3.Backward, new Vector3(0.5f, -0.5f, 0.0f), 1.0f, 90.0f, 90.0f, 0.2f, 0.2f);
+                    XHingeJoint hinge = new XHingeJoint(ref X, chainBoxes[i - 1], chainBoxes[i], Vector3.Backward, new Vector3(0.5f, -0.5f, 0.0f), 1.0f, 90.0f, 90.0f, 0.2f, 0.2f);
                 }
             }
 
@@ -240,7 +245,7 @@ namespace Sphere
             {
                 //if (parent.houseactor == null)
                 //{
-                parent.houseactor = new XAnimatedActor(X, new BoxObject(new Vector3(5,5,1),Matrix.Identity,new Vector3(2,2,2)), parent.housemodel, Vector3.One, Vector3.Zero, Vector3.Zero, .1f);
+                parent.houseactor = new XAnimatedActor(ref X, new BoxObject(new Vector3(5,5,1),Matrix.Identity,new Vector3(2,2,2)), parent.housemodel, Vector3.One, Vector3.Zero, Vector3.Zero, .1f);
                 parent.houseactor.Load(X.Content);
                 parent.houseactor.Immovable = false;
                 parent.boxes.Add(parent.houseactor);
@@ -261,7 +266,7 @@ namespace Sphere
 
             if(keyboard.KeyPressed(Keys.F10))
             {
-                XTextureGenerator texGen = new XTextureGenerator(X);
+                XTextureGenerator texGen = new XTextureGenerator(ref X);
                 texGen.GetMandelBrot(new Vector2(0.25f, 0),3);
 
                 /*

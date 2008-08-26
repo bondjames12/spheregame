@@ -91,23 +91,23 @@ namespace Sphere
         /// </summary>
         protected override void Initialize()
         {
-            X = new XMain(graphics.GraphicsDevice, Services);
+            X = new XMain(graphics.GraphicsDevice,Services);
             X.Gravity = new Vector3(0, -40, 0);
             X.FrameRate.DisplayFrameRate = true;
             X.Console.AutoDraw = false;
             X.Debug.StartPosition.Y = 200;
 
-            resources = new XResourceGroup(X);
-            input = new InputProcessor(X, this);
-            menus = new MenuManager(X);
+            resources = new XResourceGroup(ref X);
+            input = new InputProcessor(ref X, this);
+            menus = new MenuManager(ref X);
             //menu to the debugnodraw list
             X.Renderer.DebugNoDraw.Add(menus);
 
             //Make some Cameras
-            freeCamera = new XFreeLookCamera(X, .01f, 1000f);
+            freeCamera = new XFreeLookCamera(ref X, .1f, 1000f);
             freeCamera.Position = new Vector3(0, 10, 50);
-            driverCamera = new XFreeLookCamera(X, 0.01f, 1000f);
-            chase = new XChaseCamera(X, .01f, 1000f);
+            driverCamera = new XFreeLookCamera(ref X, .1f, 1000f);
+            chase = new XChaseCamera(ref X, .1f, 1000f);
             currentCamera = chase;
 
 
@@ -130,31 +130,31 @@ namespace Sphere
 
 
             // load scene objects/content
-            sky = new XDynamicSky(X, X.Environment);
-            heightmap = new XHeightMap(X, @"Content\Images\Heightmaps\Level1", X.Environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Images\Terrainmaps\Level1");
+            sky = new XDynamicSky(ref X,X.Environment);
+            heightmap = new XHeightMap(ref X, @"Content\Images\Heightmaps\Level1", X.Environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Images\Terrainmaps\Level1");
  
             //resources.AddComponent(environment);
             resources.AddComponent(heightmap);
             resources.AddComponent(sky);
 
-            model = new XModel(X, @"Content\Models\TestBoxModel");
+            model = new XModel(ref X, @"Content\Models\grass1");
             resources.AddComponent(model);
 
-            Chassis = new XModel(X, @"Content\Models\chassis");
-            Wheel = new XModel(X, @"Content\Models\wheel");
+            Chassis = new XModel(ref X, @"Content\Models\chassis");
+            Wheel = new XModel(ref X, @"Content\Models\wheel");
 
             resources.AddComponent(Chassis);
             resources.AddComponent(Wheel);
 
-            housemodel = new XModel(X, @"Content\Models\captain_modtool");
+            housemodel = new XModel(ref X, @"Content\Models\captain_modtool");
             resources.AddComponent(housemodel);
 
-            Car = new XCar(X, Chassis, Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(-10, 3, 0));
+            Car = new XCar(ref X, Chassis, Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(-10, 3, 0));
             resources.AddComponent(Car);
 
             resources.Load();
 
-            trees = new XTreeSystem(X, @"Content\Images\Treemaps\Level1", heightmap.Heights);
+            trees = new XTreeSystem(ref X, @"Content\Images\Treemaps\Level1", heightmap.Heights);
             trees.Load(Content);
             trees.GenerateTrees(freeCamera);
 
@@ -181,7 +181,9 @@ namespace Sphere
         {
             // If enabling this option does NOT reduce frame rate,
             // we must be GPU bound
-            //System.Threading.Thread.Sleep(1);
+            //System.Threading.Thread.Sleep(100);
+
+            
 
             //Input processor update KB,Mouse,Gamepad
             input.Update(gameTime);

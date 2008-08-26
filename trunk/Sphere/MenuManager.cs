@@ -27,7 +27,7 @@ namespace Sphere
         bool updating = false;
         int dir = 0;
 
-        public MenuManager(XMain X) : base(X)
+        public MenuManager(ref XMain X) : base(ref X)
         {
             DrawOrder = 500;
             
@@ -38,7 +38,7 @@ namespace Sphere
 
         public override void Load(ContentManager Content)
         {
-            XTextureGenerator gen = new XTextureGenerator(X);
+            XTextureGenerator gen = new XTextureGenerator(ref X);
             
             Background = gen.GetFlatColor(new Color(33, 57, 109));
             Button = gen.GetFlatColor(new Color(251, 149, 36));

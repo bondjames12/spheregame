@@ -19,7 +19,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 #endregion
 
-namespace ShatterExtension
+namespace PipelineExtensions
 {
     [ContentProcessor(DisplayName = "ShatterExtension.ShatterProcessor")]
     public class ShatterProcessor : ModelProcessor
