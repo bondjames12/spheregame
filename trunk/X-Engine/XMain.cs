@@ -34,22 +34,24 @@ namespace XEngine
         public GraphicsDevice GraphicsDevice;
         public IServiceProvider Services;
 
-        public XMain(GraphicsDevice GraphicsDevice,IServiceProvider Services)
+        public XMain(GraphicsDevice GraphicsDevice,IServiceProvider Services, string ContentRootDir)
         {
             Components = new List<XComponent>();
 
             this.Content = new ContentManager(Services);
+            this.Content.RootDirectory = ContentRootDir;
             this.GraphicsDevice = GraphicsDevice;
             this.Services = Services;
 
-            SystemFont = new XFont(this, @"Content\XEngine\Fonts\System");
+            Tools = new XTools(this);
 
+            SystemFont = new XFont(this, @"Content\XEngine\Fonts\System");
             Debug = new XDebug(this);
             FrameRate = new XFrameRate(this);
             Console = new XConsole(this);
             DebugDrawer = new XDebugDrawer(this);
             DepthMap = new XDepthMap(this);
-            Tools = new XTools(this);
+           
             Environment = new XEnvironmentParameters(this);
 
 

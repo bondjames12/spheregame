@@ -67,7 +67,7 @@ namespace X_Editor
             item.Tag = model;
             item.Group = scene.Groups["Models"];
 
-            model.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
+            //model.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
 
             foreach (ListViewItem sceneitem in scene.Items)
                 if (sceneitem.Tag is XActor)

@@ -212,8 +212,8 @@ namespace XEngine
                     {
                         Model.SASData.SetEffectParameterValue(effect.Parameters[k]);
                     }
-                    if(Model.Parent is XProp)
-                     effect.Parameters["AmbientMap"].SetValue(((XProp)Model.Parent).gif.GetTexture());
+                    //if(Model.Parent is XProp)
+                    //    effect.Parameters["AmbientMap"].SetValue(((XProp)Model.Parent).gif.GetTexture());
 
                     //if rendering a depthmap
                     if (Camera.RenderType == RenderTypes.Depth)

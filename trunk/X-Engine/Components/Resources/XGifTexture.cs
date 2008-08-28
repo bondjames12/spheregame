@@ -42,7 +42,6 @@ namespace XEngine
         {
             this.FrameSequence = Content.Load<XTextureSequence>(Filename);
             FrameCount = FrameSequence.Frames.Length;
-            //assume 10fps
             this.FrameTime = ((FrameCount / framerate) / FrameCount) * 1000;
             base.Load(Content);
         }
@@ -96,7 +95,7 @@ namespace XEngine
         {
             if (loaded)
             {
-                System.Diagnostics.Debug.Write(Timer.PassedTime.ToString());
+                //System.Diagnostics.Debug.Write(Timer.PassedTime.ToString());
                 //did enough time pass for another frame?
                 //this limited the speed of the animation so if we are drawing the game faster then
                 // the desired framerate we skip and wait a bit

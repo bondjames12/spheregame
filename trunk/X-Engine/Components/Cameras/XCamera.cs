@@ -27,14 +27,16 @@ namespace XEngine
         public Vector3 Direction { get { return Target - Position; } }
 
         public float AspectRatio;
-        public float NearPlane = 1f;
-        public float FarPlane = 100;
+        public float NearPlane;
+        public float FarPlane;
 
         public BoundingFrustum Frustrum;
 
-        public XCamera(ref XMain X, float NearPlane, float FarPlane)
+        public XCamera(ref XMain X, float nearplane, float farplane)
             : base(ref X)
         {
+            this.NearPlane = nearplane;
+            this.FarPlane = farplane;
             Projection = GenerateProjection(ref X, MathHelper.PiOver4, ProjectionType.Perspective,NearPlane,  FarPlane);
             RenderType = RenderTypes.Normal;
             Base = this;
@@ -43,23 +45,21 @@ namespace XEngine
 
         public enum ProjectionType { Perspective, Orthographic }
 
-        public Matrix GenerateProjection(ref XMain X, float FoV, ProjectionType type, float NearPlane, float FarPlane)
+        public Matrix GenerateProjection(ref XMain X, float FoV, ProjectionType type, float nearplane, float farplane)
         {
             AspectRatio = (float)X.GraphicsDevice.Viewport.Width / (float)X.GraphicsDevice.Viewport.Height;
-            return GenerateProjection(ref X, FoV, AspectRatio, type,NearPlane,FarPlane);
+            return GenerateProjection(ref X, FoV, AspectRatio, type,nearplane,farplane);
         }
 
-        public Matrix GenerateProjection(ref XMain X, float FoV, float AspectRatio, ProjectionType type, float NearPlane, float FarPlane)
+        public Matrix GenerateProjection(ref XMain X, float FoV, float AspectRatio, ProjectionType type, float nearplane, float farplane)
         {
             if (type == ProjectionType.Perspective)
             {
-                return Matrix.CreatePerspectiveFieldOfView(FoV, AspectRatio, NearPlane, FarPlane);
+                return Matrix.CreatePerspectiveFieldOfView(FoV, AspectRatio, nearplane, farplane);
             }
             else if (type == ProjectionType.Orthographic)
             {
-                //NearPlane = -170;
-                //FarPlane = 170;
-                return Matrix.CreateOrthographic(100, 100, NearPlane, FarPlane);
+                return Matrix.CreateOrthographic(100, 100, nearplane, farplane);
             }
 
             return Matrix.Identity;
@@ -69,7 +69,7 @@ namespace XEngine
         {
             this.NearPlane = near;
             this.FarPlane = far;
-            Projection =  Matrix.CreateOrthographic(width, height, NearPlane, FarPlane);
+            Projection = Matrix.CreateOrthographic(width, height, near, far);
         }
 
         public void SetPerspective(float FOV, float AspectRatio, float near, float far)

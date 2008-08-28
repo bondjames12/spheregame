@@ -87,6 +87,7 @@
     <Compile Include="Components\Base\XComponent.cs" />
     <Compile Include="Components\Cameras\XArcBallCamera.cs" />
     <Compile Include="Components\Cameras\XChaseCamera.cs" />
+    <Compile Include="Components\Environment\XWaterFast.cs" />
     <Compile Include="Components\Resources\Gif Animation\GifAnimationContentTypeReader.cs" />
     <Compile Include="Components\Resources\XTextureSequence.cs" />
     <Compile Include="Components\Resources\XGifTexture.cs" />

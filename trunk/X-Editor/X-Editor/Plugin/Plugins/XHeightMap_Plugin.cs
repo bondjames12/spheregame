@@ -92,7 +92,7 @@ namespace X_Editor
             int paramsNum = int.Parse(node.Attributes["EnvParamsNum"].InnerText);
             heightmap.environmentalParametersNumber = paramsNum;
 
-            heightmap.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
+           // heightmap.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
 
             foreach (ListViewItem item in scene.Items)
                 if (item.Tag is XEnvironmentParameters)

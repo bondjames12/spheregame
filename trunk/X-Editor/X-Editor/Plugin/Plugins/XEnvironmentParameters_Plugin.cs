@@ -106,7 +106,7 @@ namespace X_Editor
             param.LightColorAmbient = tools.ConvertVector3ToVector4(tools.ParseXMLVector3(node.Attributes["LightAmbient"].InnerText));
             param.SunLightness = float.Parse(node.Attributes["SunLightness"].InnerText);
             param.SunRadiusAttenuation = float.Parse(node.Attributes["SunRadiusAttentuation"].InnerText);
-            param.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
+            //param.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
 
             ListViewItem sceneitem = new ListViewItem();
 

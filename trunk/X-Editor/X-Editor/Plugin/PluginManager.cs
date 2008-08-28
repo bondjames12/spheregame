@@ -66,6 +66,7 @@ namespace X_Editor
             Plugins.Add(new XWater_Plugin(X));
             Plugins.Add(new XModel_Plugin(X));
             Plugins.Add(new XActor_Plugin(X));
+            Plugins.Add(new XProp_Plugin(X));
 
             // Add any custom plugins for custom components here
         }

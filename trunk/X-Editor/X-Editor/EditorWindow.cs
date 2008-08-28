@@ -47,6 +47,7 @@ namespace X_Editor
 
             plugins = new ComponentPluginManager(renderControl1.X);
 
+            //add the different component plugins to the component list box!
             foreach (ComponentPlugin plugin in plugins.Plugins)
                 treeView1.Nodes[0].Nodes.Add(plugin.Name);
         }
@@ -155,14 +156,12 @@ namespace X_Editor
 
         public void ResetEditor(bool ClearContent)
         {
-            //REMOVED: contentManager = new ContentManager(renderControl1.X.game.Services);
-            contentManager = new ContentManager(renderControl1.X.Services);
-            contentManager.RootDirectory = ProjectDirectory + @"\Game";
-
+            //Set this ContentRootDir before called Init() This makes sure the content manager is pointing to our project directory
+            renderControl1.ContentRootDir = ProjectDirectory + @"\Game";
             renderControl1.Init();
-            //REMOVED: renderControl1.X.game = new Game1(ProjectDirectory + @"\Game", renderControl1.graphicsDeviceService);
             renderControl1.SetupBaseComponents();
 
+            //save this X in the plugins manager as well
             plugins.X = renderControl1.X;
 
             CurrentScene = null;
@@ -262,6 +261,11 @@ namespace X_Editor
         private void scenesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             scenes.Show();
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }

@@ -127,6 +127,7 @@ namespace Sphere
             if (mouse.ButtonPressed(XMouse.Buttons.Right))
             {
                 XProp prop = new XProp(ref X, new XModel(ref X, @"Content\Models\tv"), parent.currentCamera.Position, Vector3.Zero, Matrix.Identity, Vector3.One);
+                prop.Load(X.Content);
             }
 #else
             if (gamepad.ButtonPressed(Buttons.A))
@@ -149,10 +150,11 @@ namespace Sphere
                 XProjectile p = new XProjectile(ref X, explosion, smoke, smoketrail);
             }
 
-            if (keyboard.KeyDown(Keys.F2))
-                parent.sky.Theta -= .5f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //if (keyboard.KeyDown(Keys.F2))
+                //parent.sky.Theta -= .5f * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (keyboard.KeyPressed(Keys.F3))
+            {
                 if (parent.water == null)
                 {
                     parent.water = new XWater(ref X, new Vector2(-128, -128), new Vector2(128, 128), 3f);
@@ -160,6 +162,10 @@ namespace Sphere
                     parent.water.Update(ref gameTime);
                     parent.resources.AddComponent(parent.water);
                 }
+                XWaterFast water = new XWaterFast(ref X, @"Content\XEngine\Textures\Sky\GreenWaterSky");
+                water.basePosition = new Vector3(0, 1.5f, 0);
+                water.Load(X.Content);
+            }
 
             if (keyboard.KeyPressed(Keys.E))
                 if (parent.water != null)

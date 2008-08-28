@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="Plugin\ComponentPlugin.cs" />
     <Compile Include="Plugin\PluginManager.cs" />
+    <Compile Include="Plugin\Plugins\XProp_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XActor_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XDynamicSky_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XEnvironmentParameters_Plugin.cs" />

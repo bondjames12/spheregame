@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 namespace XEngine
 {
     public class XComponent : IComparable<XComponent>
@@ -46,10 +47,10 @@ namespace XEngine
         public int ComponentID
         {
             get { return componentID; }
-            set
+            /*set
             {
                 componentID = value;
-            }
+            }*/
         }
 
         /// <summary>
@@ -80,9 +81,9 @@ namespace XEngine
             return this.drawOrder.CompareTo(obj.drawOrder);
         }
 
-
         public XComponent(ref XMain X)
         {
+            this.componentID = X.Tools.GeneratorNewID();
             this.X = X;
             X.Components.Add(this);
             this.Name = this.ToString();
