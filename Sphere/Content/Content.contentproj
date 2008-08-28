@@ -304,6 +304,11 @@
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
     </Compile>
+    <Compile Include="Images\Terrainmaps\Island1.tga">
+      <Name>Island1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <None Include="Textures\default_ambocc_map.png">
       <Name>default_ambocc_map</Name>
       <Importer>TextureImporter</Importer>
@@ -351,6 +356,13 @@
       <Name>Simple</Name>
       <Importer>GifAminationImporter</Importer>
       <Processor>GifAnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Heightmaps\Island1.bmp">
+      <Name>Island1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

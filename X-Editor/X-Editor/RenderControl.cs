@@ -15,6 +15,7 @@ namespace X_Editor
     {
         //Timer redraw;
         public XMain X;
+        public string ContentRootDir="";
 
         XEditorGameTime time = new XEditorGameTime();
 
@@ -34,7 +35,7 @@ namespace X_Editor
 
         protected override void Initialize()
         {
-            X = new XMain(this.GraphicsDevice,this.Services);
+            X = new XMain(this.GraphicsDevice,this.Services, ContentRootDir);
             //setup some basic usefull settings
             X.Gravity = new Vector3(0, -40, 0);
             X.FrameRate.DisplayFrameRate = true;

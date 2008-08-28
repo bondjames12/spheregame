@@ -13,8 +13,8 @@ namespace XEngine
         public XPhysicsObject PhysicsObject;
 
         //not used yet
-        //public Vector3 modeloffset;
-        //public Vector3 rotation;
+        public Vector3 modeloffset;
+        public Vector3 rotation;
         
         #region Editor Properties
 
@@ -115,7 +115,7 @@ namespace XEngine
         
         public float Mass_editor
         {
-            get { return PhysicsObject.PhysicsBody.Mass; }
+            get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.Mass; else return 0; }
             set 
             {
                 if (PhysicsObject != null)
@@ -142,11 +142,11 @@ namespace XEngine
         }
 
         
-        /*public Vector3 Rotation_editor
+        public Vector3 Rotation_editor
         {
             get { return rotation; }
             set { rotation = value; Orientation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(rotation.Y), MathHelper.ToRadians(rotation.X), MathHelper.ToRadians(rotation.Z)); }
-        }*/
+        }
  #endregion
 
         public XActor(ref XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass)

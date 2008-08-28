@@ -39,29 +39,24 @@ namespace X_Editor
         {
             XActor actor = (XActor)Input;
 
-            
             XActor newAct = new XActor(ref X, actor.model, actor.Position, actor.modeloffset,  actor.Velocity, actor.Mass_editor);
             newAct.Immovable = actor.Immovable;
             newAct.AutoDraw = actor.AutoDraw;
             newAct.DrawOrder = actor.DrawOrder;
             newAct.Rotation_editor = actor.Rotation_editor;
             newAct.DebugMode = actor.DebugMode;
-            newAct.ComponentID = actor.ComponentID;
+            //newAct.ComponentID = actor.ComponentID;
 
             if ((newAct.PhysicsObject == null) || (newAct.PhysicsObject.PhysicsSkin == null) || newAct.PhysicsObject.PhysicsSkin.NumPrimitives <= 0) //this XActor we created or model we loaded does not have any collision primitives we can't continue to render this~
             {
-                newAct.Disable();
+                X.Components.Remove(newAct);
                 return;
             }
 
-            //actor = newAct;
-
-            actor.Disable();
-            X.Components.Remove(actor);
-
-            if (Properties != null && Properties.SelectedObject == newAct)
+            if (Properties != null)
                 Properties.SelectedObject = newAct;
-             
+
+            X.Components.Remove(X.Tools.GetXComponentByID(actor.ComponentID)); 
         }
 
         public override void WriteToXML(System.Xml.XmlWriter writer, object obj)
@@ -100,7 +95,7 @@ namespace X_Editor
             actor.Immovable = bool.Parse(node.Attributes["Immovable"].InnerText);
             actor.modelNumber = int.Parse(node.Attributes["ModelNumber"].InnerText);
             actor.Rotation_editor = tools.ParseXMLVector3(node.Attributes["Rotation"].InnerText);
-            actor.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
+            //actor.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
 
             foreach(ListViewItem item in scene.Items)
                 if (item.Tag is XModel)

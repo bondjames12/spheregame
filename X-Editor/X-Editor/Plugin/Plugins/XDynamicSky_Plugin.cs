@@ -72,7 +72,7 @@ namespace X_Editor
             sky.Phi = float.Parse(node.Attributes["Phi"].InnerText);
             sky.Theta = float.Parse(node.Attributes["Theta"].InnerText);
             sky.RealTime = bool.Parse(node.Attributes["RealTime"].InnerText);
-            sky.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
+            //sky.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
 
             int paramsNum = int.Parse(node.Attributes["EnvParamsNum"].InnerText);
             sky.environmentalParametersNumber = paramsNum;

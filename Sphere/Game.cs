@@ -30,7 +30,6 @@ namespace Sphere
         public XModel model;
 
         public XHeightMap heightmap;
-        public XDynamicSky sky;
         public XWater water;
         public XTreeSystem trees;
         
@@ -91,7 +90,7 @@ namespace Sphere
         /// </summary>
         protected override void Initialize()
         {
-            X = new XMain(graphics.GraphicsDevice,Services);
+            X = new XMain(graphics.GraphicsDevice,Services, "");
             X.Gravity = new Vector3(0, -40, 0);
             X.FrameRate.DisplayFrameRate = true;
             X.Console.AutoDraw = false;
@@ -130,8 +129,10 @@ namespace Sphere
 
 
             // load scene objects/content
-            sky = new XDynamicSky(ref X,X.Environment);
-            heightmap = new XHeightMap(ref X, @"Content\Images\Heightmaps\Level1", X.Environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Images\Terrainmaps\Level1");
+            //sky = new XDynamicSky(ref X,X.Environment);
+            //XSkyBox sky = new XSkyBox(ref X, @"Content\XEngine\Textures\Sky\front", @"Content\XEngine\Textures\Sky\back", @"Content\XEngine\Textures\Sky\left", @"Content\XEngine\Textures\Sky\right", @"Content\XEngine\Textures\Sky\top", @"Content\XEngine\Textures\Sky\bottom");
+            XSkyBox sky = new XSkyBox(ref X, @"Content\XEngine\Textures\Sky\GreenWaterSky");
+            heightmap = new XHeightMap(ref X, @"Content\Images\Heightmaps\Island1", X.Environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Images\Terrainmaps\Island1");
  
             //resources.AddComponent(environment);
             resources.AddComponent(heightmap);

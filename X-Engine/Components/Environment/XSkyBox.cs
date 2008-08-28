@@ -10,6 +10,7 @@ namespace XEngine
     public class XSkyBox : XComponent, XDrawable
     {
         string[] Filenames;
+        TextureCube cube;
         
         Effect effect;
         Model model;
@@ -22,7 +23,15 @@ namespace XEngine
 
         public XSkyBox(ref XMain X, string Front, string Back, string Left, string Right, string Top, string Bottom) : base(ref X)
         {
+            DrawOrder = 19;
             Filenames = new string[] { Bottom, Front, Back, Top, Left, Right };
+        }
+
+        public XSkyBox(ref XMain X, string SkyCubeMap)
+            : base(ref X)
+        {
+            DrawOrder = 19;
+            Filenames = new string[] { SkyCubeMap };
         }
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
@@ -30,13 +39,22 @@ namespace XEngine
             effect = Content.Load<Effect>(@"Content\XEngine\Effects\Skybox");
             model = Content.Load<Model>(@"Content\XEngine\Models\Skybox");
 
-            Texture2D[] Sides = new Texture2D[6];
-
-            for (int i = 0; i < 6; i++)
+            if (Filenames.Length == 1) //theres only 1 texture in this list it must be a cube map
             {
-                if (Filenames != null && !string.IsNullOrEmpty(Filenames[i]))
-                    Sides[i] = Content.Load<Texture2D>(Filenames[i]);
+                effect.CurrentTechnique = effect.Techniques["SkyCubeMap"];
+                cube = Content.Load<TextureCube>(Filenames[0]);
             }
+            else
+            {
+                effect.CurrentTechnique = effect.Techniques["Sky"];
+
+                Texture2D[] Sides = new Texture2D[6];
+
+                for (int i = 0; i < 6; i++)
+                {
+                    if (Filenames != null && !string.IsNullOrEmpty(Filenames[i]))
+                        Sides[i] = Content.Load<Texture2D>(Filenames[i]);
+                }
 
                 int x = 0;
                 foreach (ModelMesh mesh in model.Meshes)
@@ -49,13 +67,13 @@ namespace XEngine
 
                         if (Filenames != null && !string.IsNullOrEmpty(Filenames[x]))
                             tex = Sides[x];
-                            
+
                         part.Effect.Parameters["tex"].SetValue(tex);
 
                         x++;
                     }
                 }
-            
+            }
         }
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
@@ -70,18 +88,46 @@ namespace XEngine
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
 
-            int i = 0;
-            foreach (ModelMesh mesh in model.Meshes)
+
+            if (Filenames.Length == 1)
             {
-                foreach (Effect effect in mesh.Effects)
+                effect.Parameters["Projection"].SetValue(Camera.Projection);
+                effect.Parameters["View"].SetValue(Camera.View);
+
+                if (Filenames.Length == 1)
                 {
-                    effect.Parameters["World"].SetValue(transforms[mesh.ParentBone.Index] * Matrix.CreateScale(100) * Matrix.CreateTranslation(Camera.Position));
-                    effect.Parameters["Projection"].SetValue(Camera.Projection);
-                    effect.Parameters["View"].SetValue(Camera.View);
+                    effect.Parameters["EyePosition"].SetValue(Camera.Position);
+                    effect.Parameters["skyCubeTexture"].SetValue(cube);
                 }
-                mesh.Draw();
-                i++;
+
+                for (int pass = 0; pass < effect.CurrentTechnique.Passes.Count; pass++)
+                {
+                    for (int msh = 0; msh < model.Meshes.Count; msh++)
+                    {
+                        ModelMesh mesh = model.Meshes[msh];
+
+                        effect.Parameters["World"].SetValue(transforms[mesh.ParentBone.Index] * Matrix.CreateScale(100) * Matrix.CreateTranslation(Camera.Position));
+
+                        for (int prt = 0; prt < mesh.MeshParts.Count; prt++)
+                            mesh.MeshParts[prt].Effect = effect;
+                        mesh.Draw();
+                    }
+                }
             }
+            else
+            {//render our other method
+                foreach (ModelMesh mesh in model.Meshes)
+                {
+                    foreach (Effect effect in mesh.Effects)
+                    {
+                        effect.Parameters["World"].SetValue(transforms[mesh.ParentBone.Index] * Matrix.CreateScale(100) * Matrix.CreateTranslation(Camera.Position));
+                        effect.Parameters["Projection"].SetValue(Camera.Projection);
+                        effect.Parameters["View"].SetValue(Camera.View);
+                    }
+                    mesh.Draw();
+                }
+            }
+
         }
     }
 }

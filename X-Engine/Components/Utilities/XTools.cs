@@ -11,10 +11,21 @@ namespace XEngine
         XMain X;
 
         private Random rand = new Random();
+        private int ComponentIDCounter = 0;
 
         public XTools(XMain X)
         {
             this.X = X;
+        }
+
+        public int GeneratorNewID()
+        {
+            return ComponentIDCounter++;
+        }
+
+        public XComponent GetXComponentByID(int ID)
+        {
+            return X.Components.Find(delegate(XComponent obj) { return obj.ComponentID == ID; });
         }
 
         public int GetRandomInt(int min, int max)

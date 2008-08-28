@@ -15,7 +15,7 @@ namespace XEngine
         public Vector3 modeloffset;
         public Matrix orientation;
         public Vector3 scale;
-        public XGifTexture gif;
+        //public XGifTexture gif;
 
         #region Editor Properties
 
@@ -64,15 +64,15 @@ namespace XEngine
                 model.Parent = this;
                 this.modelNumber = model.Number;
                 //if its not loaded try and load!
-                if (!model.loaded) model.Load(X.Content);
+                //if (!model.loaded) model.Load(X.Content);
             }
             this.position = position;
             this.modeloffset = modeloffset;
             this.orientation = orient;
             this.scale = scale;
-            gif = new XGifTexture(ref X, @"Content\Textures\Simple");
-            gif.Load(X.Content);
-            gif.Start();
+            //this.gif = new XGifTexture(ref X, @"Content\Textures\Simple");
+            //this.gif.Load(X.Content);
+            //this.gif.Start();
         }
 
         public Matrix GetWorldMatrix()

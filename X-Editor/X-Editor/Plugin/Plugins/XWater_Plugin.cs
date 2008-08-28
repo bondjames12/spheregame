@@ -47,7 +47,7 @@ namespace X_Editor
             water.WaveHeight = float.Parse(node.Attributes["WaveHeight"].InnerText);
             water.WindDirection = float.Parse(node.Attributes["WindDirection"].InnerText);
             water.WindForce = float.Parse(node.Attributes["WindForce"].InnerText);
-            water.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
+            //water.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
 
             ListViewItem item = new ListViewItem(Name);
             item.Tag = water;
