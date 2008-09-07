@@ -10,7 +10,7 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XProp);
-            Name = "XProp";
+            //Name = "XProp";
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)
@@ -26,29 +26,44 @@ namespace X_Editor
 
         public override ListViewItem SetupListViewItem()
         {
-            ListViewItem item = new ListViewItem();
-            item.Text = Name;
+            XProp prop = new XProp(ref X, new XModel(ref X, null), Vector3.Zero, Vector3.Zero, Matrix.Identity, Vector3.One);
+            prop.NoCull = true;
 
-            XProp actor = new XProp(ref X, new XModel(ref X, null), Vector3.Zero, Vector3.Zero, Matrix.Identity, Vector3.One);
-            actor.NoCull = true;
-            item.Tag = actor;
-            
+            ListViewItem item = new ListViewItem();
+
+            //custom name
+            ListViewItem.ListViewSubItem lvtype = new ListViewItem.ListViewSubItem();
+            lvtype.Name = "colName";
+            lvtype.Text = prop.Name;
+
+            //id
+            ListViewItem.ListViewSubItem lvid = new ListViewItem.ListViewSubItem();
+            lvid.Name = "colID";
+            lvid.Text = prop.ComponentID.ToString();
+
+
+            item.Text = prop.ToString();
+            item.Name = prop.ToString();
+            item.SubItems.Add(lvtype);
+            item.SubItems.Add(lvid);
+
             return item;
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
         {
-            XProp actor = (XProp)Input;
+            //we changed a property do something?
 
-            XProp newAct = new XProp(ref X, actor.model, actor.position, actor.modeloffset,  actor.orientation, actor.scale);
-            newAct.AutoDraw = actor.AutoDraw;
-            newAct.DrawOrder = actor.DrawOrder;
-            newAct.DebugMode = actor.DebugMode;
+            //update scene list component name
+            foreach (ListViewItem item in Scene.Items)
+            {//search for item
+                if (item.SubItems["colID"].Text == ((XProp)Input).ComponentID.ToString())
+                    item.SubItems["colName"].Text = ((XProp)Input).Name;
+            }
 
-            if (Properties != null)
-                Properties.SelectedObject = newAct;
-
-            X.Components.Remove(X.Tools.GetXComponentByID(actor.ComponentID));
+            //forces the properties list to update to display the changes
+            if (Properties != null && Properties.SelectedObject == Input)
+                Properties.SelectedObject = Input;
         }
 
         public override void WriteToXML(System.Xml.XmlWriter writer, object obj)
@@ -56,7 +71,7 @@ namespace X_Editor
             //missing some here
             XProp actor = (XProp)obj;
             writer.WriteStartElement("sceneitem");
-            writer.WriteAttributeString("Type", Name);
+            //writer.WriteAttributeString("Type", Name);
             writer.WriteAttributeString("ComponentID", actor.ComponentID.ToString());
             writer.WriteAttributeString("AutoDraw", actor.AutoDraw.ToString());
             writer.WriteAttributeString("DrawOrder", actor.DrawOrder.ToString());
@@ -91,11 +106,11 @@ namespace X_Editor
                             ((XModel)item.Tag).Load(X.Content);
                     }
 
-            ListViewItem sceneitem = new ListViewItem(Name);
-            sceneitem.Tag = actor;
-            sceneitem.Group = scene.Groups["Actors"];
+            //ListViewItem sceneitem = new ListViewItem(Name);
+            //sceneitem.Tag = actor;
+            //sceneitem.Group = scene.Groups["Actors"];
 
-            scene.Items.Add(sceneitem);
+            //scene.Items.Add(sceneitem);
              
         }
     }

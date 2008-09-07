@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace Sphere
 {
-    public class MenuManager : XComponent, XUpdateable, XDrawable
+    public class MenuManager : XComponent, XIUpdateable, XIDrawable
     {
         Texture2D Background;
         Texture2D Button;

@@ -4,7 +4,7 @@ using XEngine;
 
 namespace XEngine
 {
-    public class XZuneInput : XComponent, XUpdateable
+    public class XZuneInput : XComponent, XIUpdateable
     {
         XGamePad GamePad;
 

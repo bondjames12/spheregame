@@ -9,11 +9,11 @@ namespace X_Editor
     {
         public List<ComponentPlugin> Plugins = new List<ComponentPlugin>();
 
-        public ListViewItem SetUpListViewItem(string Name)
+        public ListViewItem SetUpListViewItem(string Type)
         {
             ListViewItem item = new ListViewItem();
             foreach (ComponentPlugin plugin in Plugins)
-                if (plugin.Name == Name)
+                if (plugin.type.ToString() == Type)
                     item = plugin.SetupListViewItem();
 
             return item;
@@ -43,10 +43,10 @@ namespace X_Editor
 
         public void LoadFromXML(XmlNodeList scenenode, ListView scene)
         {
-            foreach(XmlNode node in scenenode)
-                foreach (ComponentPlugin plugin in Plugins)
-                    if (plugin.Name == node.Attributes["Type"].InnerText)
-                        plugin.LoadFromXML(node, scene);
+            //foreach(XmlNode node in scenenode)
+            //    foreach (ComponentPlugin plugin in Plugins)
+            //        if (plugin.type.ToString() == node.Attributes["Type"].InnerText)
+            //            plugin.LoadFromXML(node, scene);
         }
 
         XMain x;
@@ -67,6 +67,7 @@ namespace X_Editor
             Plugins.Add(new XModel_Plugin(X));
             Plugins.Add(new XActor_Plugin(X));
             Plugins.Add(new XProp_Plugin(X));
+            Plugins.Add(new XCamera_Plugin(X));
 
             // Add any custom plugins for custom components here
         }

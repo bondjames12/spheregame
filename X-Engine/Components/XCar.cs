@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace XEngine
 {
-    public class XCar : XComponent, XUpdateable, XDrawable
+    public class XCar : XComponent, XIUpdateable, XIDrawable
     {
         public CarObject Car;
 

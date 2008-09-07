@@ -10,7 +10,7 @@ namespace XEngine
     /// <summary>
     /// The main component in charge of displaying particles.
     /// </summary>
-    public class XParticleSystem : XComponent, XUpdateable, XDrawable
+    public class XParticleSystem : XComponent, XIUpdateable, XIDrawable
     {
         #region Fields
 

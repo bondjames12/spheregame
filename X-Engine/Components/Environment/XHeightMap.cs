@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XEngine
 {
-    public class XHeightMap : XComponent, XDrawable
+    public class XHeightMap : XComponent, XIDrawable
     {
         VertexBuffer terrainVertexBuffer;
         IndexBuffer terrainIndexBuffer;

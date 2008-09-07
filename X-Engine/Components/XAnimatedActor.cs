@@ -6,7 +6,7 @@ using System;
 
 namespace XEngine
 {
-    public class XAnimatedActor : XActor, XUpdateable
+    public class XAnimatedActor : XActor, XIUpdateable
     {
         private int _AnimationIndex;
         private int _OldAnimationIndex;
@@ -149,7 +149,7 @@ namespace XEngine
 
 
             if (DebugMode)
-                X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.White, Matrix.Identity, Camera);
+                X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
 
             //process animation
             XSIAnimationData l_Animations = model.Model.Tag as XSIAnimationData;

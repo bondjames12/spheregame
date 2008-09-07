@@ -10,13 +10,13 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XEnvironmentParameters);
-            Name = "Environment Parameters";
+            //Name = "Environment Parameters";
         }
 
         public override ListViewItem SetupListViewItem()
         {
             ListViewItem item = new ListViewItem();
-            item.Text = Name;
+            //item.Text = Name;
 
             XEnvironmentParameters paramaters = new XEnvironmentParameters(X);
             paramaters.Load(X.Content);
@@ -68,7 +68,7 @@ namespace X_Editor
             XEnvironmentParameters param = (XEnvironmentParameters)obj;
 
             writer.WriteStartElement("sceneitem");
-            writer.WriteAttributeString("Type", Name);
+            //writer.WriteAttributeString("Type", Name);
             writer.WriteAttributeString("ComponentID", param.ComponentID.ToString());
             writer.WriteAttributeString("DayFile", param.DayFile);
             writer.WriteAttributeString("NightFile", param.NightFile);
@@ -143,7 +143,7 @@ namespace X_Editor
                 }
             }
 
-            sceneitem.Text = Name;
+            //sceneitem.Text = Name;
             sceneitem.Tag = param;
             sceneitem.Group = scene.Groups["Environment"];
 

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
-    public class XTriggerVolume : XComponent, XUpdateable
+    public class XTriggerVolume : XComponent, XIUpdateable
     {
         protected XActor actor;
         bool continuous;

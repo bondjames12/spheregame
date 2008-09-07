@@ -2,7 +2,7 @@
 
 namespace XEngine
 {
-    public class XFrameRate : XComponent, XUpdateable
+    public class XFrameRate : XComponent, XIUpdateable
     {
         float fps;
         public float updateInterval = 1.0f;

@@ -9,18 +9,18 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XWater);
-            Name = "Water";
+            //Name = "Water";
         }
 
         public override ListViewItem SetupListViewItem()
         {
             ListViewItem item = new ListViewItem();
-            item.Text = Name;
+            //item.Text = Name;
 
             XWater water = new XWater(ref X);
             water.Load(X.Content);
             item.Tag = water;
-
+            
             return item;
         }
 
@@ -49,11 +49,11 @@ namespace X_Editor
             water.WindForce = float.Parse(node.Attributes["WindForce"].InnerText);
             //water.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
 
-            ListViewItem item = new ListViewItem(Name);
-            item.Tag = water;
-            item.Group = scene.Groups["Environment"];
+            //ListViewItem item = new ListViewItem(Name);
+            //item.Tag = water;
+            //item.Group = scene.Groups["Environment"];
 
-            scene.Items.Add(item);
+            //scene.Items.Add(item);
         }
 
         public override void WriteToXML(System.Xml.XmlWriter writer, object obj)
@@ -61,7 +61,7 @@ namespace X_Editor
             XWater water = (XWater)obj;
 
             writer.WriteStartElement("sceneitem");
-            writer.WriteAttributeString("Type", Name);
+            //writer.WriteAttributeString("Type", Name);
             writer.WriteAttributeString("ComponentID", water.ComponentID.ToString());
             writer.WriteAttributeString("PointOne", water.PointOne.ToString());
             writer.WriteAttributeString("PointTwo", water.PointTwo.ToString());

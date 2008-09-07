@@ -11,6 +11,7 @@ namespace XEngine
 {
     public class XMain
     {
+        //public Dictionary<uint, XComponent> Components;
         public List<XComponent> Components;
 
         public SpriteBatch spriteBatch;
@@ -101,7 +102,7 @@ namespace XEngine
             for (int i = 0; i < Components.Count; i++)
             {
                 XComponent Component = Components[i];
-                if (Component is XUpdateable)
+                if (Component is XIUpdateable)
                     Component.Update(ref gameTime);
             }
             

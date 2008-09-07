@@ -87,10 +87,15 @@
     <Compile Include="Components\Base\XComponent.cs" />
     <Compile Include="Components\Cameras\XArcBallCamera.cs" />
     <Compile Include="Components\Cameras\XChaseCamera.cs" />
+    <Compile Include="Components\Cameras\XQuaternionCamera.cs" />
     <Compile Include="Components\Environment\XWaterFast.cs" />
+    <Compile Include="Components\Rendering\XPrimitives.cs" />
     <Compile Include="Components\Resources\Gif Animation\GifAnimationContentTypeReader.cs" />
     <Compile Include="Components\Resources\XTextureSequence.cs" />
     <Compile Include="Components\Resources\XGifTexture.cs" />
+    <Compile Include="Components\Utilities\XPickBuffer.cs" />
+    <Compile Include="Components\Utilities\XPickEffect.cs" />
+    <Compile Include="Components\Utilities\XColorConverter.cs" />
     <Compile Include="Components\XProp.cs" />
     <Compile Include="Components\Environment\XTree.cs" />
     <Compile Include="Components\Environment\XTreeSystem.cs" />

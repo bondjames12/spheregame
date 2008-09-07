@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XEngine
 {
-    public class XWaterFast : XComponent, XDrawable, XUpdateable
+    public class XWaterFast : XComponent, XIDrawable, XIUpdateable
     {
         public struct VertexMultitextured
         {

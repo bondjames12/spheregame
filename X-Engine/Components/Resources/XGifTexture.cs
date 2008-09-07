@@ -7,7 +7,7 @@ namespace XEngine
     /// <summary>
     /// A class which renders and updates an Animated strip texture
     /// </summary>
-    public class XGifTexture : XComponent, XUpdateable
+    public class XGifTexture : XComponent, XIUpdateable
     {
         string Filename;
         XTimer Timer;

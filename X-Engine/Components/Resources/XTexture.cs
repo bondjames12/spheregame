@@ -7,7 +7,7 @@ namespace XEngine
     /// <summary>
     /// A class which renders and updates an Animated strip texture
     /// </summary>
-    public class XTexture : XComponent, XUpdateable
+    public class XTexture : XComponent, XIUpdateable
     {
         Texture2D texture;
         string filename;

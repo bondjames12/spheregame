@@ -5,9 +5,10 @@ using XSIXNARuntime;
 
 namespace XEngine
 {
-    public class XModel : XComponent
+    public class XModel : XComponent, XIBoundedTransform
     {
         public Model Model;
+        public BoundingBox boundingBox;
 
         public int Number;
         public static int Count;
@@ -21,6 +22,16 @@ namespace XEngine
 
         public Model Model_editor { get { return Model; } }
         public string Filename_editor { get {return Filename;} set { Filename = value;} }
+        public BoundingBox Bounds
+        {
+            get
+            {
+                if (boundingBox != null)
+                    return boundingBox;
+                else
+                    return new BoundingBox();
+            }
+        }
 
         #endregion
 
@@ -36,6 +47,8 @@ namespace XEngine
         {
             base.Load(Content);
             this.Model = Content.Load<Model>(Filename);
+            if (this.Model != null)
+                boundingBox = X.Tools.CreateBoundingBox(this.Model);
         }
 
         public void InitDefaultSASLighting()

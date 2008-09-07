@@ -35,7 +35,7 @@ namespace XEngine
     /// you specify, regardless of whether this is faster or slower than the
     /// game update rate.
     /// </summary>
-    public class XParticleEmitter : XComponent, XUpdateable
+    public class XParticleEmitter : XComponent, XIUpdateable
     {
         #region Fields
 

@@ -8,13 +8,13 @@ namespace X_Editor
         public XHeightMap_Plugin(XMain X) : base(X)
         {
             type = typeof(XHeightMap);
-            Name = "Height Map Terrain";
+            //Name = "Height Map Terrain";
         }
 
         public override ListViewItem SetupListViewItem()
         {
             ListViewItem item = new ListViewItem();
-            item.Text = Name;
+            //item.Text = Name;
 
             XHeightMap heightmap = new XHeightMap(ref X, null, null, null, null, null, null);
             item.Tag = heightmap;
@@ -32,7 +32,7 @@ namespace X_Editor
                 {
                     heightmap.Load(X.Content);
 
-                    if (Properties != null && Properties.SelectedObject == heightmap)
+                    if (Properties != null)
                         Properties.SelectedObject = heightmap;
                 }
                 catch
@@ -68,7 +68,7 @@ namespace X_Editor
             XHeightMap heightmap = (XHeightMap)obj;
 
             writer.WriteStartElement("sceneitem");
-            writer.WriteAttributeString("Type", Name);
+            //writer.WriteAttributeString("Type", Name);
             writer.WriteAttributeString("ComponentID", heightmap.ComponentID.ToString());
             writer.WriteAttributeString("HeightMap", heightmap.HeightMap);
             writer.WriteAttributeString("TextureMap", heightmap.TextureMap);
@@ -102,7 +102,7 @@ namespace X_Editor
             if (!string.IsNullOrEmpty(heightmap.TextureMap) && !string.IsNullOrEmpty(heightmap.HeightMap) && heightmap.Params != null)
                  heightmap.Load(X.Content);
 
-            sceneitem.Text = Name;
+            //sceneitem.Text = Name;
             sceneitem.Tag = heightmap;
             sceneitem.Group = scene.Groups["Environment"];
 

@@ -16,7 +16,7 @@ namespace XEngine
 
         protected override bool CheckForIntersection()
         {
-            if (box.Contains(actor.Position) == ContainmentType.Intersects || box.Contains(actor.Position) == ContainmentType.Contains)
+            if (box.Contains(actor.PhysicsObject.PhysicsBody.Position) == ContainmentType.Intersects || box.Contains(actor.PhysicsObject.PhysicsBody.Position) == ContainmentType.Contains)
                 return true;
 
             return false;

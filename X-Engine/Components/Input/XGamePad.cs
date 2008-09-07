@@ -4,7 +4,7 @@ using XEngine;
 
 namespace XEngine
 {
-    public class XGamePad : XComponent, XUpdateable
+    public class XGamePad : XComponent, XIUpdateable
     {
         GamePadState LastState;
         GamePadState CurrentState;

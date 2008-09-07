@@ -366,6 +366,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Images\Heightmaps\astoriaa.jpg">
+      <Name>astoriaa</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Heightmaps\Monterey.jpg">
+      <Name>Monterey</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Material\" />
     <Folder Include="XSI\Sphere\Pictures\Plant Sprites\" />
   </ItemGroup>
