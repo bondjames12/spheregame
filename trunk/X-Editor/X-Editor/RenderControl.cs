@@ -13,6 +13,10 @@ namespace X_Editor
 {
     public class RenderControl : GraphicsDeviceControl
     {
+        //control events
+        public delegate void SelectedComponentChange(object sender, XComponent selectedObj);
+        public event SelectedComponentChange OnSelectedComponentChange;
+
         //Timer redraw;
         public XMain X;
         public string ContentRootDir="";
@@ -22,6 +26,16 @@ namespace X_Editor
         public XFreeLookCamera camera;
         public XKeyboard keyboard;
         public XMouse mouse;
+
+        public Manipulator mManipulator;
+        private XPickBuffer mPickBuffer;
+        private WinFormsInput mInput;
+
+        public Manipulator Manipulator
+        {
+            get { return mManipulator; }
+        }
+
 
         public RenderControl()
         {
@@ -44,7 +58,7 @@ namespace X_Editor
 
             X.LoadContent();
 
-            X.Physics.EnableFreezing = false;
+            X.Physics.EnableFreezing = true;
 
             time.TotalGameTime.Reset();
             time.TotalGameTime.Start();
@@ -76,6 +90,58 @@ namespace X_Editor
             keyboard = new XKeyboard(ref X);
             mouse = new XMouse(ref X);
             mouse.Reset = false;
+
+            mInput = new WinFormsInput(this);
+
+            mManipulator = new Manipulator(this.graphicsDeviceService, camera, mInput);
+            mManipulator.EnabledModes = TransformationMode.TranslationAxis;
+
+            mPickBuffer = new XPickBuffer(this.graphicsDeviceService);
+
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            if (mManipulator.Focused)
+                return;
+
+            if ((GraphicsDevice == null) || GraphicsDevice.IsDisposed)
+                return;
+
+            Viewport vp = GraphicsDevice.Viewport;
+            GraphicsDevice.Viewport = mInput.Viewport;
+
+            mPickBuffer.PushMatrix(MatrixMode.View, camera.ViewMatrix);
+            mPickBuffer.PushMatrix(MatrixMode.Projection, camera.ProjectionMatrix);
+
+            //draw each Component into pick buffer
+            foreach (XComponent comp in X.Components)
+                comp.DrawPick(mPickBuffer, camera);
+
+            mPickBuffer.PopMatrix(MatrixMode.View);
+            mPickBuffer.PopMatrix(MatrixMode.Projection);
+
+            mPickBuffer.Render();
+            
+            uint pick_id = mPickBuffer.Pick(e.X, e.Y);
+            //find the xcomponent we selected
+            XComponent component = X.Components.Find(delegate(XComponent obj) { return obj.ComponentID == pick_id; });
+
+            if (component != null)
+            {//we selected a valid component we should update our windows UI
+                mManipulator.Transform = component;
+                //fire change event
+                if (OnSelectedComponentChange != null)
+                {
+                    OnSelectedComponentChange(this, component);
+                }
+
+            }
+
+
+            this.GraphicsDevice.Viewport = vp;
         }
 
         public bool hasFocus = false;
@@ -118,14 +184,20 @@ namespace X_Editor
                         Cursor.Show();
                     else
                         dragdroprelease = false;
+
+                    ((EditorForm)Tag).RefreshPropertiesTab(); 
                 }
 
                 if (mouse.ButtonDown(XMouse.Buttons.Left))
                     camera.Rotate(new Vector3(mouse.Delta.Y * .0016f, mouse.Delta.X * .0016f, 0));
+
+                if (mouse.ButtonReleased(XMouse.Buttons.Right))
+                    ((EditorForm)Tag).RefreshPropertiesTab();
             }
 
-            
+            mManipulator.Update();
             X.Renderer.Draw(ref gameTime,ref camera.Base);
+            mManipulator.Draw();
 
             time.ElapsedGameTime.Reset();
             time.ElapsedGameTime.Start();

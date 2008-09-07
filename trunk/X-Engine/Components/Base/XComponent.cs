@@ -2,9 +2,10 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+
 namespace XEngine
 {
-    public class XComponent : IComparable<XComponent>
+    public class XComponent : XITransform, IComparable<XComponent>
     {
         public XMain X;
 
@@ -43,8 +44,8 @@ namespace XEngine
             set { name = value; }
         }
 
-        int componentID;
-        public int ComponentID
+        uint componentID;
+        public uint ComponentID
         {
             get { return componentID; }
             /*set
@@ -71,6 +72,11 @@ namespace XEngine
             set { drawOrder = value; }
         }
 
+        //Used by editor manipulators
+        public virtual Vector3 Translation { get { return Vector3.Zero; } set { } }
+        public virtual Quaternion Rotation { get { return Quaternion.Identity; } set { } }
+        public virtual Vector3 Scale { get { return Vector3.One; } set { } }
+
         /// <summary>
         /// Compare operator for sorting linked list
         /// </summary>
@@ -86,7 +92,7 @@ namespace XEngine
             this.componentID = X.Tools.GeneratorNewID();
             this.X = X;
             X.Components.Add(this);
-            this.Name = this.ToString();
+            this.Name = this.ToString() + this.componentID.ToString();
             //sort X.Components list according to Draworder
             X.Components.Sort();
         }
@@ -101,6 +107,13 @@ namespace XEngine
         }
 
         public virtual void Draw(ref GameTime gameTime,ref XCamera Camera)
+        {
+        }
+
+        /// <summary>
+        /// Draws the model attached to the model into the pick buffer
+        /// </summary>
+        public virtual void DrawPick(XPickBuffer pick_buf, XICamera camera)
         {
         }
 

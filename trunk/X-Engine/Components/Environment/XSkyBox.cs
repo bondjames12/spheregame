@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
-    public class XSkyBox : XComponent, XDrawable
+    public class XSkyBox : XComponent, XIDrawable
     {
         string[] Filenames;
         TextureCube cube;

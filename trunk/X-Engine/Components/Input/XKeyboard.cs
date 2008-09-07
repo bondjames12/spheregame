@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
-    public class XKeyboard : XComponent, XUpdateable
+    public class XKeyboard : XComponent, XIUpdateable
     {
         KeyboardState CurrentState;
         KeyboardState LastState;

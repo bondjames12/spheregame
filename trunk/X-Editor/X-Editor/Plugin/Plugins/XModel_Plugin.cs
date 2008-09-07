@@ -8,7 +8,6 @@ namespace X_Editor
         public XModel_Plugin(XMain X) : base(X)
         {
             this.type = typeof(XModel);
-            this.Name = "XModel";
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, System.Windows.Forms.PropertyGrid Properties, System.Windows.Forms.ListView Scene)
@@ -21,11 +20,25 @@ namespace X_Editor
 
         public override System.Windows.Forms.ListViewItem SetupListViewItem()
         {
-            ListViewItem item = new ListViewItem();
-            item.Text = Name;
-
             XModel model = new XModel(ref X, null);
-            item.Tag = model;
+
+            ListViewItem item = new ListViewItem();
+            
+            //custom name
+            ListViewItem.ListViewSubItem lvtype = new ListViewItem.ListViewSubItem();
+            lvtype.Name = "colName";
+            lvtype.Text = model.Name;
+            
+            //id
+            ListViewItem.ListViewSubItem lvid = new ListViewItem.ListViewSubItem();
+            lvid.Name = "colID";
+            lvid.Text = model.ComponentID.ToString();
+
+
+            item.Name = model.ToString();
+            item.Text = model.ToString();
+            item.SubItems.Add(lvtype);
+            item.SubItems.Add(lvid);
 
             return item;
         }
@@ -34,9 +47,18 @@ namespace X_Editor
         {
             XModel model = (XModel)Input;
 
+            //load the model file is we have a filename now
              if (!string.IsNullOrEmpty(model.Filename))
                 model.Load(X.Content);
 
+            //update scene list component name
+            foreach (ListViewItem item in Scene.Items)
+            {//search for item
+                if (item.SubItems["colID"].Text == model.ComponentID.ToString())
+                    item.SubItems["colName"].Text = model.Name;
+            }
+
+            //forces the properties list to update to display the changes
             if (Properties != null && Properties.SelectedObject == model)
                 Properties.SelectedObject = model;
         }
@@ -44,7 +66,7 @@ namespace X_Editor
         public override void WriteToXML(System.Xml.XmlWriter writer, object obj)
         {
             writer.WriteStartElement("sceneitem");
-            writer.WriteAttributeString("Type", Name);
+            //writer.WriteAttributeString("Type", Name);
             writer.WriteAttributeString("ComponentID", ((XComponent)obj).ComponentID.ToString());
             writer.WriteAttributeString("Filename", ((XModel)obj).Filename);
             writer.WriteAttributeString("Number", ((XModel)obj).Number.ToString());
@@ -63,7 +85,7 @@ namespace X_Editor
                model.Load(X.Content);
 
             ListViewItem item = new ListViewItem();
-            item.Text = Name;
+            item.Text = model.ToString();
             item.Tag = model;
             item.Group = scene.Groups["Models"];
 

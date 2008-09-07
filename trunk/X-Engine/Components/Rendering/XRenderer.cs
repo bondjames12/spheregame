@@ -5,7 +5,7 @@ using System;
 
 namespace XEngine
 {
-    public class XRenderer : XComponent, XDrawable
+    public class XRenderer : XComponent, XIDrawable
     {
         //public List<XActor> ActorsInView = new List<XActor>();
 
@@ -122,7 +122,7 @@ namespace XEngine
                 XComponent component = X.Components[i];
             
                 //is this XComponent Drawable? and not the renderer?
-                if(!(component is XDrawable) || (component is XRenderer))
+                if(!(component is XIDrawable) || (component is XRenderer))
                     continue;
 
                 //Is this XComponent on the NoDraw types list??
@@ -148,7 +148,7 @@ namespace XEngine
                     //Does XActor, XHeightMap,XWater culling, add other types as create them
                     //Only enter this if the XActor is within the view or its NoCull is set
                     //if (Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint || component.NoCull)
-                    if (component.NoCull || (component is XTree) || Camera.Frustrum.Contains(((XActor)component).boundingBox) != ContainmentType.Disjoint)
+                    if (component.NoCull || (component is XTree) || Camera.Frustrum.Contains(((XActor)component).PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox) != ContainmentType.Disjoint)
                     {
                         component.Draw(ref gameTime, ref  Camera);
                     }

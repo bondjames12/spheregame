@@ -4,16 +4,25 @@ using System.Collections.Generic;
 
 namespace XEngine
 {
-    public class XWater : XComponent, XUpdateable, XDrawable
+    public class XWater : XComponent, XIUpdateable, XIDrawable
     {
         public Vector2 PointOne;
         public Vector2 PointTwo;
 
-        public Vector3 v3PointOne { get { return new Vector3(PointOne.X, Height, PointOne.Y); } }
-        public Vector3 v3PointTwo { get { return new Vector3(PointTwo.X, Height, PointTwo.Y); } }
+        public Vector3 v3PointOne
+        { 
+            get { return new Vector3(PointOne.X, height, PointOne.Y); }
+            set { PointOne = new Vector2(value.X, value.Z); }
+        }
+        public Vector3 v3PointTwo
+        { 
+            get { return new Vector3(PointTwo.X, height, PointTwo.Y); }
+            set { PointTwo = new Vector2(value.X, value.Z); }
+        }
 
         bool reflect;
         bool refract;
+
         public bool DoesReflect
         {
             get { return reflect; }
@@ -25,19 +34,33 @@ namespace XEngine
             set { refract = value; effect.Parameters["refract"].SetValue(value); }
         }
 
-        Vector2 Size { get { return PointTwo - PointOne; } }
+        public float height;
+        public float Height
+        {
+            get { return height; }
+            set { height = value;}
+        }
 
-        public float Height;
         Vector2 Position { get { return PointOne; } }
+        Vector2 Size { get { return PointTwo - PointOne; } }
 
         Effect effect;
         RenderTarget2D reflection;
         RenderTarget2D refraction;
+        Texture2D texreflect;
+        Texture2D texrefract;
+
         DepthStencilBuffer Depth;
 
         VertexPositionTexture[] vertices;
 
         XCamera reflectionCamera;
+
+        public XCamera ReflectionCamera
+        {
+            get { return reflectionCamera; }
+            set { reflectionCamera = value; }
+        }
 
         public BoundingBox boundingBox = new BoundingBox();
 
@@ -47,16 +70,16 @@ namespace XEngine
             DrawOrder = 22;
             PointOne = new Vector2(-128);
             PointTwo = new Vector2(128);
-            Height = 4;
+            height = 4;
             reflectionCamera = new XCamera(ref X,1,100);
         }
 
-        public XWater(ref XMain X, Vector2 pointOne, Vector2 pointTwo, float Height) : base(ref X)
+        public XWater(ref XMain X, Vector2 pointOne, Vector2 pointTwo, float height) : base(ref X)
         {
             PointOne = pointOne;
             PointTwo = pointTwo;
 
-            this.Height = Height;
+            this.height = height;
 
             reflectionCamera = new XCamera(ref X,1,100);
         }
@@ -107,12 +130,12 @@ namespace XEngine
             vertices = new VertexPositionTexture[6];
 
             // Create the water plane
-            vertices[0] = new VertexPositionTexture(new Vector3(Position.X, Height, Position.Y), new Vector2(0, 1));
-            vertices[1] = new VertexPositionTexture(new Vector3(Size.X + Position.X, Height, Size.Y + Position.Y), new Vector2(1, 0));
-            vertices[2] = new VertexPositionTexture(new Vector3(Position.X, Height, Size.Y + Position.Y), new Vector2(0, 0));
-            vertices[3] = new VertexPositionTexture(new Vector3(Position.X, Height, Position.Y), new Vector2(0, 1));
-            vertices[4] = new VertexPositionTexture(new Vector3(Size.X + Position.X, Height, Position.Y), new Vector2(1, 1));
-            vertices[5] = new VertexPositionTexture(new Vector3(Size.X + Position.X, Height, Size.Y + Position.Y), new Vector2(1, 0));
+            vertices[0] = new VertexPositionTexture(new Vector3(Position.X, height, Position.Y), new Vector2(0, 1));
+            vertices[1] = new VertexPositionTexture(new Vector3(Size.X + Position.X, height, Size.Y + Position.Y), new Vector2(1, 0));
+            vertices[2] = new VertexPositionTexture(new Vector3(Position.X, height, Size.Y + Position.Y), new Vector2(0, 0));
+            vertices[3] = new VertexPositionTexture(new Vector3(Position.X, height, Position.Y), new Vector2(0, 1));
+            vertices[4] = new VertexPositionTexture(new Vector3(Size.X + Position.X, height, Position.Y), new Vector2(1, 1));
+            vertices[5] = new VertexPositionTexture(new Vector3(Size.X + Position.X, height, Size.Y + Position.Y), new Vector2(1, 0));
 
             boundingBox = new BoundingBox(v3PointOne, v3PointTwo);
 
@@ -133,10 +156,10 @@ namespace XEngine
 
             if (camera != null)
             {
-                float reflectionCamYCoord = -camera.Position.Y + 2 * Height;
+                float reflectionCamYCoord = -camera.Position.Y + 2 * height;
                 Vector3 reflectionCamPosition = new Vector3(camera.Position.X, reflectionCamYCoord, camera.Position.Z);
 
-                float reflectionTargetYCoord = -camera.Target.Y + 2 * Height;
+                float reflectionTargetYCoord = -camera.Target.Y + 2 * height;
                 Vector3 reflectionCamTarget = new Vector3(camera.Target.X, reflectionTargetYCoord, camera.Target.Z);
 
                 Vector3 forwardVector = camera.Target - camera.Position;
@@ -176,8 +199,8 @@ namespace XEngine
             if (reflectionViewMatrix != Matrix.Identity)
             {
                 effect.Parameters["xReflectionView"].SetValue(reflectionViewMatrix);
-                effect.Parameters["xReflectionMap"].SetValue(reflection.GetTexture());
-                effect.Parameters["xRefractionMap"].SetValue(refraction.GetTexture());
+                effect.Parameters["xReflectionMap"].SetValue(texreflect);//reflection.GetTexture());
+                effect.Parameters["xRefractionMap"].SetValue(texrefract);//refraction.GetTexture());
             }
 
             effect.Parameters["xCamPos"].SetValue(Camera.Position);
@@ -216,7 +239,7 @@ namespace XEngine
             // Create the clip plane
             Vector3 planeNormalDirection = new Vector3(0, -1, 0);
             planeNormalDirection.Normalize();
-            Vector4 planeCoefficients = new Vector4(planeNormalDirection, Height + .05f);
+            Vector4 planeCoefficients = new Vector4(planeNormalDirection, height + .05f);
 
             // Create a view matrix
             Matrix camMatrix = Camera.View * Camera.Projection;
@@ -248,6 +271,8 @@ namespace XEngine
 
             X.GraphicsDevice.DepthStencilBuffer = prev;
 
+            texrefract = refraction.GetTexture();
+
             X.GraphicsDevice.ClipPlanes[0].IsEnabled = false;
         }
 
@@ -255,7 +280,7 @@ namespace XEngine
         {
             Vector3 planeNormalDirection = new Vector3(0, 1, 0);
             planeNormalDirection.Normalize();
-            Vector4 planeCoefficients = new Vector4(planeNormalDirection, -Height + .05f);
+            Vector4 planeCoefficients = new Vector4(planeNormalDirection, -height + .05f);
 
             Matrix camMatrix = Camera.View * Camera.Projection;
             Matrix invCamMatrix = Matrix.Invert(camMatrix);
@@ -282,6 +307,8 @@ namespace XEngine
             X.GraphicsDevice.SetRenderTarget(0, null);
 
             X.GraphicsDevice.DepthStencilBuffer = prev;
+
+            texreflect = reflection.GetTexture();
 
             X.GraphicsDevice.ClipPlanes[0].IsEnabled = false;
         }

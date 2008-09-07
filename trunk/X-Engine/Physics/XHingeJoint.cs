@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
-    public class XHingeJoint : XComponent, XUpdateable
+    public class XHingeJoint : XComponent, XIUpdateable
     {
         HingeJoint hinge;
 

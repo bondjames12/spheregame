@@ -11,21 +11,36 @@ namespace XEngine
         XMain X;
 
         private Random rand = new Random();
-        private int ComponentIDCounter = 0;
+        private uint ComponentIDCounter = 1;
 
         public XTools(XMain X)
         {
             this.X = X;
         }
 
-        public int GeneratorNewID()
+        public uint GeneratorNewID()
         {
             return ComponentIDCounter++;
         }
 
-        public XComponent GetXComponentByID(int ID)
+        public XComponent GetXComponentByID(uint ID)
         {
             return X.Components.Find(delegate(XComponent obj) { return obj.ComponentID == ID; });
+        }
+
+        public XComponent GetXComponentByID(string ID)
+        {
+            uint cID;
+            try
+            {
+                cID = uint.Parse(ID);
+            }
+            catch(Exception e)
+            {//error in parse
+                return null;
+            }
+
+            return GetXComponentByID(cID);
         }
 
         public int GetRandomInt(int min, int max)
@@ -264,6 +279,85 @@ namespace XEngine
         public Vector3 UnprojectVector3(Vector3 Vector, XCamera Camera, Matrix World)
         {
             return X.GraphicsDevice.Viewport.Unproject(Vector, Camera.Projection, Camera.View, World);
+        }
+
+        /// <summary>
+        /// Calculates the bounding box that contains the sum of the bounding boxes
+        /// of the model node's mesh parts
+        /// </summary>
+        public BoundingBox CreateBoundingBox2(Model mModel)
+        {
+            // no model, no bounds
+            if (mModel == null)
+                return new BoundingBox();
+
+            // NOTE: we could use ModelMesh's built in BoundingSphere property 
+            // to create a bounding box with BoundingBox.CreateFromSphere,
+            // but the source spheres are already overestimates and 
+            // box from sphere is an additional overestimate, resulting
+            // in an unnecessarily huge bounding box
+
+            // assume the worst case ;)
+            Vector3 min = Vector3.One * float.MaxValue;
+            Vector3 max = Vector3.One * float.MinValue;
+
+            foreach (ModelMesh mesh in mModel.Meshes)
+            {
+                // grab the raw vertex data from the mesh's vertex buffer
+                byte[] data = new byte[mesh.VertexBuffer.SizeInBytes];
+                mesh.VertexBuffer.GetData(data);
+
+                // iterate over each part, comparing all vertex positions with
+                // the current min and max, updating as necessary
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    VertexDeclaration decl = part.VertexDeclaration;
+                    VertexElement[] elem = decl.GetVertexElements();
+
+                    int stride = decl.GetVertexStrideSize(0);
+
+                    // find the vertex stream offset of the vertex data's position element
+                    short pos_at = -1;
+                    for (int i = 0; i < elem.Length; ++i)
+                    {
+                        // not interested...
+                        if (elem[i].VertexElementUsage != VertexElementUsage.Position)
+                            continue;
+
+                        // save the offset
+                        pos_at = elem[i].Offset;
+                        break;
+                    }
+
+                    // didn't find the position element... not good
+                    if (pos_at == -1)
+                        throw new Exception("No position data?!?!");
+
+                    // decode the position of each vertex in the stream and
+                    // compare its value to the min/max of the bounding box
+                    for (int i = 0; i < data.Length; i += stride)
+                    {
+                        int ind = i + pos_at;
+                        int fs = sizeof(float);
+
+                        float x = BitConverter.ToSingle(data, ind);
+                        float y = BitConverter.ToSingle(data, ind + fs);
+                        float z = BitConverter.ToSingle(data, ind + (fs * 2));
+
+                        // if position is outside bounding box, then update the
+                        // bounding box min/max to fit it
+                        if (x < min.X) min.X = x;
+                        if (x > max.X) max.X = x;
+                        if (y < min.Y) min.Y = y;
+                        if (y > max.Y) max.Y = y;
+                        if (z < min.Z) min.Z = z;
+                        if (z > max.Z) max.Z = z;
+                    }
+                }
+            }
+
+            // update bounds
+            return new BoundingBox(min, max);
         }
     }
 }

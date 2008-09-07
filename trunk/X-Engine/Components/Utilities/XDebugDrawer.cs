@@ -58,7 +58,7 @@ namespace XEngine
     }
     #endregion
 
-    public class XDebugDrawer : XComponent, XDrawable
+    public class XDebugDrawer : XComponent, XIDrawable
     {
         #region Variables
         private Effect lineRender;

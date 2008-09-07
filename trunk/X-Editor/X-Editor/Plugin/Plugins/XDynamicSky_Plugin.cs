@@ -9,13 +9,13 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XDynamicSky);
-            Name = "Dynamic Sky";
+            //Name = "Dynamic Sky";
         }
 
         public override ListViewItem SetupListViewItem()
         {
             ListViewItem item = new ListViewItem();
-            item.Text = Name;
+            //item.Text = Name;
 
             XDynamicSky sky = new XDynamicSky(ref X, null);
             item.Tag = sky;
@@ -52,7 +52,7 @@ namespace X_Editor
             XDynamicSky sky = (XDynamicSky)obj;
 
             writer.WriteStartElement("sceneitem");
-            writer.WriteAttributeString("Type", Name);
+           // writer.WriteAttributeString("Type", Name);
             writer.WriteAttributeString("ComponentID", sky.ComponentID.ToString());
             writer.WriteAttributeString("AutoDraw", sky.AutoDraw.ToString());
             writer.WriteAttributeString("DrawOrder", sky.DrawOrder.ToString());
@@ -86,7 +86,7 @@ namespace X_Editor
                 sky.Load(X.Content);
 
             ListViewItem sceneitem = new ListViewItem();
-            sceneitem.Text = Name;
+            //sceneitem.Text = Name;
             sceneitem.Tag = sky;
 
             sceneitem.Group = scene.Groups["Environment"];

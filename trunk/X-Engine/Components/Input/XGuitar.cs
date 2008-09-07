@@ -4,7 +4,7 @@ using XEngine;
 
 namespace XEngine
 {
-    public class XGuitar : XComponent, XUpdateable
+    public class XGuitar : XComponent, XIUpdateable
     {
         XGamePad GamePad;
 

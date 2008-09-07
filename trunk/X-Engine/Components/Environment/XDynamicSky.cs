@@ -4,7 +4,7 @@ using System;
 
 namespace XEngine
 {
-    public class XDynamicSky : XComponent, XUpdateable, XDrawable
+    public class XDynamicSky : XComponent, XIUpdateable, XIDrawable
     {
         private Model domeModel;
         public Effect domeEffect;

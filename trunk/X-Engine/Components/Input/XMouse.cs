@@ -5,7 +5,7 @@ namespace XEngine
 {
 
 #if XBOX == FALSE
-    public class XMouse : XComponent, XUpdateable
+    public class XMouse : XComponent, XIUpdateable
     {
         MouseState CurrentState;
         MouseState LastState;

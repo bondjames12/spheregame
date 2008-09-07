@@ -6,7 +6,7 @@ using JigLibX.Geometry;
 
 namespace XEngine
 {
-    public class XProp : XComponent, XDrawable
+    public class XProp : XComponent, XIDrawable, XIBoundedTransform
     {
         public XModel model;
         public int modelNumber; //the number to the Xmodel we are using
@@ -27,28 +27,51 @@ namespace XEngine
             set { model = value; modelNumber = model.Number; }
         }
 
-        public Vector3 Position_editor
-        {
-            get { return position;}
-            set { position = value;}
-        }
-
         public Vector3 ModelOffset_editor
         {
             get { return modeloffset;}
             set { modeloffset = value;}
         }
 
-        public Matrix Orientation_editor
+        public BoundingBox Bounds
         {
-            get { return orientation;}
-            set { orientation = value;}
+            get
+            {
+                if (model.boundingBox != null)
+                    return model.boundingBox;
+                else
+                    return new BoundingBox();
+            }
         }
 
-        public Vector3 Scale_editor
+        public override Vector3 Translation
         {
-            get { return scale;}
-            set { scale = value;}
+            get { return position; }
+            set { position = value; }
+        }
+
+        public override Quaternion Rotation
+        {
+            get
+            {
+                return Quaternion.CreateFromRotationMatrix(orientation);
+            }
+            set
+            {
+                orientation = Matrix.CreateFromQuaternion(value);
+            }
+        }
+
+        public override Vector3 Scale
+        {
+            get
+            {
+                return scale;
+            }
+            set
+            {
+                scale = value;
+            }
         }
 
  #endregion
@@ -127,6 +150,46 @@ namespace XEngine
                     
                 }
             }//end if (model != null && model.loaded)
+        }
+
+        /// <summary>
+        /// Draws the model attached into the pick buffer
+        /// </summary>
+        public override void DrawPick(XPickBuffer pick_buf, XICamera camera)
+        {
+            // don't draw if we don't have a model
+            //null checks are for editor!
+            //remove these eventually maybe using a compiler directive for an editorer version of the DLL?
+            if (model == null || !model.loaded)
+                return;
+
+            //if (!mPickEnabled)
+            //    return;
+
+            pick_buf.PushMatrix(MatrixMode.World, this.GetWorldMatrix());
+            pick_buf.PushPickID(this.ComponentID);
+
+            foreach (ModelMesh mesh in model.Model.Meshes)
+            {
+                pick_buf.PushVertexBuffer(mesh.VertexBuffer);
+                pick_buf.PushIndexBuffer(mesh.IndexBuffer);
+
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    pick_buf.PushVertexDeclaration(part.VertexDeclaration);
+
+                    pick_buf.QueueIndexedPrimitives(Microsoft.Xna.Framework.Graphics.PrimitiveType.TriangleList, part.StreamOffset,
+                        part.BaseVertex, 0, part.NumVertices, part.StartIndex, part.PrimitiveCount);
+
+                    pick_buf.PopVertexDeclaration();
+                }
+
+                pick_buf.PopVertexBuffer();
+                pick_buf.PopIndexBuffer();
+            }
+
+            pick_buf.PopPickID();
+            pick_buf.PopMatrix(MatrixMode.World);
         }
 
         public override void Disable()

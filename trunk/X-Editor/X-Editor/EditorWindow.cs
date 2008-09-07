@@ -8,7 +8,6 @@ namespace X_Editor
 {
     public partial class EditorForm : Form
     {
-        ContentManager contentManager;
         ProjectFileManager projectFileManager;
         public ComponentPluginManager plugins;
         public ContentWindow content;
@@ -49,9 +48,20 @@ namespace X_Editor
 
             //add the different component plugins to the component list box!
             foreach (ComponentPlugin plugin in plugins.Plugins)
-                treeView1.Nodes[0].Nodes.Add(plugin.Name);
+                treeView1.Nodes[0].Nodes.Add(plugin.type.ToString());
+        }
+        //shortcut methods
+        public XComponent GetXComponent(string ID)
+        {
+            return renderControl1.X.Tools.GetXComponentByID(ID);
         }
 
+        public XComponent GetXComponent(uint ID)
+        {
+            return renderControl1.X.Tools.GetXComponentByID(ID);
+        }
+
+        //events
         private void renderControl1_MouseEnter(object sender, EventArgs e)
         {
             renderControl1.hasFocus = true;
@@ -107,9 +117,16 @@ namespace X_Editor
         {
             if (scene.SelectedItems.Count > 0)
             {
-                properties.SelectedObject = scene.SelectedItems[0].Tag;
+                properties.SelectedObject = renderControl1.X.Tools.GetXComponentByID(scene.SelectedItems[0].SubItems["colID"].Text);
                 tabControl1.SelectTab(1);
+                if (properties.SelectedObject == null)
+                    MessageBox.Show("The selected item no longer exists. Debug this", "Error");
             }
+        }
+
+        public void RefreshPropertiesTab()
+        {
+            properties.Refresh();
         }
 
         private void properties_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -120,10 +137,10 @@ namespace X_Editor
         public object draggedItem;
 
         private void scene_ItemDrag(object sender, ItemDragEventArgs e)
-        {
+        {//we are draging and item from the scene list
             ListViewItem item = (ListViewItem)e.Item;
-
-            draggedItem = (XComponent)item.Tag;
+            //find and store the xcomponent of this scene object
+            draggedItem = GetXComponent(item.SubItems["colID"].Text);
 
             DoDragDrop(e.Item.ToString(), DragDropEffects.Move);
         }
@@ -138,8 +155,7 @@ namespace X_Editor
 
         private void properties_DragDrop(object sender, DragEventArgs e)
         {
-            plugins.AcceptDragDrop(properties.SelectedObject, draggedItem, properties, scene);
-            
+            plugins.AcceptDragDrop(properties.SelectedObject, draggedItem, properties, scene);   
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -148,7 +164,7 @@ namespace X_Editor
             {
                 if (scene.SelectedItems.Count > 0)
                 {
-                    renderControl1.X.Components.Remove((XComponent)scene.SelectedItems[0].Tag);
+                    renderControl1.X.Components.Remove(GetXComponent(scene.SelectedItems[0].SubItems["colID"].Text));
                     scene.SelectedItems[0].Remove();
                 }
             }
@@ -156,16 +172,17 @@ namespace X_Editor
 
         public void ResetEditor(bool ClearContent)
         {
+            renderControl1.Tag = this;
             //Set this ContentRootDir before called Init() This makes sure the content manager is pointing to our project directory
             renderControl1.ContentRootDir = ProjectDirectory + @"\Game";
             renderControl1.Init();
             renderControl1.SetupBaseComponents();
-
+            
             //save this X in the plugins manager as well
             plugins.X = renderControl1.X;
 
             CurrentScene = null;
-            scene.Clear();
+            scene.Items.Clear(); ;
             properties.SelectedObject = null;
             draggedComponent = null;
             draggedItem = null;
@@ -267,5 +284,42 @@ namespace X_Editor
         {
 
         }
+
+        private void btnRotate_Click(object sender, EventArgs e)
+        {
+            if (btnRotate.Checked)
+                renderControl1.mManipulator.EnabledModes |= TransformationMode.Rotation;
+            else
+                renderControl1.mManipulator.EnabledModes &= ~TransformationMode.Rotation;
+        }
+
+        private void btnScale_Click(object sender, EventArgs e)
+        {
+            if (btnScale.Checked)
+                renderControl1.mManipulator.EnabledModes |= TransformationMode.ScaleAxis;
+            else
+                renderControl1.mManipulator.EnabledModes &= ~TransformationMode.ScaleAxis;
+        }
+
+        private void btnTranslate_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (btnTranslate.Checked)
+                renderControl1.mManipulator.EnabledModes |= TransformationMode.TranslationAxis;
+            else
+                renderControl1.mManipulator.EnabledModes &= ~TransformationMode.TranslationAxis;
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void renderControl1_OnSelectedComponentChange(object sender, XComponent selectedObj)
+        {
+            properties.SelectedObject = selectedObj;
+            tabControl1.SelectTab(1);
+        }
+
+       
     }
 }

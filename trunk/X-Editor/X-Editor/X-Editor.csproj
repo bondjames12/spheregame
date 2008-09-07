@@ -93,6 +93,10 @@
     <Compile Include="Help.Designer.cs">
       <DependentUpon>Help.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manipulation\Rotation.cs" />
+    <Compile Include="Manipulation\Scale.cs" />
+    <Compile Include="Manipulation\Translation.cs" />
+    <Compile Include="Manipulation\Manipulator.cs" />
     <Compile Include="OpenPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +105,7 @@
     </Compile>
     <Compile Include="Plugin\ComponentPlugin.cs" />
     <Compile Include="Plugin\PluginManager.cs" />
+    <Compile Include="Plugin\Plugins\XCamera_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XProp_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XActor_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XDynamicSky_Plugin.cs" />
@@ -162,7 +167,10 @@
     <Compile Include="SceneWindow.Designer.cs">
       <DependentUpon>SceneWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manipulation\Settings.cs" />
     <Compile Include="Tools.cs" />
+    <Compile Include="Manipulation\TransformState.cs" />
+    <Compile Include="WinFormsInput.cs" />
     <Compile Include="XGameTime.cs" />
   </ItemGroup>
   <ItemGroup>

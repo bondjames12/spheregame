@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace XEngine
 {
-    public class XDebug : XComponent, XDrawable
+    public class XDebug : XComponent, XIDrawable
     {
         public int RowHeight = 17;
         List<string> toWrite = new List<string>();

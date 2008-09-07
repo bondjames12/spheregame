@@ -4,6 +4,8 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using System.Threading;
 
+#pragma warning disable 67
+
 namespace X_Editor
 {
     public class GraphicsDeviceService : IGraphicsDeviceService

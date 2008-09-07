@@ -8,7 +8,7 @@ namespace X_Editor
     public abstract class ComponentPlugin
     {
         // This is the name that appears in the list of components
-        public string Name;
+        //public string Name;
 
         // This is the type of component this is an importer for. Use "type = typof(COMPONENT);"
         public Type type;

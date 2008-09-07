@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
-    public class XTimer : XComponent, XUpdateable
+    public class XTimer : XComponent, XIUpdateable
     {
         /// <summary>
         /// Elapsed time since timer start in Milliseconds

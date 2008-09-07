@@ -21,7 +21,7 @@ namespace XEngine
     /// steady stream of trail particles behind it. After a while it explodes,
     /// creating a sudden burst of explosion and smoke particles.
     /// </summary>
-    public class XProjectile : XComponent, XUpdateable
+    public class XProjectile : XComponent, XIUpdateable
     {
         #region Constants
 
