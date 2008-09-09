@@ -112,6 +112,7 @@
     <Compile Include="Plugin\Plugins\XEnvironmentParameters_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XHeightMap_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XModel_Plugin.cs" />
+    <Compile Include="Plugin\Plugins\XTreeSystem_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XWater_Plugin.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectFileManager.cs" />
@@ -180,6 +181,10 @@
     <ProjectReference Include="..\..\JigLibX\JigLibX.csproj">
       <Project>{8C96785C-F085-4DA6-83AD-AEE47591B5CF}</Project>
       <Name>JigLibX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Trees\Trees.csproj">
+      <Project>{2FC75B34-F066-4545-9D4B-CDFCAEBA5FCF}</Project>
+      <Name>Trees</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\X-Engine\X Engine.csproj">
       <Project>{219B7B7B-9CF7-4D3F-925C-85573E11A3E7}</Project>

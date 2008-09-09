@@ -53,7 +53,7 @@ namespace XEngine
             }*/
         }
 
-        public override Vector3 Translation
+        public Vector3 Translation
         {
             get
             {
@@ -70,7 +70,7 @@ namespace XEngine
             }
         }
 
-        public override Quaternion Rotation
+        public Quaternion Rotation
         {
             get { if (PhysicsObject != null) return Quaternion.CreateFromRotationMatrix(PhysicsObject.PhysicsBody.Orientation); else return Quaternion.Identity; }
             set { if (PhysicsObject != null) PhysicsObject.PhysicsBody.Orientation = Matrix.CreateFromQuaternion(value); else ; }

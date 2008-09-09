@@ -35,10 +35,6 @@
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Models", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Actors", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Cameras", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "test1",
-            "test2",
-            "test3"}, -1);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,10 +63,10 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.properties = new System.Windows.Forms.PropertyGrid();
             this.scene = new System.Windows.Forms.ListView();
-            this.label1 = new System.Windows.Forms.Label();
             this.colType = new System.Windows.Forms.ColumnHeader();
             this.colName = new System.Windows.Forms.ColumnHeader();
             this.colID = new System.Windows.Forms.ColumnHeader();
+            this.label1 = new System.Windows.Forms.Label();
             this.renderControl1 = new X_Editor.RenderControl();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -92,8 +88,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.content20ToolStripMenuItem,
-            this.helpToolStripMenuItem,
-            this.scenesToolStripMenuItem});
+            this.scenesToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(843, 24);
@@ -114,21 +110,21 @@
             // newProjectToolStripMenuItem
             // 
             this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
-            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newProjectToolStripMenuItem.Text = "New Project";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // openLeveToolStripMenuItem
             // 
             this.openLeveToolStripMenuItem.Name = "openLeveToolStripMenuItem";
-            this.openLeveToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openLeveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openLeveToolStripMenuItem.Text = "Open Project";
             this.openLeveToolStripMenuItem.Click += new System.EventHandler(this.openLeveToolStripMenuItem_Click);
             // 
             // saveLevelFileToolStripMenuItem
             // 
             this.saveLevelFileToolStripMenuItem.Name = "saveLevelFileToolStripMenuItem";
-            this.saveLevelFileToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saveLevelFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveLevelFileToolStripMenuItem.Text = "Save Project";
             this.saveLevelFileToolStripMenuItem.Click += new System.EventHandler(this.saveLevelFileToolStripMenuItem_Click);
             // 
@@ -273,7 +269,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(843, 509);
-            this.splitContainer1.SplitterDistance = 592;
+            this.splitContainer1.SplitterDistance = 593;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -292,7 +288,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.scene);
             this.splitContainer2.Panel2.Controls.Add(this.label1);
-            this.splitContainer2.Size = new System.Drawing.Size(248, 509);
+            this.splitContainer2.Size = new System.Drawing.Size(247, 509);
             this.splitContainer2.SplitterDistance = 313;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -304,7 +300,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(248, 313);
+            this.tabControl1.Size = new System.Drawing.Size(247, 313);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -314,7 +310,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(191, 287);
+            this.tabPage1.Size = new System.Drawing.Size(239, 287);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Components";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -329,7 +325,7 @@
             treeNode1.Text = "X-Engine Components";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeView1.Size = new System.Drawing.Size(185, 281);
+            this.treeView1.Size = new System.Drawing.Size(233, 281);
             this.treeView1.TabIndex = 0;
             this.treeView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView1_DragEnter);
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
@@ -341,7 +337,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(240, 287);
+            this.tabPage2.Size = new System.Drawing.Size(239, 287);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Properties";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -353,7 +349,7 @@
             this.properties.Location = new System.Drawing.Point(3, 3);
             this.properties.Name = "properties";
             this.properties.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.properties.Size = new System.Drawing.Size(234, 281);
+            this.properties.Size = new System.Drawing.Size(233, 281);
             this.properties.TabIndex = 0;
             this.properties.DragDrop += new System.Windows.Forms.DragEventHandler(this.properties_DragDrop);
             this.properties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.properties_PropertyValueChanged);
@@ -385,12 +381,10 @@
             listViewGroup2,
             listViewGroup3,
             listViewGroup4});
-            this.scene.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
             this.scene.Location = new System.Drawing.Point(4, 16);
             this.scene.MultiSelect = false;
             this.scene.Name = "scene";
-            this.scene.Size = new System.Drawing.Size(237, 176);
+            this.scene.Size = new System.Drawing.Size(236, 176);
             this.scene.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.scene.TabIndex = 0;
             this.scene.TileSize = new System.Drawing.Size(100, 16);
@@ -399,15 +393,6 @@
             this.scene.ItemActivate += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
             this.scene.DragEnter += new System.Windows.Forms.DragEventHandler(this.scene_DragEnter);
             this.scene.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.scene_ItemDrag);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(-3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(137, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Current Scene Components";
             // 
             // colType
             // 
@@ -424,13 +409,22 @@
             this.colID.Text = "ID";
             this.colID.Width = 37;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(-3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(137, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Current Scene Components";
+            // 
             // renderControl1
             // 
             this.renderControl1.AllowDrop = true;
             this.renderControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.renderControl1.Location = new System.Drawing.Point(0, 0);
             this.renderControl1.Name = "renderControl1";
-            this.renderControl1.Size = new System.Drawing.Size(592, 509);
+            this.renderControl1.Size = new System.Drawing.Size(593, 509);
             this.renderControl1.TabIndex = 0;
             this.renderControl1.Text = "renderControl1";
             this.renderControl1.MouseLeave += new System.EventHandler(this.renderControl1_MouseLeave);

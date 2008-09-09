@@ -90,7 +90,7 @@ namespace Sphere
         /// </summary>
         protected override void Initialize()
         {
-            X = new XMain(graphics.GraphicsDevice,Services, "");
+            X = new XMain(graphics.GraphicsDevice,Services, "", freeCamera);
             X.Gravity = new Vector3(0, -40, 0);
             X.FrameRate.DisplayFrameRate = true;
             X.Console.AutoDraw = false;
@@ -155,7 +155,7 @@ namespace Sphere
 
             resources.Load();
 
-            trees = new XTreeSystem(ref X, @"Content\Images\Treemaps\Level1", heightmap.Heights);
+            trees = new XTreeSystem(ref X, @"Content\Images\Treemaps\Level1", heightmap);
             trees.Load(Content);
             trees.GenerateTrees(freeCamera);
 

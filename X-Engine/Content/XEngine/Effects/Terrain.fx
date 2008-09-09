@@ -33,24 +33,24 @@ struct vertexOutput {
 	float4 Pos2DAsSeenByLight   : TEXCOORD8;
 };
 
-float4 LightDirection = {100.0f, 100.0f, 100.0f, 1.0f};
-float4 LightColor = {1.0f, 1.0f, 1.0f, 1.0f};
-float4 LightColorAmbient = {0.0f, 0.0f, 0.0f, 1.0f};
+float4 LightDirection;
+float4 LightColor;
+float4 LightColorAmbient ;
 
-float4 FogColor = {1.0f, 1.0f, 1.0f, 1.0f};
+float4 FogColor;
 
-float fDensity ;
+float fDensity;
 
 bool isSkydome;
 
-float SunLightness = 0.2; 
+float SunLightness; 
 
-float sunRadiusAttenuation = 256;
+float sunRadiusAttenuation;
 
-float largeSunLightness = 0.2;
-float largeSunRadiusAttenuation = 3;
-float dayToSunsetSharpness = 1.5;
-float hazeTopAltitude = 20; 
+float largeSunLightness;
+float largeSunRadiusAttenuation;
+float dayToSunsetSharpness;
+float hazeTopAltitude; 
 
 texture TextureR;
 sampler TextureRSampler = sampler_state { 
@@ -232,10 +232,10 @@ float4 mainPS(vertexOutput IN) : COLOR0
 	}
 	
 	// Add sun highlights
-	fogColor += sunHighlight + largeSunHighlight;
+	fogColor += sunHighlight + largeSunHighlight + FogColor;
     
 	// Apply fog on output color
-	colorOutput = lerp(fogColor, colorOutput, IN.Fog);
+	colorOutput = lerp(FogColor, colorOutput, IN.Fog);
 		
 	return colorOutput;
 }
@@ -332,7 +332,7 @@ float4 ShadowedStaticPS(vertexOutput IN) : COLOR0
 	}
 	
 	// Add sun highlights
-	fogColor += sunHighlight + largeSunHighlight;
+	fogColor += sunHighlight + largeSunHighlight + FogColor;
     
 	// Apply fog on output color
 	colorOutput = lerp(fogColor, colorOutput, IN.Fog);

@@ -10,19 +10,14 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XEnvironmentParameters);
-            //Name = "Environment Parameters";
         }
 
-        public override ListViewItem SetupListViewItem()
+        public override ListViewItem SetupListViewItem(XComponent component)
         {
-            ListViewItem item = new ListViewItem();
-            //item.Text = Name;
-
             XEnvironmentParameters paramaters = new XEnvironmentParameters(X);
             paramaters.Load(X.Content);
-            item.Tag = paramaters;
 
-            return item;
+            return base.SetupListViewItem(paramaters);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
@@ -34,9 +29,6 @@ namespace X_Editor
                 try
                 {
                     parameters.Load(X.Content);
-
-                    if (Properties != null && Properties.SelectedObject == parameters)
-                        Properties.SelectedObject = parameters;
                 }
                 catch
                 {
@@ -44,9 +36,12 @@ namespace X_Editor
                 }
             }
 
-            foreach (ListViewItem component in Scene.Items)
-                if (((XComponent)(component.Tag)).GetType() == typeof(XHeightMap) || ((XComponent)(component.Tag)).GetType() == typeof(XDynamicSky))
-                    ((XComponent)(component.Tag)).Load(X.Content);
+            //search for an reload any XHeightMap, Sky components
+            foreach (ListViewItem item in Scene.Items)
+                if ((X.Tools.GetXComponentByID(item.SubItems["colID"].Text).GetType() == typeof(XHeightMap)) || ((X.Tools.GetXComponentByID(item.SubItems["colID"].Text)).GetType() == typeof(XDynamicSky)))
+                    X.Tools.GetXComponentByID(item.SubItems["colID"].Text).Load(X.Content);
+
+            base.UpdateObjectProperties(Input, Properties, Scene);
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)
@@ -68,22 +63,26 @@ namespace X_Editor
             XEnvironmentParameters param = (XEnvironmentParameters)obj;
 
             writer.WriteStartElement("sceneitem");
-            //writer.WriteAttributeString("Type", Name);
+            writer.WriteAttributeString("Type", this.type.ToString());
+            writer.WriteAttributeString("AutoDraw", param.AutoDraw.ToString());
             writer.WriteAttributeString("ComponentID", param.ComponentID.ToString());
-            writer.WriteAttributeString("DayFile", param.DayFile);
-            writer.WriteAttributeString("NightFile", param.NightFile);
-            writer.WriteAttributeString("SunsetFile", param.SunsetFile);
-            writer.WriteAttributeString("SunsetSharpness", param.DayToSunsetSharpness.ToString());
-            writer.WriteAttributeString("FogColor", param.FogColor.ToString());
-            writer.WriteAttributeString("FogDensity", param.FogDensity.ToString());
-            writer.WriteAttributeString("HazeTopAltitude", param.HazeTopAltitude.ToString());
-            writer.WriteAttributeString("LargeSunLightness", param.LargeSunLightness.ToString());
-            writer.WriteAttributeString("LargeSunRadiusAttentuation", param.LargeSunRadiusAttenuation.ToString());
-            writer.WriteAttributeString("LightColor", param.LightColor.ToString());
-            writer.WriteAttributeString("LightAmbient", param.LightColorAmbient.ToString());
-            writer.WriteAttributeString("SunLightness", param.SunLightness.ToString());
-            writer.WriteAttributeString("SunRadiusAttentuation", param.SunRadiusAttenuation.ToString());
-            writer.WriteAttributeString("EnvParamsNum", param.number.ToString());
+            writer.WriteAttributeString("dayFile", param.dayFile);
+            writer.WriteAttributeString("dayToSunsetSharpness", param.dayToSunsetSharpness.ToString());
+            writer.WriteAttributeString("DrawOrder", param.DrawOrder.ToString());
+            writer.WriteAttributeString("fogColor", param.fogColor.ToString());
+            writer.WriteAttributeString("fogDensity", param.fogDensity.ToString());
+            writer.WriteAttributeString("hazeTopAltitude", param.hazeTopAltitude.ToString());
+            writer.WriteAttributeString("largeSunLightness", param.largeSunLightness.ToString());
+            writer.WriteAttributeString("largeSunRadiusAttentuation", param.largeSunRadiusAttenuation.ToString());
+            writer.WriteAttributeString("lightColor", param.lightColor.ToString());
+            writer.WriteAttributeString("lightColorAmbient", param.lightColorAmbient.ToString());
+            writer.WriteAttributeString("lightDirection", param.lightDirection.ToString());
+            writer.WriteAttributeString("Name", param.Name.ToString());
+            writer.WriteAttributeString("nightFile", param.nightFile);
+            writer.WriteAttributeString("shadows", param.shadows.ToString());
+            writer.WriteAttributeString("sunLightness", param.sunLightness.ToString());
+            writer.WriteAttributeString("sunRadiusAttentuation", param.sunRadiusAttenuation.ToString());
+            writer.WriteAttributeString("sunsetFile", param.sunsetFile);
 
             writer.WriteEndElement();
         }
@@ -93,58 +92,48 @@ namespace X_Editor
             XTools tools = new XTools(X);
 
             XEnvironmentParameters param = new XEnvironmentParameters(X);
-            param.DayFile = node.Attributes["DayFile"].InnerText;
-            param.NightFile = node.Attributes["NightFile"].InnerText;
-            param.SunsetFile = node.Attributes["SunsetFile"].InnerText;
-            param.DayToSunsetSharpness = float.Parse(node.Attributes["SunsetSharpness"].InnerText);
-            param.FogColor = tools.ConvertVector3ToVector4(tools.ParseXMLVector3(node.Attributes["FogColor"].InnerText));
-            param.FogDensity = float.Parse(node.Attributes["FogDensity"].InnerText);
-            param.HazeTopAltitude = float.Parse(node.Attributes["HazeTopAltitude"].InnerText);
-            param.LargeSunLightness = float.Parse(node.Attributes["LargeSunLightness"].InnerText);
-            param.LargeSunRadiusAttenuation = float.Parse(node.Attributes["LargeSunRadiusAttentuation"].InnerText);
-            param.LightColor = new Vector4(tools.ParseXMLVector3(node.Attributes["LightColor"].InnerText), 1);
-            param.LightColorAmbient = tools.ConvertVector3ToVector4(tools.ParseXMLVector3(node.Attributes["LightAmbient"].InnerText));
-            param.SunLightness = float.Parse(node.Attributes["SunLightness"].InnerText);
-            param.SunRadiusAttenuation = float.Parse(node.Attributes["SunRadiusAttentuation"].InnerText);
-            //param.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
-
+            param.AutoDraw = node.Attributes["AutoDraw"].InnerText;
+            param.ComponentID = node.Attributes["ComponentID"].InnerText;
+            param.dayFile = node.Attributes["dayFile"].InnerText;
+            param.dayToSunsetSharpness = float.Parse(node.Attributes["dayToSunsetSharpness"].InnerText);
+            param.DrawOrder = int.Parse(node.Attributes["DrawOrder"].InnerText);
+            param.fogColor = tools.ConvertVector3ToVector4(tools.ParseXMLVector3(node.Attributes["fogColor"].InnerText));
+            param.fogDensity = float.Parse(node.Attributes["fogDensity"].InnerText);
+            param.hazeTopAltitude = float.Parse(node.Attributes["hazeTopAltitude"].InnerText);
+            param.largeSunLightness = float.Parse(node.Attributes["largeSunLightness"].InnerText);
+            param.largeSunRadiusAttenuation = float.Parse(node.Attributes["largeSunRadiusAttentuation"].InnerText);
+            param.lightColor = new Vector4(tools.ParseXMLVector3(node.Attributes["lightColor"].InnerText), 1);
+            param.lightColorAmbient = new Vector4(tools.ParseXMLVector3(node.Attributes["lightColorAmbient"].InnerText), 1);
+            param.lightDirection = new Vector4(tools.ParseXMLVector3(node.Attributes["lightDirection"].InnerText), 1);
+            param.Name = node.Attributes["Name"].InnerText;
+            param.nightFile = node.Attributes["nightFile"].InnerText;
+            param.shadows = bool.Parse(node.Attributes["shadows"].InnerText);
+            param.sunLightness = float.Parse(node.Attributes["sunLightness"].InnerText);
+            param.sunRadiusAttenuation = float.Parse(node.Attributes["sunRadiusAttentuation"].InnerText);
+            param.sunsetFile = node.Attributes["sunsetFile"].InnerText;
+            
             ListViewItem sceneitem = new ListViewItem();
-
-            int paramsNum = int.Parse(node.Attributes["EnvParamsNum"].InnerText);
-            param.number = paramsNum;
-
-            if (XEnvironmentParameters.count < paramsNum)
-                XEnvironmentParameters.count = paramsNum;
 
             if (!string.IsNullOrEmpty(param.DayFile) && !string.IsNullOrEmpty(param.NightFile) && !string.IsNullOrEmpty(param.SunsetFile))
                 param.Load(X.Content);
 
-            foreach (ListViewItem item in scene.Items)
-            {
-                if (item.Tag is XHeightMap)
-                {
-                    if (((XHeightMap)item.Tag).environmentalParametersNumber == paramsNum)
-                    {
-                        ((XHeightMap)item.Tag).Params = param;
+            //custom name
+            ListViewItem.ListViewSubItem lvtype = new ListViewItem.ListViewSubItem();
+            lvtype.Name = "colName";
+            lvtype.Text = param.Name;
 
-                        if (!string.IsNullOrEmpty(((XHeightMap)item.Tag).TextureMap) && !string.IsNullOrEmpty(((XHeightMap)item.Tag).HeightMap) && ((XHeightMap)item.Tag).Params != null)
-                            ((XHeightMap)item.Tag).Load(X.Content);
-                    }
-                }
-                else if (item.Tag is XDynamicSky)
-                {
-                    if (((XDynamicSky)item.Tag).environmentalParametersNumber == paramsNum)
-                    {
-                        ((XDynamicSky)item.Tag).Params = param;
+            //id
+            ListViewItem.ListViewSubItem lvid = new ListViewItem.ListViewSubItem();
+            lvid.Name = "colID";
+            lvid.Text = param.ComponentID.ToString();
 
-                        if (((XDynamicSky)item.Tag).Params != null)
-                            ((XDynamicSky)item.Tag).Load(X.Content);
-                    }
-                }
-            }
 
-            //sceneitem.Text = Name;
-            sceneitem.Tag = param;
+            sceneitem.Text = param.ToString();
+            sceneitem.Name = param.Name;
+            sceneitem.SubItems.Add(lvtype);
+            sceneitem.SubItems.Add(lvid);
+
+            sceneitem.Text = param.Name;
             sceneitem.Group = scene.Groups["Environment"];
 
             scene.Items.Add(sceneitem);

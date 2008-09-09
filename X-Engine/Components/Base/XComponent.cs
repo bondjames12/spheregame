@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace XEngine
 {
-    public class XComponent : XITransform, IComparable<XComponent>
+    public class XComponent : IComparable<XComponent>
     {
         public XMain X;
 
@@ -73,9 +73,9 @@ namespace XEngine
         }
 
         //Used by editor manipulators
-        public virtual Vector3 Translation { get { return Vector3.Zero; } set { } }
-        public virtual Quaternion Rotation { get { return Quaternion.Identity; } set { } }
-        public virtual Vector3 Scale { get { return Vector3.One; } set { } }
+        //public virtual Vector3 Translation { get { return Vector3.Zero; } set { } }
+        //public virtual Quaternion Rotation { get { return Quaternion.Identity; } set { } }
+        //public virtual Vector3 Scale { get { return Vector3.One; } set { } }
 
         /// <summary>
         /// Compare operator for sorting linked list

@@ -42,22 +42,31 @@ namespace XEngine
 
         public const string treePath = "Content/Trees/";
         public const string texturePath = "Content/Textures/";
-
+        XHeightMap heightMap;
         ParticleCloudSystem cloudSystem;
         string treeMapFile;
-        HeightMapInfo heightMapInfo;
         List<Vector3> treeMap;
 
         List<TreeGenerator> generators;
         List<XTree> trees;
 
+        #region Editor Properties
+        public string TreeMapFile
+        {
+            get { return treeMapFile; }
+            set { treeMapFile = value; }
+        }
 
+        public XHeightMap HeightMap
+        { get { return heightMap; } set { heightMap = value; } }
 
-        public XTreeSystem(ref XMain X, string TreeMapFile, HeightMapInfo heightMapInfo)
+        #endregion
+
+        public XTreeSystem(ref XMain X, string TreeMapFile, XHeightMap heightMap)
             : base(ref X)
         {
             treeMapFile = TreeMapFile;
-            this.heightMapInfo = heightMapInfo;
+            this.heightMap = heightMap;
             treeMap = new List<Vector3>();
             trees = new List<XTree>();
         }
@@ -112,7 +121,7 @@ namespace XEngine
                 for (int y = 1; y < Height; y++)
                 {
                     if (colors[x + y * Width].R == 0)
-                        treeMap.Add(new Vector3(x - WidthAdjust, heightMapInfo.GetHeight(new Vector3(x - WidthAdjust, 0, y - HeightAdjust)) - YAdjust, y - HeightAdjust));
+                        treeMap.Add(new Vector3(x - WidthAdjust, heightMap.Heights.GetHeight(new Vector3(x - WidthAdjust, 0, y - HeightAdjust)) - YAdjust, y - HeightAdjust));
                 }
             }
         }

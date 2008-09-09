@@ -34,12 +34,6 @@ namespace X_Editor
         private void OnLoad(object sender, EventArgs e)
         {
             treeView1.Nodes["root"].Expand();
-            
-            open = new OpenPopup(this);
-            open.Show();
-            open.Select();
-            open.Focus();
-            open.Location = new Point(Location.X + Width / 2 - open.Width / 2, Location.Y + Height / 2 - open.Height / 2);
 
             content = new ContentWindow(this);
             scenes = new SceneWindow(this);
@@ -49,6 +43,12 @@ namespace X_Editor
             //add the different component plugins to the component list box!
             foreach (ComponentPlugin plugin in plugins.Plugins)
                 treeView1.Nodes[0].Nodes.Add(plugin.type.ToString());
+            
+            open = new OpenPopup(this);
+            open.Show();
+            open.Select();
+            open.Focus();
+            open.Location = new Point(Location.X + Width / 2 - open.Width / 2, Location.Y + Height / 2 - open.Height / 2);
         }
         //shortcut methods
         public XComponent GetXComponent(string ID)
@@ -106,9 +106,6 @@ namespace X_Editor
             renderControl1.dragdroprelease = true;
 
             item = plugins.SetUpListViewItem(draggedComponent.Text);
-
-            ListViewItem sceneitem = new ListViewItem();
-            sceneitem = plugins.SetUpListViewItem(draggedComponent.Text);
 
             scene.Items.Add(item);
         }
@@ -202,7 +199,6 @@ namespace X_Editor
                 string Folder = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog1.FileName);
                 ProjectDirectory = System.IO.Path.GetDirectoryName(saveFileDialog1.FileName) + @"\" + Folder;
                 ProjectFilePath = ProjectDirectory + "\\" + System.IO.Path.GetFileName(saveFileDialog1.FileName);
-                ResetEditor(true);
                 open.Close();
 
                 System.IO.Directory.CreateDirectory(ProjectDirectory + @"\Game");
@@ -215,6 +211,8 @@ namespace X_Editor
                 scenes.AddScene(null, null, true);
                 projectFileManager.SaveProjectFile(ProjectFilePath, plugins);
                 Cursor = Cursors.Default;
+
+                ResetEditor(true);
 
                 this.Enabled = true;
                 this.Focus();

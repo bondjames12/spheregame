@@ -34,6 +34,7 @@ namespace XEngine
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
+            if (Params == null) return;
             this.domeModel = X.Content.Load<Model>(@"Content\XEngine\Models\SkyDome");
             domeEffect = X.Content.Load<Effect>(@"Content\XEngine\Effects\Sky");
 

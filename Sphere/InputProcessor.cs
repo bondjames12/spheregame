@@ -157,7 +157,7 @@ namespace Sphere
             {
                 if (parent.water == null)
                 {
-                    parent.water = new XWater(ref X, new Vector2(-128, -128), new Vector2(128, 128), 3f);
+                    parent.water = new XWater(ref X, new Vector2(-128, -128), new Vector2(128 * 2, 128 * 2), 3f);
                     parent.water.Load(parent.Content);
                     parent.water.Update(ref gameTime);
                     parent.resources.AddComponent(parent.water);

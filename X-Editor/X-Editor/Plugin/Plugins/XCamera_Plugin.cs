@@ -9,23 +9,18 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XCamera);
-            //Name = "Camera";
         }
 
-        public override ListViewItem SetupListViewItem()
+        public override ListViewItem SetupListViewItem(XComponent component)
         {
-            ListViewItem item = new ListViewItem();
-            //item.Text = Name;
-
             XCamera camera = new XCamera(ref X,0.1f,1000f);
-            item.Tag = camera;
-            
-            return item;
+
+            return base.SetupListViewItem(camera);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
         {
-            //XCamera camera = (XCamera)Input;
+            base.UpdateObjectProperties(Input, Properties, Scene);
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)

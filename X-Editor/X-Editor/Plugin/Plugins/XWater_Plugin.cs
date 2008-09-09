@@ -9,25 +9,22 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XWater);
-            //Name = "Water";
         }
 
-        public override ListViewItem SetupListViewItem()
+        public override ListViewItem SetupListViewItem(XComponent component)
         {
-            ListViewItem item = new ListViewItem();
-            //item.Text = Name;
-
             XWater water = new XWater(ref X);
             water.Load(X.Content);
-            item.Tag = water;
-            
-            return item;
+
+            return base.SetupListViewItem(water);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
         {
             XWater water = (XWater)Input;
-            water.Load(X.Content);
+            if (!water.loaded) water.Load(X.Content);
+
+            base.UpdateObjectProperties(Input, Properties, Scene);
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)
@@ -38,7 +35,7 @@ namespace X_Editor
         {
             XTools tools = new XTools(X);
 
-            XWater water = new XWater(ref X, tools.ParseXMLVector2(node.Attributes["PointOne"].InnerText), tools.ParseXMLVector2(node.Attributes["PointTwo"].InnerText), float.Parse(node.Attributes["Height"].InnerText));
+            /*XWater water = new XWater(ref X, tools.ParseXMLVector2(node.Attributes["PointOne"].InnerText), tools.ParseXMLVector2(node.Attributes["PointTwo"].InnerText), float.Parse(node.Attributes["Height"].InnerText));
             water.Load(X.Content);
 
             water.AutoDraw = bool.Parse(node.Attributes["AutoDraw"].InnerText);
@@ -47,6 +44,7 @@ namespace X_Editor
             water.WaveHeight = float.Parse(node.Attributes["WaveHeight"].InnerText);
             water.WindDirection = float.Parse(node.Attributes["WindDirection"].InnerText);
             water.WindForce = float.Parse(node.Attributes["WindForce"].InnerText);
+             */
             //water.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
 
             //ListViewItem item = new ListViewItem(Name);

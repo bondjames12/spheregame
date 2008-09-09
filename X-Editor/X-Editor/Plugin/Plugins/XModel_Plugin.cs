@@ -18,29 +18,11 @@ namespace X_Editor
             UpdateObjectProperties(Input, Properties, Scene);
         }
 
-        public override System.Windows.Forms.ListViewItem SetupListViewItem()
+        public override System.Windows.Forms.ListViewItem SetupListViewItem(XComponent component)
         {
             XModel model = new XModel(ref X, null);
 
-            ListViewItem item = new ListViewItem();
-            
-            //custom name
-            ListViewItem.ListViewSubItem lvtype = new ListViewItem.ListViewSubItem();
-            lvtype.Name = "colName";
-            lvtype.Text = model.Name;
-            
-            //id
-            ListViewItem.ListViewSubItem lvid = new ListViewItem.ListViewSubItem();
-            lvid.Name = "colID";
-            lvid.Text = model.ComponentID.ToString();
-
-
-            item.Name = model.ToString();
-            item.Text = model.ToString();
-            item.SubItems.Add(lvtype);
-            item.SubItems.Add(lvid);
-
-            return item;
+            return base.SetupListViewItem(model);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
@@ -51,16 +33,7 @@ namespace X_Editor
              if (!string.IsNullOrEmpty(model.Filename))
                 model.Load(X.Content);
 
-            //update scene list component name
-            foreach (ListViewItem item in Scene.Items)
-            {//search for item
-                if (item.SubItems["colID"].Text == model.ComponentID.ToString())
-                    item.SubItems["colName"].Text = model.Name;
-            }
-
-            //forces the properties list to update to display the changes
-            if (Properties != null && Properties.SelectedObject == model)
-                Properties.SelectedObject = model;
+            base.UpdateObjectProperties(Input, Properties, Scene);
         }
 
         public override void WriteToXML(System.Xml.XmlWriter writer, object obj)

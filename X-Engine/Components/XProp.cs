@@ -44,13 +44,13 @@ namespace XEngine
             }
         }
 
-        public override Vector3 Translation
+        public Vector3 Translation
         {
             get { return position; }
             set { position = value; }
         }
 
-        public override Quaternion Rotation
+        public Quaternion Rotation
         {
             get
             {
@@ -62,7 +62,7 @@ namespace XEngine
             }
         }
 
-        public override Vector3 Scale
+        public Vector3 Scale
         {
             get
             {
