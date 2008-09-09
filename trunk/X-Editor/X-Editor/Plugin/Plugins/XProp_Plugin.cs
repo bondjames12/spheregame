@@ -10,7 +10,6 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XProp);
-            //Name = "XProp";
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)
@@ -18,52 +17,23 @@ namespace X_Editor
             if (DraggedItem is XModel)
             {
                 ((XProp)Input).model = (XModel)DraggedItem;
-                //((XProp)Input).Size = ((XProp)Input).Size;
-
                 UpdateObjectProperties(Input, Properties, Scene);
             }
         }
 
-        public override ListViewItem SetupListViewItem()
+        public override ListViewItem SetupListViewItem(XComponent component)
         {
             XProp prop = new XProp(ref X, new XModel(ref X, null), Vector3.Zero, Vector3.Zero, Matrix.Identity, Vector3.One);
             prop.NoCull = true;
 
-            ListViewItem item = new ListViewItem();
-
-            //custom name
-            ListViewItem.ListViewSubItem lvtype = new ListViewItem.ListViewSubItem();
-            lvtype.Name = "colName";
-            lvtype.Text = prop.Name;
-
-            //id
-            ListViewItem.ListViewSubItem lvid = new ListViewItem.ListViewSubItem();
-            lvid.Name = "colID";
-            lvid.Text = prop.ComponentID.ToString();
-
-
-            item.Text = prop.ToString();
-            item.Name = prop.ToString();
-            item.SubItems.Add(lvtype);
-            item.SubItems.Add(lvid);
-
-            return item;
+            return base.SetupListViewItem(prop);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
         {
             //we changed a property do something?
 
-            //update scene list component name
-            foreach (ListViewItem item in Scene.Items)
-            {//search for item
-                if (item.SubItems["colID"].Text == ((XProp)Input).ComponentID.ToString())
-                    item.SubItems["colName"].Text = ((XProp)Input).Name;
-            }
-
-            //forces the properties list to update to display the changes
-            if (Properties != null && Properties.SelectedObject == Input)
-                Properties.SelectedObject = Input;
+            base.UpdateObjectProperties(Input, Properties, Scene);
         }
 
         public override void WriteToXML(System.Xml.XmlWriter writer, object obj)

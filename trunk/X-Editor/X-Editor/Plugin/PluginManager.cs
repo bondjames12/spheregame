@@ -14,7 +14,7 @@ namespace X_Editor
             ListViewItem item = new ListViewItem();
             foreach (ComponentPlugin plugin in Plugins)
                 if (plugin.type.ToString() == Type)
-                    item = plugin.SetupListViewItem();
+                    item = plugin.SetupListViewItem(null);
 
             return item;
         }
@@ -37,8 +37,8 @@ namespace X_Editor
         {
             foreach(ListViewItem item in scene.Items)
                 foreach (ComponentPlugin plugin in Plugins)
-                    if (plugin.type == item.Tag.GetType())
-                        plugin.WriteToXML(writer, item.Tag);
+                    if (plugin.type == X.Tools.GetXComponentByID(item.SubItems["colID"].Text).GetType())
+                        plugin.WriteToXML(writer, X.Tools.GetXComponentByID(item.SubItems["colID"].Text));
         }
 
         public void LoadFromXML(XmlNodeList scenenode, ListView scene)
@@ -68,6 +68,7 @@ namespace X_Editor
             Plugins.Add(new XActor_Plugin(X));
             Plugins.Add(new XProp_Plugin(X));
             Plugins.Add(new XCamera_Plugin(X));
+            Plugins.Add(new XTreeSystem_Plugin(X));
 
             // Add any custom plugins for custom components here
         }

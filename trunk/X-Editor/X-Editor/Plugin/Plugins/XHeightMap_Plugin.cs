@@ -1,5 +1,7 @@
 ﻿using System.Windows.Forms;
 using XEngine;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace X_Editor
 {
@@ -8,18 +10,13 @@ namespace X_Editor
         public XHeightMap_Plugin(XMain X) : base(X)
         {
             type = typeof(XHeightMap);
-            //Name = "Height Map Terrain";
         }
 
-        public override ListViewItem SetupListViewItem()
+        public override ListViewItem SetupListViewItem(XComponent component)
         {
-            ListViewItem item = new ListViewItem();
-            //item.Text = Name;
-
             XHeightMap heightmap = new XHeightMap(ref X, null, null, null, null, null, null);
-            item.Tag = heightmap;
 
-            return item;
+            return base.SetupListViewItem(heightmap);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
@@ -31,15 +28,14 @@ namespace X_Editor
                 try
                 {
                     heightmap.Load(X.Content);
-
-                    if (Properties != null)
-                        Properties.SelectedObject = heightmap;
                 }
                 catch
                 {
                     MessageBox.Show("There was a problem loading one of the heightmap's files. Check that the file exists and has been built with the Texture importer and processor.", "File Error");
                 }
             }
+
+            base.UpdateObjectProperties(Input, Properties, Scene);
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)
@@ -59,7 +55,6 @@ namespace X_Editor
             else if (Tools.GetPropertyAtPoint(Properties.PointToClient(Cursor.Position), Properties).Label == "TextureMap" && DraggedItem is ContentItem)
                 heightmap.TextureMap = ((ContentItem)DraggedItem).GenerateFilename().Replace("\\Content", "Content");
             
-            Properties.SelectedObject = heightmap;
             UpdateObjectProperties(heightmap, Properties, Scene);
         }
 
@@ -68,22 +63,24 @@ namespace X_Editor
             XHeightMap heightmap = (XHeightMap)obj;
 
             writer.WriteStartElement("sceneitem");
-            //writer.WriteAttributeString("Type", Name);
-            writer.WriteAttributeString("ComponentID", heightmap.ComponentID.ToString());
-            writer.WriteAttributeString("HeightMap", heightmap.HeightMap);
-            writer.WriteAttributeString("TextureMap", heightmap.TextureMap);
-            writer.WriteAttributeString("RTexture", heightmap.RTexture);
-            writer.WriteAttributeString("GTexture", heightmap.GTexture);
-            writer.WriteAttributeString("BTexture", heightmap.BTexture);
+            writer.WriteAttributeString("Type", this.type.ToString());
             writer.WriteAttributeString("AutoDraw", heightmap.AutoDraw.ToString());
+            writer.WriteAttributeString("BTexture", heightmap.BTexture);
+            writer.WriteAttributeString("ComponentID", heightmap.ComponentID.ToString());
             writer.WriteAttributeString("DrawOrder", heightmap.DrawOrder.ToString());
-            writer.WriteAttributeString("EnvParamsNum", heightmap.environmentalParametersNumber.ToString());
+            writer.WriteAttributeString("GTexture", heightmap.GTexture);
+            writer.WriteAttributeString("HeightMap", heightmap.HeightMap);
+            writer.WriteAttributeString("Name", heightmap.Name);
+            writer.WriteAttributeString("Params", heightmap.Params.ComponentID.ToString());
+            writer.WriteAttributeString("RTexture", heightmap.RTexture);
+            writer.WriteAttributeString("TextureMap", heightmap.TextureMap);
+            
             writer.WriteEndElement();
         }
 
         public override void LoadFromXML(System.Xml.XmlNode node, ListView scene)
         {
-            ListViewItem sceneitem = SetupListViewItem();
+            ListViewItem sceneitem = SetupListViewItem(null);
 
             XHeightMap heightmap = new XHeightMap(ref X, node.Attributes["HeightMap"].InnerText, null, node.Attributes["RTexture"].InnerText, node.Attributes["GTexture"].InnerText, node.Attributes["BTexture"].InnerText, node.Attributes["TextureMap"].InnerText);
             heightmap.AutoDraw = bool.Parse(node.Attributes["AutoDraw"].InnerText);

@@ -63,6 +63,8 @@ namespace XEngine
 
         public override void Load(ContentManager Content)
         {
+            if (Params == null) return;
+
             Heights = HeightMapInfo.GenerateFromHeightmap(ref X, X.Content.Load<Texture2D>(HeightMapFile), 1.0f);
 
             effect = Content.Load<Effect>(@"Content\XEngine\Effects\Terrain");

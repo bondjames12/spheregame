@@ -49,7 +49,7 @@ namespace X_Editor
 
         protected override void Initialize()
         {
-            X = new XMain(this.GraphicsDevice,this.Services, ContentRootDir);
+            X = new XMain(this.GraphicsDevice,this.Services, ContentRootDir, camera);
             //setup some basic usefull settings
             X.Gravity = new Vector3(0, -40, 0);
             X.FrameRate.DisplayFrameRate = true;
@@ -129,9 +129,9 @@ namespace X_Editor
             //find the xcomponent we selected
             XComponent component = X.Components.Find(delegate(XComponent obj) { return obj.ComponentID == pick_id; });
 
-            if (component != null)
+            if (component != null && (component is XITransform))
             {//we selected a valid component we should update our windows UI
-                mManipulator.Transform = component;
+                mManipulator.Transform = (XITransform) component;
                 //fire change event
                 if (OnSelectedComponentChange != null)
                 {

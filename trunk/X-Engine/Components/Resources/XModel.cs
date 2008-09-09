@@ -5,7 +5,7 @@ using XSIXNARuntime;
 
 namespace XEngine
 {
-    public class XModel : XComponent, XIBoundedTransform
+    public class XModel : XComponent
     {
         public Model Model;
         public BoundingBox boundingBox;
@@ -22,16 +22,6 @@ namespace XEngine
 
         public Model Model_editor { get { return Model; } }
         public string Filename_editor { get {return Filename;} set { Filename = value;} }
-        public BoundingBox Bounds
-        {
-            get
-            {
-                if (boundingBox != null)
-                    return boundingBox;
-                else
-                    return new BoundingBox();
-            }
-        }
 
         #endregion
 

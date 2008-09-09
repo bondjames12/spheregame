@@ -9,18 +9,13 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XDynamicSky);
-            //Name = "Dynamic Sky";
         }
 
-        public override ListViewItem SetupListViewItem()
+        public override ListViewItem SetupListViewItem(XComponent component)
         {
-            ListViewItem item = new ListViewItem();
-            //item.Text = Name;
-
             XDynamicSky sky = new XDynamicSky(ref X, null);
-            item.Tag = sky;
 
-            return item;
+            return base.SetupListViewItem(sky);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
@@ -30,10 +25,9 @@ namespace X_Editor
             if (sky.Params != null)
             {
                 sky.Load(X.Content);
-
-                if (Properties != null && Properties.SelectedObject == sky)
-                    Properties.SelectedObject = sky;
             }
+
+            base.UpdateObjectProperties(Input, Properties, Scene);
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)

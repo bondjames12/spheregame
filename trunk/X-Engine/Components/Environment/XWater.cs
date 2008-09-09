@@ -4,24 +4,88 @@ using System.Collections.Generic;
 
 namespace XEngine
 {
-    public class XWater : XComponent, XIUpdateable, XIDrawable
+    public class XWater : XComponent, XIUpdateable, XIDrawable, XIBoundedTransform
     {
         public Vector2 PointOne;
         public Vector2 PointTwo;
+        Vector2 Size;
 
-        public Vector3 v3PointOne
-        { 
-            get { return new Vector3(PointOne.X, height, PointOne.Y); }
-            set { PointOne = new Vector2(value.X, value.Z); }
-        }
-        public Vector3 v3PointTwo
-        { 
-            get { return new Vector3(PointTwo.X, height, PointTwo.Y); }
-            set { PointTwo = new Vector2(value.X, value.Z); }
-        }
+        public BoundingBox boundingBox = new BoundingBox();
+        public float height;
 
         bool reflect;
         bool refract;
+        Effect effect;
+        RenderTarget2D reflection;
+        RenderTarget2D refraction;
+        Texture2D texreflect;
+        Texture2D texrefract;
+        DepthStencilBuffer Depth;
+        VertexPositionTexture[] vertices;
+        XCamera reflectionCamera;
+        XCamera camera;
+        Matrix reflectionViewMatrix = Matrix.Identity;
+        float waveLength = .25f;
+        float waveHeight = 1.15f;
+        float windForce = 5.0f;
+        float windDirection = 90.0f;
+
+        #region Editor Properties
+        public BoundingBox Bounds
+        {
+            get
+            {
+                if (boundingBox != null)
+                    return boundingBox;
+                else
+                    return new BoundingBox();
+            }
+        }
+
+        public Vector3 Translation
+        {
+            get { return new Vector3(PointOne.X, height, PointOne.Y); }
+            set 
+            { 
+                PointOne = new Vector2(value.X, value.Z);
+                PointTwo = new Vector2(value.X + Size.X, value.Z + Size.Y);
+                height = value.Y;
+                CreateWaterPlane();
+            }
+        }
+
+        public Quaternion Rotation
+        {
+            get
+            {
+                //return Quaternion.CreateFromRotationMatrix(orientation);
+                return Quaternion.Identity;
+            }
+            set
+            {
+                //orientation = Matrix.CreateFromQuaternion(value);
+            }
+        }
+
+        public Vector3 Scale
+        {
+            get
+            {
+                return new Vector3(Size.X, 0, Size.Y);
+            }
+            set
+            {
+                Size = new Vector2(value.X,value.Z);
+                CreateWaterPlane();
+            }
+        }
+        #endregion
+
+        public float Height
+        {
+            get { return height; }
+            set { height = value; CreateWaterPlane();}
+        }
 
         public bool DoesReflect
         {
@@ -34,60 +98,11 @@ namespace XEngine
             set { refract = value; effect.Parameters["refract"].SetValue(value); }
         }
 
-        public float height;
-        public float Height
-        {
-            get { return height; }
-            set { height = value;}
-        }
-
-        Vector2 Position { get { return PointOne; } }
-        Vector2 Size { get { return PointTwo - PointOne; } }
-
-        Effect effect;
-        RenderTarget2D reflection;
-        RenderTarget2D refraction;
-        Texture2D texreflect;
-        Texture2D texrefract;
-
-        DepthStencilBuffer Depth;
-
-        VertexPositionTexture[] vertices;
-
-        XCamera reflectionCamera;
-
         public XCamera ReflectionCamera
         {
             get { return reflectionCamera; }
             set { reflectionCamera = value; }
         }
-
-        public BoundingBox boundingBox = new BoundingBox();
-
-        public XWater(ref XMain X)
-            : base(ref X)
-        {
-            DrawOrder = 22;
-            PointOne = new Vector2(-128);
-            PointTwo = new Vector2(128);
-            height = 4;
-            reflectionCamera = new XCamera(ref X,1,100);
-        }
-
-        public XWater(ref XMain X, Vector2 pointOne, Vector2 pointTwo, float height) : base(ref X)
-        {
-            PointOne = pointOne;
-            PointTwo = pointTwo;
-
-            this.height = height;
-
-            reflectionCamera = new XCamera(ref X,1,100);
-        }
-
-        float waveLength = .25f;
-        float waveHeight = 1.15f;
-        float windForce = 5.0f;
-        float windDirection = 90.0f;
 
         public float WaveLenth
         {
@@ -113,6 +128,30 @@ namespace XEngine
             set { windDirection = value; effect.Parameters["xWindDirection"].SetValue(Matrix.CreateRotationZ(MathHelper.ToRadians(value))); }
         }
 
+        public XWater(ref XMain X)
+            : base(ref X)
+        {
+            DrawOrder = 22;
+            height = 4;
+            Size = new Vector2(128*2,128*2);
+            PointOne = new Vector2(-128,-128);
+            PointTwo = Vector2.Add(PointOne, Size);
+
+            reflectionCamera = new XCamera(ref X,1,100);
+        }
+
+        public XWater(ref XMain X, Vector2 pointOne, Vector2 size, float height) : base(ref X)
+        {
+            DrawOrder = 22;
+            PointOne = pointOne;
+            PointTwo = Vector2.Add(pointOne, size);
+            this.Size = size;
+
+            this.height = height;
+
+            reflectionCamera = new XCamera(ref X,1,100);
+        }
+
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
             effect = Content.Load<Effect>(@"Content\XEngine\Effects\Water");
@@ -127,22 +166,31 @@ namespace XEngine
             refraction = new RenderTarget2D(X.GraphicsDevice, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height, 1, SurfaceFormat.Color);
             Depth = new DepthStencilBuffer(X.GraphicsDevice, X.GraphicsDevice.Viewport.Width, X.GraphicsDevice.Viewport.Height, X.GraphicsDevice.DepthStencilBuffer.Format);
 
-            vertices = new VertexPositionTexture[6];
-
-            // Create the water plane
-            vertices[0] = new VertexPositionTexture(new Vector3(Position.X, height, Position.Y), new Vector2(0, 1));
-            vertices[1] = new VertexPositionTexture(new Vector3(Size.X + Position.X, height, Size.Y + Position.Y), new Vector2(1, 0));
-            vertices[2] = new VertexPositionTexture(new Vector3(Position.X, height, Size.Y + Position.Y), new Vector2(0, 0));
-            vertices[3] = new VertexPositionTexture(new Vector3(Position.X, height, Position.Y), new Vector2(0, 1));
-            vertices[4] = new VertexPositionTexture(new Vector3(Size.X + Position.X, height, Position.Y), new Vector2(1, 1));
-            vertices[5] = new VertexPositionTexture(new Vector3(Size.X + Position.X, height, Size.Y + Position.Y), new Vector2(1, 0));
-
-            boundingBox = new BoundingBox(v3PointOne, v3PointTwo);
+            CreateWaterPlane();
 
             DoesReflect = true;
             DoesRefract = true;
 
             base.Load(Content);
+        }
+
+        public void CreateWaterPlane()
+        {
+            //Recacl PointTwo
+            PointTwo = Vector2.Add(PointOne, Size);
+
+            //requires valid PointOne, height, PointTwo
+            vertices = new VertexPositionTexture[6];
+
+            // Create the water plane
+            vertices[0] = new VertexPositionTexture(new Vector3(PointOne.X, height, PointOne.Y), new Vector2(0, 1));
+            vertices[1] = new VertexPositionTexture(new Vector3(Size.X + PointOne.X, height, Size.Y + PointOne.Y), new Vector2(1, 0));
+            vertices[2] = new VertexPositionTexture(new Vector3(PointOne.X, height, Size.Y + PointOne.Y), new Vector2(0, 0));
+            vertices[3] = new VertexPositionTexture(new Vector3(PointOne.X, height, PointOne.Y), new Vector2(0, 1));
+            vertices[4] = new VertexPositionTexture(new Vector3(Size.X + PointOne.X, height, PointOne.Y), new Vector2(1, 1));
+            vertices[5] = new VertexPositionTexture(new Vector3(Size.X + PointOne.X, height, Size.Y + PointOne.Y), new Vector2(1, 0));
+
+            boundingBox = new BoundingBox(new Vector3(PointOne.X, height, PointOne.Y), new Vector3(PointTwo.X, height, PointTwo.Y));
         }
 
         public override void Update(ref GameTime gameTime)
@@ -181,9 +229,6 @@ namespace XEngine
                 Reflect(gameTime, reflectionCamera);
             }
         }
-
-        XCamera camera;
-        Matrix reflectionViewMatrix = Matrix.Identity;
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
@@ -232,6 +277,30 @@ namespace XEngine
             }
             effect.End();
             X.GraphicsDevice.RenderState.CullMode = Cullprevious;
+        }
+
+        /// <summary>
+        /// Draws the model attached into the pick buffer
+        /// </summary>
+        public override void DrawPick(XPickBuffer pick_buf, XICamera camera)
+        {
+            if (!this.loaded)
+                return;
+
+            //if (!mPickEnabled)
+            //    return;
+
+            pick_buf.PushMatrix(MatrixMode.World, Matrix.Identity);
+            pick_buf.PushPickID(this.ComponentID);
+    
+            pick_buf.PushVertexDeclaration(new VertexDeclaration(X.GraphicsDevice, VertexPositionTexture.VertexElements));
+
+            pick_buf.QueueUserPrimitives(PrimitiveType.TriangleList, vertices, 0, 2);
+
+            pick_buf.PopVertexDeclaration();
+
+            pick_buf.PopPickID();
+            pick_buf.PopMatrix(MatrixMode.World);
         }
 
         void Refract(GameTime gameTime, XCamera Camera)

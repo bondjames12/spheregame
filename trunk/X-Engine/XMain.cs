@@ -34,8 +34,9 @@ namespace XEngine
         public ContentManager Content;
         public GraphicsDevice GraphicsDevice;
         public IServiceProvider Services;
+        public XCamera DefaultCamera;
 
-        public XMain(GraphicsDevice GraphicsDevice,IServiceProvider Services, string ContentRootDir)
+        public XMain(GraphicsDevice GraphicsDevice,IServiceProvider Services, string ContentRootDir, XCamera defaultCamera)
         {
             Components = new List<XComponent>();
 
@@ -67,6 +68,8 @@ namespace XEngine
 
             //Rendering should be the last thing! The constructor requires some componnets like debug, debugdrawer to allready exist!
             Renderer = new XRenderer(this);
+
+            this.DefaultCamera = defaultCamera;
         }
 
         public void LoadContent()

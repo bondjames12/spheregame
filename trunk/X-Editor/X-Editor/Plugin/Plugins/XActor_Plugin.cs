@@ -9,7 +9,6 @@ namespace X_Editor
         public XActor_Plugin(XMain X) : base(X)
         {
             type = typeof(XActor);
-            //Name = "XActor";
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)
@@ -24,44 +23,18 @@ namespace X_Editor
             }
         }
 
-        public override ListViewItem SetupListViewItem()
+        public override ListViewItem SetupListViewItem(XComponent component)
         {
             XActor actor = new XActor(ref X, new XModel(ref X, null), Vector3.Zero, Vector3.Zero,Vector3.Zero, 1);
             actor.NoCull = true;
             actor.Immovable = true;
 
-            ListViewItem item = new ListViewItem();
-
-            //custom name
-            ListViewItem.ListViewSubItem lvtype = new ListViewItem.ListViewSubItem();
-            lvtype.Name = "colName";
-            lvtype.Text = actor.Name;
-
-            //id
-            ListViewItem.ListViewSubItem lvid = new ListViewItem.ListViewSubItem();
-            lvid.Name = "colID";
-            lvid.Text = actor.ComponentID.ToString();
-
-
-            item.Text = actor.ToString();
-            item.Name = actor.ToString();
-            item.SubItems.Add(lvtype);
-            item.SubItems.Add(lvid);
-
-            return item;
+            return base.SetupListViewItem(actor);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
         {
             XActor actor = (XActor)Input;
-
-            //XActor newAct = new XActor(ref X, actor.model, actor.Position, actor.modeloffset,  actor.Velocity, actor.Mass_editor);
-            //newAct.Immovable = actor.Immovable;
-            //newAct.AutoDraw = actor.AutoDraw;
-            //newAct.DrawOrder = actor.DrawOrder;
-            //newAct.Rotation_editor = actor.Rotation_editor;
-            //newAct.DebugMode = actor.DebugMode;
-            //newAct.ComponentID = actor.ComponentID;
 
             if ((actor.PhysicsObject == null) || (actor.PhysicsObject.PhysicsSkin == null) || actor.PhysicsObject.PhysicsSkin.NumPrimitives <= 0) //this XActor we created or model we loaded does not have any collision primitives we can't continue to render this~
             {
@@ -70,18 +43,7 @@ namespace X_Editor
                 return;
             }
 
-            //update scene list component name
-            foreach (ListViewItem item in Scene.Items)
-            {//search for item
-                if (item.SubItems["colID"].Text == actor.ComponentID.ToString())
-                    item.SubItems["colName"].Text = actor.Name;
-            }
-
-            //forces the properties list to update to display the changes
-            if (Properties != null && Properties.SelectedObject == actor)
-                Properties.SelectedObject = actor;
-
-            //X.Components.Remove(X.Tools.GetXComponentByID(actor.ComponentID)); 
+            base.UpdateObjectProperties(Input, Properties, Scene);
         }
 
         public override void WriteToXML(System.Xml.XmlWriter writer, object obj)

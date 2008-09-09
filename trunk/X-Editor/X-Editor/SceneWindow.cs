@@ -151,10 +151,11 @@ namespace X_Editor
                 window.editor.CurrentScene.SaveToXML(null, true);
 
             window.editor.ResetEditor(false);
-            window.editor.CurrentScene = this;
 
             if (!Loaded && Load)
                 LoadFromXML();
+
+            window.editor.CurrentScene = this;
         }
 
         public void SaveToXML(XmlTextWriter projectWriter, bool ForceSave)
