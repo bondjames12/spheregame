@@ -122,7 +122,7 @@ namespace Sphere
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
             {
-                parent.boxes.Add(new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
+                parent.boxes.Add(new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
             }
             if (mouse.ButtonPressed(XMouse.Buttons.Right))
             {
@@ -189,9 +189,9 @@ namespace Sphere
                     parent.water.WaveHeight += .01f;
                 //Wave Length
                 if (keyboard.KeyDown(Keys.NumPad7))
-                    parent.water.WaveLenth -= .01f;
+                    parent.water.WaveLength -= .01f;
                 if (keyboard.KeyDown(Keys.NumPad9))
-                    parent.water.WaveLenth += .01f;
+                    parent.water.WaveLength += .01f;
                 //Wind Force
                 if (keyboard.KeyDown(Keys.NumPad1))
                     parent.water.WindForce -= .05f;
@@ -202,7 +202,7 @@ namespace Sphere
             if (keyboard.KeyPressed(Keys.F4))
                 for (int x = 0; x < 10; x++)
                     for (int e = x; e < 10; e++)
-                        parent.boxes.Add(new XActor(ref X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(20, x * 1.01f + 1, e - 0.5f * x)), parent.model, Vector3.One, Vector3.Zero, Vector3.Zero, 10));            
+                        parent.boxes.Add(new XActor(ref X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(20, x * 1.01f + 1, e - 0.5f * x)), parent.model, Vector3.One, Vector3.Zero, 10));            
             
             if (keyboard.KeyPressed(Keys.F5))
             {
@@ -210,7 +210,7 @@ namespace Sphere
 
                 for (int i = 0; i < 25; i++)
                 {
-                    XActor actor = new XActor(ref X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(i + 10, 45 - i, 0)), parent.model, Vector3.One, Vector3.Zero, Vector3.Zero, 10);
+                    XActor actor = new XActor(ref X, new CapsuleObject(1, 1, Matrix.Identity, new Vector3(i + 10, 45 - i, 0)), parent.model, Vector3.One, Vector3.Zero, 10);
                     if (i == 0) actor.Immovable = true;
                     chainBoxes.Add(actor);
                 }
@@ -251,7 +251,7 @@ namespace Sphere
             {
                 //if (parent.houseactor == null)
                 //{
-                parent.houseactor = new XAnimatedActor(ref X, new BoxObject(new Vector3(5,5,1),Matrix.Identity,new Vector3(2,2,2)), parent.housemodel, Vector3.One, Vector3.Zero, Vector3.Zero, .1f);
+                parent.houseactor = new XAnimatedActor(ref X, new BoxObject(new Vector3(5,5,1),Matrix.Identity,new Vector3(2,2,2)), parent.housemodel, Vector3.One, Vector3.Zero, .1f);
                 parent.houseactor.Load(X.Content);
                 parent.houseactor.Immovable = false;
                 parent.boxes.Add(parent.houseactor);

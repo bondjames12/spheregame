@@ -22,6 +22,27 @@ namespace XEngine
             set { parameters = value; environmentalParametersNumber = value.number; }
         }
 
+        #region Editor Properties
+        public float Theta_editor
+        {
+            get { return Theta; }
+            set { Theta = value; }
+        }
+
+        public float Phi_editor
+        {
+            get { return Phi; }
+            set { Phi = value; }
+        }
+
+        public bool RealTime_editor
+        {
+            get { return RealTime; }
+            set { RealTime = value; }
+        }
+
+        #endregion
+
         public XDynamicSky(ref XMain X,XEnvironmentParameters Parameters) : base(ref X)
         {
             if (Parameters != null)

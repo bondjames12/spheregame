@@ -19,8 +19,8 @@ namespace XEngine
         public Matrix World;
 
         public XTree(ref XMain X, XPhysicsObject Object, XModel model,Vector3 ModelScale,
-            Vector3 ModelOffset, Vector3 Velocity, float Mass)
-            : base(ref X, Object, model, ModelScale, ModelOffset, Velocity, Mass)
+            Vector3 Velocity, float Mass)
+            : base(ref X, Object, model, ModelScale, Velocity, Mass)
         {
            
         }

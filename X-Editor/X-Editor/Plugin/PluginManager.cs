@@ -8,14 +8,18 @@ namespace X_Editor
     public class ComponentPluginManager
     {
         public List<ComponentPlugin> Plugins = new List<ComponentPlugin>();
+        public Dictionary<uint, List<uint>> Depends = new Dictionary<uint, List<uint>>();
 
-        public ListViewItem SetUpListViewItem(string Type)
+
+        public ListViewItem SetUpListViewItem(string Type, ListView Scene)
         {
             ListViewItem item = new ListViewItem();
             foreach (ComponentPlugin plugin in Plugins)
                 if (plugin.type.ToString() == Type)
-                    item = plugin.SetupListViewItem(null);
-
+                {
+                    item = plugin.SetupListViewItem(new ListViewItem(), null);
+                    item.Group = Scene.Groups[plugin.group];
+                }
             return item;
         }
 
@@ -43,10 +47,27 @@ namespace X_Editor
 
         public void LoadFromXML(XmlNodeList scenenode, ListView scene)
         {
-            //foreach(XmlNode node in scenenode)
-            //    foreach (ComponentPlugin plugin in Plugins)
-            //        if (plugin.type.ToString() == node.Attributes["Type"].InnerText)
-            //            plugin.LoadFromXML(node, scene);
+            foreach(XmlNode node in scenenode)
+                foreach (ComponentPlugin plugin in Plugins)
+                    if (plugin.type.ToString() == node.Attributes["Type"].InnerText)
+                        plugin.LoadFromXML(node, scene, ref Depends);
+
+            //we need to keep a list of objects that are depend on each other
+            //an object may have 1 or more child objects which are not linked by the above load routines
+            //here we link these objects that recorded there dependencies during load
+            foreach (uint keyID in Depends.Keys)
+            {
+                List<uint> children;
+                if (Depends.TryGetValue(keyID,out children))
+                {
+                    //get parent object and match type
+                    XComponent parent = X.Tools.GetXComponentByID(keyID);
+                    
+                    foreach (ComponentPlugin plugin in Plugins)
+                        if (plugin.type == parent.GetType())
+                            plugin.AssignChildComponents(parent,ref children);
+                }
+            }
         }
 
         XMain x;
@@ -69,6 +90,7 @@ namespace X_Editor
             Plugins.Add(new XProp_Plugin(X));
             Plugins.Add(new XCamera_Plugin(X));
             Plugins.Add(new XTreeSystem_Plugin(X));
+            Plugins.Add(new XSkyBox_Plugin(X));
 
             // Add any custom plugins for custom components here
         }

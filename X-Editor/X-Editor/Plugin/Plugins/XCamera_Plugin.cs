@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using XEngine;
+using System.Collections.Generic;
 
 namespace X_Editor
 {
@@ -9,13 +10,13 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XCamera);
+            group = "Camera";
         }
 
-        public override ListViewItem SetupListViewItem(XComponent component)
+        public override ListViewItem SetupListViewItem(ListViewItem item, XComponent component)
         {
             XCamera camera = new XCamera(ref X,0.1f,1000f);
-
-            return base.SetupListViewItem(camera);
+            return base.SetupListViewItem(item, camera);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
@@ -27,7 +28,7 @@ namespace X_Editor
         {
         }
 
-        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene)
+        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene, ref Dictionary<uint, List<uint>> Depends)
         {
             XTools tools = new XTools(X);
 
@@ -42,11 +43,7 @@ namespace X_Editor
             //camera.WindForce = float.Parse(node.Attributes["WindForce"].InnerText);
             //camera.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
 
-            //ListViewItem item = new ListViewItem(Name);
-            //item.Tag = camera;
-            //item.Group = scene.Groups["Environment"];
-
-            //scene.Items.Add(item);
+            //X_Editor.Tools.AddXComponentToSceneList(scene, sky, "Environment");
         }
 
         public override void WriteToXML(System.Xml.XmlWriter writer, object obj)

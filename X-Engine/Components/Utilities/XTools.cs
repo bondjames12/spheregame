@@ -20,7 +20,14 @@ namespace XEngine
 
         public uint GeneratorNewID()
         {
-            return ComponentIDCounter++;
+            ComponentIDCounter++;
+            return ComponentIDCounter;
+        }
+
+        public void SetIDGenerator(uint lowerbound)
+        {
+            if (ComponentIDCounter < lowerbound)
+                ComponentIDCounter = lowerbound;
         }
 
         public XComponent GetXComponentByID(uint ID)
@@ -109,6 +116,28 @@ namespace XEngine
             }
 
             return new BoundingBox(min, max);
+        }
+
+        /// <param name="Input">Format: {X:# Y:# Z:# W:#}</param>
+        public Quaternion ParseXMLQuaternion(string Input)
+        {
+            Input = Input.Replace("{", "");
+            Input = Input.Replace("}", "");
+            Input = Input.Replace(":", "");
+            Input = Input.Replace("X", "");
+            Input = Input.Replace("Y", "");
+            Input = Input.Replace("Z", "");
+            Input = Input.Replace("W", "");
+            Input = Input.Replace(" ", ",");
+
+            string[] values = Input.Split(',');
+            
+            if (values.Length == 3 )
+                return new Quaternion(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]), 0.0f);
+            else if (values.Length == 4)
+                return new Quaternion(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]), float.Parse(values[3]));
+            else
+                return Quaternion.Identity;
         }
 
         /// <param name="Input">Format: (X, Y, Z)</param>

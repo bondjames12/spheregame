@@ -2,6 +2,7 @@
 using XEngine;
 using System.IO;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace X_Editor
 {
@@ -10,13 +11,13 @@ namespace X_Editor
         public XHeightMap_Plugin(XMain X) : base(X)
         {
             type = typeof(XHeightMap);
+            group = "Environment";
         }
 
-        public override ListViewItem SetupListViewItem(XComponent component)
+        public override ListViewItem SetupListViewItem(ListViewItem item, XComponent component)
         {
             XHeightMap heightmap = new XHeightMap(ref X, null, null, null, null, null, null);
-
-            return base.SetupListViewItem(heightmap);
+            return base.SetupListViewItem(item,heightmap);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
@@ -78,32 +79,35 @@ namespace X_Editor
             writer.WriteEndElement();
         }
 
-        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene)
+        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene,ref Dictionary<uint, List<uint>> Depends)
         {
-            ListViewItem sceneitem = SetupListViewItem(null);
-
             XHeightMap heightmap = new XHeightMap(ref X, node.Attributes["HeightMap"].InnerText, null, node.Attributes["RTexture"].InnerText, node.Attributes["GTexture"].InnerText, node.Attributes["BTexture"].InnerText, node.Attributes["TextureMap"].InnerText);
             heightmap.AutoDraw = bool.Parse(node.Attributes["AutoDraw"].InnerText);
             heightmap.DrawOrder = int.Parse(node.Attributes["DrawOrder"].InnerText);
-
-            int paramsNum = int.Parse(node.Attributes["EnvParamsNum"].InnerText);
-            heightmap.environmentalParametersNumber = paramsNum;
-
-           // heightmap.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
-
-            foreach (ListViewItem item in scene.Items)
-                if (item.Tag is XEnvironmentParameters)
-                    if (((XEnvironmentParameters)item.Tag).number == paramsNum)
-                        heightmap.Params = (XEnvironmentParameters)item.Tag;
+            heightmap.ComponentID = uint.Parse(node.Attributes["ComponentID"].InnerText);
+            heightmap.Name = node.Attributes["Name"].InnerText;
+            
+            List<uint> dep = new List<uint>();
+            dep.Add(uint.Parse(node.Attributes["Params"].InnerText));
+            Depends.Add(heightmap.ComponentID, dep);
 
             if (!string.IsNullOrEmpty(heightmap.TextureMap) && !string.IsNullOrEmpty(heightmap.HeightMap) && heightmap.Params != null)
                  heightmap.Load(X.Content);
 
-            //sceneitem.Text = Name;
-            sceneitem.Tag = heightmap;
-            sceneitem.Group = scene.Groups["Environment"];
+             X_Editor.Tools.AddXComponentToSceneList(scene, heightmap, group);
+        }
 
-            scene.Items.Add(sceneitem);
+        public override void AssignChildComponents(XComponent parent, ref List<uint> children)
+        {
+            foreach (uint childID in children)
+            {
+                XComponent child = X.Tools.GetXComponentByID(childID);
+                if (child.GetType() == typeof(XEnvironmentParameters))
+                {
+                    ((XHeightMap)parent).Params = (XEnvironmentParameters)child;
+                    parent.Load(X.Content);
+                }
+            }
         }
     }
 }

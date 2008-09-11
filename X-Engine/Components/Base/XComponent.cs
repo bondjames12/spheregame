@@ -48,10 +48,19 @@ namespace XEngine
         public uint ComponentID
         {
             get { return componentID; }
-            /*set
+            set
             {
-                componentID = value;
-            }*/
+                X.Tools.SetIDGenerator(value);
+                if (componentID == value) return;
+                //try to set the componentID, first check for existing object with same number and reassign!
+                XComponent obj = X.Tools.GetXComponentByID(value);
+                if (obj != null)
+                {
+                    System.Diagnostics.Debugger.Break();
+                }
+                else
+                    componentID = value;
+            }
         }
 
         /// <summary>

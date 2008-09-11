@@ -20,7 +20,6 @@ namespace XEngine
 
         #region EditorProperties
 
-        public Model Model_editor { get { return Model; } }
         public string Filename_editor { get {return Filename;} set { Filename = value;} }
 
         #endregion

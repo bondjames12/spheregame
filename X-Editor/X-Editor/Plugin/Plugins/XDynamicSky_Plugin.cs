@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using XEngine;
+using System.Collections.Generic;
 
 namespace X_Editor
 {
@@ -9,13 +10,13 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XDynamicSky);
+            group = "Environment";
         }
 
-        public override ListViewItem SetupListViewItem(XComponent component)
+        public override ListViewItem SetupListViewItem(ListViewItem item, XComponent component)
         {
             XDynamicSky sky = new XDynamicSky(ref X, null);
-
-            return base.SetupListViewItem(sky);
+            return base.SetupListViewItem(item, sky);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
@@ -46,18 +47,18 @@ namespace X_Editor
             XDynamicSky sky = (XDynamicSky)obj;
 
             writer.WriteStartElement("sceneitem");
-           // writer.WriteAttributeString("Type", Name);
+            writer.WriteAttributeString("Type", sky.GetType().ToString());
             writer.WriteAttributeString("ComponentID", sky.ComponentID.ToString());
             writer.WriteAttributeString("AutoDraw", sky.AutoDraw.ToString());
             writer.WriteAttributeString("DrawOrder", sky.DrawOrder.ToString());
-            writer.WriteAttributeString("EnvParamsNum", sky.environmentalParametersNumber.ToString());
+            writer.WriteAttributeString("Params", sky.Params.ComponentID.ToString());
             writer.WriteAttributeString("Phi", sky.Phi.ToString());
             writer.WriteAttributeString("Theta", sky.Theta.ToString());
             writer.WriteAttributeString("RealTime", sky.RealTime.ToString());
             writer.WriteEndElement();
         }
 
-        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene)
+        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene, ref Dictionary<uint, List<uint>> Depends)
         {
             XDynamicSky sky = new XDynamicSky(ref X, null);
 
@@ -66,26 +67,26 @@ namespace X_Editor
             sky.Phi = float.Parse(node.Attributes["Phi"].InnerText);
             sky.Theta = float.Parse(node.Attributes["Theta"].InnerText);
             sky.RealTime = bool.Parse(node.Attributes["RealTime"].InnerText);
-            //sky.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
+            sky.ComponentID = uint.Parse(node.Attributes["ComponentID"].InnerText);
 
-            int paramsNum = int.Parse(node.Attributes["EnvParamsNum"].InnerText);
-            sky.environmentalParametersNumber = paramsNum;
+            List<uint> dep = new List<uint>();
+            dep.Add(uint.Parse(node.Attributes["Params"].InnerText));
+            Depends.Add(sky.ComponentID, dep);
 
-            foreach (ListViewItem item in scene.Items)
-                if (item.Tag is XEnvironmentParameters)
-                    if (((XEnvironmentParameters)item.Tag).number == paramsNum)
-                        sky.Params = (XEnvironmentParameters)item.Tag;
+            X_Editor.Tools.AddXComponentToSceneList(scene, sky, group);
+        }
 
-            if (sky.Params != null)
-                sky.Load(X.Content);
-
-            ListViewItem sceneitem = new ListViewItem();
-            //sceneitem.Text = Name;
-            sceneitem.Tag = sky;
-
-            sceneitem.Group = scene.Groups["Environment"];
-
-            scene.Items.Add(sceneitem);
+        public override void AssignChildComponents(XComponent parent, ref List<uint> children)
+        {
+            foreach (uint childID in children)
+            {
+                XComponent child = X.Tools.GetXComponentByID(childID);
+                if (child.GetType() == typeof(XEnvironmentParameters))
+                {
+                    ((XDynamicSky)parent).Params = (XEnvironmentParameters)child;
+                    parent.Load(X.Content);
+                }
+            }
         }
     }
 }

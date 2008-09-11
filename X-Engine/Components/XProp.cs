@@ -37,7 +37,7 @@ namespace XEngine
         {
             get
             {
-                if (model.boundingBox != null)
+                if (model != null)
                     return model.boundingBox;
                 else
                     return new BoundingBox();

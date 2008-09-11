@@ -104,7 +104,7 @@ namespace XEngine
             set { reflectionCamera = value; }
         }
 
-        public float WaveLenth
+        public float WaveLength
         {
             get { return waveLength; }
             set { waveLength = value; effect.Parameters["xWaveLength"].SetValue(value); }

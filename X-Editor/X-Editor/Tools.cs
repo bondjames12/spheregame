@@ -5,6 +5,7 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;
+using XEngine;
 
 namespace X_Editor
 {
@@ -72,6 +73,30 @@ namespace X_Editor
             bmp.UnlockBits(bmpd);
 
             return bmp;
+        }
+
+        public static void AddXComponentToSceneList(ListView Scene, XComponent component, string category)
+        {
+            ListViewItem item = new ListViewItem();
+            //custom name
+            ListViewItem.ListViewSubItem lvtype = new ListViewItem.ListViewSubItem();
+            lvtype.Name = "colName";
+            lvtype.Text = component.Name;
+
+            //id
+            ListViewItem.ListViewSubItem lvid = new ListViewItem.ListViewSubItem();
+            lvid.Name = "colID";
+            lvid.Text = component.ComponentID.ToString();
+
+
+            item.Text = component.ToString();
+            item.Name = component.ToString();
+            item.SubItems.Add(lvtype);
+            item.SubItems.Add(lvid);
+
+            item.Group = Scene.Groups[category];
+
+            Scene.Items.Add(item);
         }
 
     }
