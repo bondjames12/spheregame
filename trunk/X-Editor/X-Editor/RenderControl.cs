@@ -21,7 +21,7 @@ namespace X_Editor
         public XMain X;
         public string ContentRootDir="";
 
-        XEditorGameTime time = new XEditorGameTime();
+        XEditorGameTime time;
 
         public XFreeLookCamera camera;
         public XKeyboard keyboard;
@@ -49,9 +49,11 @@ namespace X_Editor
 
         protected override void Initialize()
         {
+            time = new XEditorGameTime();
             X = new XMain(this.GraphicsDevice,this.Services, ContentRootDir, camera);
             //setup some basic usefull settings
             X.Gravity = new Vector3(0, -40, 0);
+            X.UpdatePhysics = false;
             X.FrameRate.DisplayFrameRate = true;
             X.Console.AutoDraw = false;
             X.Debug.StartPosition.Y = 200;
@@ -151,22 +153,19 @@ namespace X_Editor
         {
             this.GraphicsDevice.Clear(Color.Red);
             GameTime gameTime = new GameTime(time.TotalGameTime.Elapsed, time.ElapsedGameTime.Elapsed, time.TotalGameTime.Elapsed, time.ElapsedGameTime.Elapsed, false);
-
-            X.Update(gameTime);
-
-            //foreach(XComponent component in X.Components)
-              //  X.Debug.Write(component.ToString(), false);
+            time.ElapsedGameTime.Reset();
+            time.ElapsedGameTime.Start();
 
             if (hasFocus && keyboard != null && mouse != null)
             {
                 if (keyboard.KeyDown(Microsoft.Xna.Framework.Input.Keys.S))
-                    camera.Translate(Vector3.Backward * 40);
+                    camera.Translate(Vector3.Backward * 400);
                 if (keyboard.KeyDown(Microsoft.Xna.Framework.Input.Keys.W))
-                    camera.Translate(Vector3.Forward * 40);
+                    camera.Translate(Vector3.Forward * 400);
                 if (keyboard.KeyDown(Microsoft.Xna.Framework.Input.Keys.A))
-                    camera.Translate(Vector3.Left * 40);
+                    camera.Translate(Vector3.Left * 400);
                 if (keyboard.KeyDown(Microsoft.Xna.Framework.Input.Keys.D))
-                    camera.Translate(Vector3.Right * 40);
+                    camera.Translate(Vector3.Right * 400);
 
                 if (mouse.ButtonPressed(XMouse.Buttons.Left))
                 {
@@ -195,13 +194,15 @@ namespace X_Editor
                     ((EditorForm)Tag).RefreshPropertiesTab();
             }
 
+            X.Update(gameTime);
             mManipulator.Update();
+
             X.Renderer.Draw(ref gameTime,ref camera.Base);
             mManipulator.Draw();
 
-            time.ElapsedGameTime.Reset();
-            time.ElapsedGameTime.Start();
-            
+            float fps = (float)1000.0f / (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            this.Parent.Parent.Parent.Text = "Elapsed:" + gameTime.ElapsedGameTime.ToString() + " Total:" + gameTime.TotalGameTime.ToString() + " FPS:" + fps.ToString();
+
             
         }
 

@@ -112,6 +112,7 @@
     <Compile Include="Plugin\Plugins\XEnvironmentParameters_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XHeightMap_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XModel_Plugin.cs" />
+    <Compile Include="Plugin\Plugins\XSkyBox_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XTreeSystem_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XWater_Plugin.cs" />
     <Compile Include="Program.cs" />

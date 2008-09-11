@@ -105,7 +105,7 @@ namespace X_Editor
             ListViewItem item = new ListViewItem();
             renderControl1.dragdroprelease = true;
 
-            item = plugins.SetUpListViewItem(draggedComponent.Text);
+            item = plugins.SetUpListViewItem(draggedComponent.Text, scene);
 
             scene.Items.Add(item);
         }
@@ -161,7 +161,10 @@ namespace X_Editor
             {
                 if (scene.SelectedItems.Count > 0)
                 {
-                    renderControl1.X.Components.Remove(GetXComponent(scene.SelectedItems[0].SubItems["colID"].Text));
+                    //renderControl1.X.Components.Remove(GetXComponent(scene.SelectedItems[0].SubItems["colID"].Text));
+                    XComponent comp = GetXComponent(scene.SelectedItems[0].SubItems["colID"].Text);
+                    renderControl1.X.Components.Remove(comp);
+                    //comp.Disable();
                     scene.SelectedItems[0].Remove();
                 }
             }
@@ -208,11 +211,11 @@ namespace X_Editor
 
                 Tools.copyDirectory(GetType().Assembly.CodeBase.Replace("file:///", "").Replace("X-Editor.EXE", "") + @"Content", ProjectDirectory + @"\Game\Content\");
 
+                ResetEditor(true);
+
                 scenes.AddScene(null, null, true);
                 projectFileManager.SaveProjectFile(ProjectFilePath, plugins);
                 Cursor = Cursors.Default;
-
-                ResetEditor(true);
 
                 this.Enabled = true;
                 this.Focus();
@@ -316,6 +319,12 @@ namespace X_Editor
         {
             properties.SelectedObject = selectedObj;
             tabControl1.SelectTab(1);
+        }
+
+        private void btnEnablePhysics_Click(object sender, EventArgs e)
+        {
+            renderControl1.X.UpdatePhysics = btnEnablePhysics.Checked;
+            stripMsg1.Text = "Physics: " + renderControl1.X.UpdatePhysics.ToString();
         }
 
        

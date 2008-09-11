@@ -9,11 +9,30 @@ namespace XEngine
 {
     public class XSkyBox : XComponent, XIDrawable
     {
-        string[] Filenames;
+        List<string> Filenames;
         TextureCube cube;
         
         Effect effect;
         Model model;
+
+        #region Editor Properties
+        public string SkyCubeMap
+        {
+            get 
+            { 
+                if (Filenames.Count == 1) 
+                    return Filenames[0]; 
+                else
+                    return ""; 
+            }
+            set
+            {
+                Filenames = new List<string>();
+                Filenames.Add(value);
+            }
+        }
+
+        #endregion
 
         public XSkyBox(ref XMain X)
             : base(ref X)
@@ -24,14 +43,15 @@ namespace XEngine
         public XSkyBox(ref XMain X, string Front, string Back, string Left, string Right, string Top, string Bottom) : base(ref X)
         {
             DrawOrder = 19;
-            Filenames = new string[] { Bottom, Front, Back, Top, Left, Right };
+            Filenames = new List<string>(new string[] { Bottom, Front, Back, Top, Left, Right });
         }
 
         public XSkyBox(ref XMain X, string SkyCubeMap)
             : base(ref X)
         {
             DrawOrder = 19;
-            Filenames = new string[] { SkyCubeMap };
+            Filenames = new List<string>();
+            if(!string.IsNullOrEmpty(SkyCubeMap)) Filenames.Add(SkyCubeMap);
         }
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
@@ -39,7 +59,7 @@ namespace XEngine
             effect = Content.Load<Effect>(@"Content\XEngine\Effects\Skybox");
             model = Content.Load<Model>(@"Content\XEngine\Models\Skybox");
 
-            if (Filenames.Length == 1) //theres only 1 texture in this list it must be a cube map
+            if (Filenames.Count == 1) //theres only 1 texture in this list it must be a cube map
             {
                 effect.CurrentTechnique = effect.Techniques["SkyCubeMap"];
                 cube = Content.Load<TextureCube>(Filenames[0]);
@@ -74,10 +94,12 @@ namespace XEngine
                     }
                 }
             }
+            base.Load(X.Content);
         }
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
+            if (!loaded) return;
             //X.GraphicsDevice.RenderState.DepthBufferWriteEnable = false;
             //X.GraphicsDevice.RenderState.DepthBufferEnable = false;
 
@@ -89,12 +111,12 @@ namespace XEngine
             model.CopyAbsoluteBoneTransformsTo(transforms);
 
 
-            if (Filenames.Length == 1)
+            if (Filenames.Count == 1)
             {
                 effect.Parameters["Projection"].SetValue(Camera.Projection);
                 effect.Parameters["View"].SetValue(Camera.View);
 
-                if (Filenames.Length == 1)
+                if (Filenames.Count == 1)
                 {
                     effect.Parameters["EyePosition"].SetValue(Camera.Position);
                     effect.Parameters["skyCubeTexture"].SetValue(cube);

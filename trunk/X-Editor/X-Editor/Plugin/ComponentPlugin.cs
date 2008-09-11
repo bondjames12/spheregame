@@ -2,6 +2,7 @@
 using XEngine;
 using System.Windows.Forms;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace X_Editor
 {
@@ -13,6 +14,8 @@ namespace X_Editor
         // This is the type of component this is an importer for. Use "type = typof(COMPONENT);"
         public Type type;
 
+        public string group;
+
         internal XMain X;
 
         public ComponentPlugin(XMain X)
@@ -23,9 +26,8 @@ namespace X_Editor
         // This is called when an item is dragged from the list of components to the viewport. The list view
         // item text should be the components name ("Name" from above), and its tag should be a new instance
         // of the component.
-        public virtual ListViewItem SetupListViewItem(XComponent component)
+        public virtual ListViewItem SetupListViewItem(ListViewItem item, XComponent component)
         {
-            ListViewItem item = new ListViewItem();
             //custom name
             ListViewItem.ListViewSubItem lvtype = new ListViewItem.ListViewSubItem();
             lvtype.Name = "colName";
@@ -73,7 +75,12 @@ namespace X_Editor
         { }
 
         // This is called when the object should load itself from the project XML file
-        public virtual void LoadFromXML(XmlNode node, ListView scene)
+        public virtual void LoadFromXML(XmlNode node, ListView scene,ref Dictionary<uint, List<uint>> Depends)
         { }
+
+        // This is called to hookup any child objects once loading is done
+        public virtual void AssignChildComponents(XComponent parent, ref List<uint> children)
+        { 
+        }
     }
 }

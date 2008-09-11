@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using XEngine;
+using System.Collections.Generic;
 
 namespace X_Editor
 {
@@ -10,14 +11,14 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XEnvironmentParameters);
+            group = "Environment";
         }
 
-        public override ListViewItem SetupListViewItem(XComponent component)
+        public override ListViewItem SetupListViewItem(ListViewItem item, XComponent component)
         {
             XEnvironmentParameters paramaters = new XEnvironmentParameters(X);
             paramaters.Load(X.Content);
-
-            return base.SetupListViewItem(paramaters);
+            return base.SetupListViewItem(item, paramaters);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
@@ -87,13 +88,13 @@ namespace X_Editor
             writer.WriteEndElement();
         }
 
-        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene)
+        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene, ref Dictionary<uint, List<uint>> Depends)
         {
             XTools tools = new XTools(X);
 
             XEnvironmentParameters param = new XEnvironmentParameters(X);
-            param.AutoDraw = node.Attributes["AutoDraw"].InnerText;
-            param.ComponentID = node.Attributes["ComponentID"].InnerText;
+            param.AutoDraw = bool.Parse(node.Attributes["AutoDraw"].InnerText);
+            param.ComponentID = uint.Parse(node.Attributes["ComponentID"].InnerText);
             param.dayFile = node.Attributes["dayFile"].InnerText;
             param.dayToSunsetSharpness = float.Parse(node.Attributes["dayToSunsetSharpness"].InnerText);
             param.DrawOrder = int.Parse(node.Attributes["DrawOrder"].InnerText);
@@ -117,26 +118,7 @@ namespace X_Editor
             if (!string.IsNullOrEmpty(param.DayFile) && !string.IsNullOrEmpty(param.NightFile) && !string.IsNullOrEmpty(param.SunsetFile))
                 param.Load(X.Content);
 
-            //custom name
-            ListViewItem.ListViewSubItem lvtype = new ListViewItem.ListViewSubItem();
-            lvtype.Name = "colName";
-            lvtype.Text = param.Name;
-
-            //id
-            ListViewItem.ListViewSubItem lvid = new ListViewItem.ListViewSubItem();
-            lvid.Name = "colID";
-            lvid.Text = param.ComponentID.ToString();
-
-
-            sceneitem.Text = param.ToString();
-            sceneitem.Name = param.Name;
-            sceneitem.SubItems.Add(lvtype);
-            sceneitem.SubItems.Add(lvid);
-
-            sceneitem.Text = param.Name;
-            sceneitem.Group = scene.Groups["Environment"];
-
-            scene.Items.Add(sceneitem);
+            X_Editor.Tools.AddXComponentToSceneList(scene, param, group);
         }
     }
 }

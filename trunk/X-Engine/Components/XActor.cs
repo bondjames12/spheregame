@@ -165,7 +165,7 @@ namespace XEngine
 
  #endregion
 
-        public XActor(ref XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 ModelOffset, Vector3 Velocity, float Mass)
+        public XActor(ref XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale, Vector3 Velocity, float Mass)
             : base(ref X)
         {
             DrawOrder = 100;
@@ -184,23 +184,23 @@ namespace XEngine
             this.PhysicsObject.PhysicsBody.SetActivityThreshold(5f, 5f);
         }
 
-        public XActor(ref XMain X, XModel model, Vector3 Position, Vector3 ModelOffset, Vector3 Velocity, float Mass)
+        public XActor(ref XMain X, XModel model, Vector3 Position, Vector3 Velocity, float Mass)
             : base(ref X)
         {
             DrawOrder = 100;
+            this.Scale = Vector3.One;
 
             if (model != null)
             {
                 this.model = model;
                 model.Parent = this;
                 this.modelNumber = model.Number;
-            }
-            if (model.Model != null)
-            {
-                RebuildCollisionSkin(Position);
-                this.PhysicsObject.SetMass(Mass);
-                this.PhysicsObject.PhysicsBody.Velocity = Velocity;
-                this.Scale = Vector3.One;
+                if (model.Model != null)
+                {
+                    RebuildCollisionSkin(Position);
+                    this.PhysicsObject.SetMass(Mass);
+                    this.PhysicsObject.PhysicsBody.Velocity = Velocity;
+                }
             }
         }
 

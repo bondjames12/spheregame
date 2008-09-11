@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using XEngine;
+using System.Collections.Generic;
 
 namespace X_Editor
 {
@@ -9,6 +10,7 @@ namespace X_Editor
         public XActor_Plugin(XMain X) : base(X)
         {
             type = typeof(XActor);
+            group = "Actors";
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)
@@ -23,13 +25,13 @@ namespace X_Editor
             }
         }
 
-        public override ListViewItem SetupListViewItem(XComponent component)
+        public override ListViewItem SetupListViewItem(ListViewItem item, XComponent component)
         {
-            XActor actor = new XActor(ref X, new XModel(ref X, null), Vector3.Zero, Vector3.Zero,Vector3.Zero, 1);
+            XActor actor = new XActor(ref X, null, Vector3.Zero,Vector3.Zero, 1);
             actor.NoCull = true;
             actor.Immovable = true;
 
-            return base.SetupListViewItem(actor);
+            return base.SetupListViewItem(item, actor);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
@@ -50,73 +52,61 @@ namespace X_Editor
         {
             XActor actor = (XActor)obj;
             writer.WriteStartElement("sceneitem");
-            //writer.WriteAttributeString("Type", Name);
+            writer.WriteAttributeString("Type", actor.GetType().ToString());
             writer.WriteAttributeString("ComponentID", actor.ComponentID.ToString());
-            //REMOVED: writer.WriteAttributeString("ActorType", actor.Type.ToString());
             writer.WriteAttributeString("AutoDraw", actor.AutoDraw.ToString());
+            writer.WriteAttributeString("Name", actor.Name);
             writer.WriteAttributeString("DrawOrder", actor.DrawOrder.ToString());
             writer.WriteAttributeString("Immovable", actor.Immovable.ToString());
-            writer.WriteAttributeString("Mass", actor.Mass_editor.ToString());
-            writer.WriteAttributeString("ModelNumber", actor.modelNumber.ToString());
-            //writer.WriteAttributeString("ModelOffset", actor.modeloffset.ToString());
+            writer.WriteAttributeString("Mass_editor", actor.Mass_editor.ToString());
+            writer.WriteAttributeString("model_editor", actor.model_editor.ComponentID.ToString());
             writer.WriteAttributeString("Rotation", actor.Rotation.ToString());
-            writer.WriteAttributeString("Position", actor.Translation.ToString());
-            writer.WriteAttributeString("ModelScale", actor.Scale.ToString());
-            //REMOVED: writer.WriteAttributeString("Size", actor.Size.ToString());
+            writer.WriteAttributeString("Translation", actor.Translation.ToString());
+            writer.WriteAttributeString("Scale", actor.Scale.ToString());
             writer.WriteAttributeString("Velocity", actor.Velocity.ToString());
+            writer.WriteAttributeString("CollisionEnabled", actor.CollisionEnabled.ToString());
             writer.WriteEndElement();
         }
 
-        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene)
+        public override void LoadFromXML(System.Xml.XmlNode node, ListView scene, ref Dictionary<uint, List<uint>> Depends)
         {
             XTools tools = new XTools(X);
-
-            XActor actor = new XActor(ref X,new XModel(ref X, null),
-                tools.ParseXMLVector3(node.Attributes["Position"].InnerText),
-                tools.ParseXMLVector3(node.Attributes["ModelOffset"].InnerText),
+            
+            XActor actor = new XActor(ref X, null,
+                tools.ParseXMLVector3(node.Attributes["Translation"].InnerText),
                 tools.ParseXMLVector3(node.Attributes["Velocity"].InnerText),
-                float.Parse(node.Attributes["Mass"].InnerText));
-
+                float.Parse(node.Attributes["Mass_editor"].InnerText));
+            
             actor.AutoDraw = bool.Parse(node.Attributes["AutoDraw"].InnerText);
             actor.DrawOrder = int.Parse(node.Attributes["DrawOrder"].InnerText);
             actor.Immovable = bool.Parse(node.Attributes["Immovable"].InnerText);
-            actor.modelNumber = int.Parse(node.Attributes["ModelNumber"].InnerText);
-            //actor.Rotation = tools.ParseXMLVector3(node.Attributes["Rotation"].InnerText);
-            //actor.ComponentID = int.Parse(node.Attributes["ComponentID"].InnerText);
+            actor.Rotation = tools.ParseXMLQuaternion(node.Attributes["Rotation"].InnerText);
+            actor.ComponentID = uint.Parse(node.Attributes["ComponentID"].InnerText);
+            actor.Name = node.Attributes["Name"].InnerText;
+            actor.Scale = tools.ParseXMLVector3(node.Attributes["Scale"].InnerText);
+            actor.CollisionEnabled = bool.Parse(node.Attributes["CollisionEnabled"].InnerText);
+            
+            List<uint> dep = new List<uint>();
+            dep.Add(uint.Parse(node.Attributes["model_editor"].InnerText));
+            Depends.Add(actor.ComponentID, dep);
 
-            foreach(ListViewItem item in scene.Items)
-                if (item.Tag is XModel)
-                    if (((XModel)item.Tag).Number == actor.modelNumber)
-                    {
-                        actor.model = ((XModel)item.Tag);
-                        if (!string.IsNullOrEmpty(((XModel)item.Tag).Filename))
-                            ((XModel)item.Tag).Load(X.Content);
-                    }
-
-            //ListViewItem sceneitem = new ListViewItem(Name);
-            //sceneitem.Tag = actor;
-            //sceneitem.Group = scene.Groups["Actors"];
-
-            //scene.Items.Add(sceneitem);
+            X_Editor.Tools.AddXComponentToSceneList(scene, actor, group);
              
         }
 
-        /*REMOVED: XActor.ActorType GetActorType(string type)
+        public override void AssignChildComponents(XComponent parent, ref List<uint> children)
         {
-            if (type == "BowlingPin")
-                return XActor.ActorType.BowlingPin;
-            else if (type == "Box")
-                return XActor.ActorType.Box;
-            else if (type == "Capsule")
-                return XActor.ActorType.Capsule;
-            else if (type == "Mesh")
-                return XActor.ActorType.Mesh;
-            else if (type == "Sphere")
-                return XActor.ActorType.Sphere;
-            else if (type == "Plane")
-                return XActor.ActorType.Plane;
+            foreach (uint childID in children)
+            {
+                XComponent child = X.Tools.GetXComponentByID(childID);
+                if (child.GetType() == typeof(XModel))
+                {
+                    ((XActor)parent).model_editor = (XModel)child;
+                    ((XActor)parent).model_editor.Parent = ((XActor)parent);
+                    ((XActor)parent).RebuildCollisionSkin(((XActor)parent).Translation);
+                }
+            }
+        }
 
-            return XActor.ActorType.Box;
-        }*/
     }
 }
