@@ -272,16 +272,6 @@ Global
 		{939F5307-4DD5-4881-A277-0A852E2B5152}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
 		{939F5307-4DD5-4881-A277-0A852E2B5152}.Release|Xbox 360.Build.0 = Release|Xbox 360
 		{939F5307-4DD5-4881-A277-0A852E2B5152}.Release|Zune.ActiveCfg = Release|Xbox 360
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|x86.ActiveCfg = Debug|x86
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|Xbox 360.ActiveCfg = Debug|x86
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|Zune.ActiveCfg = Debug|x86
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|Any CPU.ActiveCfg = Release|x86
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|x86.ActiveCfg = Release|x86
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|Xbox 360.ActiveCfg = Release|x86
-		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|Zune.ActiveCfg = Release|x86
 		{84D92008-2133-4677-8D3A-720B620C0D37}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{84D92008-2133-4677-8D3A-720B620C0D37}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{84D92008-2133-4677-8D3A-720B620C0D37}.Debug|x86.ActiveCfg = Debug|x86
@@ -312,6 +302,16 @@ Global
 		{D2E0E5AA-1ACF-4E6B-B5FF-AB14A89E2CCE}.Release|x86.ActiveCfg = Release|x86
 		{D2E0E5AA-1ACF-4E6B-B5FF-AB14A89E2CCE}.Release|Xbox 360.ActiveCfg = Release|x86
 		{D2E0E5AA-1ACF-4E6B-B5FF-AB14A89E2CCE}.Release|Zune.ActiveCfg = Release|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|x86.ActiveCfg = Debug|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Debug|Zune.ActiveCfg = Debug|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|Any CPU.ActiveCfg = Release|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|x86.ActiveCfg = Release|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|Xbox 360.ActiveCfg = Release|x86
+		{A74A66E2-07E9-4E17-8FD9-80E283C359E8}.Release|Zune.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

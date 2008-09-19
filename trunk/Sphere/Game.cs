@@ -108,6 +108,7 @@ namespace Sphere
             driverCamera = new XFreeLookCamera(ref X, .1f, 1000f);
             chase = new XChaseCamera(ref X, .1f, 1000f);
             currentCamera = chase;
+            X.DefaultCamera = freeCamera;
 
 
             BoundingVolumeRenderer.InitializeBuffers(X.GraphicsDevice, 50);
@@ -149,11 +150,11 @@ namespace Sphere
 
             housemodel = new XModel(ref X, @"Content\Models\captain_modtool");
             resources.AddComponent(housemodel);
-
-            Car = new XCar(ref X, Chassis, Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(-10, 3, 0));
-            resources.AddComponent(Car);
-
+            
             resources.Load();
+
+            Car = new XCar(ref X, Chassis, Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(-10, heightmap.Heights.GetHeight(new Vector3(-10, 3, 0))+5, 0));
+            Car.Load(X.Content);
 
             trees = new XTreeSystem(ref X, @"Content\Images\Treemaps\Level1", heightmap);
             trees.Load(Content);

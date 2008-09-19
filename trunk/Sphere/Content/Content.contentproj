@@ -37,7 +37,7 @@
     </Reference>
     <Reference Include="Softimage.XWImporter, Version=2.0.2908.24481, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Softimage\XSI_6.5_x64\Addons\XNAGSE\Application\References\XNA 2.0\Softimage.XWImporter.dll</HintPath>
+      <HintPath>..\..\Softimage.XWImporter.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -294,11 +294,11 @@
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
     </Compile>
-    <Compile Include="Models\TestBoxModel.xsi">
+    <None Include="Models\TestBoxModel.xsi">
       <Name>TestBoxModel</Name>
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
-    </Compile>
+    </None>
     <Compile Include="Models\grass1.xsi">
       <Name>grass1</Name>
       <Importer>Importer</Importer>
