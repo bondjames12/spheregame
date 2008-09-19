@@ -194,7 +194,7 @@ namespace XEngine
 
         public override void Disable()
         {
-            this.model.Disable();
+            //this.model.Disable();
             base.Disable();
         }
     }

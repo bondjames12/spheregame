@@ -49,6 +49,17 @@ namespace X_Editor
             open.Select();
             open.Focus();
             open.Location = new Point(Location.X + Width / 2 - open.Width / 2, Location.Y + Height / 2 - open.Height / 2);
+
+            Timer tim = new Timer();
+            tim.Interval = 100;
+            tim.Tick += new EventHandler(tim_Tick);
+            tim.Start();
+        }
+
+        void tim_Tick(object sender, EventArgs e)
+        {
+            stripMsg2.Text = "Screen:" + Cursor.Position.ToString() + " Local:" + properties.PointToClient(Cursor.Position).ToString();
+        
         }
         //shortcut methods
         public XComponent GetXComponent(string ID)
@@ -163,8 +174,8 @@ namespace X_Editor
                 {
                     //renderControl1.X.Components.Remove(GetXComponent(scene.SelectedItems[0].SubItems["colID"].Text));
                     XComponent comp = GetXComponent(scene.SelectedItems[0].SubItems["colID"].Text);
-                    renderControl1.X.Components.Remove(comp);
-                    //comp.Disable();
+                    //renderControl1.X.Components.Remove(comp);
+                    comp.Disable();
                     scene.SelectedItems[0].Remove();
                 }
             }
@@ -319,6 +330,15 @@ namespace X_Editor
         {
             properties.SelectedObject = selectedObj;
             tabControl1.SelectTab(1);
+
+            foreach(ListViewItem item in scene.Items)
+            {
+                if (selectedObj.ComponentID.ToString() == item.SubItems["colID"].Text)
+                {
+                    item.Selected = true;
+                }
+            }
+            
         }
 
         private void btnEnablePhysics_Click(object sender, EventArgs e)
@@ -327,6 +347,7 @@ namespace X_Editor
             stripMsg1.Text = "Physics: " + renderControl1.X.UpdatePhysics.ToString();
         }
 
+        
        
     }
 }

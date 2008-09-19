@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Feldthaus.Xna;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -40,10 +39,10 @@ namespace XEngine
             new TreeFile("Pine", "Pine.xml", "PineBark", "PineLeaf")
         };
 
-        public const string treePath = "Content/Trees/";
-        public const string texturePath = "Content/Textures/";
+        public const string treePath = "Content/XEngine/Trees/";
+        public const string texturePath = "Content/XEngine/Textures/";
         XHeightMap heightMap;
-        ParticleCloudSystem cloudSystem;
+        
         string treeMapFile;
         List<Vector3> treeMap;
 
@@ -73,16 +72,14 @@ namespace XEngine
 
         public override void Load(ContentManager Content)
         {
-            // Initialize the particle cloud system for tree leaves!
-            cloudSystem = new ParticleCloudSystem(X.GraphicsDevice, X.Content, null);
-            cloudSystem.Initialize();
+            
 
             generators = new List<TreeGenerator>();
 
             // Create a tree generator for each kind of tree defined above in treeFiles
             for (int i = 0; i < TreeTypes.Length; i++)
             {
-                TreeGenerator generator = new TreeGenerator(X.GraphicsDevice, cloudSystem,X.Content.Load<Effect>("Content/Effects/Lambert"));
+                TreeGenerator generator = new TreeGenerator(X.GraphicsDevice, X.cloudSystem,X.Content.Load<Effect>("Content/Effects/Lambert"));
                 generator.LoadFromFile(treePath + TreeTypes[i].Profile);
 
                 // Set the texture assigned to newly generated trees.
@@ -129,42 +126,27 @@ namespace XEngine
         
         public void GenerateTrees(XCamera Camera)
         {
-            //Init some general vars left till now
-            //Give the projection matrix to the particle cloud system as well not that we have it
-            cloudSystem.Projection = Camera.Projection;
-
             //remove this later, incorp a way to get the same trees each time in my treemap using the color values
             Random rand = new Random();
 
             foreach (Vector3 pos in treeMap)
             {
                 // Generate a tree.
-                TreeModel tree = generators[rand.Next(0,3)].GenerateTreeMesh(rand.Next(), rand.Next(8,12), true, rand.Next(0,2));
-                XTree Xtree = new XTree(ref X, new BoxObject(new Vector3(1,10,1), Matrix.Identity, pos), null, Vector3.Zero, Vector3.Zero,1000);
-                Xtree.Immovable = true;
-                Xtree.tree = tree;
-                // Set the trunk's projection matrix, used in drawing function, static
-                Xtree.tree.Trunk.Projection = Camera.Projection;
-                // Enable/disable leaf sorting
-                Xtree.tree.Leaves.SortingEnabled = false;
-
-                //compute a world matrix from position on treeMap
-                //tested out a scale value that sorta matchs the car we have
-                Xtree.World = Matrix.Identity * Matrix.CreateTranslation(pos);
-
-                //Xtree.boundingBox = tree.boundingBox; //this is only used for frustrum culling , we don't need this line
-                //we do however need to translate the frustrum box to the position of the tree
-                Vector3[] bbcorners = tree.boundingBox.GetCorners();
-                for (int i = 0; i < bbcorners.Length; i++)
-                {
-                    bbcorners[i] = Vector3.Transform(bbcorners[i], Xtree.World);
-                }
-                tree.boundingBox = BoundingBox.CreateFromPoints(bbcorners);
+                XTreeModel treemodel = new XTreeModel(ref X, "Content/XEngine/Trees/Oak.xml", "Content/XEngine/Textures/OakBark", "Content/XEngine/Textures/OakLeaf");
+                treemodel.Load(X.Content);
+                XTree Xtree = new XTree(ref X, treemodel, pos, Vector3.One);
+                Xtree.Load(X.Content);
                 
-
                 //Add to TreeModel list
                 trees.Add(Xtree);
             }
+        }
+
+        public override void Disable()
+        {
+            foreach (XTree tree in trees)
+                tree.Disable();
+            base.Disable();
         }
     
     }

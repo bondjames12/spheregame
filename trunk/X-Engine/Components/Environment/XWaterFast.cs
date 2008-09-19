@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XEngine
 {
-    public class XWaterFast : XComponent, XIDrawable, XIUpdateable
+    public class XWaterFast : XComponent, XIDrawable, XIUpdateable, XITransform
     {
         public struct VertexMultitextured
         {
@@ -46,27 +46,55 @@ namespace XEngine
 
         public Vector3 basePosition;
         private string EnvAsset;
+        
         float bumpHeight = 0.5f;
         Vector2 textureScale = new Vector2(4, 4);
-        Vector2 bumpSpeed = new Vector2(0, .003f);
+        Vector2 bumpSpeed = new Vector2(0, .05f);
         float fresnelBias = .025f;
         float fresnelPower = 1.0f;
         float hdrMultiplier = 1.0f;
-        Color deepWaterColor = Color.Blue;
+        Color deepWaterColor = Color.Black;
         Color shallowWaterColor = Color.SkyBlue;
-        Color reflectionColor = Color.LightBlue;
-        float reflectionAmount = 0.7f;
-        float waterAmount = 0.0f;
-        float waveAmplitude = 0.1f;
-        float waveFrequency = 1.2f;
+        Color reflectionColor = Color.White;
+        float reflectionAmount = 0.5f;
+        float waterAmount = 0f;
+        float waveAmplitude = 0.5f;
+        float waveFrequency = 0.1f;
+
         #endregion
 
         #region Properties
-        public Vector3 Position
+        public string EnvironmentMap
+        {
+            get { return EnvAsset; }
+            set { EnvAsset = value; }
+        }
+
+        public Vector3 Translation
         {
             get { return basePosition; }
             set { basePosition = value; }
         }
+
+        /*public BoundingBox Bounds
+        {
+            get { }
+            set { }
+        }*/
+
+        public Quaternion Rotation
+        {
+            get { return myRotation; }
+            set { myRotation = value; }
+        }
+
+        public Vector3 Scale
+        {
+            get { return myScale; }
+            set { myScale = value; }
+        }
+
+
 
         /// <summary>
         /// Height of water bump texture.
@@ -297,6 +325,8 @@ namespace XEngine
 
         public override void Draw(ref GameTime gameTime, ref XCamera Camera)
         {
+            if (!this.loaded) return;
+
             Matrix World = 
                             Matrix.CreateFromQuaternion(myRotation) *
                             Matrix.CreateTranslation(myPosition) * Matrix.CreateScale(myScale);
@@ -345,7 +375,7 @@ namespace XEngine
 
         public override void Update(ref GameTime gameTime)
         {
-            effect.Parameters["fTime"].SetValue((float)gameTime.TotalRealTime.TotalSeconds);
+            if(this.loaded) effect.Parameters["fTime"].SetValue((float)gameTime.TotalRealTime.TotalSeconds);
         }
     }//end class
 }//end namespace

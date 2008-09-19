@@ -58,6 +58,12 @@ namespace X_Editor
             X.Console.AutoDraw = false;
             X.Debug.StartPosition.Y = 200;
 
+            camera = new XFreeLookCamera(ref X, 0.1f, 1000f);
+            //set the initial position of the camera such that we are looking at the center of the game world (0,0,0)
+            camera.Position = new Vector3(30f, 15f, 40f);
+            //so we look at center add in a rotation (trial and error)
+            camera.Rotate(new Vector3(MathHelper.ToRadians(-10f), MathHelper.ToRadians(40f), 0));
+
             X.LoadContent();
 
             X.Physics.EnableFreezing = true;
@@ -83,12 +89,6 @@ namespace X_Editor
 
         public void SetupBaseComponents()
         {
-            camera = new XFreeLookCamera(ref X,0.1f,1000f);
-            //set the initial position of the camera such that we are looking at the center of the game world (0,0,0)
-            camera.Position = new Vector3(30f, 15f, 40f);
-            //so we look at center add in a rotation (trial and error)
-            camera.Rotate(new Vector3(MathHelper.ToRadians(-10f), MathHelper.ToRadians(40f), 0));
-
             keyboard = new XKeyboard(ref X);
             mouse = new XMouse(ref X);
             mouse.Reset = false;
@@ -148,6 +148,7 @@ namespace X_Editor
 
         public bool hasFocus = false;
         public bool dragdroprelease = false;
+        public bool manipulators = true;
 
         protected override void Draw()
         {
@@ -155,6 +156,8 @@ namespace X_Editor
             GameTime gameTime = new GameTime(time.TotalGameTime.Elapsed, time.ElapsedGameTime.Elapsed, time.TotalGameTime.Elapsed, time.ElapsedGameTime.Elapsed, false);
             time.ElapsedGameTime.Reset();
             time.ElapsedGameTime.Start();
+
+            
 
             if (hasFocus && keyboard != null && mouse != null)
             {
@@ -173,11 +176,13 @@ namespace X_Editor
                     mouse.CurrentPosition = mouse.InitialPosition;
                     mouse.Delta = Vector2.Zero;
                     mouse.Reset = true;
+                    manipulators = false;
                     //Cursor.Hide();
                 }
                 else if (mouse.ButtonReleased(XMouse.Buttons.Left))
                 {
                     mouse.Reset = false;
+                    manipulators = true;
 
                     if (!dragdroprelease)
                         Cursor.Show();
@@ -192,10 +197,12 @@ namespace X_Editor
 
                 if (mouse.ButtonReleased(XMouse.Buttons.Right))
                     ((EditorForm)Tag).RefreshPropertiesTab();
+
+                
             }
 
             X.Update(gameTime);
-            mManipulator.Update();
+            if(manipulators) mManipulator.Update();
 
             X.Renderer.Draw(ref gameTime,ref camera.Base);
             mManipulator.Draw();
