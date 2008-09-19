@@ -388,6 +388,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Particles\Red_100x100.png">
+      <Name>Red_100x100</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Material\" />
     <Folder Include="XSI\Sphere\Pictures\Plant Sprites\" />
   </ItemGroup>
