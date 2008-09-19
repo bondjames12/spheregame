@@ -52,10 +52,12 @@
             this.btnTranslate = new System.Windows.Forms.ToolStripButton();
             this.btnRotate = new System.Windows.Forms.ToolStripButton();
             this.btnScale = new System.Windows.Forms.ToolStripButton();
+            this.btnEnablePhysics = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.stripMsg1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stripMsg2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.renderControl1 = new X_Editor.RenderControl();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -67,8 +69,6 @@
             this.colName = new System.Windows.Forms.ColumnHeader();
             this.colID = new System.Windows.Forms.ColumnHeader();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnEnablePhysics = new System.Windows.Forms.ToolStripButton();
-            this.renderControl1 = new X_Editor.RenderControl();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -233,6 +233,17 @@
             this.btnScale.Text = "toolStripButton1";
             this.btnScale.Click += new System.EventHandler(this.btnScale_Click);
             // 
+            // btnEnablePhysics
+            // 
+            this.btnEnablePhysics.CheckOnClick = true;
+            this.btnEnablePhysics.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnEnablePhysics.Image = ((System.Drawing.Image)(resources.GetObject("btnEnablePhysics.Image")));
+            this.btnEnablePhysics.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnEnablePhysics.Name = "btnEnablePhysics";
+            this.btnEnablePhysics.Size = new System.Drawing.Size(23, 22);
+            this.btnEnablePhysics.Text = "Enable Physics";
+            this.btnEnablePhysics.Click += new System.EventHandler(this.btnEnablePhysics_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -272,9 +283,24 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(843, 509);
-            this.splitContainer1.SplitterDistance = 594;
+            this.splitContainer1.SplitterDistance = 597;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // renderControl1
+            // 
+            this.renderControl1.AllowDrop = true;
+            this.renderControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renderControl1.Location = new System.Drawing.Point(0, 0);
+            this.renderControl1.Name = "renderControl1";
+            this.renderControl1.Size = new System.Drawing.Size(597, 509);
+            this.renderControl1.TabIndex = 0;
+            this.renderControl1.Text = "renderControl1";
+            this.renderControl1.MouseLeave += new System.EventHandler(this.renderControl1_MouseLeave);
+            this.renderControl1.OnSelectedComponentChange += new X_Editor.RenderControl.SelectedComponentChange(this.renderControl1_OnSelectedComponentChange);
+            this.renderControl1.DragDrop += new System.Windows.Forms.DragEventHandler(this.renderControl1_DragDrop);
+            this.renderControl1.DragEnter += new System.Windows.Forms.DragEventHandler(this.renderControl1_DragEnter);
+            this.renderControl1.MouseEnter += new System.EventHandler(this.renderControl1_MouseEnter);
             // 
             // splitContainer2
             // 
@@ -291,7 +317,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.scene);
             this.splitContainer2.Panel2.Controls.Add(this.label1);
-            this.splitContainer2.Size = new System.Drawing.Size(246, 509);
+            this.splitContainer2.Size = new System.Drawing.Size(243, 509);
             this.splitContainer2.SplitterDistance = 313;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -303,7 +329,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(246, 313);
+            this.tabControl1.Size = new System.Drawing.Size(243, 313);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -313,7 +339,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(238, 287);
+            this.tabPage1.Size = new System.Drawing.Size(235, 287);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Components";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -328,7 +354,7 @@
             treeNode1.Text = "X-Engine Components";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeView1.Size = new System.Drawing.Size(232, 281);
+            this.treeView1.Size = new System.Drawing.Size(229, 281);
             this.treeView1.TabIndex = 0;
             this.treeView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView1_DragEnter);
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
@@ -340,7 +366,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(238, 287);
+            this.tabPage2.Size = new System.Drawing.Size(235, 287);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Properties";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -352,7 +378,7 @@
             this.properties.Location = new System.Drawing.Point(3, 3);
             this.properties.Name = "properties";
             this.properties.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.properties.Size = new System.Drawing.Size(232, 281);
+            this.properties.Size = new System.Drawing.Size(229, 281);
             this.properties.TabIndex = 0;
             this.properties.DragDrop += new System.Windows.Forms.DragEventHandler(this.properties_DragDrop);
             this.properties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.properties_PropertyValueChanged);
@@ -387,7 +413,7 @@
             this.scene.Location = new System.Drawing.Point(4, 16);
             this.scene.MultiSelect = false;
             this.scene.Name = "scene";
-            this.scene.Size = new System.Drawing.Size(235, 176);
+            this.scene.Size = new System.Drawing.Size(232, 176);
             this.scene.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.scene.TabIndex = 0;
             this.scene.TileSize = new System.Drawing.Size(100, 16);
@@ -420,32 +446,6 @@
             this.label1.Size = new System.Drawing.Size(137, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Current Scene Components";
-            // 
-            // btnEnablePhysics
-            // 
-            this.btnEnablePhysics.CheckOnClick = true;
-            this.btnEnablePhysics.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnEnablePhysics.Image = ((System.Drawing.Image)(resources.GetObject("btnEnablePhysics.Image")));
-            this.btnEnablePhysics.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnEnablePhysics.Name = "btnEnablePhysics";
-            this.btnEnablePhysics.Size = new System.Drawing.Size(23, 22);
-            this.btnEnablePhysics.Text = "Enable Physics";
-            this.btnEnablePhysics.Click += new System.EventHandler(this.btnEnablePhysics_Click);
-            // 
-            // renderControl1
-            // 
-            this.renderControl1.AllowDrop = true;
-            this.renderControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renderControl1.Location = new System.Drawing.Point(0, 0);
-            this.renderControl1.Name = "renderControl1";
-            this.renderControl1.Size = new System.Drawing.Size(594, 509);
-            this.renderControl1.TabIndex = 0;
-            this.renderControl1.Text = "renderControl1";
-            this.renderControl1.MouseLeave += new System.EventHandler(this.renderControl1_MouseLeave);
-            this.renderControl1.OnSelectedComponentChange += new X_Editor.RenderControl.SelectedComponentChange(this.renderControl1_OnSelectedComponentChange);
-            this.renderControl1.DragDrop += new System.Windows.Forms.DragEventHandler(this.renderControl1_DragDrop);
-            this.renderControl1.DragEnter += new System.Windows.Forms.DragEventHandler(this.renderControl1_DragEnter);
-            this.renderControl1.MouseEnter += new System.EventHandler(this.renderControl1_MouseEnter);
             // 
             // EditorForm
             // 

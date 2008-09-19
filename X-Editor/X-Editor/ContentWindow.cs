@@ -281,6 +281,17 @@ namespace X_Editor
             return Filename;
         }
 
+        public string GenerateFullPathFilename()
+        {
+            string Filename = "\\" + Name;
+            if (Parent is ContentFolder)
+                Filename = ((ContentFolder)Parent).GenerateFilename() + Filename;
+            else
+                Filename = ((ContentFolder)((ContentItem)Parent).Parent).GenerateFilename() + Filename;
+
+            return window.editor.ProjectDirectory + "\\Game" + Filename;
+        }
+
         public void Delete()
         {
             foreach (ContentItem item in Dependencies)

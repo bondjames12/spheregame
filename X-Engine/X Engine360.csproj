@@ -183,10 +183,6 @@
       <Project>{2344e0e4-7fb1-480c-b374-7f95a40fc554}</Project>
       <Name>JigLibX360</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Trees\Trees360.csproj">
-      <Project>{EA489419-E1BE-4AEA-838B-74AA4ACC98DE}</Project>
-      <Name>Trees360</Name>
-    </ProjectReference>
     <ProjectReference Include="..\XSIXNARuntime\XSIXNARuntime360.csproj">
       <Project>{927FFC95-1D05-44CE-A9DA-A057659028F6}</Project>
       <Name>XSIXNARuntime360</Name>

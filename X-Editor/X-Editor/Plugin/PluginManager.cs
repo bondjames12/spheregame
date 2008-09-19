@@ -89,8 +89,11 @@ namespace X_Editor
             Plugins.Add(new XActor_Plugin(X));
             Plugins.Add(new XProp_Plugin(X));
             Plugins.Add(new XCamera_Plugin(X));
+            Plugins.Add(new XTree_Plugin(X));
             Plugins.Add(new XTreeSystem_Plugin(X));
             Plugins.Add(new XSkyBox_Plugin(X));
+            Plugins.Add(new XWaterFast_Plugin(X));
+            Plugins.Add(new XTreeModel_Plugin(X));
 
             // Add any custom plugins for custom components here
         }

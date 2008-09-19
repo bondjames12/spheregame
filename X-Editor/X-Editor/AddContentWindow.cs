@@ -95,7 +95,7 @@ namespace X_Editor
             }
             else
             {
-                //System.IO.File.Copy(filename.Text, window.editor.ProjectDirectory + "\\Game" + folder.GenerateFilename() + "\\" + System.IO.Path.GetFileName(filename.Text));
+                System.IO.File.Copy(filename.Text, window.editor.ProjectDirectory + "\\Game" + folder.GenerateFilename() + "\\" + System.IO.Path.GetFileName(filename.Text));
                 window.AddContentItem(System.IO.Path.GetFileName(filename.Text), null, false, null);
                 Close();
             }

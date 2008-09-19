@@ -101,7 +101,7 @@ namespace XEngine
             this.componentID = X.Tools.GeneratorNewID();
             this.X = X;
             X.Components.Add(this);
-            this.Name = this.ToString() + this.componentID.ToString();
+            this.Name = this.ToString().Replace("XEngine.","") + this.componentID.ToString();
             //sort X.Components list according to Draworder
             X.Components.Sort();
         }

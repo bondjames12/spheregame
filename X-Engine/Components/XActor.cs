@@ -14,9 +14,15 @@ namespace XEngine
 
         //not used yet
         //public Vector3 modeloffset;
+        protected Vector3 scale;
+        Vector3 velocity;
+        float mass;
+        bool immovable;
+        Quaternion rotation;
+        protected Vector3 translation;
+        bool collisionenabled;
         
         #region Editor Properties
-
 
         //Some of these are still used by the engine and should be copied, renamed with _editor and the null checking taken off for speed
         public XPhysicsObject PhysicsObject_editor
@@ -34,8 +40,8 @@ namespace XEngine
         public int PhysicsID { get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.ID; else return 0; } }
 
         public BoundingBox Bounds
-        { 
-            get 
+        {
+            get
             {
                 if (PhysicsObject != null)
                 {
@@ -64,6 +70,7 @@ namespace XEngine
             }
             set
             {
+                translation = value;
                 if (PhysicsObject != null)
                     PhysicsObject.PhysicsBody.MoveTo(value, Matrix.Identity);
                 else ;
@@ -73,7 +80,7 @@ namespace XEngine
         public Quaternion Rotation
         {
             get { if (PhysicsObject != null) return Quaternion.CreateFromRotationMatrix(PhysicsObject.PhysicsBody.Orientation); else return Quaternion.Identity; }
-            set { if (PhysicsObject != null) PhysicsObject.PhysicsBody.Orientation = Matrix.CreateFromQuaternion(value); else ; }
+            set { rotation = value;  if (PhysicsObject != null) PhysicsObject.PhysicsBody.Orientation = Matrix.CreateFromQuaternion(value); else ; }
         }
 
 
@@ -93,53 +100,31 @@ namespace XEngine
             }
         }
 
-        /*public Vector3 Position
-        {
-            get
-            {
-                if (PhysicsObject != null)
-                    return PhysicsObject.PhysicsBody.Position;
-                else
-                    return Vector3.Zero;
-            }
-            set
-            {
-                if (PhysicsObject != null)
-                    PhysicsObject.PhysicsBody.MoveTo(value, Matrix.Identity);
-                else ;
-            }
-        }*/
-
         public bool Immovable
         {
             get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.Immovable; else return true; }
-            set { if (PhysicsObject != null) PhysicsObject.PhysicsBody.Immovable = value; else ; }
+            set { immovable = value; if (PhysicsObject != null) PhysicsObject.PhysicsBody.Immovable = value; else ; }
         }
-
-        /*public Matrix Orientation 
-        {
-            get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.Orientation; else return Matrix.Identity; }
-            set { if (PhysicsObject != null) PhysicsObject.PhysicsBody.Orientation = value; else ; }
-        }*/
 
         public Vector3 Velocity
         {
             get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.Velocity; else return Vector3.Zero; }
-            set { if (PhysicsObject != null) PhysicsObject.PhysicsBody.Velocity = value; else ; }
+            set { velocity = value; if (PhysicsObject != null) PhysicsObject.PhysicsBody.Velocity = value; else ; }
         }
 
         public Vector3 Scale
         {
             get { if (PhysicsObject != null) return PhysicsObject.scale; else return Vector3.One; }
-            set { if (PhysicsObject != null) PhysicsObject.scale = value; else ; }
+            set { scale = value; if (PhysicsObject != null) PhysicsObject.scale = value; else ; }
         }
 
         
-        public float Mass_editor
+        public float Mass
         {
             get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.Mass; else return 0; }
             set 
             {
+                mass = value;
                 if (PhysicsObject != null)
                 {
                     PhysicsObject.SetMass(value);
@@ -148,14 +133,14 @@ namespace XEngine
             }
         }
 
-        bool collisionenabled = true;
+        
         public bool CollisionEnabled
         {
             set 
             {
+                collisionenabled = value;
                 if (PhysicsObject != null)
                 {
-                    collisionenabled = value;
                     if (value) PhysicsObject.PhysicsBody.EnableBody(); else PhysicsObject.PhysicsBody.DisableBody();
                 }
                 else ;
@@ -197,18 +182,35 @@ namespace XEngine
                 this.modelNumber = model.Number;
                 if (model.Model != null)
                 {
-                    RebuildCollisionSkin(Position);
+                    RebuildCollisionSkin();
                     this.PhysicsObject.SetMass(Mass);
                     this.PhysicsObject.PhysicsBody.Velocity = Velocity;
                 }
             }
+            this.Translation = Position;
+            this.Velocity = Velocity;
+            this.Mass = Mass;
         }
 
-        public void RebuildCollisionSkin(Vector3 position)
+        public void RebuildCollisionSkin()
         {
             this.PhysicsObject = new XSIBoneMapObject(Vector3.Zero, ref model);
             this.PhysicsObject.PhysicsBody.SetDeactivationTime(0.1f);
             this.PhysicsObject.PhysicsBody.SetActivityThreshold(5f, 5f);
+
+            //set a bunch of parameters that require a physics object
+            PhysicsObject.PhysicsBody.MoveTo(translation, Matrix.Identity);
+            PhysicsObject.PhysicsBody.Orientation = Matrix.CreateFromQuaternion(rotation);
+            PhysicsObject.PhysicsBody.Immovable = immovable;
+            PhysicsObject.PhysicsBody.Velocity = velocity;
+            PhysicsObject.scale = scale;
+            PhysicsObject.SetMass(mass);
+            
+            if (collisionenabled)
+                PhysicsObject.PhysicsBody.EnableBody();
+            else
+                PhysicsObject.PhysicsBody.DisableBody();
+
         }
 
         public Matrix GetWorldMatrix()
@@ -321,7 +323,7 @@ namespace XEngine
         public override void Disable()
         {
             if (PhysicsObject != null) PhysicsObject.PhysicsBody.DisableBody();
-            this.model.Disable();
+            //this.model.Disable(); //breaks editor component removal
             base.Disable();
         }
     }

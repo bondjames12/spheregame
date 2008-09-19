@@ -140,6 +140,26 @@ namespace XEngine
                 return Quaternion.Identity;
         }
 
+        /// <param name="Input">Format: {R:# G:# B:# A:#}</param>
+        public Color ParseXMLColor(string Input)
+        {
+            Input = Input.Replace("{", "");
+            Input = Input.Replace("}", "");
+            Input = Input.Replace(":", "");
+            Input = Input.Replace("R", "");
+            Input = Input.Replace("G", "");
+            Input = Input.Replace("B", "");
+            Input = Input.Replace("A", "");
+            Input = Input.Replace(" ", ",");
+
+            string[] values = Input.Split(',');
+
+            if (values.Length == 4)
+                return new Color(byte.Parse(values[0]), byte.Parse(values[1]), byte.Parse(values[2]), byte.Parse(values[3]));
+            else
+                return Color.Black;
+        }
+
         /// <param name="Input">Format: (X, Y, Z)</param>
         public Vector3 ParseVector3(string Input)
         {

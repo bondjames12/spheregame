@@ -35,6 +35,7 @@ namespace XEngine
         public GraphicsDevice GraphicsDevice;
         public IServiceProvider Services;
         public XCamera DefaultCamera;
+        public ParticleCloudSystem cloudSystem;
 
         public XMain(GraphicsDevice GraphicsDevice,IServiceProvider Services, string ContentRootDir, XCamera defaultCamera)
         {
@@ -70,6 +71,8 @@ namespace XEngine
             Renderer = new XRenderer(this);
 
             this.DefaultCamera = defaultCamera;
+            // Initialize the particle cloud system for tree leaves!
+            cloudSystem = new ParticleCloudSystem(GraphicsDevice, Content, "Content/XEngine/Effects/ParticleCloud");
         }
 
         public void LoadContent()
@@ -80,6 +83,9 @@ namespace XEngine
             DebugDrawer.Load(Content);
             Environment.Load(Content);
             Renderer.Load(Content);
+
+            cloudSystem.Initialize();
+            if(DefaultCamera != null) cloudSystem.Projection = DefaultCamera.Projection;
 
             GC.Collect();
         }
