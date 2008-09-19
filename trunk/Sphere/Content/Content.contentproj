@@ -271,6 +271,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\ColorTranparency.fx">
+      <Name>ColorTranparency</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <None Include="Effects\Constant_NoTexture.fx">
       <Name>Constant_NoTexture</Name>
       <Importer>EffectImporter</Importer>
@@ -308,6 +313,11 @@
       <Name>Island1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Effects\Glass.fx">
+      <Name>Glass</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
     </Compile>
     <None Include="Textures\default_ambocc_map.png">
       <Name>default_ambocc_map</Name>
