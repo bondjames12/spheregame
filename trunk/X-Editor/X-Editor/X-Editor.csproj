@@ -50,7 +50,7 @@
     <Reference Include="Microsoft.Xna.Framework.Game, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL" />
     <Reference Include="Softimage.XWImporter, Version=2.0.2908.24481, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Softimage\XSI_6.5_x64\Addons\XNAGSE\Application\References\XNA 2.0\Softimage.XWImporter.dll</HintPath>
+      <HintPath>..\..\Softimage.XWImporter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -58,10 +58,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="XSIXNARuntime, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Softimage\XSI_6.5_x64\Addons\XNAGSE\Application\References\XNA 2.0\XSIXNARuntime.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddContentWindow.cs">
