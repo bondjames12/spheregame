@@ -90,6 +90,7 @@
     <Content Include="Notes\Creating Great XBL Community Games Notes.htm" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <Content Include="Notes\Todo.txt" />
     <Content Include="Notes\Xbox How to optimize preformance.txt" />
     <Content Include="Notes\XNA and XSI integration Notes.txt" />
   </ItemGroup>

@@ -26,23 +26,38 @@ namespace XEngine
             }
             set
             {
-                if (Animations.Count > 0)
+                //must be loaded first before we can set this
+                _AnimationIndex = value;
+                if (loaded)
                 {
-                    _AnimationIndex = value;
-                    if (_AnimationIndex < 0)
-                        _AnimationIndex = Animations.Count - 1;
-                    if (_AnimationIndex >= Animations.Count)
-                        _AnimationIndex = 0;
-                    _Blending = 0.0f;
+                    if (Animations.Count > 0)
+                    {
+                        if (_AnimationIndex < 0)
+                            _AnimationIndex = Animations.Count - 1;
+                        if (_AnimationIndex >= Animations.Count)
+                            _AnimationIndex = 0;
+                        _Blending = 0.0f;
+                    }
                 }
             }
         }
 
-        public XAnimatedActor(ref XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale,
+        public XAnimatedActor(ref XMain X, XModel model, Vector3 Position,
                                     Vector3 Velocity, float Mass) :
-                base(ref X, Object, model,ModelScale, Velocity, Mass)
+                base(ref X, model, Position, Velocity, Mass)
         {
-            model.Parent = this;
+            if(model != null) model.Parent = this;
+            _AnimationIndex = 0;
+            _OldAnimationIndex = 0;
+            _Blending = 1.0f;
+        }
+
+        public XAnimatedActor(ref XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale,
+                                    Vector3 Velocity, float Mass)
+            :
+                base(ref X, Object, model, ModelScale, Velocity, Mass)
+        {
+            if (model != null) model.Parent = this;
             _AnimationIndex = 0;
             _OldAnimationIndex = 0;
             _Blending = 1.0f;
@@ -140,12 +155,12 @@ namespace XEngine
 
                 //Lighting?????
                 //update lighting information for shaders, apply global lighting environment params
-                model.SASData.AmbientLights.Clear();
-                model.SASData.PointLights.Clear();
-                model.SASData.AmbientLights.Add(new XSISASAmbientLight(X.Environment.LightColorAmbient));
-                model.SASData.PointLights.Add(new XSISASPointLight(X.Environment.LightColor, -X.Environment.LightDirection*100, 10000));
+                //model.SASData.AmbientLights.Clear();
+                //model.SASData.PointLights.Clear();
+                //model.SASData.AmbientLights.Add(new XSISASAmbientLight(X.Environment.LightColorAmbient));
+                //model.SASData.PointLights.Add(new XSISASPointLight(X.Environment.LightColor, -X.Environment.LightDirection*100, 10000));
 
-                //model.InitDefaultSASLighting();
+                model.InitDefaultSASLighting();
 
 
             if (DebugMode)

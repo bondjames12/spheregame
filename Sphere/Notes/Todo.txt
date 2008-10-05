@@ -1,0 +1,7 @@
+-camera scripting system for scripting camera movement??????
+-volume based triggers
+-sound system
+-script triggered effects
+	-explosions
+	-area physics effects (area forces)
+	-

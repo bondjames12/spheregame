@@ -47,7 +47,7 @@ namespace XEngine
         {
             return false;
         }
-    }
+    }//end class XTriggerVolume
 
     public class TriggerVolumeEventArgs : EventArgs { }
 

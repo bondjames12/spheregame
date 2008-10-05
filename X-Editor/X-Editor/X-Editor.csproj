@@ -102,6 +102,8 @@
     </Compile>
     <Compile Include="Plugin\ComponentPlugin.cs" />
     <Compile Include="Plugin\PluginManager.cs" />
+    <Compile Include="Plugin\Plugins\XAnimatedActor_Plugin.cs" />
+    <Compile Include="Plugin\Plugins\XCubeTriggerVolume_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XTreeModel_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XTree_Plugin.cs" />
     <Compile Include="Plugin\Plugins\XWaterFast_Plugin.cs" />

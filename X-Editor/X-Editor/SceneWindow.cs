@@ -23,10 +23,20 @@ namespace X_Editor
 
         public void AddScene(object sender, EventArgs e, bool CreateFile)
         {
-            NumScenes++;
-            Scene scene = new Scene("NewScene" + NumScenes, this, CreateFile);
+            CheckSceneFile();
+            Scene scene = new Scene("NewScene" + NumScenes.ToString(), this, CreateFile);
             scene.Item.BeginEdit();
             scene.Edit(false);
+        }
+
+        private void CheckSceneFile()
+        {
+            //check for a scene with this name
+            if (System.IO.File.Exists(this.editor.ProjectDirectory + @"\Game\Scenes\NewScene" + NumScenes.ToString() + ".xml"))
+            {
+                NumScenes++;
+                CheckSceneFile();
+            }
         }
 
         private void SceneWindow_FormClosing(object sender, FormClosingEventArgs e)
