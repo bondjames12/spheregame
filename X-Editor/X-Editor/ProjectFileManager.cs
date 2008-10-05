@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using System.Xml;
-using System.Windows.Forms;
-using XEngine;
 
 namespace X_Editor
 {
     public class ProjectFileManager
     {
-        EditorForm editor;
+        readonly EditorForm editor;
 
         public ProjectFileManager(EditorForm editor)
         {

@@ -34,10 +34,24 @@ namespace XEngine
 
         public override void Load(ContentManager Content)
         {
-            base.Load(Content);
+            //Attempt to load the asset from filesystem
             this.Model = Content.Load<Model>(Filename);
+            //if loaded then generate a bounding box
             if (this.Model != null)
                 boundingBox = X.Tools.CreateBoundingBox(this.Model);
+            //look for any animated textures
+            /*foreach (ModelMesh mesh in Model.Meshes)
+            {
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    foreach(EffectParameter para in part.Effect)
+                    {
+                        para.
+                    }
+                }
+            }*/
+
+    base.Load(Content);
         }
 
         public void InitDefaultSASLighting()

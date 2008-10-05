@@ -85,7 +85,7 @@ namespace XEngine
             {
                 this.model = model;
                 model.Parent = this;
-                this.modelNumber = model.Number;
+                modelNumber = model.Number;
                 //if its not loaded try and load!
                 //if (!model.loaded) model.Load(X.Content);
             }
