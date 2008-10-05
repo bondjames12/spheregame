@@ -8,7 +8,7 @@ namespace X_Editor
     public class ComponentPluginManager
     {
         public List<ComponentPlugin> Plugins = new List<ComponentPlugin>();
-        public Dictionary<uint, List<uint>> Depends = new Dictionary<uint, List<uint>>();
+        public Dictionary<uint, List<uint>> Depends;
 
 
         public ListViewItem SetUpListViewItem(string Type, ListView Scene)
@@ -47,6 +47,8 @@ namespace X_Editor
 
         public void LoadFromXML(XmlNodeList scenenode, ListView scene)
         {
+            Depends = new Dictionary<uint, List<uint>>();
+
             foreach(XmlNode node in scenenode)
                 foreach (ComponentPlugin plugin in Plugins)
                     if (plugin.type.ToString() == node.Attributes["Type"].InnerText)
@@ -94,6 +96,8 @@ namespace X_Editor
             Plugins.Add(new XSkyBox_Plugin(X));
             Plugins.Add(new XWaterFast_Plugin(X));
             Plugins.Add(new XTreeModel_Plugin(X));
+            Plugins.Add(new XCubeTriggerVolume_Plugin(X));
+            Plugins.Add(new XAnimatedActor_Plugin(X));
 
             // Add any custom plugins for custom components here
         }
