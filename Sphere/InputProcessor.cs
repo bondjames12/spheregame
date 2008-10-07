@@ -272,8 +272,10 @@ namespace Sphere
 
             if(keyboard.KeyPressed(Keys.F10))
             {
-                XTextureGenerator texGen = new XTextureGenerator(ref X);
-                texGen.GetMandelBrot(new Vector2(0.25f, 0),3);
+   
+
+                //XTextureGenerator texGen = new XTextureGenerator(ref X);
+                //texGen.GetMandelBrot(new Vector2(0.25f, 0),3);
 
                 /*
                 if (pad.Buttons.A == ButtonState.Pressed)

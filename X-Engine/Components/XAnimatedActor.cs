@@ -188,9 +188,9 @@ namespace XEngine
                 //Relative to world origin, move to position on mesh(mesh.ParentBone.Transform) then to position on world(World)!
                 model.SASData.Model = mesh.ParentBone.Transform * World;
                 model.SASData.ComputeModel();
-                
-                foreach (Effect effect in mesh.Effects)
+                for(int j = 0; j < mesh.Effects.Count; j++)
                 {
+                    Effect effect = mesh.Effects[j];
                     if (effect.GetType() == typeof(BasicEffect))
                     {
                         BasicEffect basiceffect = (BasicEffect)effect;
@@ -207,7 +207,29 @@ namespace XEngine
 
                         // bind SAS shader parameters
                         foreach (EffectParameter Parameter in effect.Parameters)
+                        {
+                            if (Parameter.ParameterType == EffectParameterType.String)
+                            {
+                                if (Parameter.Name.Contains("AnimationFileName"))
+                                {
+                                    string animfilename = Parameter.GetValueString();
+                                    if (!string.IsNullOrEmpty(animfilename))
+                                    {
+                                        //there is an animated texture here
+                                        foreach (EffectAnnotation anno in Parameter.Annotations)
+                                        {
+                                            if (anno.Name.Contains("AnimatedMap"))
+                                            {
+                                                effect.Parameters[anno.GetValueString()].SetValue(
+                                                    model.Giftextures[j].GetTexture());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             model.SASData.SetEffectParameterValue(Parameter);
+                        }
+                            
                         
                         // bind bones to shader
                         if (isSkinned)

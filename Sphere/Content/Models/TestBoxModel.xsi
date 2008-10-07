@@ -3,8 +3,8 @@ xsi 0600txt 0032
 SI_FileInfo { 
 	"Sphere", 
 	"Colin", 
-	"Wed Aug 20 03:36:26 2008", 
-	"Softimage|XSI version 6", 
+	"Tue Oct 07 04:51:57 2008", 
+	"Softimage|XSI version 6.5.2007.0829", 
 }
 
 SI_Scene { 
@@ -35,83 +35,6 @@ SI_Ambience {
 
 SI_MaterialLibrary DefaultLib { 
 	2, 
-	XSI_Material Scene_Material { 
-		3, 
-		"surface","Phong",
-		"shadow","Phong",
-		"Photon","Phong",
-		XSI_MaterialInfo { 
-			0, 
-			0, 
-		}
-
-		XSI_Shader Phong { 
-			"Softimage.material-phong.1", 
-			4, 
-			58, 
-			0, 
-			"Name","STRING","Phong",
-			"ambient.red","FLOAT",0.300000,
-			"ambient.green","FLOAT",0.300000,
-			"ambient.blue","FLOAT",0.300000,
-			"ambient.alpha","FLOAT",0.000000,
-			"diffuse.red","FLOAT",0.700000,
-			"diffuse.green","FLOAT",0.700000,
-			"diffuse.blue","FLOAT",0.700000,
-			"diffuse.alpha","FLOAT",0.000000,
-			"specular.red","FLOAT",1.000000,
-			"specular.green","FLOAT",1.000000,
-			"specular.blue","FLOAT",1.000000,
-			"specular.alpha","FLOAT",0.000000,
-			"ambience.red","FLOAT",0.200000,
-			"ambience.green","FLOAT",0.200000,
-			"ambience.blue","FLOAT",0.200000,
-			"ambience.alpha","FLOAT",1.000000,
-			"shiny","FLOAT",50.000000,
-			"transparency.red","FLOAT",0.000000,
-			"transparency.green","FLOAT",0.000000,
-			"transparency.blue","FLOAT",0.000000,
-			"transparency.alpha","FLOAT",0.000000,
-			"trans_glossy","FLOAT",0.000000,
-			"transparent_samples","INTEGER",0,
-			"reflectivity.red","FLOAT",0.000000,
-			"reflectivity.green","FLOAT",0.000000,
-			"reflectivity.blue","FLOAT",0.000000,
-			"reflectivity.alpha","FLOAT",0.000000,
-			"reflect_glossy","FLOAT",0.000000,
-			"reflect_samples","INTEGER",0,
-			"index_of_refraction","FLOAT",1.000000,
-			"translucency","FLOAT",0.000000,
-			"incandescence.red","FLOAT",1.000000,
-			"incandescence.green","FLOAT",1.000000,
-			"incandescence.blue","FLOAT",1.000000,
-			"incandescence.alpha","FLOAT",0.000000,
-			"inc_inten","FLOAT",0.000000,
-			"bump.x","FLOAT",0.000000,
-			"bump.y","FLOAT",0.000000,
-			"bump.z","FLOAT",0.000000,
-			"notrace","BOOLEAN",0,
-			"diffuse_inuse","BOOLEAN",1,
-			"specular_inuse","BOOLEAN",1,
-			"reflect_inuse","BOOLEAN",1,
-			"refract_inuse","BOOLEAN",1,
-			"incand_inuse","BOOLEAN",1,
-			"translucent_inuse","BOOLEAN",1,
-			"radiance.red","FLOAT",1.000000,
-			"radiance.green","FLOAT",1.000000,
-			"radiance.blue","FLOAT",1.000000,
-			"radiance.alpha","FLOAT",1.000000,
-			"radiance_filter","BOOLEAN",1,
-			"scaletrans","FLOAT",1.000000,
-			"inverttrans","BOOLEAN",0,
-			"usealphatrans","BOOLEAN",0,
-			"scalerefl","FLOAT",1.000000,
-			"invertrefl","BOOLEAN",0,
-			"usealpharefl","BOOLEAN",0,
-		}
-
-	}
-
 	XSI_Material Lambert { 
 		1, 
 		"RealTime","Lambert",
@@ -123,35 +46,38 @@ SI_MaterialLibrary DefaultLib {
 		XSI_Shader Lambert { 
 			"Softimage.DXFx2.1", 
 			16, 
-			10, 
+			9, 
 			3, 
 			"Name","STRING","Lambert",
-			"filename","STRING","..\\Effects\\Lambert.fx",
-			"code","STRING","",
+			"filename","STRING","C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Effects\\Lambert.fx",
 			"code2","STRING","",
 			"external_ref","BOOLEAN",1,
 			"nb_textures","INTEGER",3,
 			"refresh_flag","INTEGER",0,
-			"tspace_id_0","STRING","Texture_Projection",
+			"tspace_id_0","STRING","",
 			"tspace_id_1","STRING","",
 			"tspace_id_2","STRING","",
-			"Texture_0","face_jpg","IMAGE",
+			"Texture_0","default_ambocc_map_png","IMAGE",
 			"Texture_1","default_surface_map_png","IMAGE",
 			"Texture_2","default_normal_map_png","IMAGE",
 			XSI_CustomPSet DirectXFX_Parameters { 
 				"NODE", 
 				"customparamset", 
-				10,
-				"Technique","Text","DepthMapStatic", 
-				"AmbientColor_X","Floating Point Number",0.300000, 
-				"AmbientColor_Y","Floating Point Number",0.300000, 
-				"AmbientColor_Z","Floating Point Number",0.300000, 
-				"DiffuseColor_X","Floating Point Number",0.700000, 
-				"DiffuseColor_Y","Floating Point Number",0.700000, 
-				"DiffuseColor_Z","Floating Point Number",0.700000, 
+				14,
+				"Technique","Text","Static", 
+				"AmbientColor_X","Floating Point Number",0.898000, 
+				"AmbientColor_Y","Floating Point Number",0.898000, 
+				"AmbientColor_Z","Floating Point Number",0.898000, 
+				"DiffuseColor_X","Floating Point Number",0.000000, 
+				"DiffuseColor_Y","Floating Point Number",0.000000, 
+				"DiffuseColor_Z","Floating Point Number",0.000000, 
 				"AmbientMap","Text","[sampler2D]", 
 				"AlbedoMap","Text","[sampler2D]", 
 				"NormalMap","Text","[sampler2D]", 
+				"test","Text","test", 
+				"AnimationFileName","Text","Content\\Textures\\Simple.gif", 
+				"AnimationFileName1","Text","Content\\Textures\\Simple.gif", 
+				"AnimationFileName_0","Text","Content\\Textures\\Simple.gif", 
 				XSI_CustomParamInfo AmbientColor_X { 
 					-3.40282e+038,
 					3.40282e+038,
@@ -193,7 +119,200 @@ SI_MaterialLibrary DefaultLib {
 			XSI_ShaderInstanceData { 
 				"Mesh", 
 				1, 
-				"tspace_id_0","STRING","Texture_Projection",
+				"tspace_id_0","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_0","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_0","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_0","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_0","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_0","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_1","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_1","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_1","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_1","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_1","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_1","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_2","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_2","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_2","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_2","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_2","STRING","",
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_2","STRING","",
+			}
+
+		}
+
+	}
+
+	XSI_Material Lambert1 { 
+		1, 
+		"RealTime","Lambert",
+		XSI_MaterialInfo { 
+			0, 
+			0, 
+		}
+
+		XSI_Shader Lambert { 
+			"Softimage.DXFx2.1", 
+			16, 
+			9, 
+			3, 
+			"Name","STRING","Lambert",
+			"filename","STRING","C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Effects\\Lambert.fx",
+			"code2","STRING","",
+			"external_ref","BOOLEAN",1,
+			"nb_textures","INTEGER",3,
+			"refresh_flag","INTEGER",0,
+			"tspace_id_0","STRING","",
+			"tspace_id_1","STRING","",
+			"tspace_id_2","STRING","",
+			"Texture_0","default_ambocc_map_png","IMAGE",
+			"Texture_1","default_surface_map_png1","IMAGE",
+			"Texture_2","default_normal_map_png","IMAGE",
+			XSI_CustomPSet DirectXFX_Parameters { 
+				"NODE", 
+				"customparamset", 
+				14,
+				"Technique","Text","Static", 
+				"AmbientColor_X","Floating Point Number",0.843000, 
+				"AmbientColor_Y","Floating Point Number",0.843000, 
+				"AmbientColor_Z","Floating Point Number",0.843000, 
+				"DiffuseColor_X","Floating Point Number",0.000000, 
+				"DiffuseColor_Y","Floating Point Number",0.000000, 
+				"DiffuseColor_Z","Floating Point Number",0.000000, 
+				"AmbientMap","Text","[sampler2D]", 
+				"AlbedoMap","Text","[sampler2D]", 
+				"NormalMap","Text","[sampler2D]", 
+				"test","Text","test", 
+				"AnimationFileName","Text","Content\\Textures\\Simple.gif", 
+				"AnimationFileName1","Text","Content\\Textures\\Ass.gif", 
+				"AnimationFileName_0","Text","Content\\Textures\\Ass.gif", 
+				XSI_CustomParamInfo AmbientColor_X { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo AmbientColor_Y { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo AmbientColor_Z { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo DiffuseColor_X { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo DiffuseColor_Y { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+				XSI_CustomParamInfo DiffuseColor_Z { 
+					-3.40282e+038,
+					3.40282e+038,
+					2053,
+				}
+
+			}
+
+			XSI_ShaderInstanceData { 
+				"Mesh", 
+				1, 
+				"tspace_id_0","STRING","",
 			}
 
 			XSI_ShaderInstanceData { 
@@ -215,9 +334,9 @@ SI_MaterialLibrary DefaultLib {
 }
 
 XSI_ImageLibrary { 
-	3, 
-	XSI_Image default_surface_map_png { 
-		"..\\Effects\\default_surface_map.png", 
+	8, 
+	XSI_Image noIcon_pic { 
+		"C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Textures\\default_surface_map.png", 
 		64, 
 		64, 
 		4, 
@@ -247,19 +366,52 @@ XSI_ImageLibrary {
 			0, 
 		}
 
-		XSI_ImageFX2 { 
+		XSI_TimeControl { 
 			0.000000, 
-			2.200000, 
-			0, 
-			"", 
 			0.000000, 
-			0, 
-			0, 
+			0.000000, 
 			1.000000, 
-			1024, 
+			XSI_Extrapolation Before { 
+				"HOLD", 
+				0.000000, 
+			}
+
+			XSI_Extrapolation After { 
+				"HOLD", 
+				0.000000, 
+			}
+
+		}
+
+	}
+
+	XSI_Image default_surface_map_png { 
+		"C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Textures\\default_surface_map.png", 
+		64, 
+		64, 
+		4, 
+		0, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		0, 
+		0, 
+		0, 
+		XSI_ImageFX { 
+			0.000000, 
+			100.000000, 
+			100.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
 			0, 
-			9729, 
-			9729, 
+			1, 
+			2.000000, 
+			2.000000, 
+			0, 
+			0, 
 			0, 
 			0, 
 		}
@@ -284,7 +436,7 @@ XSI_ImageLibrary {
 	}
 
 	XSI_Image default_normal_map_png { 
-		"..\\Effects\\default_normal_map.png", 
+		"C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Textures\\default_normal_map.png", 
 		64, 
 		64, 
 		4, 
@@ -310,23 +462,6 @@ XSI_ImageLibrary {
 			2.000000, 
 			0, 
 			0, 
-			0, 
-			0, 
-		}
-
-		XSI_ImageFX2 { 
-			0.000000, 
-			2.200000, 
-			0, 
-			"", 
-			0.000000, 
-			0, 
-			0, 
-			1.000000, 
-			1024, 
-			0, 
-			9729, 
-			9729, 
 			0, 
 			0, 
 		}
@@ -350,10 +485,10 @@ XSI_ImageLibrary {
 
 	}
 
-	XSI_Image face_jpg { 
-		"..\\..\\..\\ArtAssets\\Textures\\barrel\\face.jpg", 
-		948, 
-		2452, 
+	XSI_Image default_surface_map_png1 { 
+		"C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Effects\\default_surface_map.png", 
+		64, 
+		64, 
 		4, 
 		0, 
 		0.000000, 
@@ -373,27 +508,210 @@ XSI_ImageLibrary {
 			1.000000, 
 			0, 
 			1, 
-			0.135021, 
-			0.052202, 
+			2.000000, 
+			2.000000, 
 			0, 
 			0, 
 			0, 
 			0, 
 		}
 
-		XSI_ImageFX2 { 
+		XSI_TimeControl { 
 			0.000000, 
-			2.200000, 
-			0, 
-			"", 
 			0.000000, 
-			1, 
-			0, 
+			0.000000, 
 			1.000000, 
-			1024, 
+			XSI_Extrapolation Before { 
+				"HOLD", 
+				0.000000, 
+			}
+
+			XSI_Extrapolation After { 
+				"HOLD", 
+				0.000000, 
+			}
+
+		}
+
+	}
+
+	XSI_Image Simple_gif { 
+		"C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Textures\\Simple.gif", 
+		150, 
+		107, 
+		4, 
+		0, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		0, 
+		0, 
+		0, 
+		XSI_ImageFX { 
+			0.000000, 
+			100.000000, 
+			100.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
 			0, 
-			9729, 
-			9729, 
+			1, 
+			0.853333, 
+			1.196262, 
+			0, 
+			0, 
+			0, 
+			0, 
+		}
+
+		XSI_TimeControl { 
+			0.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			XSI_Extrapolation Before { 
+				"HOLD", 
+				0.000000, 
+			}
+
+			XSI_Extrapolation After { 
+				"HOLD", 
+				0.000000, 
+			}
+
+		}
+
+	}
+
+	XSI_Image ass_gif { 
+		"C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Textures\\ass.gif", 
+		150, 
+		100, 
+		4, 
+		0, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		0, 
+		0, 
+		0, 
+		XSI_ImageFX { 
+			0.000000, 
+			100.000000, 
+			100.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			0, 
+			1, 
+			0.853333, 
+			1.280000, 
+			0, 
+			0, 
+			0, 
+			0, 
+		}
+
+		XSI_TimeControl { 
+			0.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			XSI_Extrapolation Before { 
+				"HOLD", 
+				0.000000, 
+			}
+
+			XSI_Extrapolation After { 
+				"HOLD", 
+				0.000000, 
+			}
+
+		}
+
+	}
+
+	XSI_Image default_ambocc_map_png { 
+		"C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Textures\\default_ambocc_map.png", 
+		64, 
+		64, 
+		4, 
+		0, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		0, 
+		0, 
+		0, 
+		XSI_ImageFX { 
+			0.000000, 
+			100.000000, 
+			100.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			0, 
+			1, 
+			2.000000, 
+			2.000000, 
+			0, 
+			0, 
+			0, 
+			0, 
+		}
+
+		XSI_TimeControl { 
+			0.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			XSI_Extrapolation Before { 
+				"HOLD", 
+				0.000000, 
+			}
+
+			XSI_Extrapolation After { 
+				"HOLD", 
+				0.000000, 
+			}
+
+		}
+
+	}
+
+	XSI_Image default_surface_map_png2 { 
+		"C:\\Users\\Colin\\Documents\\Visual Studio 2005\\Projects\\Sphere2005\\Sphere\\Content\\Textures\\default_surface_map.png", 
+		64, 
+		64, 
+		4, 
+		0, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		1.000000, 
+		0.000000, 
+		0, 
+		0, 
+		0, 
+		XSI_ImageFX { 
+			0.000000, 
+			100.000000, 
+			100.000000, 
+			0.000000, 
+			0.000000, 
+			1.000000, 
+			0, 
+			1, 
+			2.000000, 
+			2.000000, 
+			0, 
+			0, 
 			0, 
 			0, 
 		}
@@ -520,7 +838,7 @@ SI_Model MDL-Model {
 	}
 
 	SI_GlobalMaterial { 
-		"Scene_Material", 
+		"Lambert", 
 		"NODE", 
 	}
 
@@ -685,26 +1003,26 @@ SI_Model MDL-Model {
 					"FLOAT2", 
 					24, 
 
+					1.000000,0.000000,
+					1.000000,1.000000,
+					0.000000,1.000000,
+					0.000000,0.000000,
+					0.000000,0.000000,
+					1.000000,0.000000,
+					1.000000,1.000000,
+					0.000000,1.000000,
+					0.000000,0.000000,
+					1.000000,0.000000,
+					1.000000,1.000000,
+					0.000000,1.000000,
+					1.000000,0.000000,
+					1.000000,1.000000,
+					0.000000,1.000000,
 					0.000000,0.000000,
 					0.000000,1.000000,
-					1.000000,1.000000,
+					0.000000,0.000000,
 					1.000000,0.000000,
-					-0.041758,0.058006,
-					0.994035,0.462724,
-					1.000000,0.693312,
-					0.000000,0.693312,
-					-0.041758,0.058006,
-					0.958242,0.058006,
-					0.958242,0.444629,
-					-0.041758,0.444629,
-					0.994035,0.462724,
-					0.994035,0.849348,
-					-0.005965,0.849348,
-					-0.005965,0.462724,
-					-0.030905,0.695376,
-					-0.030905,0.280244,
-					1.042834,0.280244,
-					1.042834,0.695376,
+					1.000000,1.000000,
 					0.000000,0.000000,
 					1.000000,0.000000,
 					1.000000,1.000000,
@@ -728,35 +1046,11 @@ SI_Model MDL-Model {
 				7,
 			}
 
-			XSI_TriangleList TriList00 { 
+			XSI_TriangleList TriList01 { 
 				2, 
 				"XSINormal","Texture_Projection",
-				"Lambert", 
-				12, 
-
-				0,0,0,
-				2,1,1,
-				3,2,2,
-
-				0,0,0,
-				3,2,2,
-				1,3,3,
-
-				0,4,4,
-				1,5,5,
-				5,6,6,
-
-				0,4,4,
-				5,6,6,
-				4,7,7,
-
-				0,8,8,
-				4,9,9,
-				6,10,10,
-
-				0,8,8,
-				6,10,10,
-				2,11,11,
+				"Lambert1", 
+				2, 
 
 				1,12,12,
 				3,13,13,
@@ -766,6 +1060,14 @@ SI_Model MDL-Model {
 				7,14,14,
 				5,15,15,
 
+			}
+
+			XSI_TriangleList TriList02 { 
+				2, 
+				"XSINormal","Texture_Projection",
+				"Lambert", 
+				2, 
+
 				2,16,16,
 				6,17,17,
 				7,18,18,
@@ -773,6 +1075,62 @@ SI_Model MDL-Model {
 				2,16,16,
 				7,18,18,
 				3,19,19,
+
+			}
+
+			XSI_TriangleList TriList03 { 
+				2, 
+				"XSINormal","Texture_Projection",
+				"Lambert", 
+				2, 
+
+				0,0,0,
+				2,1,1,
+				3,2,2,
+
+				0,0,0,
+				3,2,2,
+				1,3,3,
+
+			}
+
+			XSI_TriangleList TriList04 { 
+				2, 
+				"XSINormal","Texture_Projection",
+				"Lambert", 
+				2, 
+
+				0,4,4,
+				1,5,5,
+				5,6,6,
+
+				0,4,4,
+				5,6,6,
+				4,7,7,
+
+			}
+
+			XSI_TriangleList TriList05 { 
+				2, 
+				"XSINormal","Texture_Projection",
+				"Lambert", 
+				2, 
+
+				0,8,8,
+				4,9,9,
+				6,10,10,
+
+				0,8,8,
+				6,10,10,
+				2,11,11,
+
+			}
+
+			XSI_TriangleList TriList06 { 
+				2, 
+				"XSINormal","Texture_Projection",
+				"Lambert", 
+				2, 
 
 				4,20,20,
 				5,21,21,
@@ -897,7 +1255,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1007,7 +1365,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1117,7 +1475,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1227,7 +1585,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1337,7 +1695,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1447,7 +1805,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1557,7 +1915,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1667,7 +2025,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1777,7 +2135,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1887,7 +2245,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -1997,7 +2355,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -2107,7 +2465,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -2217,7 +2575,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -2327,7 +2685,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -2437,7 +2795,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -2547,7 +2905,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -2657,7 +3015,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -2767,7 +3125,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -2877,7 +3235,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -2987,7 +3345,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -3097,7 +3455,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -3207,7 +3565,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -3317,7 +3675,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -3427,7 +3785,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -3537,7 +3895,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -3647,7 +4005,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -3757,7 +4115,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -3867,7 +4225,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -3977,7 +4335,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -4087,7 +4445,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -4197,7 +4555,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -4307,7 +4665,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -4417,7 +4775,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -4527,7 +4885,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -4637,7 +4995,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -4747,7 +5105,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -4857,7 +5215,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -4967,7 +5325,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
@@ -5077,7 +5435,7 @@ SI_Model MDL-Model {
 		}
 
 		SI_GlobalMaterial { 
-			"Scene_Material", 
+			"Lambert", 
 			"NODE", 
 		}
 
