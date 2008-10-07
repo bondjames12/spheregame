@@ -15,7 +15,6 @@ namespace XEngine
         public Vector3 modeloffset;
         public Matrix orientation;
         public Vector3 scale;
-        //public XGifTexture gif;
 
         #region Editor Properties
 
@@ -38,7 +37,7 @@ namespace XEngine
             get
             {
                 if (model != null)
-                    return model.boundingBox;
+                    return model.Boundingbox;
                 else
                     return new BoundingBox();
             }
@@ -93,9 +92,6 @@ namespace XEngine
             this.modeloffset = modeloffset;
             this.orientation = orient;
             this.scale = scale;
-            //this.gif = new XGifTexture(ref X, @"Content\Textures\Simple");
-            //this.gif.Load(X.Content);
-            //this.gif.Start();
         }
 
         public Matrix GetWorldMatrix()

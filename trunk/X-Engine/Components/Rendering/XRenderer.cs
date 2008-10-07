@@ -210,10 +210,27 @@ namespace XEngine
                     // bind SAS shader parameters
                     for(int k=0;k<effect.Parameters.Count;k++)
                     {
+                        if (effect.Parameters[k].ParameterType == EffectParameterType.String)
+                        {
+                            if (effect.Parameters[k].Name.Contains("AnimationFileName"))
+                            {
+                                string animfilename = effect.Parameters[k].GetValueString();
+                                if (!string.IsNullOrEmpty(animfilename))
+                                {
+                                    //there is an animated texture here
+                                    foreach (EffectAnnotation anno in effect.Parameters[k].Annotations)
+                                    {
+                                        if (anno.Name.Contains("AnimatedMap"))
+                                        {
+                                            effect.Parameters[anno.GetValueString()].SetValue(
+                                                Model.Giftextures[j].GetTexture());
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         Model.SASData.SetEffectParameterValue(effect.Parameters[k]);
                     }
-                    //if(Model.Parent is XProp)
-                        //effect.Parameters["AmbientMap"].SetValue(((XProp)Model.Parent).gif.GetTexture());
 
                     //if rendering a depthmap
                     if (Camera.RenderType == RenderTypes.Depth)

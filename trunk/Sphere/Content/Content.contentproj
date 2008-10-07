@@ -294,11 +294,11 @@
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
     </Compile>
-    <None Include="Models\TestBoxModel.xsi">
+    <Compile Include="Models\TestBoxModel.xsi">
       <Name>TestBoxModel</Name>
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
-    </None>
+    </Compile>
     <Compile Include="Models\grass1.xsi">
       <Name>grass1</Name>
       <Importer>Importer</Importer>
@@ -318,6 +318,16 @@
       <Name>Glass</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Pictures\ctHalf.dds">
+      <Name>ctHalf</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Pictures\ctNorm.dds">
+      <Name>ctNorm</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
     <None Include="Textures\default_ambocc_map.png">
       <Name>default_ambocc_map</Name>
@@ -362,13 +372,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Simple.gif">
-      <Name>Simple</Name>
-      <Importer>GifAminationImporter</Importer>
-      <Processor>GifAnimationProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Heightmaps\Island1.bmp">
       <Name>Island1</Name>
       <Importer>TextureImporter</Importer>
@@ -393,10 +396,35 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Textures\Simple.gif">
+      <Name>Simple</Name>
+      <Importer>GifAminationImporter</Importer>
+      <Processor>GifAnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\ass.gif">
+      <Name>ass</Name>
+      <Importer>GifAminationImporter</Importer>
+      <Processor>GifAnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Pictures\CarInterior.jpg">
+      <Name>CarInterior</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\nav.gif">
+      <Name>nav</Name>
+      <Importer>GifAminationImporter</Importer>
+      <Processor>GifAnimationProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Material\" />
-    <Folder Include="XSI\Sphere\Pictures\Plant Sprites\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

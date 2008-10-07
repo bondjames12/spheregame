@@ -3,6 +3,10 @@
 //**********************************************************************
 // Tweakables
 //**********************************************************************
+string AnimationFileName_0
+<
+	string AnimatedMap = "AmbientMap";
+> = "";
 
 float3 AmbientColor
 <
