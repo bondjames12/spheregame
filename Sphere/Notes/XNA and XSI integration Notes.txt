@@ -1,14 +1,1 @@
 http://www.gamedev.net/reference/articles/article2547.asp
-
-
-How to mark animated textures????
--IN modeling tool use a fake texture
--fake texture naming convention = xani_<nameofgif>.jpg,png,etc
--when model is loaded
-	-search for any textures with the correct naming convention
-		-search all effect parameters with ParameterType==Texture2D
-		-filename can be found in Parameter annotations[0] named "ResourceName"
-	-if any found for each one attempt to load the animated texture
-	-
-
--for an animated texture to work gettexture must be called every time the model is drawn

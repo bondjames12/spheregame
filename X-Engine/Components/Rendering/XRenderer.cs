@@ -54,6 +54,7 @@ namespace XEngine
             //Camera.ShadowProjection = Camera.Projection;
             //Camera.ShadowView = Camera.View;
             Camera.RenderType = RenderTypes.Normal;
+            Camera.DebugMode = true;
             X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, ClearColor, 1.0f, 0);
             DrawScene(ref gameTime,ref Camera, null , null);
 
@@ -121,6 +122,14 @@ namespace XEngine
             {
                 XComponent component = X.Components[i];
             
+                //if debug rendering is on draw the XTriggerVolume(s)
+                if(Camera.DebugMode)
+                {
+                    if(component is XTriggerVolume)
+                    {
+                        component.Draw(ref gameTime, ref Camera);
+                    }
+                }
                 //is this XComponent Drawable? and not the renderer?
                 if(!(component is XIDrawable) || (component is XRenderer))
                     continue;

@@ -10,7 +10,7 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XCamera);
-            group = "Camera";
+            group = "Cameras";
         }
 
         public override ListViewItem SetupListViewItem(ListViewItem item, XComponent component)

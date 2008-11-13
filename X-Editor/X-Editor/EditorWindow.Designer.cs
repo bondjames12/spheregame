@@ -35,6 +35,7 @@
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Models", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Actors", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Cameras", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Game Logic", System.Windows.Forms.HorizontalAlignment.Left);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,48 +106,48 @@
             this.openLeveToolStripMenuItem,
             this.saveLevelFileToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newProjectToolStripMenuItem
             // 
             this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
-            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.newProjectToolStripMenuItem.Text = "New Project";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // openLeveToolStripMenuItem
             // 
             this.openLeveToolStripMenuItem.Name = "openLeveToolStripMenuItem";
-            this.openLeveToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openLeveToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.openLeveToolStripMenuItem.Text = "Open Project";
             this.openLeveToolStripMenuItem.Click += new System.EventHandler(this.openLeveToolStripMenuItem_Click);
             // 
             // saveLevelFileToolStripMenuItem
             // 
             this.saveLevelFileToolStripMenuItem.Name = "saveLevelFileToolStripMenuItem";
-            this.saveLevelFileToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saveLevelFileToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.saveLevelFileToolStripMenuItem.Text = "Save Project";
             this.saveLevelFileToolStripMenuItem.Click += new System.EventHandler(this.saveLevelFileToolStripMenuItem_Click);
             // 
             // content20ToolStripMenuItem
             // 
             this.content20ToolStripMenuItem.Name = "content20ToolStripMenuItem";
-            this.content20ToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.content20ToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.content20ToolStripMenuItem.Text = "Content";
             this.content20ToolStripMenuItem.Click += new System.EventHandler(this.contentToolStripMenuItem_Click);
             // 
             // scenesToolStripMenuItem
             // 
             this.scenesToolStripMenuItem.Name = "scenesToolStripMenuItem";
-            this.scenesToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.scenesToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.scenesToolStripMenuItem.Text = "Scenes";
             this.scenesToolStripMenuItem.Click += new System.EventHandler(this.scenesToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
@@ -156,19 +157,19 @@
             this.removeToolStripMenuItem,
             this.propertiesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(128, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(124, 48);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // propertiesToolStripMenuItem
             // 
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
-            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.propertiesToolStripMenuItem.Text = "Properties";
             this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
             // 
@@ -259,13 +260,13 @@
             // stripMsg1
             // 
             this.stripMsg1.Name = "stripMsg1";
-            this.stripMsg1.Size = new System.Drawing.Size(78, 17);
+            this.stripMsg1.Size = new System.Drawing.Size(74, 17);
             this.stripMsg1.Text = "Physics: False";
             // 
             // stripMsg2
             // 
             this.stripMsg2.Name = "stripMsg2";
-            this.stripMsg2.Size = new System.Drawing.Size(39, 17);
+            this.stripMsg2.Size = new System.Drawing.Size(38, 17);
             this.stripMsg2.Text = "Status";
             // 
             // splitContainer1
@@ -283,7 +284,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(843, 509);
-            this.splitContainer1.SplitterDistance = 598;
+            this.splitContainer1.SplitterDistance = 599;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -293,7 +294,7 @@
             this.renderControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.renderControl1.Location = new System.Drawing.Point(0, 0);
             this.renderControl1.Name = "renderControl1";
-            this.renderControl1.Size = new System.Drawing.Size(598, 509);
+            this.renderControl1.Size = new System.Drawing.Size(599, 509);
             this.renderControl1.TabIndex = 0;
             this.renderControl1.Text = "renderControl1";
             this.renderControl1.MouseLeave += new System.EventHandler(this.renderControl1_MouseLeave);
@@ -317,7 +318,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.scene);
             this.splitContainer2.Panel2.Controls.Add(this.label1);
-            this.splitContainer2.Size = new System.Drawing.Size(242, 509);
+            this.splitContainer2.Size = new System.Drawing.Size(241, 509);
             this.splitContainer2.SplitterDistance = 313;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -329,7 +330,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(242, 313);
+            this.tabControl1.Size = new System.Drawing.Size(241, 313);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -339,7 +340,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(234, 287);
+            this.tabPage1.Size = new System.Drawing.Size(233, 287);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Components";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -354,7 +355,7 @@
             treeNode1.Text = "X-Engine Components";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeView1.Size = new System.Drawing.Size(228, 281);
+            this.treeView1.Size = new System.Drawing.Size(227, 281);
             this.treeView1.TabIndex = 0;
             this.treeView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView1_DragEnter);
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
@@ -366,7 +367,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(235, 287);
+            this.tabPage2.Size = new System.Drawing.Size(234, 287);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Properties";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -378,7 +379,7 @@
             this.properties.Location = new System.Drawing.Point(3, 3);
             this.properties.Name = "properties";
             this.properties.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.properties.Size = new System.Drawing.Size(229, 281);
+            this.properties.Size = new System.Drawing.Size(228, 281);
             this.properties.TabIndex = 0;
             this.properties.DragDrop += new System.Windows.Forms.DragEventHandler(this.properties_DragDrop);
             this.properties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.properties_PropertyValueChanged);
@@ -405,15 +406,18 @@
             listViewGroup3.Name = "Actors";
             listViewGroup4.Header = "Cameras";
             listViewGroup4.Name = "Cameras";
+            listViewGroup5.Header = "Game Logic";
+            listViewGroup5.Name = "Game Logic";
             this.scene.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2,
             listViewGroup3,
-            listViewGroup4});
+            listViewGroup4,
+            listViewGroup5});
             this.scene.Location = new System.Drawing.Point(4, 16);
             this.scene.MultiSelect = false;
             this.scene.Name = "scene";
-            this.scene.Size = new System.Drawing.Size(231, 176);
+            this.scene.Size = new System.Drawing.Size(230, 176);
             this.scene.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.scene.TabIndex = 0;
             this.scene.TileSize = new System.Drawing.Size(100, 16);

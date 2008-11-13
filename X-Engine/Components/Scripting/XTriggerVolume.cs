@@ -5,22 +5,50 @@ using Microsoft.Xna.Framework;
 
 namespace XEngine
 {
-    public class XTriggerVolume : XComponent, XIUpdateable
+    public class XTriggerVolume : XComponent, XIUpdateable, XITransform
     {
-        protected XActor actor;
-        bool continuous;
+        protected XPhysicsObject obj;
+        public bool continuous;
         public bool triggered;
+        public Vector3 translation;
+        public Quaternion rotation;
+        public Vector3 scale;
 
         public event TriggerVolumeEventHandler Triggered;
 
-        public XTriggerVolume(ref XMain X, XActor Actor, bool Continuous) : base(ref X)
+        public XPhysicsObject TriggerKey
         {
-            this.actor = Actor;
-            this.continuous = Continuous;
-            triggered = false;
+            get { return obj; }
+            set { obj = value; }
         }
 
+        public Vector3 Translation
+        {
+            get { return translation; }
+            set { translation = value; }
+        }
 
+        public Quaternion Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
+        }
+
+        public Vector3 Scale
+        {
+            get { return scale; }
+            set { scale = value; }
+        }
+
+        public XTriggerVolume(ref XMain X, XPhysicsObject obj, bool Continuous, Vector3 translation, Quaternion rotation, Vector3 scale) : base(ref X)
+        {
+            this.obj = obj;
+            continuous = Continuous;
+            triggered = false;
+            this.translation = translation;
+            this.rotation = rotation;
+            this.scale = scale;
+        }
 
         public override void Update(ref GameTime gameTime)
         {
@@ -33,7 +61,7 @@ namespace XEngine
         {
             if (!continuous)
                 triggered = true;
-
+            X.Debug.Write("Trigger Fired: " + Name,false);
             OnTriggered(new TriggerVolumeEventArgs());
         }
 

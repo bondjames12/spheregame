@@ -20,7 +20,7 @@ namespace XEngine
         bool immovable;
         Quaternion rotation;
         protected Vector3 translation;
-        bool collisionenabled;
+        bool collisionenabled = true;
         
         #region Editor Properties
 
