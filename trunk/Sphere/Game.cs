@@ -139,7 +139,7 @@ namespace Sphere
             resources.AddComponent(heightmap);
             resources.AddComponent(sky);
 
-            model = new XModel(ref X, @"Content\Models\grass1");
+            model = new XModel(ref X, @"Content\Models\TestBoxModel");
             resources.AddComponent(model);
 
             Chassis = new XModel(ref X, @"Content\Models\chassis");

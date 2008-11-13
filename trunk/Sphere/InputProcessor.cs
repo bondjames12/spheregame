@@ -122,7 +122,10 @@ namespace Sphere
 #if !XBOX
             if (mouse.ButtonPressed(XMouse.Buttons.Left))
             {
-                parent.boxes.Add(new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
+                //parent.boxes.Add(new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
+                if (parent.planeActor != null) parent.planeActor.Disable();
+                parent.planeActor = new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10);
+                
             }
             if (mouse.ButtonPressed(XMouse.Buttons.Right))
             {
@@ -272,7 +275,9 @@ namespace Sphere
 
             if(keyboard.KeyPressed(Keys.F10))
             {
-   
+                XCubeTriggerVolume cv =
+                    new XCubeTriggerVolume(ref X, (XPhysicsObject) parent.Car.Car, true, new Vector3(0, 0, 0), new Vector3(10, 10, 10),
+                                           Vector3.One, Quaternion.Identity, Vector3.One);
 
                 //XTextureGenerator texGen = new XTextureGenerator(ref X);
                 //texGen.GetMandelBrot(new Vector2(0.25f, 0),3);

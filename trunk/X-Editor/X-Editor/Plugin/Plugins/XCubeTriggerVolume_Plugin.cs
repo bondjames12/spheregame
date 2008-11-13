@@ -11,19 +11,23 @@ namespace X_Editor
             : base(X)
         {
             type = typeof(XCubeTriggerVolume);
-            group = "Actors";
+            group = "Game Logic";
         }
 
         public override void AcceptDragDrop(object Input, object DraggedItem, PropertyGrid Properties, ListView Scene)
         {
-            
+            if (DraggedItem is XPhysicsObject)
+            {
+                ((XCubeTriggerVolume)Input).TriggerKey = (XPhysicsObject)DraggedItem;
+                UpdateObjectProperties(Input, Properties, Scene);
+            }
         }
 
         public override ListViewItem SetupListViewItem(ListViewItem item, XComponent component)
         {
+            XCubeTriggerVolume trigger = new XCubeTriggerVolume(ref X, null, true, new Vector3(-1,-1,-1), new Vector3(1,1,1), Vector3.One, Quaternion.Identity, Vector3.One);
 
-
-            return base.SetupListViewItem(item, component);
+            return base.SetupListViewItem(item, trigger);
         }
 
         public override void UpdateObjectProperties(object Input, PropertyGrid Properties, ListView Scene)
