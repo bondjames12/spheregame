@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectGuid>a74a66e2-07e9-4e17-8fd9-80e283c359e8</ProjectGuid>
     <ProjectTypeGuids>{96E2B04D-8817-42c6-938A-82C39BA4D311};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <XnaFrameworkVersion>v2.0</XnaFrameworkVersion>
+    <XnaFrameworkVersion>v3.0</XnaFrameworkVersion>
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
     <SccProjectName>Svn</SccProjectName>
@@ -23,21 +23,20 @@
     <XnaPlatform>Windows</XnaPlatform>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.EffectImporter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.EffectImporter, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.FBXImporter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.FBXImporter, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.TextureImporter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.TextureImporter, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.XImporter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.XImporter, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Softimage.XWImporter, Version=2.0.2908.24481, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Softimage.XWImporter.dll</HintPath>
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.AudioImporters, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -52,10 +51,6 @@
     <ProjectReference Include="..\..\TexturePipelineExtensions\TexturePipelineExtensions.csproj">
       <Project>{939F5307-4DD5-4881-A277-0A852E2B5152}</Project>
       <Name>TexturePipelineExtensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\XSIXNARuntime\XSIXNARuntime.csproj">
-      <Project>{924BE388-B6B6-4FFB-9E9E-89CACEDA52CE}</Project>
-      <Name>XSIXNARuntime</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -105,34 +100,6 @@
       <Name>xengine</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\simple_anim.xsi">
-      <Name>simple_anim</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\chassis.xsi">
-      <Name>chassis</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\wheel.xsi">
-      <Name>wheel</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\captain_modtool.xsi">
-      <Name>captain_modtool</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -289,26 +256,6 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
-    <Compile Include="Models\barrel_low.xsi">
-      <Name>barrel_low</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
-    </Compile>
-    <Compile Include="Models\TestBoxModel.xsi">
-      <Name>TestBoxModel</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
-    </Compile>
-    <Compile Include="Models\grass1.xsi">
-      <Name>grass1</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
-    </Compile>
-    <Compile Include="Models\tv.xsi">
-      <Name>tv</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
-    </Compile>
     <Compile Include="Images\Terrainmaps\Island1.tga">
       <Name>Island1</Name>
       <Importer>TextureImporter</Importer>
@@ -318,16 +265,6 @@
       <Name>Glass</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Models\Pictures\ctHalf.dds">
-      <Name>ctHalf</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Models\Pictures\ctNorm.dds">
-      <Name>ctNorm</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
     </Compile>
     <None Include="Textures\default_ambocc_map.png">
       <Name>default_ambocc_map</Name>
@@ -365,10 +302,37 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\box.xsi">
-      <Name>box</Name>
-      <Importer>Importer</Importer>
-      <Processor>Processor</Processor>
+    <Compile Include="Models\chassis.FBX">
+      <Name>chassis</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\grass.fbx">
+      <Name>grass</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <None Include="Models\unit_cube.fbx">
+      <Name>unit_cube</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </None>
+    <None Include="Models\unit_sphere.fbx">
+      <Name>unit_sphere</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </None>
+    <Compile Include="Models\wheel.fbx">
+      <Name>wheel</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Simple.gif">
+      <Name>Simple</Name>
+      <Importer>GifAminationImporter</Importer>
+      <Processor>GifAnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -396,37 +360,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\Simple.gif">
-      <Name>Simple</Name>
-      <Importer>GifAminationImporter</Importer>
-      <Processor>GifAnimationProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\ass.gif">
-      <Name>ass</Name>
-      <Importer>GifAminationImporter</Importer>
-      <Processor>GifAnimationProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Pictures\CarInterior.jpg">
-      <Name>CarInterior</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\nav.gif">
-      <Name>nav</Name>
-      <Importer>GifAminationImporter</Importer>
-      <Processor>GifAnimationProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Material\" />
+    <Folder Include="XSI\Sphere\Pictures\Plant Sprites\" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using XSIXNARuntime;
+//using XSIXNARuntime;
 using JigLibX.Geometry;
 
 namespace XEngine
