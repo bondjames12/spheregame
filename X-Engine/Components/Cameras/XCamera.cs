@@ -22,6 +22,8 @@ namespace XEngine
 
         public Matrix View;
         public Matrix Projection;
+        public Matrix ViewProjection;
+        public Matrix ViewInverse;
         public Matrix RotationMatrix;
         public Matrix ShadowView;
         public Matrix ShadowProjection;
@@ -96,6 +98,7 @@ namespace XEngine
             this.FarPlane = farplane;
             this.FOV = MathHelper.PiOver4;
             Projection = GenerateProjection(ref X, this.FOV, this.ProjectionType, NearPlane, FarPlane);
+            
             Base = this;
             DrawOrder = 50000;
         }
@@ -139,8 +142,10 @@ namespace XEngine
 
         public override void Update(ref GameTime gameTime)
         {
-            View = Matrix.CreateLookAt(Position, Target, Up);
-            Frustrum = new BoundingFrustum(View * Projection);
+            Matrix.CreateLookAt(ref Position,ref Target,ref Up, out View);
+            Matrix.Multiply(ref View, ref Projection, out ViewProjection);
+            Matrix.Invert(ref View, out ViewInverse);
+            Frustrum = new BoundingFrustum(ViewProjection);
         }
     }
 }

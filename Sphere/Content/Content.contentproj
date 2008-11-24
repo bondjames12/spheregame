@@ -40,6 +40,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AnimationPipeline\AnimationPipeline.csproj">
+      <Project>{26B643F3-6BB6-42BF-A461-7B2598AE5A79}</Project>
+      <Name>AnimationPipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ParticlePipeline\ParticlePipeline.csproj">
       <Project>{E77063AA-51E9-42A0-BC02-5A175393BF8C}</Project>
       <Name>ParticlePipeline</Name>
@@ -312,16 +316,23 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <None Include="Models\unit_cube.fbx">
-      <Name>unit_cube</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+    <Compile Include="Models\cube.X">
+      <Name>cube</Name>
+      <Importer>XImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+    <None Include="Models\Default.fx">
+      <Name>Default</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
     </None>
-    <None Include="Models\unit_sphere.fbx">
-      <Name>unit_sphere</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </None>
+    <Compile Include="Models\spider.X">
+      <Name>spider</Name>
+      <Importer>XImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_ColorKeyEnabled>False</ProcessorParameters_ColorKeyEnabled>
+      <ProcessorParameters_ForceSkinnedShader>+-skinned</ProcessorParameters_ForceSkinnedShader>
+    </Compile>
     <Compile Include="Models\wheel.fbx">
       <Name>wheel</Name>
       <Importer>FbxImporter</Importer>

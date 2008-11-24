@@ -130,7 +130,7 @@ namespace XEngine
                 //model.SASData.Camera.Position.Z = Camera.Position.Z;
                 model.SASData.Projection = Camera.Projection;
                 model.SASData.View = Camera.View;
-                model.SASData.Model = this.GetWorldMatrix();
+                model.SASData.World = this.GetWorldMatrix();
                 model.SASData.ComputeViewAndProjection();
                 //model.SASData.ComputeModel();
 

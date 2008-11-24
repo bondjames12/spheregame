@@ -77,7 +77,7 @@ namespace XEngine
             Chassis.SASData.Camera.Position.Z = Camera.Position.Z;
             Chassis.SASData.Projection = Camera.Projection;
             Chassis.SASData.View = Camera.View;
-            Chassis.SASData.Model = World[0];
+            Chassis.SASData.World = World[0];
             Chassis.SASData.ComputeViewAndProjection();
 
             X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
@@ -105,16 +105,16 @@ namespace XEngine
             Wheel.SASData.View = Camera.View;
             Wheel.SASData.ComputeViewAndProjection();
 
-            Wheel.SASData.Model = World[1];
+            Wheel.SASData.World = World[1];
             X.Renderer.DrawModel(ref Wheel,ref Camera);
 
-            Wheel.SASData.Model = World[2];
+            Wheel.SASData.World = World[2];
             X.Renderer.DrawModel(ref Wheel,ref Camera);
 
-            Wheel.SASData.Model = World[3];
+            Wheel.SASData.World = World[3];
             X.Renderer.DrawModel(ref Wheel,ref Camera);
 
-            Wheel.SASData.Model = World[4];
+            Wheel.SASData.World = World[4];
             X.Renderer.DrawModel(ref Wheel,ref Camera);
 
         }
