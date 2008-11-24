@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-using XSIXNARuntime;
+//using XSIXNARuntime;
 using System.Collections.Generic;
 
 namespace XEngine
@@ -19,7 +19,7 @@ namespace XEngine
         public string Filename;
         public object Parent;
 
-        public XSISASContainer SASData = new XSISASContainer();
+        public SASContainer SASData = new SASContainer();
 
         #region EditorProperties
 
@@ -84,9 +84,9 @@ namespace XEngine
         public void InitDefaultSASLighting()
         {
             // initialize lights by default
-            XSISASPointLight light1 = new XSISASPointLight();
-            XSISASPointLight light2 = new XSISASPointLight();
-            XSISASPointLight light3 = new XSISASPointLight();
+            SASPointLight light1 = new SASPointLight();
+            SASPointLight light2 = new SASPointLight();
+            SASPointLight light3 = new SASPointLight();
 
             light1.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
             light2.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);

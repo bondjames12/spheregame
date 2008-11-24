@@ -199,7 +199,7 @@ namespace XEngine
                 ModelMesh mesh = Model.Model.Meshes[i];
 
                 //calc new boundingsphere with new position from World/Model matrix
-                BoundingSphere bs = mesh.BoundingSphere.Transform(Matrix.CreateTranslation(Model.SASData.Model.Translation));
+                BoundingSphere bs = mesh.BoundingSphere.Transform(Matrix.CreateTranslation(Model.SASData.World.Translation));
                 
                 //Is it in view?
                 if (Camera.Frustrum.Contains(bs) == ContainmentType.Disjoint)

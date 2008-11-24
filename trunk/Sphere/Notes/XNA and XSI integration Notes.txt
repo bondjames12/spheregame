@@ -1,1 +1,35 @@
 http://www.gamedev.net/reference/articles/article2547.asp
+
+
+Ok I had some fundamental misunderstandings about how some things work (me still being a novice with XNA/FX files/DirectX/3DSMax/XeverythingX) that brewed further misunderstandings but has finally resulted in some sort of general comprehension which I will now share here.  So here is a rough (not perfect) guide on how to apply a material made in 3DSMax 9 to an XNA Model:
+
+1) Create a material in 3DS Max using the Material Editor.
+2) Use "Material Editor > Material > Save as .FX File" to export the material to a .fx file.
+3) Import the generated .fx file as you would any other XNA content file.  Ignore the generated .hlsl file.  (I think... I haven't found a use for it yet)
+4) Edit the imported .fx file as follows:
+    - Change mWorld_0_0, mIWorld_0_0, and mWorldViewProj_0_0 to be uniform externs. (mCamPos_0_0 too if you want... so far it works for me to leave this alone)
+    - Change LightDir0_1_0 and LightCol0_1_0 to be something other than {0,0,0,0}. ({1,1,1,0} for both will work pretty well)
+    - Change any texture maps to be uniform externs. (e.g. "texture DiffuseTex : DIFFUSEMAP < ... >;" to "uniform extern texture DiffuseTex : DIFFUSEMAP;"
+5) Go back to the 3DSMax material editor.  For each "Map" in the material, export it as a .dds file using "Material Editor > Utilities >  Render Map".
+6) Import each generated dds file as you would any other XNA content file.
+7) Load the effect.
+Effect effect = game.Content.Load<Effect>("myFxAssetName");
+8) Load all the maps too.
+Texture diffuseTex = game.Content.Load<Texture2D>("myDiffuseTexAssetName");
+8) Pass in as a parameter to the effect everything that was changed in the .fx file to be a uniform extern.
+effect.Parameters["mWorldViewProj_0_0"].SetValue(worldViewProj);
+effect.Parameters["mWorld_0_0"].SetValue(world);
+effect.Parameters["mIWorld_0_0"].SetValue(Matrix.Invert(world));
+effect.Parameters["DiffuseTex"].SetValue(diffuseTex);
+
+9) Apply the effect to the model.
+                foreach (ModelMesh mesh in model.Meshes)
+                    foreach (ModelMeshPart part in mesh.MeshParts)
+                        part.Effect = Effect;
+10) Draw the model.
+            foreach (ModelMesh mesh in model.Meshes)
+                mesh.Draw();
+
+I think the greatest source of confusion for me was that I was under the impression that if I created a material in 3DSMax, I could export everything about that material into a single .fx file and then import that file into XNA and just apply it to a model.  Much like how I can just drag a material from the material editor to a model in 3DSMax and it applies the material correctly.  When talk of DirectX exporters arose, I thought what I needed was a single .x file to describe a material.  Now I realize that to describe a material, I need a .fx file to describe the shading, and a bunch of texture files for the maps.  I have to export them separately, import them separately, and reassociate them in XNA.
+
+BTW Jon I like kW and I'm using it as my model exporter instead of the built-in .fbx exporter.  So thanks again!  :)

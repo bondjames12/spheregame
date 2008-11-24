@@ -66,6 +66,9 @@
     <XnaCompressContent>True</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\Animation\ModelDraw.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Components\Audio\AudioManager.cs" />
     <Compile Include="Components\Audio\IAudioEmitter.cs" />
     <Compile Include="Components\Base\XInterfaces.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />
     <Compile Include="Components\Scripting\XTriggerVolume.cs" />
     <Compile Include="Components\Threading\ThreadManager.cs" />
+    <Compile Include="Components\Utilities\EffectConfig.cs" />
     <Compile Include="Components\Utilities\TextureGenerator.cs" />
     <Compile Include="Components\Utilities\XColorConverter.cs" />
     <Compile Include="Components\Utilities\XDebugDrawer.cs" />

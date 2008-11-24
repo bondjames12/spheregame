@@ -249,7 +249,7 @@ namespace XEngine
                 //model.SASData.Camera.Position.Z = Camera.Position.Z;
                 model.SASData.Projection = Camera.Projection;
                 model.SASData.View = Camera.View;
-                model.SASData.Model = PhysicsObject.GetWorldMatrix(model.Model, Vector3.Zero); //modeloffset);
+                model.SASData.World = PhysicsObject.GetWorldMatrix(model.Model, Vector3.Zero); //modeloffset);
                 model.SASData.ComputeViewAndProjection();
                 //model.SASData.ComputeModel();
 

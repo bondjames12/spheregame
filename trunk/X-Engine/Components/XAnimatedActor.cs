@@ -1,42 +1,47 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using XSIXNARuntime;
 using System;
+using KiloWatt.Base.Animation;
 
 namespace XEngine
 {
     public class XAnimatedActor : XActor, XIUpdateable
     {
-        private int _AnimationIndex;
-        private int _OldAnimationIndex;
-        XSIAnimationData l_Animations;
-        private List<XSIAnimationContent> Animations;
-        public bool Playing = true;
-        private float _Blending;
+        ModelDraw loadedModel_;             //  loaded geometry
+        AnimationSet animations_;           //  the animations I have to choose from
+        AnimationInstance[] instances_;     //  the animation data, as loaded
+        IBlendedAnimation[] blended_;       //  state about the different animations (that can change)
+        AnimationBlender blender_;          //  object that blends between playing animations
+        private int curAnimationInstance_ =  -1;     //  which animation is playing? (-1 for none)
+        private int OldAnimationInstance_ = -1;
+        //Specific data
+        EffectParameter pose_;
+        public Vector4[] PoseData;
+        public bool HasPose { get { return pose_ != null; } }
 
         /// <summary>
         /// Change the index to change which animation is playing
         /// </summary>
-        public int AnimationIndex 
-        { 
-            get 
+        public int AnimationIndex
+        {
+            get
             {
-                return _AnimationIndex;
+                return curAnimationInstance_;
             }
             set
             {
+                OldAnimationInstance_ = curAnimationInstance_;
                 //must be loaded first before we can set this
-                _AnimationIndex = value;
+                curAnimationInstance_ = value;
                 if (loaded)
                 {
-                    if (Animations.Count > 0)
+                    if (animations_.AnimationDictionary.Count > 0)
                     {
-                        if (_AnimationIndex < 0)
-                            _AnimationIndex = Animations.Count - 1;
-                        if (_AnimationIndex >= Animations.Count)
-                            _AnimationIndex = 0;
-                        _Blending = 0.0f;
+                        if (curAnimationInstance_ < 0)
+                            curAnimationInstance_ = animations_.AnimationDictionary.Count - 1;
+                        if (curAnimationInstance_ >= animations_.AnimationDictionary.Count)
+                            curAnimationInstance_ = 0;
                     }
                 }
             }
@@ -44,12 +49,9 @@ namespace XEngine
 
         public XAnimatedActor(ref XMain X, XModel model, Vector3 Position,
                                     Vector3 Velocity, float Mass) :
-                base(ref X, model, Position, Velocity, Mass)
+            base(ref X, model, Position, Velocity, Mass)
         {
-            if(model != null) model.Parent = this;
-            _AnimationIndex = 0;
-            _OldAnimationIndex = 0;
-            _Blending = 1.0f;
+            if (model != null) model.Parent = this;
         }
 
         public XAnimatedActor(ref XMain X, XPhysicsObject Object, XModel model, Vector3 ModelScale,
@@ -58,63 +60,100 @@ namespace XEngine
                 base(ref X, Object, model, ModelScale, Velocity, Mass)
         {
             if (model != null) model.Parent = this;
-            _AnimationIndex = 0;
-            _OldAnimationIndex = 0;
-            _Blending = 1.0f;
         }
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
             base.Load(Content);
-            
-            Animations = new List<XSIAnimationContent>();
-            // post process animation
-            l_Animations = model.Model.Tag as XSIAnimationData;
 
-            if (l_Animations != null)
+            //  load the model from disk, and prepare it for animation
+            loadedModel_ = new ModelDraw(ref X, this.model.Model, this.model.Name);
+
+            //  create a blender that can compose the animations for transition
+            blender_ = new AnimationBlender(loadedModel_.Model, loadedModel_.Name);
+
+            //  clear current state
+            curAnimationInstance_ = 0;
+            instances_ = null;
+            blended_ = null;
+
+            //  get the list of animations from our dictionary
+            Dictionary<string, object> tag = loadedModel_.Model.Tag as Dictionary<string, object>;
+            object aobj = null;
+            if (tag != null)
+                tag.TryGetValue("AnimationSet", out aobj);
+            animations_ = aobj as AnimationSet;
+
+            //  set up animations
+            if (animations_ != null)
             {
-                foreach (KeyValuePair<String, XSIAnimationContent> AnimationClip in l_Animations.RuntimeAnimationContentDictionary)
+                instances_ = new AnimationInstance[animations_.NumAnimations];
+                //  I'll need a BlendedAnimation per animation, so that I can let the 
+                //  blender object transition between them.
+                blended_ = new IBlendedAnimation[instances_.Length];
+                int ix = 0;
+                foreach (Animation a in animations_.Animations)
                 {
-                    AnimationClip.Value.BindModelBones(model.Model);
-                    Animations.Add(AnimationClip.Value);
+                    instances_[ix] = new AnimationInstance(a);
+                    blended_[ix] = AnimationBlender.CreateBlendedAnimation(instances_[ix]);
+                    ++ix;
                 }
+            }
+        }
 
-                l_Animations.ResolveBones(model.Model);
+        IBlendedAnimation GetBlended(int ix)
+        {
+            unchecked
+            {
+                return (ix < 0) ? null : (ix >= blended_.Length) ? null : blended_[ix];
             }
         }
 
         public override void Update(ref GameTime gameTime)
         {
-            if ((Animations != null) && (Animations.Count > 0))
-            {
-                if (Playing)
-                {
-                    if (_Blending < 1.0f)
-                    {
-                        Animations[_OldAnimationIndex].PlayBack(TimeSpan.Parse("0"), 1.0f);
-                        _Blending += 0.1f;
+            if (curAnimationInstance_ > 0)
+                instances_[curAnimationInstance_].Time = instances_[OldAnimationInstance_].Time;
+                
+            blender_.TransitionAnimations(GetBlended(OldAnimationInstance_), GetBlended(curAnimationInstance_),
+                                              1.0f);
 
-                        if (_Blending > 1.0f)
-                            _Blending = 1.0f;
-                    }
-                    else
-                    {
-                        _OldAnimationIndex = _AnimationIndex;
-                    }
-                    Animations[_AnimationIndex].PlayBack(gameTime.ElapsedGameTime, _Blending);
-                }
-                else
-                {
-                    Animations[_AnimationIndex].PlayBack(TimeSpan.Parse("00:00:00"), 1.0f);
-                }
-            }
+            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (dt > 0.1f) dt = 0.1f;
+
+            if (blender_ != null)
+                blender_.Advance(dt);
 
             base.Update(ref gameTime);
         }
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
-            if (model != null && model.loaded)
+
+            //  if I have a model, set up the scene drawing parameters and draw the model
+            if (loadedModel_ != null)
+            {
+                //  the drawdetails set-up can be re-used for all items in the scene
+                //DrawDetails dd = drawDetails_;
+                //dd.dev = X.GraphicsDevice;
+                //dd.fogColor = X.Environment.FogColor;
+                //dd.fogDistance = X.Environment.FogDensity;
+                //dd.lightAmbient = X.Environment.LightColorAmbient;
+                //dd.lightDiffuse = X.Environment.LightColor;
+                //dd.lightDir = X.Environment.LightDirection;
+
+                //dd.viewInv = viewInv_;
+                //dd.viewProj = view_ * projection_;
+                //dd.world = Matrix.Identity;
+
+                Matrix World = PhysicsObject.GetWorldMatrix(model.Model, Vector3.Zero); //modeloffset);
+
+                //  draw the loaded model (the only model I have)
+                loadedModel_.Draw(ref Camera, World, blender_);
+            }
+            //  when everything else is drawn, Z sort and draw the transparent parts
+            ModelDraw.DrawDeferred();
+
+            /*if (model != null && model.loaded)
             {
             Matrix World = PhysicsObject.GetWorldMatrix(model.Model, Vector3.Zero); //modeloffset);
 
@@ -266,6 +305,7 @@ namespace XEngine
         }
     }
 
-
+*/
+        }
     }
 }

@@ -148,7 +148,7 @@ namespace Sphere
             resources.AddComponent(Chassis);
             resources.AddComponent(Wheel);
 
-            housemodel = new XModel(ref X, @"Content\Models\wheel");
+            housemodel = new XModel(ref X, @"Content\Models\spider");
             resources.AddComponent(housemodel);
             
             resources.Load();
