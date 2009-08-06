@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectGuid>5b080de2-4274-4170-a085-67b493e9dcc4</ProjectGuid>
     <ProjectTypeGuids>{96E2B04D-8817-42c6-938A-82C39BA4D311};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -286,6 +286,10 @@
     <ProjectReference Include="..\..\AnimationPipeline\AnimationPipeline.csproj">
       <Project>{26B643F3-6BB6-42BF-A461-7B2598AE5A79}</Project>
       <Name>AnimationPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\JigLibX 0.3.1\JigLibX\JigLibX.csproj">
+      <Project>{8A7CEF45-3501-491D-AEDA-0164060F5348}</Project>
+      <Name>JigLibX</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

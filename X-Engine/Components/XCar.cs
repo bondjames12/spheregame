@@ -17,10 +17,36 @@ namespace XEngine
         public Matrix Orientation { get { return Car.PhysicsBody.Orientation; } }
         Vector2 Acceleration = Vector2.Zero;
 
-        public XCar(ref XMain X, XModel Chassis, XModel Wheel, bool FWDrive, bool RWDrive, float maxSteerAngle,
-            float steerRate, float wheelSideFriction, float wheelFwdFriction, float wheelTravel,
-            float wheelRadius, float wheelZOffset, float wheelRestingFrac, float wheelDampingFrac,
-            int wheelNumRays, float driveTorque, float gravity, Vector3 Position)
+        public XCar(ref XMain X, XModel Chassis, XModel Wheel, bool FWDrive,               // Does the car have front wheel drive?
+            bool RWDrive,               // Does the car have rear wheel drive?
+            float maxSteerAngle,        // Max angle that the wheels can turn (wheel lock angle)    
+            float steerRate,            // Supposed to be the max rate wheels can turn but doesn't do anything 
+            float wheelFSideFriction,   // Lateral tire friction - For an oversteering vehicle... 
+            float wheelRSideFriction,   // ...make the front value larger than the rear 
+            float wheelFwdFriction,     // Longitutinal tire friction - try to keep these values...
+            float wheelRwdFriction,     // ...lower than 2.0f for reliability (larger values may be fine too)
+            float handbrakeRSideFriction,//Amount of lateral friction when handbrake is active
+            float handbrakeRwdFriction, // Ditto but longitudinal friction (make for real handbrake)
+            float startSlideFactor,     // The amount of drift/slide the car has - When the lateral...
+            float thresh1SlideFactor,   // ...wheel velocity is greater than slip thresholds the wheel gets...
+            float thresh2SlideFactor,   // ...the next slide factor. Factors are how much drift you'll get... 
+            float slideThreshold1,      // ...and Thresholds are at what point they will get it. These...
+            float slideThreshold2,      // ...change the smallVel variable in Wheel.cs
+            float slideSpeed,           // Adjusts speed lost while drifting - make the same as...
+            // ...thresh2SlideFactor to lose least speed during drift
+            float slipFactor,           // Standard slip factor for lateral and longitudinal friction
+            float wheelTravel,          // Total travel range of the suspension
+            float wheelRadius,          // Length of the Rays that test wheel collision
+            float wheelZOffset,         // Ride height adjustment - Mounting point of wheels up+/down-  
+            float wheelRestingFrac,     // Spring rate - Stiffer at 0.1f, softer at 0.9f
+            float wheelDampingFrac,     // Shock dampening - More at 0.9f, less at 0.1f
+            int wheelNumRays,           // Number of rays testing wheel collision
+            float rollResistance,       // Rolling resistance - higher is more resistance
+            float topSpeed,             // Uhh, top speed of vehicle (units arbitrary)                      
+            float driveTorque,          // Torque of vehicle (units arbitrary)
+            float gravity,              // Gravity affect on the car
+            
+            Vector3 Position)
             : base(ref X)
         {
             //since the car has alphablended windows we set this to true so in the render loop its last
@@ -31,9 +57,18 @@ namespace XEngine
             this.Chassis = Chassis;
             this.Wheel = Wheel;
 
-            Car = new CarObject(FWDrive, RWDrive, maxSteerAngle, steerRate, wheelSideFriction, wheelFwdFriction,
-                wheelTravel, wheelRadius, wheelZOffset, wheelRestingFrac, wheelDampingFrac, wheelNumRays,
-                driveTorque, gravity);
+            //Car = new CarObject(FWDrive, RWDrive, maxSteerAngle, steerRate, wheelSideFriction, wheelFwdFriction,
+            //    wheelTravel, wheelRadius, wheelZOffset, wheelRestingFrac, wheelDampingFrac, wheelNumRays,
+            //    driveTorque, gravity);
+
+            Car = new CarObject(FWDrive, RWDrive, maxSteerAngle, steerRate,
+            wheelFSideFriction, wheelRSideFriction, wheelFwdFriction,
+            wheelRwdFriction, handbrakeRSideFriction, handbrakeRwdFriction,
+            startSlideFactor, thresh1SlideFactor, thresh2SlideFactor,
+            slideThreshold1, slideThreshold2, slideSpeed, slipFactor, wheelTravel,
+            wheelRadius, wheelZOffset, wheelRestingFrac, wheelDampingFrac,
+            wheelNumRays, rollResistance, topSpeed, driveTorque, gravity);
+            
             Car.Car.EnableCar();
             //Car.PhysicsBody.SetDeactivationTime(99999999f);
             Car.PhysicsBody.Position = Position;

@@ -25,9 +25,9 @@ namespace XEngine
             // add a sphere in the middle
             Primitive sphere = new JigLibX.Geometry.Sphere(new Vector3(0.0f, 0.0f, 0.3f), 0.3f);
 
-            collision.AddPrimitive(capsule, (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.1f, 0.5f, 0.5f));
-            collision.AddPrimitive(box, (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.1f, 0.5f, 0.5f));
-            collision.AddPrimitive(sphere, (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.1f, 0.5f, 0.5f));
+            collision.AddPrimitive(capsule, new MaterialProperties(0.1f, 0.5f, 0.5f));
+            collision.AddPrimitive(box, new MaterialProperties(0.1f, 0.5f, 0.5f));
+            collision.AddPrimitive(sphere, new MaterialProperties(0.1f, 0.5f, 0.5f));
 
             body.CollisionSkin = this.collision;
             Vector3 com = SetMass(0.5f);

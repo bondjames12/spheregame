@@ -51,7 +51,7 @@ namespace Sphere
             graphics = new GraphicsDeviceManager(this);
 
             IsFixedTimeStep = false;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.PreferredDepthStencilFormat = SelectStencilMode();
             //graphics.PreferMultiSampling = true;
@@ -154,7 +154,39 @@ namespace Sphere
             
             resources.Load();
 
-            Car = new XCar(ref X, Chassis, Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(-10, heightmap.Heights.GetHeight(new Vector3(-10, 3, 0))+5, 0));
+            //Car = new XCar(ref X, Chassis, Wheel, true, true, 30.0f, 5.0f, 4.7f, 5.0f, 0.20f, 0.4f, 0.05f, 0.45f, 0.3f, 1, 520.0f, Math.Abs(X.Gravity.Y), new Vector3(-10, heightmap.Heights.GetHeight(new Vector3(-10, 3, 0))+5, 0));
+
+            Car = new XCar(ref X, Chassis, Wheel,
+                true,   // front wheel drive 
+                true,   // rear wheel drive 
+                35.0f,  // max steering angle 
+                5f,     // steering rate 
+                3.6f,   // front lateral traction 
+                3.1f,   // rear lateral traction 
+                1f,     // front longintudinal traction 
+                2f,     // rear longitudinal traction 
+                2.5f,   // handbrake rear lateral traction  
+                .75f,   // handbrake rear longitudinal traction 
+                6f,     // starting slide factor 
+                15f,    // threshold 1 slide factor 
+                30f,    // threshold 2 slide factor 
+                .7f,    // slip threshold 1 
+                10.0f,  // slip threshold 2 
+                2.0f,   // slide speed factor 
+                0.7f,   // traction loss factor on slip 
+                0.3f,   // suspension travel 
+                0.45f,  // wheel radius 
+                -0.10f, // wheel mounting point  
+                0.6f,   // spring rate 
+                0.6f,   // shock dampening 
+                2,      // wheel rays 
+                2.5f,   // roll resistance 
+                300.0f, // top speed 
+                1200.0f, // torque 
+                X.Physics.Gravity.Length(), // gravity  
+                new Vector3(-10, heightmap.Heights.GetHeight(new Vector3(-10, 3, 0)) + 5, 0)
+                );
+            
             Car.Load(X.Content);
 
             trees = new XTreeSystem(ref X, @"Content\Images\Treemaps\Level1", heightmap);

@@ -37,7 +37,7 @@ namespace XEngine
             // draw the model.
             body.MoveTo(new Vector3(shift.X, 0, shift.Y), Matrix.Identity);
 
-            collision.AddPrimitive(new Heightmap(field, shift.X, shift.Y, 1, 1), (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.7f, 0.7f, 0.6f));
+            collision.AddPrimitive(new Heightmap(field, shift.X, shift.Y, 1, 1), new MaterialProperties(0.7f, 0.7f, 0.6f));
 
             PhysicsSystem.CurrentPhysicsSystem.CollisionSystem.AddCollisionSkin(collision);
         }

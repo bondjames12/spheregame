@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectGuid>{F5633A6D-B5F5-4596-AD53-5D46A8C8FCF6}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -209,10 +209,6 @@
     <ProjectReference Include="..\Animation\Animation.360.csproj">
       <Project>{7CDED4FE-AB0D-47E6-863C-B5983FA73ADC}</Project>
       <Name>Animation.360</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JigLibX\JigLibX.360.csproj">
-      <Project>{2344e0e4-7fb1-480c-b374-7f95a40fc554}</Project>
-      <Name>JigLibX.360</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

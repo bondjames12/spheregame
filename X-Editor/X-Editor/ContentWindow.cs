@@ -370,8 +370,8 @@ namespace X_Editor
             if (RemoveChildren)
                 Child.RemoveAllChildren(Delete);
 
-            //foreach (ContentItem item in Child.Content)
-            //    item.Delete();
+            foreach (ContentItem item in Child.Content)
+                item.Delete();
 
             Children.Remove(Child);
 

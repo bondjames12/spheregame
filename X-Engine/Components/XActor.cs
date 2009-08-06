@@ -37,7 +37,7 @@ namespace XEngine
             set { model = value; modelNumber = model.Number; }
         }
 
-        public int PhysicsID { get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.ID; else return 0; } }
+        //public int PhysicsID { get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.ID; else return 0; } }
 
         public BoundingBox Bounds
         {
@@ -83,7 +83,7 @@ namespace XEngine
             set { rotation = value;  if (PhysicsObject != null) PhysicsObject.PhysicsBody.Orientation = Matrix.CreateFromQuaternion(value); else ; }
         }
 
-
+        /*
         List<int> collisions = new List<int>();
         public List<int> Collisions
         {
@@ -93,13 +93,13 @@ namespace XEngine
                 {
                     collisions.Clear();
                     for (int i = 0; i < PhysicsObject.PhysicsBody.CollisionSkin.Collisions.Count; i++)
-                        collisions.Add(PhysicsObject.PhysicsBody.CollisionSkin.Collisions[i].SkinInfo.Skin1.ID);
+                        collisions.Add(PhysicsObject.PhysicsBody.CollisionSkin.Collisions[i].SkinInfo.Skin1.ID); //lost ID field in update to juglibx0.3.1
                     return collisions;
                 }
                 else return collisions;
             }
         }
-
+        */
         public bool Immovable
         {
             get { if (PhysicsObject != null) return PhysicsObject.PhysicsBody.Immovable; else return true; }

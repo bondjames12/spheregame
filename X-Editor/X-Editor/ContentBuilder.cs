@@ -36,7 +36,7 @@ namespace X_Editor
 
 
         // What importers or processors should we load?
-        const string xnaVersion = ", Version=2.0.0.0, PublicKeyToken=6d5c3888ef60e27d";
+        const string xnaVersion = ", Version=3.1.0.0, PublicKeyToken=6d5c3888ef60e27d";
 
         static string[] pipelineAssemblies =
         {
@@ -162,7 +162,7 @@ namespace X_Editor
             msBuildProject.FullFileName = projectPath;
 
             msBuildProject.SetProperty("XnaPlatform", "Windows");
-            msBuildProject.SetProperty("XnaFrameworkVersion", "v2.0");
+            msBuildProject.SetProperty("XnaFrameworkVersion", "v3.1");
             msBuildProject.SetProperty("Configuration", "Release");
             msBuildProject.SetProperty("OutputPath", outputPath);
 
@@ -178,7 +178,7 @@ namespace X_Editor
             // Include the standard targets file that defines
             // how to build XNA Framework content.
             msBuildProject.AddNewImport("$(MSBuildExtensionsPath)\\Microsoft\\XNA " +
-                                        "Game Studio\\v2.0\\Microsoft.Xna.GameStudio" +
+                                        "Game Studio\\v3.1\\Microsoft.Xna.GameStudio" +
                                         ".ContentPipeline.targets", null);
         }
 

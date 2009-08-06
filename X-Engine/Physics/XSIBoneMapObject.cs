@@ -63,14 +63,14 @@ namespace XEngine
                 //Elasticity = e,StaticRoughness = sr,DynamicRoughness = dr;
                 foreach (Primitive prim in prims)
                 {
-                    collision.AddPrimitive(prim, (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.8f, 0.8f, 0.7f));
+                    collision.AddPrimitive(prim, new MaterialProperties(0.8f, 0.8f, 0.7f));
                 }
             }
             else
             {//no collision prims detected from XSI so create a default one here using the mesh bounding spheres
                 foreach(ModelMesh mesh in model.Model.Meshes)
                 {
-                    collision.AddPrimitive(new JigLibX.Geometry.Sphere(mesh.BoundingSphere.Center, mesh.BoundingSphere.Radius), (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.8f, 0.8f, 0.7f));
+                    collision.AddPrimitive(new JigLibX.Geometry.Sphere(mesh.BoundingSphere.Center, mesh.BoundingSphere.Radius), new MaterialProperties(0.8f, 0.8f, 0.7f));
                 }
             }
 
