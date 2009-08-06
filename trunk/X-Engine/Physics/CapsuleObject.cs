@@ -19,7 +19,7 @@ namespace XEngine
         {
             body = new Body();
             collision = new CollisionSkin(body);
-            collision.AddPrimitive(new Capsule(Vector3.Transform(new Vector3(-0.5f, 0, 0), orientation), orientation, radius, length), (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.8f, 0.7f, 0.6f));
+            collision.AddPrimitive(new Capsule(Vector3.Transform(new Vector3(-0.5f, 0, 0), orientation), orientation, radius, length), new MaterialProperties(0.8f, 0.7f, 0.6f));
             body.CollisionSkin = this.collision;
             Vector3 com = SetMass(10.0f);
             body.MoveTo(position + com, Matrix.Identity);

@@ -14,7 +14,7 @@ namespace XEngine
         {
             body = new Body();
             collision = new CollisionSkin(null);
-            collision.AddPrimitive(new JigLibX.Geometry.Plane(Vector3.Up,0.0f), (int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.2f, 0.7f, 0.6f));
+            collision.AddPrimitive(new JigLibX.Geometry.Plane(Vector3.Up,0.0f), new MaterialProperties(0.2f, 0.7f, 0.6f));
             PhysicsSystem.CurrentPhysicsSystem.CollisionSystem.AddCollisionSkin(collision);
         }
     }

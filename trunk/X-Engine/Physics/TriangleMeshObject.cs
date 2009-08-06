@@ -60,7 +60,7 @@ namespace XEngine
 
 
                 triangleMesh.CreateMesh(verts, indexList, 4, 1.0f);
-                collision.AddPrimitive(triangleMesh, 1, new MaterialProperties(0.8f, 0.7f, 0.6f));
+                collision.AddPrimitive(triangleMesh, new MaterialProperties(0.8f, 0.7f, 0.6f));
                
             }//do next mesh
 
