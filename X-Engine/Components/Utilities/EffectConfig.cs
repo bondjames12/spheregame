@@ -94,10 +94,43 @@ namespace XEngine
       public delegate void BindParameter(EffectParameter Parameter);
       public delegate void BindParameterByIndex(EffectParameter Parameter, int index);
 
-      public Void BindEnvironment()
+      public void BindEnvironment()
       {
           //Bind to shader
-          X.Environment.
+
+          //Ambient environment
+          SASAmbientLight EnvironAmbient = new SASAmbientLight(X.Environment.LightColorAmbient);
+          SASDirectionalLight EnvronSun = new SASDirectionalLight(X.Environment.LightColor, X.Environment.LightDirection);
+          AmbientLights.Add(EnvironAmbient);
+          DirectionalLights.Add(EnvronSun);
+
+          //Shadows
+          //Fog
+          
+      }
+
+      public void DefaultLighting()
+      {
+          // initialize lights by default
+          SASPointLight light1 = new SASPointLight();
+          SASPointLight light2 = new SASPointLight();
+          SASPointLight light3 = new SASPointLight();
+
+          light1.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
+          light2.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
+          light3.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
+
+          light1.Position = new Vector4(100.0f, 100.0f, 100.0f, 1.0f);
+          light2.Position = new Vector4(-100.0f, 100.0f, 100.0f, 1.0f);
+          light3.Position = new Vector4(0.0f, 0.0f, -100.0f, 1.0f);
+
+          light1.Range = 10000.0f;
+          light2.Range = 10000.0f;
+          light3.Range = 10000.0f;
+
+          PointLights.Add(light1);
+          PointLights.Add(light2);
+          PointLights.Add(light3);
       }
 
       public void BindCameraProjection(EffectParameter Parameter)

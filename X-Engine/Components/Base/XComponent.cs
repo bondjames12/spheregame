@@ -118,14 +118,14 @@ namespace XEngine
         public virtual void Draw(ref GameTime gameTime,ref XCamera Camera)
         {
         }
-
+#if XBOX == FALSE
         /// <summary>
         /// Draws the model attached to the model into the pick buffer
         /// </summary>
         public virtual void DrawPick(XPickBuffer pick_buf, XICamera camera)
         {
         }
-
+#endif
         public virtual void SetProjection(Matrix Projection)
         {
         }

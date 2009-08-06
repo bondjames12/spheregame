@@ -111,7 +111,7 @@ namespace XEngine
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            TreeGenerator generator = new TreeGenerator(X.GraphicsDevice, X.cloudSystem, X.Content.Load<Effect>("Content/Effects/Lambert"));
+            TreeGenerator generator = new TreeGenerator(X.GraphicsDevice, X.cloudSystem, X.Content.Load<Effect>("Content/Models/Lambert"));
             generator.LoadFromFile(Profile);
             generator.TrunkEffect.Parameters["AmbientMap"].SetValue(X.Content.Load<Texture2D>(BarkTexture));
             generator.LeafTexture = X.Content.Load<Texture>(LeafTexture);

@@ -49,7 +49,7 @@ namespace KiloWatt.Base.Animation
 
           //  set up all the well-known parameters through the EffectConfig helper.
           //ch.Fx = new EffectConfig(ref X, mmp.Effect);
-            ch.SAS = new SASContainer();
+            ch.SAS = new SASContainer(ref X);
             ch.Fx = mmp.Effect;
 
           //  if this effect is skinned, set up additional data
@@ -365,6 +365,7 @@ namespace KiloWatt.Base.Animation
 
         ch.SAS.ComputeViewAndProjection();
         ch.SAS.ComputeModel();
+        ch.SAS.BindEnvironment();
 
       for (int k = 0; k < ch.Fx.Parameters.Count; k++)
           ch.SAS.SetEffectParameterValue(ch.Fx.Parameters[k]);

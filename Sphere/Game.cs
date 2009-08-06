@@ -51,6 +51,7 @@ namespace Sphere
             graphics = new GraphicsDeviceManager(this);
 
             IsFixedTimeStep = false;
+            graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.PreferredDepthStencilFormat = SelectStencilMode();
             //graphics.PreferMultiSampling = true;

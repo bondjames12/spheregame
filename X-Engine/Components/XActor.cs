@@ -280,6 +280,7 @@ namespace XEngine
             }//end if (model != null && model.loaded)
         }
 
+#if XBOX == FALSE
         /// <summary>
         /// Draws the model attached into the pick buffer
         /// </summary>
@@ -319,6 +320,7 @@ namespace XEngine
             pick_buf.PopPickID();
             pick_buf.PopMatrix(MatrixMode.World);
         }
+#endif
 
         public override void Disable()
         {
