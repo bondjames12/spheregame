@@ -134,7 +134,7 @@ namespace Sphere
             }
 #else
             if (gamepad.ButtonPressed(Buttons.A))
-                parent.boxes.Add(new XActor(X, new CapsuleObject(1,1,Matrix.Identity,parent.freeCamera.Position), parent.model, Vector3.One, Vector3.Zero, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
+                parent.planeActor = new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10);
 #endif
 
             if (keyboard.KeyPressed(Keys.F1))

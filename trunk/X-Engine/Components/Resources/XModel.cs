@@ -8,6 +8,7 @@ namespace XEngine
 {
     public class XModel : XComponent
     {
+        private XMain X;
         public Model Model;
         public BoundingBox Boundingbox;
         public bool HasAnimatedTextures = false;
@@ -19,7 +20,7 @@ namespace XEngine
         public string Filename;
         public object Parent;
 
-        public SASContainer SASData = new SASContainer();
+        public SASContainer SASData;
 
         #region EditorProperties
 
@@ -29,6 +30,8 @@ namespace XEngine
 
         public XModel(ref XMain X, string Filename) : base(ref X)
         {
+            this.X = X;
+            SASData = new SASContainer(ref X);
             this.Filename = Filename;
             Giftextures = new Dictionary<int,XGifTexture>();
             Count++;
@@ -79,30 +82,6 @@ namespace XEngine
                 }
 
             base.Load(Content);
-        }
-
-        public void InitDefaultSASLighting()
-        {
-            // initialize lights by default
-            SASPointLight light1 = new SASPointLight();
-            SASPointLight light2 = new SASPointLight();
-            SASPointLight light3 = new SASPointLight();
-
-            light1.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
-            light2.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
-            light3.Color = new Vector4(0.7f, 0.7f, 0.7f, 1.0f);
-
-            light1.Position = new Vector4(100.0f, 100.0f, 100.0f, 1.0f);
-            light2.Position = new Vector4(-100.0f, 100.0f, 100.0f, 1.0f);
-            light3.Position = new Vector4(0.0f, 0.0f, -100.0f, 1.0f);
-
-            light1.Range = 10000.0f;
-            light2.Range = 10000.0f;
-            light3.Range = 10000.0f;
-
-            SASData.PointLights.Add(light1);
-            SASData.PointLights.Add(light2);
-            SASData.PointLights.Add(light3);
         }
 
         public void SetShader(Effect setEffectTo)

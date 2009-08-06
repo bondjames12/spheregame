@@ -349,7 +349,7 @@ float4 ShadowedStaticPS(vertexOutput IN) : COLOR0
 	//return colorOutput;
 }
 
-//This pixel shader requires XSI_VertexToPixel in xsi_include9.hlsl
+//This pixel shader requires VertexToPixel in xsi_include9.hlsl
 //takes the screen space pixel position and divides Z by W 
 
 float4 DepthMapPixelShader(vertexOutput IN) : COLOR0

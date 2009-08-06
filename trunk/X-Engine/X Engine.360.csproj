@@ -1,16 +1,16 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{219B7B7B-9CF7-4D3F-925C-85573E11A3E7}</ProjectGuid>
+    <ProjectGuid>{F5633A6D-B5F5-4596-AD53-5D46A8C8FCF6}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XEngine</RootNamespace>
     <AssemblyName>XEngine</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <XnaFrameworkVersion>v3.1</XnaFrameworkVersion>
-    <XnaPlatform>Windows</XnaPlatform>
+    <XnaPlatform>Xbox 360</XnaPlatform>
     <XnaCrossPlatformGroupID>0e61983e-3117-431f-b57f-af825c7588bb</XnaCrossPlatformGroupID>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -24,8 +24,6 @@
     <SccProvider>SubversionScc</SccProvider>
     <XnaUpgrade>
     </XnaUpgrade>
-    <TargetFrameworkSubset>
-    </TargetFrameworkSubset>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -41,52 +39,36 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
+    <OutputPath>bin\Xbox 360\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\x86\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\x86\Release</OutputPath>
-    <DefineConstants>WINDOWS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <XnaCompressContent>True</XnaCompressContent>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Xbox 360' ">
+    <OutputPath>bin\Xbox 360\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
+    <XnaCompressContent>True</XnaCompressContent>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d" />
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d" />
-    <Reference Include="mscorlib">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Components\Animation\ModelDraw.cs" />
+    <Compile Include="Components\Animation\ModelDraw.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Components\Audio\AudioManager.cs" />
     <Compile Include="Components\Audio\IAudioEmitter.cs" />
     <Compile Include="Components\Base\XInterfaces.cs" />
@@ -101,34 +83,34 @@
     <Compile Include="Components\Environment\Trees\ParticleCloudVertex.cs" />
     <Compile Include="Components\Environment\Trees\TreeGenerator.cs" />
     <Compile Include="Components\Environment\Trees\TreeModel.cs" />
-    <Compile Include="Components\Environment\XWaterFast.cs" />
-    <Compile Include="Components\Rendering\XPrimitives.cs" />
-    <Compile Include="Components\Resources\Gif Animation\GifAnimationContentTypeReader.cs" />
-    <Compile Include="Components\Resources\XTextureSequence.cs" />
-    <Compile Include="Components\Resources\XGifTexture.cs" />
-    <Compile Include="Components\Utilities\EffectConfig.cs" />
-    <Compile Include="Components\Utilities\XPickBuffer.cs" />
-    <Compile Include="Components\Utilities\XPickEffect.cs" />
-    <Compile Include="Components\Utilities\XColorConverter.cs" />
-    <Compile Include="Components\XProp.cs" />
-    <Compile Include="Components\Environment\XTree.cs" />
-    <Compile Include="Components\Environment\XTreeSystem.cs" />
     <Compile Include="Components\Environment\XDynamicSky.cs" />
     <Compile Include="Components\Environment\XHeightMap.cs" />
     <Compile Include="Components\Environment\XSkyBox.cs" />
+    <Compile Include="Components\Environment\XTree.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Components\Environment\XTreeSystem.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Components\Environment\XWater.cs" />
+    <Compile Include="Components\Environment\XWaterFast.cs" />
     <Compile Include="Components\Particles\ParticleSettings.cs" />
     <Compile Include="Components\Particles\ParticleSettingsReader.cs" />
     <Compile Include="Components\Particles\ParticleVertex.cs" />
-    <Compile Include="Components\Particles\XProjectile.cs" />
     <Compile Include="Components\Particles\XParticleEmitter.cs" />
     <Compile Include="Components\Particles\XParticleSystem.cs" />
+    <Compile Include="Components\Particles\XProjectile.cs" />
     <Compile Include="Components\Rendering\XDepthMap.cs" />
     <Compile Include="Components\Rendering\XMaterial.cs" />
+    <Compile Include="Components\Rendering\XPrimitives.cs" />
     <Compile Include="Components\Rendering\XRenderer.cs" />
+    <Compile Include="Components\Resources\Gif Animation\GifAnimationContentTypeReader.cs" />
+    <Compile Include="Components\Resources\XGifTexture.cs" />
+    <Compile Include="Components\Resources\XTextureSequence.cs" />
     <Compile Include="Components\Scripting\XCubeTriggerVolume.cs" />
     <Compile Include="Components\Scripting\XTriggerVolume.cs" />
     <Compile Include="Components\Threading\ThreadManager.cs" />
+    <Compile Include="Components\Utilities\EffectConfig.cs" />
     <Compile Include="Components\Utilities\TextureGenerator.cs" />
     <Compile Include="Components\Utilities\XDebugDrawer.cs" />
     <Compile Include="Components\Utilities\XQuadDrawer.cs" />
@@ -136,6 +118,7 @@
     <Compile Include="Components\XActor.cs" />
     <Compile Include="Components\XAnimatedActor.cs" />
     <Compile Include="Components\XCar.cs" />
+    <Compile Include="Components\XProp.cs" />
     <Compile Include="Components\XTimer.cs" />
     <Compile Include="Components\Cameras\XCamera.cs" />
     <Compile Include="Components\Cameras\XFreeLookCamera.cs" />
@@ -174,6 +157,11 @@
     </NestedContentProject>
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -189,25 +177,42 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Xna.Framework.3.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft XNA Framework Redistributable 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Animation\Animation.csproj">
-      <Project>{7A217952-F2E6-48E0-A3C2-559DDAB12ECD}</Project>
-      <Name>Animation</Name>
+    <Reference Include="Microsoft.Xna.Framework">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=1c9e259686f921e0, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml, Version=3.5.0.0, Culture=neutral, PublicKeyToken=1c9e259686f921e0, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq, Version=3.5.0.0, Culture=neutral, PublicKeyToken=1c9e259686f921e0, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Animation\Animation.360.csproj">
+      <Project>{7CDED4FE-AB0D-47E6-863C-B5983FA73ADC}</Project>
+      <Name>Animation.360</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JigLibX\JigLibX.csproj">
-      <Project>{8C96785C-F085-4DA6-83AD-AEE47591B5CF}</Project>
-      <Name>JigLibX</Name>
+    <ProjectReference Include="..\JigLibX\JigLibX.360.csproj">
+      <Project>{2344e0e4-7fb1-480c-b374-7f95a40fc554}</Project>
+      <Name>JigLibX.360</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

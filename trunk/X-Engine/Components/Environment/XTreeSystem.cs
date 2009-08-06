@@ -79,7 +79,7 @@ namespace XEngine
             // Create a tree generator for each kind of tree defined above in treeFiles
             for (int i = 0; i < TreeTypes.Length; i++)
             {
-                TreeGenerator generator = new TreeGenerator(X.GraphicsDevice, X.cloudSystem,X.Content.Load<Effect>("Content/Effects/Lambert"));
+                TreeGenerator generator = new TreeGenerator(X.GraphicsDevice, X.cloudSystem,X.Content.Load<Effect>("Content/Models/Lambert"));
                 generator.LoadFromFile(treePath + TreeTypes[i].Profile);
 
                 // Set the texture assigned to newly generated trees.

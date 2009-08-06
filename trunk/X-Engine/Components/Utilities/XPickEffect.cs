@@ -14,6 +14,7 @@ namespace XEngine
 {
     internal class XPickEffect
     {
+
         private IGraphicsDeviceService  mGraphics;
         private Effect                  mEffect;
 
@@ -81,5 +82,6 @@ namespace XEngine
                 PixelShader = compile ps_2_0 PS();
             }
         }";
+
     }
 }
