@@ -22,8 +22,6 @@ namespace AnimationProcessor
     public override string GetRuntimeReader(TargetPlatform targetPlatform)
     {
       string str = "KiloWatt.Base.Animation.AnimationSetReader, KiloWatt.Base";
-      if (targetPlatform == TargetPlatform.Xbox360)
-        str += ".360";
       return str;
     }
   }
@@ -42,8 +40,6 @@ namespace AnimationProcessor
     public override string GetRuntimeReader(TargetPlatform targetPlatform)
     {
       string str = "KiloWatt.Base.Animation.AnimationReader, KiloWatt.Base";
-      if (targetPlatform == TargetPlatform.Xbox360)
-        str += ".360";
       return str;
     }
   }
@@ -60,8 +56,6 @@ namespace AnimationProcessor
     public override string GetRuntimeReader(TargetPlatform targetPlatform)
     {
       string str = "KiloWatt.Base.Animation.AnimationTrackReader, KiloWatt.Base";
-      if (targetPlatform == TargetPlatform.Xbox360)
-        str += ".360";
       return str;
     }
   }
@@ -83,8 +77,6 @@ namespace AnimationProcessor
     public override string GetRuntimeReader(TargetPlatform targetPlatform)
     {
       string str = "KiloWatt.Base.Animation.KeyframeReader, KiloWatt.Base";
-      if (targetPlatform == TargetPlatform.Xbox360)
-        str += ".360";
       return str;
     }
   }
@@ -105,8 +97,6 @@ namespace AnimationProcessor
     public override string GetRuntimeReader(TargetPlatform targetPlatform)
     {
       string str = "KiloWatt.Base.Animation.AnimationTrackDictionaryReader, KiloWatt.Base";
-      if (targetPlatform == TargetPlatform.Xbox360)
-        str += ".360";
       return str;
     }
   }
@@ -127,8 +117,6 @@ namespace AnimationProcessor
     public override string GetRuntimeReader(TargetPlatform targetPlatform)
     {
       string str = "KiloWatt.Base.Animation.AnimationDictionaryReader, KiloWatt.Base";
-      if (targetPlatform == TargetPlatform.Xbox360)
-        str += ".360";
       return str;
     }
   }
@@ -146,8 +134,6 @@ namespace AnimationProcessor
     public override string GetRuntimeReader(TargetPlatform targetPlatform)
     {
       string str = "KiloWatt.Base.Animation.SkinnedBoneReader, KiloWatt.Base";
-      if (targetPlatform == TargetPlatform.Xbox360)
-        str += ".360";
       return str;
     }
   }
@@ -164,8 +150,6 @@ namespace AnimationProcessor
     public override string GetRuntimeReader(TargetPlatform targetPlatform)
     {
       string str = "KiloWatt.Base.Animation.BoundsInfoReader, KiloWatt.Base";
-      if (targetPlatform == TargetPlatform.Xbox360)
-        str += ".360";
       return str;
     }
   }

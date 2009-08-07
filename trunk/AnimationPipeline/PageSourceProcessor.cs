@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 
-// TODO: replace these with the processor input and output types.
+using KiloWatt.Base.Terrain;
+
 using TInput = Microsoft.Xna.Framework.Content.Pipeline.Graphics.Texture2DContent;
 using TOutput = KiloWatt.Base.Terrain.PageSource;
 
@@ -20,19 +22,20 @@ namespace KiloWatt.Pipeline
   [ContentProcessor(DisplayName = "Page Source Processor")]
   public class PageSourceProcessor : ContentProcessor<TInput, TOutput>
   {
-    internal static string RuntimeAssembly(TargetPlatform p) { return (p == TargetPlatform.Windows) ? "KiloWatt.Runtime" : "KiloWatt.Runtime.360"; }
-    internal static string BaseAssembly(TargetPlatform p) { return (p == TargetPlatform.Xbox360) ? "KiloWatt.Base" : "KiloWatt.Base.360"; }
+    internal static string RuntimeAssembly(TargetPlatform p) { return "KiloWatt.Runtime"; }
+    internal static string BaseAssembly(TargetPlatform p) { return "KiloWatt.Base"; }
 
     public PageSourceProcessor()
     {
       tsi_ = new TerrainShadeInfo();
-      tsi_.terrainEffectName_ = "effects/terrain.fx";
-      tsi_.splatTextureName_ = "textures/splat.tga";
-      tsi_.baseSplatTextureName_ = "textures/base.tga";
-      tsi_.rSplatTextureName_ = "textures/rsplat.tga";
-      tsi_.gSplatTextureName_ = "textures/gsplat.tga";
-      tsi_.bSplatTextureName_ = "textures/bsplat.tga";
-      tsi_.aSplatTextureName_ = "textures/asplat.tga";
+      tsi_.terrainEffectName_ = "terrain/terrain.fx";
+      tsi_.splatTextureName_ = "terrain/splat.tga";
+      tsi_.baseSplatTextureName_ = "terrain/base.tga";
+      tsi_.rSplatTextureName_ = "terrain/rsplat.tga";
+      tsi_.gSplatTextureName_ = "terrain/gsplat.tga";
+      tsi_.bSplatTextureName_ = "terrain/bsplat.tga";
+      tsi_.aSplatTextureName_ = "terrain/asplat.tga";
+      tsi_.nDetailTextureName_ = "terrain/ndetail.tga";
     }
     public virtual ExternalReference<TextureContent> BuildControlTexture(
         ContentProcessorContext context, string path)
@@ -64,7 +67,8 @@ namespace KiloWatt.Pipeline
       PixelBitmapContent<Single> bm = input.Mipmaps[0] as PixelBitmapContent<Single>;
       int w = bm.Width;
       int h = bm.Height;
-      if (((w-2) & (w-1)) != 0 || ((h-2) & (h-1)) != 0 || w < Page.DataSizeWithoutPad || h < Page.DataSizeWithoutPad)
+      if (((w-2) & (w-1)) != 0 || ((h-2) & (h-1)) != 0 || 
+          w < Page.DataSizeWithoutPad || h < Page.DataSizeWithoutPad)
       {
         throw new Microsoft.Xna.Framework.Content.Pipeline.InvalidContentException(
             String.Format("PageSource texture must be power of 2 plus 1 in each direction, at least {0} pixels; got {1}x{2}.",
@@ -139,6 +143,7 @@ namespace KiloWatt.Pipeline
       tst.g_ = BuildTexture(context, tsi_.gSplatTextureName_);
       tst.b_ = BuildTexture(context, tsi_.bSplatTextureName_);
       tst.a_ = BuildTexture(context, tsi_.aSplatTextureName_);
+      tst.nDetail_ = BuildTexture(context, tsi_.nDetailTextureName_);
       PixelBitmapContent<Color> normalPixels = new PixelBitmapContent<Color>(w - 1, h - 1);
       BuildNormalMap(bm, normalPixels);
       tst.normalMap_ = new Texture2DContent();
@@ -207,7 +212,7 @@ namespace KiloWatt.Pipeline
     TerrainShadeInfo tsi_;
 
     [DisplayName("Effect Name")]
-    [DefaultValue("effects/terrain.fx")]
+    [DefaultValue("terrain/terrain.fx")]
     [Description("The Effect used for rendering the terrain")]
     public string TerrainEffectName
     {
@@ -216,7 +221,7 @@ namespace KiloWatt.Pipeline
     }
 
     [DisplayName("Splat Control Texture")]
-    [DefaultValue("textures/splat.tga")]
+    [DefaultValue("terrain/splat.tga")]
     [Description("The texture (RGBA) to use to control splatting")]
     public string SplatTextureName
     {
@@ -225,7 +230,7 @@ namespace KiloWatt.Pipeline
     }
 
     [DisplayName("1 Bottom Splat Texture")]
-    [DefaultValue("textures/base.tga")]
+    [DefaultValue("terrain/base.tga")]
     [Description("The texture to use for the bottom layer")]
     public string BaseSplatTextureName
     {
@@ -234,7 +239,7 @@ namespace KiloWatt.Pipeline
     }
 
     [DisplayName("2 R Splat Texture")]
-    [DefaultValue("textures/rsplat.tga")]
+    [DefaultValue("terrain/rsplat.tga")]
     [Description("The texture to use with R weighted splat pixels")]
     public string RSplatTextureName
     {
@@ -243,7 +248,7 @@ namespace KiloWatt.Pipeline
     }
 
     [DisplayName("3 G Splat Texture")]
-    [DefaultValue("textures/gsplat.tga")]
+    [DefaultValue("terrain/gsplat.tga")]
     [Description("The texture to use with G weighted splat pixels")]
     public string GSplatTextureName
     {
@@ -252,7 +257,7 @@ namespace KiloWatt.Pipeline
     }
 
     [DisplayName("4 B Splat Texture")]
-    [DefaultValue("textures/bsplat.tga")]
+    [DefaultValue("terrain/bsplat.tga")]
     [Description("The texture to use with G weighted splat pixels")]
     public string BSplatTextureName
     {
@@ -261,12 +266,21 @@ namespace KiloWatt.Pipeline
     }
 
     [DisplayName("5 A Splat Texture")]
-    [DefaultValue("textures/asplat.tga")]
+    [DefaultValue("terrain/asplat.tga")]
     [Description("The texture to use with A weighted splat pixels")]
     public string ASplatTextureName
     {
       get { return tsi_.aSplatTextureName_; }
       set { tsi_.aSplatTextureName_ = value; }
+    }
+
+    [DisplayName("6 Normal Detail Texture")]
+    [DefaultValue("terrain/ndetail.tga")]
+    [Description("Detail texture to perturb terrain normals")]
+    public string NDetailTextureName
+    {
+      get { return tsi_.nDetailTextureName_; }
+      set { tsi_.nDetailTextureName_ = value; }
     }
   }
 
@@ -375,6 +389,7 @@ namespace KiloWatt.Pipeline
       output.WriteExternalReference<TextureContent>(tst.g_);
       output.WriteExternalReference<TextureContent>(tst.b_);
       output.WriteExternalReference<TextureContent>(tst.a_);
+      output.WriteExternalReference<TextureContent>(tst.nDetail_);
       output.WriteObject<Texture2DContent>(tst.normalMap_);
     }
   }
@@ -387,6 +402,7 @@ namespace KiloWatt.Pipeline
     public ExternalReference<TextureContent> g_;
     public ExternalReference<TextureContent> b_;
     public ExternalReference<TextureContent> a_;
+    public ExternalReference<TextureContent> nDetail_;
     public Texture2DContent normalMap_;
   }
 }

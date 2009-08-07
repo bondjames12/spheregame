@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectGuid>a74a66e2-07e9-4e17-8fd9-80e283c359e8</ProjectGuid>
     <ProjectTypeGuids>{96E2B04D-8817-42c6-938A-82C39BA4D311};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -316,8 +316,6 @@
       <Name>spider</Name>
       <Importer>XImporter</Importer>
       <Processor>AnimationProcessor</Processor>
-      <ProcessorParameters_ColorKeyEnabled>False</ProcessorParameters_ColorKeyEnabled>
-      <ProcessorParameters_ForceSkinnedShader>+-skinned</ProcessorParameters_ForceSkinnedShader>
     </Compile>
     <Compile Include="Models\wheel.fbx">
       <Name>wheel</Name>
