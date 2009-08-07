@@ -194,7 +194,7 @@ namespace XEngine
 
         public void RebuildCollisionSkin()
         {
-            this.PhysicsObject = new XSIBoneMapObject(Vector3.Zero, ref model);
+            this.PhysicsObject = new XBoneMapObject(Vector3.Zero, ref model);
             this.PhysicsObject.PhysicsBody.SetDeactivationTime(0.1f);
             this.PhysicsObject.PhysicsBody.SetActivityThreshold(5f, 5f);
 
@@ -260,7 +260,7 @@ namespace XEngine
                 //restore render modes (shader files might have changes this!
                 X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-                if (DebugMode)
+                if (X.DebugMode)
                 {
                     for (int i = 0; i < PhysicsObject.PhysicsSkin.NumPrimitives; i++)
                     {
@@ -268,7 +268,8 @@ namespace XEngine
                         if (prim is JigLibX.Geometry.Box)
                         {
                             JigLibX.Geometry.Box box = (JigLibX.Geometry.Box)prim;
-                            //BoundingVolumeRenderer.RenderBoundingBox(box.GetCentre(), box., box.SideLengths, Color.White, ref Camera.View, ref Camera.Projection);
+                            
+                            BoundingVolumeRenderer.RenderBoundingBox(box.GetCentre(), box.Orientation, box.SideLengths, Color.White, ref Camera.View, ref Camera.Projection);
                         }
                         if (prim is JigLibX.Geometry.Sphere)
                         {

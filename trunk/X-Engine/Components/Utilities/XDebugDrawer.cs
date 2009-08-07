@@ -237,6 +237,7 @@ namespace XEngine
 	
 		public static void InitializeBuffers(GraphicsDevice device, int numberOfSphereVertices)
 		{
+            BoundingVolumeRenderer.device = device;
 			vertexDeclaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);
 			effect = new BasicEffect(device, null);
 

@@ -28,8 +28,8 @@ namespace XEngine
             {
                 fps = frameCount / timeSinceLastUpdate;
 
-                Write = "FPS: " + fps.ToString("###") + " - " + "ElapsedRealTime s:" +
-                            gameTime.ElapsedRealTime.TotalSeconds.ToString(".###");
+                Write = "ElapsedRealTime sec:" + gameTime.ElapsedRealTime.TotalSeconds.ToString(".###") + " - " + "FPS:" +
+                            fps.ToString("###");
 
                 frameCount = 0;
                 timeSinceLastUpdate -= updateInterval;

@@ -30,11 +30,11 @@ namespace JigLibX.Collision
         public float StaticRoughness;
         public float DynamicRoughness;
 
-        public MaterialProperties(float e, float sr, float dr)
+        public MaterialProperties(float Elasticity, float StaticRoughness, float DynamicRoughness)
         {
-            this.Elasticity = e;
-            this.StaticRoughness = sr;
-            this.DynamicRoughness = dr;
+            this.Elasticity = Elasticity;
+            this.StaticRoughness = StaticRoughness;
+            this.DynamicRoughness = DynamicRoughness;
         }
 
         public static MaterialProperties Unset { get { return new MaterialProperties(); } }

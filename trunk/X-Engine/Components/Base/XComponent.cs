@@ -7,13 +7,11 @@ namespace XEngine
 {
     public class XComponent : IComparable<XComponent>
     {
+//#if DEBUG
+//        static XProfile ThisSection = XProfile.Get("XComponent.CompareTo()");
+//#endif
         public XMain X;
 
-        /// <summary>
-        /// The DebugMode flag is used to turn on and off debug features of objects such as 
-        /// bounding rendering and on screen status messages.
-        /// </summary>
-        public bool DebugMode = true;
         //Whether the component's "Load()" method has been called.
         public bool loaded = false;
         bool autoDraw = true;
@@ -93,7 +91,14 @@ namespace XEngine
         /// <returns></returns>
         public int CompareTo(XComponent obj)
         {
-            return this.drawOrder.CompareTo(obj.drawOrder);
+//#if DEBUG
+//            using (IDisposable d = ThisSection.Measure())
+//            {
+//#endif
+                return this.drawOrder.CompareTo(obj.drawOrder);
+//#if DEBUG
+//            }
+//#endif
         }
 
         public XComponent(ref XMain X)

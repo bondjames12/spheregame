@@ -141,7 +141,7 @@ namespace XEngine
                 //restore render modes (shader files might have changes this!
                 X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-                if (DebugMode)
+                if (X.DebugMode)
                 {
                     
                 }
