@@ -4,10 +4,11 @@ using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline.Processors;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace LevelProcessor
 {
@@ -64,7 +65,11 @@ namespace LevelProcessor
       foundSkinning_ = false;
       if (!forceShader_.Equals("") || !forceSkinnedShader_.Equals(""))
         ReplaceShaders(input, context, input.Identity);
-      return base.Process(input, context);
+      ModelContent ret = base.Process(input, context);
+      if (ret.Tag == null)
+        ret.Tag = new Dictionary<string, object>();
+      SetTexturePaths(ret);
+      return ret;
     }
     
     /// <summary>
@@ -83,6 +88,32 @@ namespace LevelProcessor
         ReplaceShaders(child, context, identity);
     }
     
+    protected virtual void SetTexturePaths(ModelContent model)
+    {
+      foreach (ModelMeshContent mmc in model.Meshes)
+      {
+        foreach (ModelMeshPartContent mmpc in mmc.MeshParts)
+        {
+          Dictionary<string, object> tag = mmpc.Tag as Dictionary<string, object>;
+          if (tag == null)
+          {
+            tag = new Dictionary<string,object>();
+            mmpc.Tag = tag;
+          }
+          foreach (KeyValuePair<string, ExternalReference<TextureContent>> kvp
+              in mmpc.Material.Textures)
+          {
+            string s = kvp.Value.Filename;
+            if (s.Contains("ontent\\"))
+              s = s.Substring(s.IndexOf("ontent\\") + 7);
+            if (s.EndsWith(".xnb"))
+              s = s.Substring(0, s.Length-4);
+            tag.Add(kvp.Key, s);
+          }
+        }
+      }
+    }
+
     /// <summary>
     /// Examine each geometry, deciding whether it should have its shader replaced, 
     /// and if so to replace with a skinned or non-skinned shader.
@@ -241,6 +272,102 @@ namespace LevelProcessor
         this.TextureFormat = fmt;
       }
       return ret;
+    }
+  }
+
+  public class AnimatedTextureContent
+  {
+    public AnimatedTextureContent(float frameTime)
+    {
+      frameTime_ = frameTime;
+      coll_ = new List<TextureContent>();
+    }
+    public float frameTime_;
+    public List<TextureContent> coll_;
+    public List<TextureContent> Array { get { return coll_; } }
+  }
+  
+  [ContentProcessor(DisplayName = "Animated Texture Processor - KiloWatt")]
+  public class AnimatedTextureProcessor : ContentProcessor<TextureContent, AnimatedTextureContent>
+  {
+    public AnimatedTextureProcessor()
+    {
+    }
+
+    [DefaultValue(1.0f)]
+    public float SecondsPerFrame { get { return secondsPerFrame_; } set { secondsPerFrame_ = value; } }
+    float secondsPerFrame_ = 1.0f;
+
+    public override AnimatedTextureContent Process(TextureContent input, ContentProcessorContext context)
+    {
+      string inputName = input.Identity.SourceFilename;
+      int offset = inputName.LastIndexOf('.');
+      if (offset < 0) offset = inputName.Length;
+      string extension = inputName.Substring(offset);
+      int ndig = 0;
+      while (offset > 0 && inputName[offset-1] >= '0' && inputName[offset-1] <= '9')
+      {
+        --offset;
+        ++ndig;
+      }
+      string digPart = inputName.Substring(offset, ndig);
+      int firstVal = digPart.Length > 0 ? Int32.Parse(digPart) : 0;
+      string baseName = inputName.Substring(0, offset);
+      string format;
+      switch (ndig)
+      {
+        case 0:
+          format = "{0}{1}{2}";
+          break;
+        case 1:
+          format = "{0}{1:0}{2}";
+          break;
+        case 2:
+          format = "{0}{1:00}{2}";
+          break;
+        case 3:
+          format = "{0}{1:000}{2}";
+          break;
+        case 4:
+          format = "{0}{1:0000}{2}";
+          break;
+        default:
+          throw new System.Exception("Animated textures can't be named with more than 4 digits (and even that is ludicrous!)");
+      }
+      AnimatedTextureContent atc = new AnimatedTextureContent(SecondsPerFrame);
+      for (int i = firstVal; true; ++i)
+      {
+        string path = String.Format(format, baseName, i, extension);
+        if (!System.IO.File.Exists(path))
+        {
+          context.Logger.LogImportantMessage("Didn't find {0}; {1} animated textures total.\n", path, i - firstVal);
+          break;
+        }
+        TextureContent tc = context.BuildAndLoadAsset<TextureContent, TextureContent>(
+            new ExternalReference<TextureContent>(path, input.Identity),
+            "Dxt5TextureProcessor");
+        context.Logger.LogMessage("Adding texture {0}.\n", path);
+        atc.Array.Add(tc);
+      }
+      return atc;
+    }
+  }
+
+  [ContentTypeWriter]
+  public class AnimatedTextureWriter : ContentTypeWriter<AnimatedTextureContent>
+  {
+    protected override void Write(ContentWriter output, AnimatedTextureContent atc)
+    {
+      output.Write(atc.frameTime_);
+      output.Write(atc.Array.Count);
+      foreach (TextureContent tc in atc.Array)
+        output.WriteObject<TextureContent>(tc);
+    }
+
+    public override string GetRuntimeReader(TargetPlatform targetPlatform)
+    {
+      string str = "KiloWatt.Runtime.Assets.AnimatedTextureReader, KiloWatt.Runtime";
+      return str;
     }
   }
 }

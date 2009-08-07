@@ -34,8 +34,8 @@ namespace AnimationProcessor
     public override ModelContent Process(NodeContent input, ContentProcessorContext context)
     {
       CompileRegularExpressions();
-      //System.Diagnostics.Debugger.Launch();
-      //System.Diagnostics.Debugger.Break();
+      context.Logger.LogMessage("Output Platform: {0}", context.TargetPlatform);
+
       maxScale_ = 0;
       maxOffset_ = 0;
       BoneContent skeleton = MeshHelper.FindSkeleton(input);

@@ -248,6 +248,10 @@ namespace Sphere
 
             if (keyboard.KeyPressed(Keys.F7))
             {
+                parent.houseactor = new XAnimatedActor(ref X, new BoxObject(new Vector3(5, 5, 1), Matrix.Identity, new Vector3(2, 2, 2)), parent.housemodel, Vector3.One, Vector3.Zero, .1f);
+                parent.houseactor.Load(X.Content);
+                parent.houseactor.Immovable = false;
+                parent.boxes.Add(parent.houseactor);
             }
 
             if (keyboard.KeyPressed(Keys.F8))
