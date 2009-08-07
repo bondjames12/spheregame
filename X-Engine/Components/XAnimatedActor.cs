@@ -71,6 +71,7 @@ namespace XEngine
 
             //  create a blender that can compose the animations for transition
             blender_ = new AnimationBlender(loadedModel_.Model, loadedModel_.Name);
+            loadedModel_.AnimationInstance = blender_;
 
             //  clear current state
             curAnimationInstance_ = 0;
@@ -128,184 +129,20 @@ namespace XEngine
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
-
             //  if I have a model, set up the scene drawing parameters and draw the model
             if (loadedModel_ != null)
             {
-                //  the drawdetails set-up can be re-used for all items in the scene
-                //DrawDetails dd = drawDetails_;
-                //dd.dev = X.GraphicsDevice;
-                //dd.fogColor = X.Environment.FogColor;
-                //dd.fogDistance = X.Environment.FogDensity;
-                //dd.lightAmbient = X.Environment.LightColorAmbient;
-                //dd.lightDiffuse = X.Environment.LightColor;
-                //dd.lightDir = X.Environment.LightDirection;
-
-                //dd.viewInv = viewInv_;
-                //dd.viewProj = view_ * projection_;
-                //dd.world = Matrix.Identity;
-
                 Matrix World = PhysicsObject.GetWorldMatrix(model.Model, Vector3.Zero); //modeloffset);
 
                 //  draw the loaded model (the only model I have)
-                loadedModel_.Draw(ref Camera, World, blender_);
+                //loadedModel_.Draw(ref Camera, World, blender_);
+                loadedModel_.SceneDraw(ref Camera, World);
+
+                //TODO: fix transparent rendering
+                //Any shaders with the transparent annotation will draw here
+                //should be done at the very end of scene
+                loadedModel_.SceneDrawTransparent(ref Camera, World);
             }
-            //  when everything else is drawn, Z sort and draw the transparent parts
-            ModelDraw.DrawDeferred();
-
-            /*if (model != null && model.loaded)
-            {
-            Matrix World = PhysicsObject.GetWorldMatrix(model.Model, Vector3.Zero); //modeloffset);
-
-            Matrix[] transforms = new Matrix[model.Model.Bones.Count];
-            model.Model.CopyAbsoluteBoneTransformsTo(transforms);
-
-            
-                if (AlphaBlendable)
-                {
-                    X.GraphicsDevice.RenderState.AlphaBlendEnable = true;
-                    X.GraphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha; // source rgb * source alpha
-                    X.GraphicsDevice.RenderState.AlphaSourceBlend = Blend.One; // don't modify source alpha
-                    X.GraphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha; // dest rgb * (255 - source alpha)
-                    X.GraphicsDevice.RenderState.AlphaDestinationBlend = Blend.InverseSourceAlpha; // dest alpha * (255 - source alpha)
-                    X.GraphicsDevice.RenderState.BlendFunction = BlendFunction.Add; // add source and dest results
-                }
-                else
-                    X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
-
-                X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
-
-                //Set camera params, compute matrices
-                model.SASData.Camera.NearFarClipping.X = Camera.NearPlane;
-                model.SASData.Camera.NearFarClipping.Y = Camera.FarPlane;
-                model.SASData.Camera.Position.X = Camera.Position.X;
-                model.SASData.Camera.Position.Y = Camera.Position.Y;
-                model.SASData.Camera.Position.Z = Camera.Position.Z;
-                model.SASData.Projection = Camera.Projection;
-                model.SASData.View = Camera.View;
-    //apply transforms to this model in this order
-      //transforms[mesh.ParentBone.Index] *
-      //Matrix.CreateFromYawPitchRoll(myObject.Rotation.Yaw, myObject.Rotation.Pitch, myObject.Rotation.Roll) *
-      //    Matrix.CreateScale(myObject.Scaling) * Matrix.CreateTranslation(myObject.Position));
-                //model.SASData.Model = World;
-                model.SASData.ComputeViewAndProjection();
-                model.SASData.ComputeModel();
-
-
-                //Lighting?????
-                //update lighting information for shaders, apply global lighting environment params
-                //model.SASData.AmbientLights.Clear();
-                //model.SASData.PointLights.Clear();
-                //model.SASData.AmbientLights.Add(new XSISASAmbientLight(X.Environment.LightColorAmbient));
-                //model.SASData.PointLights.Add(new XSISASPointLight(X.Environment.LightColor, -X.Environment.LightDirection*100, 10000));
-
-                model.InitDefaultSASLighting();
-
-
-            if (DebugMode)
-                X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
-
-            //process animation
-            XSIAnimationData l_Animations = model.Model.Tag as XSIAnimationData;
-            bool isSkinned = false;
-            Matrix[] bones = null;
-            if (l_Animations != null)
-            {
-                l_Animations.ComputeBoneTransforms(transforms);
-                bones = l_Animations.BoneTransforms;
-                if (bones != null)
-                {
-                    if (bones.Length > 0)
-                        isSkinned = true;
-                }
-            }
-
-            foreach (ModelMesh mesh in model.Model.Meshes)
-            {
-                //apply world matrix after mult by parent mesh(bone) transform
-                //the order of the multiplication is important!
-                //Relative to world origin, move to position on mesh(mesh.ParentBone.Transform) then to position on world(World)!
-                model.SASData.Model = mesh.ParentBone.Transform * World;
-                model.SASData.ComputeModel();
-                for(int j = 0; j < mesh.Effects.Count; j++)
-                {
-                    Effect effect = mesh.Effects[j];
-                    if (effect.GetType() == typeof(BasicEffect))
-                    {
-                        BasicEffect basiceffect = (BasicEffect)effect;
-                        basiceffect.EnableDefaultLighting();
-                        basiceffect.PreferPerPixelLighting = true;
-                        basiceffect.Alpha = 0.5f;
-                        basiceffect.View = model.SASData.View;
-                        basiceffect.Projection = model.SASData.Projection;
-                        basiceffect.World = model.SASData.Model;
-                        mesh.Draw();
-                    }
-                    else
-                    {
-
-                        // bind SAS shader parameters
-                        foreach (EffectParameter Parameter in effect.Parameters)
-                        {
-                            if (Parameter.ParameterType == EffectParameterType.String)
-                            {
-                                if (Parameter.Name.Contains("AnimationFileName"))
-                                {
-                                    string animfilename = Parameter.GetValueString();
-                                    if (!string.IsNullOrEmpty(animfilename))
-                                    {
-                                        //there is an animated texture here
-                                        foreach (EffectAnnotation anno in Parameter.Annotations)
-                                        {
-                                            if (anno.Name.Contains("AnimatedMap"))
-                                            {
-                                                effect.Parameters[anno.GetValueString()].SetValue(
-                                                    model.Giftextures[j].GetTexture());
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            model.SASData.SetEffectParameterValue(Parameter);
-                        }
-                            
-                        
-                        // bind bones to shader
-                        if (isSkinned)
-                        {
-                            if ((effect.Parameters["Bones"] != null) && isSkinned)
-                                effect.Parameters["Bones"].SetValue(bones);
-                        }
-
-                        //if rendering a depthmap
-                        if (Camera.RenderType == RenderTypes.Depth)
-                        {
-                            //override any techniques with DepthMap technique shader
-                            if (effect.Techniques["DepthMapSkinned"] != null)
-                                effect.CurrentTechnique = effect.Techniques["DepthMapSkinned"];
-                            continue;
-                        }
-
-                        // set the shader technique to skinned or Static or the first one, try in that order
-                        if (isSkinned && (effect.Techniques["Skinned"] != null))
-                        {
-                            effect.CurrentTechnique = effect.Techniques["Skinned"];
-                        }
-                        else
-                        {
-                            if (effect.Techniques["Static"] != null)
-                                effect.CurrentTechnique = effect.Techniques["Static"];
-                            else
-                                effect.CurrentTechnique = effect.Techniques[0];
-                        }
-                    }
-                }
-                mesh.Draw();
-            }
-        }
-    }
-
-*/
         }
     }
 }
