@@ -19,13 +19,17 @@ namespace KiloWatt.Base.Animation
       this.X = X;
       name_ = name;
       model_ = m;
+      world_ = Matrix.Identity;
 
       //  I'll need the world-space pose of each bone
       matrices_ = new Matrix[m.Bones.Count];
 
       //  inverse bind pose for skinning pose only
       object ibp;
-      if (((Dictionary<string, object>)m.Tag).TryGetValue("InverseBindPose", out ibp))
+      Dictionary<string, object> tagDict = m.Tag as Dictionary<string, object>;
+      if (tagDict == null)
+        throw new System.ArgumentException("Model {0} wasn't processed with the AnimationProcessor.", name);
+      if (tagDict.TryGetValue("InverseBindPose", out ibp))
       {
         inverseBindPose_ = ibp as SkinnedBone[];
         CalculateIndices();
@@ -42,15 +46,18 @@ namespace KiloWatt.Base.Animation
       List<Chunk> chl = new List<Chunk>();
       foreach (ModelMesh mm in m.Meshes)
       {
+        int mmpIx = 0;
         foreach (ModelMeshPart mmp in mm.MeshParts)
         {
+          ++mmpIx;
           //  chunk is used to draw an individual subset
           Chunk ch = new Chunk();
 
           //  set up all the well-known parameters through the EffectConfig helper.
-          //ch.Fx = new EffectConfig(ref X, mmp.Effect);
-            ch.SAS = new SASContainer(ref X);
-            ch.Fx = mmp.Effect;
+          //TODO: remove this line, ch.Fx gets replaced later on 2 lines down
+          //ch.Fx = new EffectConfig(ref X, mmp.Effect, mm.Name + "_" + mmpIx.ToString());
+          ch.SAS = new SASContainer(ref X);
+          ch.Fx = mmp.Effect;
 
           //  if this effect is skinned, set up additional data
           if (mmp.Effect.Parameters["Pose"] != null)
@@ -126,6 +133,21 @@ namespace KiloWatt.Base.Animation
       }
 #endif
     }
+
+    public Animation GetAnimation(string name)
+    {
+      Dictionary<string, object> dict = model_.Tag as Dictionary<string, object>;
+      if (dict == null)
+        throw new ArgumentException(String.Format("Asking for animation {0} in model {1} with no animations.", name, name_));
+      object aso;
+      AnimationSet aset;
+      if (!dict.TryGetValue("AnimationSet", out aso) || ((aset = aso as AnimationSet) == null))
+        throw new ArgumentException(String.Format("Asking for animation {0} in model {1} with no animations.", name, name_));
+      Animation an = aset.AnimationByName(name);
+      if (an == null)
+        throw new ArgumentException(String.Format("Asking for animation {0} in model {1} where it is missing.", name, name_));
+      return an;
+    }
     
     public override string ToString() { return String.Format("ModelDraw: Name = {0}", name_); }
 
@@ -136,29 +158,35 @@ namespace KiloWatt.Base.Animation
     Model model_;
     //  get the original Model instance back
     public Model Model { get { return model_; } }
+    IAnimationInstance instance_;
+    //  the playing animation
+    public IAnimationInstance AnimationInstance { get { return instance_; } set { instance_ = value; } }
+    private XMain X;
+    private XCamera camera_;
+    private Matrix world_;
+    //  the scene renderable transform
+    public Matrix Transform { get { return world_; } set { world_ = value; } }
     Matrix[] matrices_;
     SkinnedBone[] inverseBindPose_;
     Vector4[] pose_;
     BoundingSphere boundingSphere_;
-    public BoundingSphere BoundingSphere { get { return boundingSphere_; } }
-    private XMain X;
-    private XCamera camera_;
-    private Matrix world_;
+    //  the bounds for culling
+    public BoundingSphere Bounds { get { return boundingSphere_; } }
     Chunk[] chunks_;
 
     //  information needed to draw each piece, even if it's deferred for transparency
     class Chunk
     {
       //public EffectConfig Fx;
-        public Effect Fx;
-        public SASContainer SAS;
+      public Effect Fx;
+      public SASContainer SAS;
       public ModelMesh Mesh;
       public ModelMeshPart Part;
       public bool Deferred;
     }
 
     //  calculate the bounding sphere
-    public BoundingSphere CalcBoundingSphere()
+    internal BoundingSphere CalcBoundingSphere()
     {
       Vector3 a = Vector3.Zero;
       Vector3 b = Vector3.Zero;
@@ -189,33 +217,6 @@ namespace KiloWatt.Base.Animation
       return boundingSphere_;
     }
 
-    //  keep a list of instances that need deferred drawing
-    internal static List<ModelDraw> deferred_ = new List<ModelDraw>();
-    //  use a comparer to Z sort far to near
-    internal static Comparison<ModelDraw> compareDistance_ = new Comparison<ModelDraw>(CompareDistance);
-
-    //  for proper Z sorting, compare far to near
-    internal static int CompareDistance(ModelDraw a, ModelDraw b)
-    {
-      float fa = Vector3.Dot(a.world_.Translation, a.camera_.ViewProjection.Backward);
-      float fb = Vector3.Dot(b.world_.Translation, b.camera_.ViewProjection.Backward);
-      if (fa < fb) return -1;
-      if (fa > fb) return 1;
-      return 0;
-    }
-
-    //  actually draw the elements that have been marked deferred
-    public static void DrawDeferred()
-    {
-      if (deferred_.Count > 0)
-      {
-        deferred_.Sort(compareDistance_);
-        foreach (ModelDraw md in deferred_)
-          md.Draw2();
-        deferred_.Clear();
-      }
-    }
-
     //  Only call Draw() once per object instance per frame. Else 
     //  transparently sorted pieces won't draw correctly, as there is 
     //  only one set of state per ModelDraw. Use multiple ModelDraw
@@ -223,14 +224,13 @@ namespace KiloWatt.Base.Animation
     //  Immediately draw the parts that do not require transparency.
     //  put parts that need transparency on a deferred list, to be 
     //  drawn later (z sorted) using DrawDeferred().
-    //  The worldspace transform of the object should be in dd.world.
-    public void Draw(ref XCamera Camera, Matrix World, IAnimationInstance instance)
+    public bool SceneDraw(ref XCamera Camera, Matrix World)
     {
       //  if animating, then pose it
-      if (instance != null)
+      if (instance_ != null)
       {
         Matrix temp;
-        Keyframe[] kfs = instance.CurrentPose;
+        Keyframe[] kfs = instance_.CurrentPose;
         unchecked
         {
           int i = 0, n = matrices_.Length;
@@ -256,7 +256,7 @@ namespace KiloWatt.Base.Animation
       {
         if (mb.Parent != null)
         {
-            Matrix m = matrices_[mb.Index] * World;
+          Matrix m = matrices_[mb.Index] * World;
           Vector3 c = m.Translation;
           X.DebugDrawer.DrawLine(
               c,
@@ -281,7 +281,7 @@ namespace KiloWatt.Base.Animation
       if (pose_ != null)
         GeneratePose();
       //  chain to an internal helper
-      Draw(ref Camera, World, false);
+      return Draw(ref Camera, World, false);
     }
 
     void GeneratePose()
@@ -303,14 +303,15 @@ namespace KiloWatt.Base.Animation
     }
 
     //  callback for transparent drawing
-    internal void Draw2()
+    public void SceneDrawTransparent(ref XCamera Camera, Matrix World)
     {
-      Draw(ref camera_, world_, true);
+        Draw(ref Camera, World, true);
     }
 
     //  Draw helper that actually issues geometry, or defers for later.
-    internal void Draw(ref XCamera Camera, Matrix world, bool asDeferred)
+    internal bool Draw(ref XCamera Camera, Matrix world, bool asDeferred)
     {
+      //  keep a copy of world, because I override it in the DrawDetails
       bool added = false;
       //  each chunk is drawn separately, as it represents a different 
       //  shader set-up (world transform, texture, etc).
@@ -325,53 +326,40 @@ namespace KiloWatt.Base.Animation
         }
         else if (ch.Deferred)
         {
-          //  if the chunk is deferred, and I'm not being drawn for deferred 
-          //  pieces right now, then add me to the list of things to draw 
-          //  later.
-          if (!added)
-          {
-            added = true;
-            //  lazy allocation of drawDetails_ copy, only if needed
-            //if (Camera == null)
-            //  deferDetails_ = new DrawDetails();
-            //dd.CopyTo(deferDetails_);
-            //  use the original world matrix, not the working temp in the dd
-            //deferDetails_.world = world;
-            camera_ = Camera;
-            world_ = world;
-            deferred_.Add(this);
-          }
+          added = true;
           continue;
         }
-        DrawChunk(ref Camera, ch, ref world);
+        DrawChunk(ref Camera, ref world, ch);
       }
+      return added;
     }
 
     //  do the device and effect magic to render a given chunk of geometry
-    private void DrawChunk(ref XCamera Camera, Chunk ch, ref Matrix world)
+    private void DrawChunk(ref XCamera Camera, ref Matrix world, Chunk ch)
     {
-      //  configure the device and actually draw
-      X.GraphicsDevice.Indices = ch.Mesh.IndexBuffer;
-      X.GraphicsDevice.VertexDeclaration = ch.Part.VertexDeclaration;
-      X.GraphicsDevice.Vertices[0].SetSource(ch.Mesh.VertexBuffer, ch.Part.StreamOffset, ch.Part.VertexStride);
-      //  note: calculating the world matrix overrides the previous value, hence the use
-      //  of the saved copy of the world transform
-      Matrix.Multiply(ref matrices_[ch.Mesh.ParentBone.Index], ref world, out world_);
-      
+        //  configure the device and actually draw
+        X.GraphicsDevice.Indices = ch.Mesh.IndexBuffer;
+        X.GraphicsDevice.VertexDeclaration = ch.Part.VertexDeclaration;
+        X.GraphicsDevice.Vertices[0].SetSource(ch.Mesh.VertexBuffer, ch.Part.StreamOffset, ch.Part.VertexStride);
+        //  note: calculating the world matrix overrides the previous value, hence the use
+        //  of the saved copy of the world transform
+        Matrix chworld;
+        Matrix.Multiply(ref matrices_[ch.Mesh.ParentBone.Index], ref world, out chworld);
+
         //ch.Fx.Setup();
         ch.SAS.Projection = Camera.Projection;
-        ch.SAS.World = world_;
+        ch.SAS.World = chworld;
         ch.SAS.View = Camera.View;
 
         ch.SAS.ComputeViewAndProjection();
         ch.SAS.ComputeModel();
         ch.SAS.BindEnvironment();
 
-      for (int k = 0; k < ch.Fx.Parameters.Count; k++)
-          ch.SAS.SetEffectParameterValue(ch.Fx.Parameters[k]);
+        for (int k = 0; k < ch.Fx.Parameters.Count; k++)
+            ch.SAS.SetEffectParameterValue(ch.Fx.Parameters[k]);
 
-      ch.Fx.Begin(); //  be lazy and save state
-      EffectTechnique et = ch.Fx.CurrentTechnique;
+        ch.Fx.Begin(SaveStateMode.SaveState); //  be lazy and save state
+        EffectTechnique et = ch.Fx.CurrentTechnique;
       //  most my effects are single-pass, but at least transparency is multi-pass
       for (int i = 0, n = et.Passes.Count; i != n; ++i)
       {
