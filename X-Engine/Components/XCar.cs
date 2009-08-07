@@ -122,7 +122,7 @@ namespace XEngine
             //the car has alphablended windows turn this off now or else other things go transparent!
             X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-            if (DebugMode)
+            if (X.DebugMode)
             {
                 //Draw Bounding Box/Frustum
                 //X.DebugDrawer.DrawCube(Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);

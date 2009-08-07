@@ -725,9 +725,10 @@ namespace JigLibX.Physics
         /// <param name="result"></param>
         public void GetVelocity(ref Vector3 relPos, out Vector3 result)
         {
-            result.X = transformRate.Velocity.X + transformRate.AngularVelocity.Y * relPos.Z - transformRate.AngularVelocity.Z * relPos.Y;
-            result.Y = transformRate.Velocity.Y + transformRate.AngularVelocity.Z * relPos.X - transformRate.AngularVelocity.X * relPos.Z;
-            result.Z = transformRate.Velocity.Z + transformRate.AngularVelocity.X * relPos.Y - transformRate.AngularVelocity.Y * relPos.X;
+            result = new Vector3(
+                 transformRate.Velocity.X + transformRate.AngularVelocity.Y * relPos.Z - transformRate.AngularVelocity.Z * relPos.Y,//X
+                 transformRate.Velocity.Y + transformRate.AngularVelocity.Z * relPos.X - transformRate.AngularVelocity.X * relPos.Z,//Y
+                 transformRate.Velocity.Z + transformRate.AngularVelocity.X * relPos.Y - transformRate.AngularVelocity.Y * relPos.X);//Z
         }
 
         /// <summary>

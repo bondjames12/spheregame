@@ -138,7 +138,7 @@ namespace XEngine
                 X.GraphicsDevice.RenderState.AlphaTestEnable=oldAlphaTest;
                 X.GraphicsDevice.RenderState.ReferenceAlpha=oldReferenceAlpha;
 
-                if (DebugMode)
+                if (X.DebugMode)
                 {
                     //model.Model.Meshes[0].BoundingSphere.
                     //Draw Frustum (Yellow) and Physics Bounding (White), In XActor these should be the same but draw then both anyway just in case

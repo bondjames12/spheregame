@@ -107,6 +107,7 @@
     <Compile Include="Components\Resources\XTextureSequence.cs" />
     <Compile Include="Components\Resources\XGifTexture.cs" />
     <Compile Include="Components\Utilities\EffectConfig.cs" />
+    <Compile Include="Components\Utilities\Profiling.cs" />
     <Compile Include="Components\Utilities\XPickBuffer.cs" />
     <Compile Include="Components\Utilities\XPickEffect.cs" />
     <Compile Include="Components\Utilities\XColorConverter.cs" />
@@ -163,7 +164,7 @@
     <Compile Include="Components\Utilities\XFramerate.cs" />
     <Compile Include="Components\Environment\XEnvironmentParameters.cs" />
     <Compile Include="Physics\XHingeJoint.cs" />
-    <Compile Include="Physics\XSIBoneMapObject.cs" />
+    <Compile Include="Physics\XBoneMapObject.cs" />
     <Compile Include="XMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

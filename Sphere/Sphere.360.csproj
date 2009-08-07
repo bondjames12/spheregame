@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectGuid>{1E882FA0-E968-498A-8CFD-AB2446E427CB}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -136,6 +136,10 @@
     <Reference Include="System.Xml.Linq, Version=3.5.0.0, Culture=neutral, PublicKeyToken=1c9e259686f921e0, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JigLibX 0.3.1\JigLibX\JigLibX Xbox 360.csproj">
+      <Project>{610523B4-A5A6-4D3A-A10F-DAFE02D49B9D}</Project>
+      <Name>JigLibX Xbox 360</Name>
+    </ProjectReference>
     <ProjectReference Include="..\X-Engine\X Engine.360.csproj">
       <Project>{F5633A6D-B5F5-4596-AD53-5D46A8C8FCF6}</Project>
       <Name>X Engine.360</Name>

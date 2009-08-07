@@ -37,6 +37,14 @@ namespace XEngine
         public XCamera DefaultCamera;
         public ParticleCloudSystem cloudSystem;
 
+        /// <summary>
+        /// The DebugMode flag is used to turn on and off debug features of objects such as 
+        /// bounding rendering and on screen status messages.
+        /// </summary>
+#if DEBUG
+        public bool DebugMode = true;
+#endif
+
         public XMain(GraphicsDevice GraphicsDevice,IServiceProvider Services, string ContentRootDir, XCamera defaultCamera)
         {
             Components = new List<XComponent>();

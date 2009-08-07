@@ -111,6 +111,7 @@
     <Compile Include="Components\Scripting\XTriggerVolume.cs" />
     <Compile Include="Components\Threading\ThreadManager.cs" />
     <Compile Include="Components\Utilities\EffectConfig.cs" />
+    <Compile Include="Components\Utilities\Profiling.cs" />
     <Compile Include="Components\Utilities\TextureGenerator.cs" />
     <Compile Include="Components\Utilities\XDebugDrawer.cs" />
     <Compile Include="Components\Utilities\XQuadDrawer.cs" />
@@ -145,8 +146,8 @@
     <Compile Include="Components\Utilities\XDebug.cs" />
     <Compile Include="Components\Utilities\XFramerate.cs" />
     <Compile Include="Components\Environment\XEnvironmentParameters.cs" />
+    <Compile Include="Physics\XBoneMapObject.cs" />
     <Compile Include="Physics\XHingeJoint.cs" />
-    <Compile Include="Physics\XSIBoneMapObject.cs" />
     <Compile Include="XMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -207,6 +208,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Animation\Animation.360.csproj">
+      <Project>{7CDED4FE-AB0D-47E6-863C-B5983FA73ADC}</Project>
+      <Name>Animation.360</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JigLibX 0.3.1\JigLibX\JigLibX Xbox 360.csproj">
+      <Project>{610523B4-A5A6-4D3A-A10F-DAFE02D49B9D}</Project>
+      <Name>JigLibX Xbox 360</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" Condition="" />

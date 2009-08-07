@@ -54,7 +54,7 @@ namespace XEngine
             //Camera.ShadowProjection = Camera.Projection;
             //Camera.ShadowView = Camera.View;
             Camera.RenderType = RenderTypes.Normal;
-            Camera.DebugMode = true;
+            X.DebugMode = true;
             X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, ClearColor, 1.0f, 0);
             DrawScene(ref gameTime,ref Camera, null , null);
 
@@ -65,8 +65,9 @@ namespace XEngine
             //    sprite.Draw(X.DepthMap.depthMap, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 0.2f, SpriteEffects.None, 1);
             //    sprite.End();
             //}
-             
-
+#if DEBUG
+//            XProfile.Dump();
+#endif
         }
 
         public void DrawScene(ref GameTime gameTime,ref XCamera Camera, List<XComponent> NoDrawComponents, List<Type> NoDrawTypes)
@@ -82,7 +83,7 @@ namespace XEngine
             //Begin 2D Sprite Batch
             X.spriteBatch.Begin();
 
-            if (DebugMode)
+            if (X.DebugMode)
             {
                 //draw axis for debug info, so I can get an idea of where i am in the game
                 X.DebugDrawer.DrawLine(new Vector3(-1000, 0, 0), new Vector3(1000, 0, 0), Color.Red);
@@ -123,7 +124,7 @@ namespace XEngine
                 XComponent component = X.Components[i];
             
                 //if debug rendering is on draw the XTriggerVolume(s)
-                if(Camera.DebugMode)
+                if(X.DebugMode)
                 {
                     if(component is XTriggerVolume)
                     {
@@ -206,7 +207,7 @@ namespace XEngine
                     continue;
 
                 //render boundingspheres for each mesh!
-                if (DebugMode)
+                if (X.DebugMode)
                 {
                     BoundingVolumeRenderer.RenderBoundingSphere(bs, ref Camera.View, ref Camera.Projection);
                 }

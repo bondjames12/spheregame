@@ -57,12 +57,12 @@ namespace Sphere
             //graphics.PreferMultiSampling = true;
 
             // use this for 720P
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            //graphics.PreferredBackBufferWidth = 1280;
+            //graphics.PreferredBackBufferHeight = 720;
  
             // for NTSC, use a 4:3 ratio
-            //graphics.PreferredBackBufferWidth = 720;
-            //graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferWidth = 720;
+            graphics.PreferredBackBufferHeight = 480;
         }
 
 
@@ -92,6 +92,7 @@ namespace Sphere
         protected override void Initialize()
         {
             X = new XMain(graphics.GraphicsDevice,Services, "", freeCamera);
+            BoundingVolumeRenderer.InitializeBuffers(X.GraphicsDevice, 50);
             X.Gravity = new Vector3(0, -40, 0);
             X.FrameRate.DisplayFrameRate = true;
             X.Console.AutoDraw = false;
@@ -110,9 +111,6 @@ namespace Sphere
             chase = new XChaseCamera(ref X, .1f, 1000f);
             currentCamera = chase;
             X.DefaultCamera = freeCamera;
-
-
-            BoundingVolumeRenderer.InitializeBuffers(X.GraphicsDevice, 50);
 
             base.Initialize();
         }
@@ -140,7 +138,7 @@ namespace Sphere
             resources.AddComponent(heightmap);
             resources.AddComponent(sky);
 
-            model = new XModel(ref X, @"Content\Models\grass");
+            model = new XModel(ref X, @"Content\Models\cube");
             resources.AddComponent(model);
 
             Chassis = new XModel(ref X, @"Content\Models\chassis");

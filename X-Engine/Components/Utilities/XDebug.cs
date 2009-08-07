@@ -32,7 +32,7 @@ namespace XEngine
         {
             int offset = (int)StartPosition.Y;
 
-            if (DebugMode)
+            if (X.DebugMode)
             {
                 //write debug text with the camera position passed into this draw method
                 string Text = "Current Camera Name: " + Camera.Name;
