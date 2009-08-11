@@ -119,7 +119,6 @@
     <Compile Include="Components\Environment\XSkyBox.cs" />
     <Compile Include="Components\Environment\XWater.cs" />
     <Compile Include="Components\Particles\ParticleSettings.cs" />
-    <Compile Include="Components\Particles\ParticleSettingsReader.cs" />
     <Compile Include="Components\Particles\ParticleVertex.cs" />
     <Compile Include="Components\Particles\XProjectile.cs" />
     <Compile Include="Components\Particles\XParticleEmitter.cs" />

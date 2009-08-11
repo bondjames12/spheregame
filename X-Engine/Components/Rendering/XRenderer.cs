@@ -54,11 +54,9 @@ namespace XEngine
             //Camera.ShadowProjection = Camera.Projection;
             //Camera.ShadowView = Camera.View;
             Camera.RenderType = RenderTypes.Normal;
-            X.DebugMode = true;
             X.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, ClearColor, 1.0f, 0);
             DrawScene(ref gameTime,ref Camera, null , null);
 
-            
            //using (SpriteBatch sprite = new SpriteBatch(X.GraphicsDevice))
             //{
             //    sprite.Begin(SpriteBlendMode.None, SpriteSortMode.Texture, SaveStateMode.SaveState);
@@ -81,10 +79,8 @@ namespace XEngine
             //ActorsInView.Clear();
 
             //Begin 2D Sprite Batch
-            X.spriteBatch.Begin();
-
-            if (X.DebugMode)
-            {
+            X.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred, SaveStateMode.SaveState);
+#if DEBUG
                 //draw axis for debug info, so I can get an idea of where i am in the game
                 X.DebugDrawer.DrawLine(new Vector3(-1000, 0, 0), new Vector3(1000, 0, 0), Color.Red);
                 X.DebugDrawer.DrawLine(new Vector3(0, -1000, 0), new Vector3(0, 1000, 0), Color.Green);
@@ -117,20 +113,18 @@ namespace XEngine
                 {
                     X.DebugDrawer.DrawLine(new Vector3(-1000, 0, z), new Vector3(1000, 0, z), Color.Blue);
                 }*/
-            }
-
+#endif
             for(int i=0;i<X.Components.Count;i++)
             {
                 XComponent component = X.Components[i];
             
                 //if debug rendering is on draw the XTriggerVolume(s)
-                if(X.DebugMode)
-                {
+#if DEBUG
                     if(component is XTriggerVolume)
                     {
                         component.Draw(ref gameTime, ref Camera);
                     }
-                }
+#endif
                 //is this XComponent Drawable? and not the renderer?
                 if(!(component is XIDrawable) || (component is XRenderer))
                     continue;
@@ -206,11 +200,11 @@ namespace XEngine
                 if (Camera.Frustrum.Contains(bs) == ContainmentType.Disjoint)
                     continue;
 
+                
+#if DEBUG
                 //render boundingspheres for each mesh!
-                if (X.DebugMode)
-                {
-                    BoundingVolumeRenderer.RenderBoundingSphere(bs, ref Camera.View, ref Camera.Projection);
-                }
+                XDebugVolumeRenderer.RenderSphere(bs, Color.Yellow, ref Camera.View, ref Camera.Projection);
+#endif
 
                 Model.SASData.ComputeModel();
 
@@ -260,7 +254,7 @@ namespace XEngine
                     else
                         effect.CurrentTechnique = effect.Techniques[0];
                 }
-                mesh.Draw();
+                mesh.Draw(SaveStateMode.SaveState);
             }
         }
     }

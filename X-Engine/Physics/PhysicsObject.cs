@@ -17,8 +17,9 @@ namespace XEngine
     /// </summary>
     public abstract class XPhysicsObject
     {
-        protected Body body;
+        protected Body body;     
         protected CollisionSkin collision;
+
 
         public Vector3 scale = Vector3.One;
         public Vector3 centerOfMass = Vector3.Zero;
@@ -32,7 +33,19 @@ namespace XEngine
         public XPhysicsObject()
         {
         }
+#if DEBUG
+        public VertexPositionColor[] GetCollisionWireframe()
+        {
+            VertexPositionColor[] wf = collision.GetLocalSkinWireframe();
 
+            // if the collision skin was also added to the body
+            // we have to transform the skin wireframe to the body space
+            if (body.CollisionSkin != null)        
+                body.TransformWireframe(wf);
+
+            return wf;
+        }
+#endif
         public Vector3 SetMass(float mass)
         {
             PrimitiveProperties primitiveProperties =

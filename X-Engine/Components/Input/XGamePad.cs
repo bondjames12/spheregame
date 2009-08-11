@@ -62,6 +62,7 @@ namespace XEngine
         {
             LastState = CurrentState;
             CurrentState = GamePad.GetState(index);
+            
         }
 
         public enum States { Last, Current }

@@ -46,7 +46,8 @@ namespace XEngine
 
 
 
-        public BoundingBox boundingBox = new BoundingBox();
+        public BoundingBox boundingBox;
+        public BoundingSphere boundingSphere;
 
         public XHeightMap(ref XMain X, string HeightMap, XEnvironmentParameters Params, string RTexture, string GTexture, string BTexture, string TextureMap) : base(ref X) 
         {
@@ -160,6 +161,7 @@ namespace XEngine
             Object = new HeightmapObject(Heights, Vector2.Zero);
 
             boundingBox = new BoundingBox(new Vector3(-(WIDTH / 2), 0, -(HEIGHT / 2)), new Vector3((WIDTH / 2), maxheight, (HEIGHT / 2)));
+            boundingSphere = new BoundingSphere(Vector3.Zero, MathHelper.Max(WIDTH, MathHelper.Max(HEIGHT, maxheight)));
 
             base.Load(Content);
         }
@@ -168,7 +170,7 @@ namespace XEngine
         {
             if (loaded)
             {
-                X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
+                //X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
 
                 effect.Parameters["WorldViewProj"].SetValue(World * Camera.View * Camera.Projection);
                 effect.Parameters["ViewInv"].SetValue(Matrix.Invert(Camera.View));
@@ -190,7 +192,7 @@ namespace XEngine
                         effect.CurrentTechnique = effect.Techniques["SkyDome"];
                 }
 
-                effect.Begin();
+                effect.Begin(SaveStateMode.SaveState);
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                 {
                     pass.Begin();
@@ -204,11 +206,10 @@ namespace XEngine
                     pass.End();
                 }
                 effect.End();
-
-                X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
-
-                if (X.DebugMode)
+#if DEBUG
                     X.DebugDrawer.DrawCube(boundingBox.Min, boundingBox.Max, Color.Yellow, World, Camera);
+                    X.DebugDrawer.DrawShape(Object.GetCollisionWireframe());
+#endif
 
             }
         }

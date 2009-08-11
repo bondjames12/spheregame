@@ -258,22 +258,10 @@ namespace KiloWatt.Base.Animation
         {
           Matrix m = matrices_[mb.Index] * World;
           Vector3 c = m.Translation;
-          X.DebugDrawer.DrawLine(
-              c,
-              (matrices_[mb.Parent.Index]*World).Translation,
-              Color.White);
-          X.DebugDrawer.DrawLine(
-              c,
-              c + m.Right * 0.5f,
-              Color.Red);
-          X.DebugDrawer.DrawLine(
-              c,
-              c + m.Up * 0.5f,
-              Color.Green);
-          X.DebugDrawer.DrawLine(
-              c,
-              c + m.Backward * 0.5f,
-              Color.Blue);
+          X.DebugDrawer.DrawLine(c, (matrices_[mb.Parent.Index]*World).Translation,  Color.Purple);
+          X.DebugDrawer.DrawLine(c, c + m.Right * 0.5f,Color.Red);
+          X.DebugDrawer.DrawLine(c, c + m.Up * 0.5f,  Color.Green);
+          X.DebugDrawer.DrawLine(c, c + m.Backward * 0.5f, Color.Blue);
         }
       }
 #endif

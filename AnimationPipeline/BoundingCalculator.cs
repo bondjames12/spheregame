@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 
 namespace KiloWatt.Pipeline
 {
-  [ContentProcessor(DisplayName = "Bounding Box Calculator")]
-  public class BoundingBoxCalculator : ModelProcessor
+  [ContentProcessor(DisplayName = "Bounding Calculator")]
+  public class BoundingCalculator : ModelProcessor
   {
-    public BoundingBoxCalculator()
+    public BoundingCalculator()
     {
       base.ColorKeyEnabled = false;
       base.SwapWindingOrder = true;
@@ -20,7 +20,7 @@ namespace KiloWatt.Pipeline
     public override ModelContent Process(NodeContent input, ContentProcessorContext context)
     {
  	    ModelContent ret = base.Process(input, context);
-      CalculateBoundingBox(input, ret);
+      CalculateBounding(input, ret);
       return ret;
     }
 
@@ -50,16 +50,18 @@ namespace KiloWatt.Pipeline
     /// Calculate a bounding box for the model.
     /// </summary>
     /// <param name="model">The model to calculate AABBs for</param>
-    public static void CalculateBoundingBox(NodeContent input, ModelContent model)
+    public static void CalculateBounding(NodeContent input, ModelContent model)
     {
       BoundingBox box = new BoundingBox();
-      CalculateBoundingBox(input, ref box);
+      BoundingSphere sphere = new BoundingSphere();
+      CalculateBounding(input, ref box, ref sphere);
       if (model.Tag == null)
         model.Tag = new Dictionary<string, object>();
       (model.Tag as Dictionary<string, object>).Add("BoundingBox", box);
+      (model.Tag as Dictionary<string, object>).Add("BoundingSphere", sphere);
     }
     
-    public static void CalculateBoundingBox(NodeContent node, ref BoundingBox box)
+    public static void CalculateBounding(NodeContent node, ref BoundingBox box, ref BoundingSphere sphere)
     {
       if (node is MeshContent)
       {
@@ -70,10 +72,11 @@ namespace KiloWatt.Pipeline
         Vector3.Transform(pts, ref mat, pts);
         BoundingBox b2 = BoundingBox.CreateFromPoints(pts);
         box = BoundingBox.CreateMerged(box, b2);
+        sphere = BoundingSphere.CreateFromBoundingBox(box);
       }
       foreach (NodeContent cld in node.Children)
       {
-        CalculateBoundingBox(cld, ref box);
+        CalculateBounding(cld, ref box, ref sphere);
       }
     }
 

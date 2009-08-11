@@ -309,7 +309,6 @@ float4 PS_Water( VSOUTPUT IN ) : COLOR0 {
 technique techDefault {
 	pass p0 {
 		CullMode		= None;
-	
 		VertexShader	= compile vs_2_0 VS_Water();
 		PixelShader		= compile ps_2_0 PS_Water();
 	}

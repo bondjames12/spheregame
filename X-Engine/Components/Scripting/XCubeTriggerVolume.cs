@@ -44,7 +44,7 @@ namespace XEngine
         public override void Draw(ref GameTime gameTime, ref XCamera Camera)
         {
             X.DebugDrawer.DrawBoundingBox(box, Color.Red, Matrix.Identity, Camera);
-            //BoundingVolumeRenderer.RenderBoundingBox(box.GetCentre(), Matrix.Identity, box.SideLengths, Color.White, ref Camera.View, ref Camera.Projection);
+            //XDebugVolumeRenderer.RenderBox(box.GetCentre(), Matrix.Identity, box.SideLengths, Color.White, ref Camera.View, ref Camera.Projection);
             base.Draw(ref gameTime, ref Camera);
         }
         /*

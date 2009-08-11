@@ -28,7 +28,7 @@ namespace Sphere
         {
 #if XBOX == FALSE
             mouse = new XMouse(ref X);
-            //mouse.Reset = false;
+            mouse.Reset = false;
 #endif
             keyboard = new XKeyboard(ref X);
             gamepad = new XGamePad(ref X, 1);
@@ -80,17 +80,77 @@ namespace Sphere
                 return;
             }
 
-//mouse code
-#if XBOX == FALSE
+            //drive car
+            //TODO: Fix the retarded classes here, car is way to many level deep???? or something OMG
+            if (parent.Car != null)
+            {
+                if (keyboard.KeyDown(Keys.Up) || keyboard.KeyDown(Keys.Down))
+                {
+                    if (keyboard.KeyDown(Keys.Up))
+                        parent.Car.Car.Car.Accelerate = 1.0f;
+                    else
+                        parent.Car.Car.Car.Accelerate = -1.0f;
+                }
+                else
+                    parent.Car.Car.Car.Accelerate = 0.0f;
+
+                if (keyboard.KeyDown(Keys.Left) || keyboard.KeyDown(Keys.Right))
+                {
+                    if (keyboard.KeyDown(Keys.Left))
+                        parent.Car.Car.Car.Steer = 1.0f;
+                    else
+                        parent.Car.Car.Car.Steer = -1.0f;
+                }
+                else
+                    parent.Car.Car.Car.Steer = 0.0f;
+
+                if (keyboard.KeyDown(Keys.B))
+                    parent.Car.Car.Car.HBrake = 1.0f;
+                else
+                    parent.Car.Car.Car.HBrake = 0.0f;
+                
+                
+            }
+//Mouse code
+#if !XBOX
             parent.freeCamera.Rotate(new Vector3(mouse.Delta.Y * .0016f, mouse.Delta.X * .0016f, 0));
             parent.driverCamera.Rotate(new Vector3(mouse.Delta.Y * .0016f, mouse.Delta.X * .0016f, 0));
+            if (mouse.ButtonPressed(XMouse.Buttons.Left))
+            {
+                //parent.boxes.Add(new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
+                if (parent.planeActor != null) parent.planeActor.Disable();
+                parent.planeActor = new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10);
+                
+            }
+            if (mouse.ButtonPressed(XMouse.Buttons.Right))
+            {
+                XProp prop = new XProp(ref X, new XModel(ref X, @"Content\Models\tv"), parent.currentCamera.Position, Vector3.Zero, Matrix.Identity, Vector3.One);
+                prop.Load(X.Content);
+            }
 #endif
-            parent.freeCamera.Rotate(new Vector3((gamepad.Thumbstick(XGamePad.Thumbsticks.Right).Y * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, (-gamepad.Thumbstick(XGamePad.Thumbsticks.Right).X * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
-            
-//Camera Movement with KB or Gamepad directional pad
+
+//GAME PAD Controls
+            if(gamepad.State(XGamePad.States.Current).IsConnected == true)
+            {
+                parent.freeCamera.Rotate(new Vector3((gamepad.Thumbstick(XGamePad.Thumbsticks.Right).Y * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, (-gamepad.Thumbstick(XGamePad.Thumbsticks.Right).X * .5f) * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
+                if (gamepad.ButtonPressed(Buttons.A))
+                    parent.planeActor = new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 300);
+
+                parent.Car.Car.Car.Accelerate = gamepad.Trigger(XGamePad.Triggers.Left);
+                parent.Car.Car.Car.Steer = gamepad.Thumbstick(XGamePad.Thumbsticks.Left).X * -1;
+                parent.Car.Car.Car.HBrake = gamepad.Trigger(XGamePad.Triggers.Right);
+
+                //Gamepad driving controls
+                X.Debug.Write("LS: X:" + gamepad.Thumbstick(XGamePad.Thumbsticks.Left).X.ToString() + " Y:" + gamepad.Thumbstick(XGamePad.Thumbsticks.Left).Y.ToString(), false);
+                X.Debug.Write("RS: X:" + gamepad.Thumbstick(XGamePad.Thumbsticks.Right).X.ToString() + " Y:" + gamepad.Thumbstick(XGamePad.Thumbsticks.Right).Y.ToString(), false);
+                X.Debug.Write("LT: " + gamepad.Trigger(XGamePad.Triggers.Left).ToString(), false);
+                X.Debug.Write("RT: " + gamepad.Trigger(XGamePad.Triggers.Right).ToString(), false);
+            }
+
+            //Camera Movement with KB or Gamepad directional pad
             float speed = 40f;
-            if(keyboard.KeyDown(Keys.LeftShift)) speed = 2f;
-            if(keyboard.KeyDown(Keys.LeftControl)) speed = 200f;
+            if (keyboard.KeyDown(Keys.LeftShift)) speed = 2f;
+            if (keyboard.KeyDown(Keys.LeftControl)) speed = 200f;
 
             if (keyboard.KeyDown(Keys.W) || gamepad.ButtonDown(Buttons.DPadUp))
                 parent.freeCamera.Translate(Vector3.Forward * speed);
@@ -106,51 +166,10 @@ namespace Sphere
             X.Debug.Write("Driver Camera: X" + parent.driverCamera.Position.X.ToString() + " Y:" + parent.driverCamera.Position.Y.ToString() + " Z:" + parent.driverCamera.Position.Z.ToString(), false);
             X.Debug.Write("Box Actors in List:" + parent.boxes.Count.ToString(), false);
 
-
-            //drive car
-            if (parent.Car != null)
-            {
-                if (keyboard.KeyDown(Keys.Left))
-                    parent.Car.Steer(-1);
-                if (keyboard.KeyDown(Keys.Right))
-                    parent.Car.Steer(1);
-                if (keyboard.KeyDown(Keys.Up))
-                    parent.Car.Accelerate(2);
-                if (keyboard.KeyDown(Keys.Down))
-                    parent.Car.Accelerate(-3);
-            }
-#if !XBOX
-            if (mouse.ButtonPressed(XMouse.Buttons.Left))
-            {
-                //parent.boxes.Add(new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10));
-                if (parent.planeActor != null) parent.planeActor.Disable();
-                parent.planeActor = new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 10);
-                
-            }
-            if (mouse.ButtonPressed(XMouse.Buttons.Right))
-            {
-                XProp prop = new XProp(ref X, new XModel(ref X, @"Content\Models\tv"), parent.currentCamera.Position, Vector3.Zero, Matrix.Identity, Vector3.One);
-                prop.Load(X.Content);
-            }
-#else
-            if (gamepad.ButtonPressed(Buttons.A))
-                parent.planeActor = new XActor(ref X, parent.model, parent.freeCamera.Position, Vector3.Normalize(parent.freeCamera.Target - parent.freeCamera.Position) * 30, 300);
-#endif
-
             if (keyboard.KeyPressed(Keys.F1))
             {
-                XParticleSystem explosion = new XParticleSystem(ref X, "Content\\Particles\\ExplosionSettings");
-                XParticleSystem smoketrail = new XParticleSystem(ref X, "Content\\Particles\\ProjectileTrailSettings");
-                XParticleSystem smoke = new XParticleSystem(ref X, "Content\\Particles\\ExplosionSmokeSettings");
 
-                explosion.Load(X.Content);
-                smoketrail.Load(X.Content);
-                smoke.Load(X.Content);
-
-                // Create a new projectile The real work of moving
-                // and creating particles is handled inside the Projectile class.
-                //parent.Projectiles.Add(new XProjectile(X,explosion,smoke,smoketrail));
-                XProjectile p = new XProjectile(ref X, explosion, smoke, smoketrail);
+                
             }
 
             //if (keyboard.KeyDown(Keys.F2))

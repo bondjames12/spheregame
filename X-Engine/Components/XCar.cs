@@ -9,13 +9,14 @@ namespace XEngine
     public class XCar : XComponent, XIUpdateable, XIDrawable
     {
         public CarObject Car;
-
         public XModel Chassis;
         public XModel Wheel;
+        XParticleSettings smoke;
+        XParticleSystem tailpipe;
+        XParticleEmitter tailpipeEmitter;
 
         public Vector3 Position { get { return Car.PhysicsBody.Position; } }
         public Matrix Orientation { get { return Car.PhysicsBody.Orientation; } }
-        Vector2 Acceleration = Vector2.Zero;
 
         public XCar(ref XMain X, XModel Chassis, XModel Wheel, bool FWDrive,               // Does the car have front wheel drive?
             bool RWDrive,               // Does the car have rear wheel drive?
@@ -57,10 +58,6 @@ namespace XEngine
             this.Chassis = Chassis;
             this.Wheel = Wheel;
 
-            //Car = new CarObject(FWDrive, RWDrive, maxSteerAngle, steerRate, wheelSideFriction, wheelFwdFriction,
-            //    wheelTravel, wheelRadius, wheelZOffset, wheelRestingFrac, wheelDampingFrac, wheelNumRays,
-            //    driveTorque, gravity);
-
             Car = new CarObject(FWDrive, RWDrive, maxSteerAngle, steerRate,
             wheelFSideFriction, wheelRSideFriction, wheelFwdFriction,
             wheelRwdFriction, handbrakeRSideFriction, handbrakeRwdFriction,
@@ -71,32 +68,46 @@ namespace XEngine
             
             Car.Car.EnableCar();
             //Car.PhysicsBody.SetDeactivationTime(99999999f);
+            Car.Car.Chassis.Body.AllowFreezing = false;
             Car.PhysicsBody.Position = Position;
-        }
+/*
+            //Create tailpipe particle system
+            smoke = new XParticleSettings(ref X);
+            smoke.ParticleEffectFile = @"Content\XEngine\Effects\ParticleEffect";
+            smoke.ParticleTextureFile = @"Content\XEngine\Textures\smoke";
+            smoke.TechniqueName = "RotatingParticles";
+            smoke.MaxParticles = 600;
+            smoke.Duration = TimeSpan.FromSeconds(10);
+            smoke.MinHorizontalVelocity = 0;
+            smoke.MaxHorizontalVelocity = 15;
+            smoke.MinVerticalVelocity = 10;
+            smoke.MaxVerticalVelocity = 20;
+            // Create a wind effect by tilting the gravity vector sideways.
+            smoke.Gravity = new Vector3(-20, -5, 0);
+            smoke.EndVelocity = 0.75f;
+            smoke.MinRotateSpeed = -1;
+            smoke.MaxRotateSpeed = 1;
+            smoke.MinStartSize = 5;
+            smoke.MaxStartSize = 10;
+            smoke.MinEndSize = 50;
+            smoke.MaxEndSize = 200;
 
-        public void Accelerate(float Amount)
-        {
-            Acceleration.Y += Amount;
-        }
-
-        public void Steer(float Amount)
-        {
-            Acceleration.X += Amount;
+            tailpipe = new XParticleSystem(ref X, smoke);
+            tailpipe.Load(X.Content);
+            // Use the particle emitter helper to output our trail particles.
+            tailpipeEmitter = new XParticleEmitter(ref X, tailpipe,30, Position);
+            tailpipe.DrawOrder = 190;
+            tailpipeEmitter.DrawOrder = 180;
+ * */
         }
 
         public override void Update(ref GameTime gameTime)
         {
-            if (Acceleration.Y != 0)
-                Car.Car.Accelerate = Acceleration.Y;
-            else
-                Car.Car.Accelerate = 0;
-
-            if (Acceleration.X != 0)
-                Car.Car.Steer = -Acceleration.X;
-            else
-                Car.Car.Steer = 0;
-
-            Acceleration = Vector2.Zero;
+            //Controlled by physics can change anything here but position, etc that is related to the physics
+            
+            //TODO:Move to tailpipe position
+            //Update tailpipe particle emitters position
+            //tailpipeEmitter.newPosition = Car.PhysicsBody.Position;
         }
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
@@ -115,20 +126,10 @@ namespace XEngine
             Chassis.SASData.World = World[0];
             Chassis.SASData.ComputeViewAndProjection();
 
-            X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
-
             X.Renderer.DrawModel(ref Chassis,ref  Camera);
 
             //the car has alphablended windows turn this off now or else other things go transparent!
             X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
-
-            if (X.DebugMode)
-            {
-                //Draw Bounding Box/Frustum
-                //X.DebugDrawer.DrawCube(Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, Car.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
-                //X.DebugDrawer.DrawLine(Vector3.Zero, Car.PhysicsBody.Position, Color.Blue);
-                //X.DebugDrawer.DrawLine(Vector3.Zero, Car.PhysicsSkin.NewPosition, Color.Red);
-            }
             
             //Set camera params, compute matrices on WHEELS!
             Wheel.SASData.Camera.NearFarClipping.X = Camera.NearPlane;
@@ -151,6 +152,10 @@ namespace XEngine
 
             Wheel.SASData.World = World[4];
             X.Renderer.DrawModel(ref Wheel,ref Camera);
+
+#if DEBUG
+            X.DebugDrawer.DrawShape(Car.GetCollisionWireframe(),Color.White);
+#endif
 
         }
     }

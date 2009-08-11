@@ -321,7 +321,7 @@ namespace XEngine
 
 
             // Start rendering the particles
-            particleEffect.Begin();
+            particleEffect.Begin(SaveStateMode.SaveState);
             for (int i = 0; i < particleEffect.CurrentTechnique.Passes.Count; i++)
             {
                 EffectPass pass = particleEffect.CurrentTechnique.Passes[i];

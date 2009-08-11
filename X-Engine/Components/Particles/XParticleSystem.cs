@@ -14,10 +14,6 @@ namespace XEngine
     {
         #region Fields
 
-
-        // Name of the XML settings file describing this particle system.
-        string settingsName;
-
         //This flag is used by outside classes to determine is this system has any active particles
         //if its set to false it means the system is idle and can be removed
         public bool dead = false;
@@ -28,8 +24,6 @@ namespace XEngine
         // Custom effect for drawing point sprite particles. This computes the particle
         // animation entirely in the vertex shader: no per-particle CPU work required!
         Effect particleEffect;
-
-
 
         // Shortcuts for accessing frequently changed effect parameters.
         EffectParameter effectViewParameter;
@@ -146,16 +140,42 @@ namespace XEngine
 
         #endregion
 
+        #region Editor Properties
+        public XParticleSettings Settings
+        {
+            get
+            {
+                if (settings != null)
+                    return settings;
+                else
+                    return new XParticleSettings(ref X);
+            }
+            set
+            {
+                settings = value;
+            }
+        }
+        #endregion
+
         #region Initialization
 
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public XParticleSystem(ref XMain X, string settingsName) : base(ref X)
+        public XParticleSystem(ref XMain X) : base(ref X)
         {
             this.DrawOrder = 180;
-            this.settingsName = settingsName;
+        }
+
+        /// <summary>
+        /// Constructor with settings.
+        /// </summary>
+        public XParticleSystem(ref XMain X, XParticleSettings settings)
+            : base(ref X)
+        {
+            this.DrawOrder = 180;
+            this.settings = settings;
         }
 
         /// <summary>
@@ -164,8 +184,11 @@ namespace XEngine
         public override void Load(ContentManager Content)
         {
             //Load xnb file with settings information
-            settings = Content.Load<XParticleSettings>(settingsName);
+ //           settings = Content.Load<XParticleSettings>(settingsName);
 
+            // Load settings and assets
+            settings.Load(Content);
+            
             //New Array of particles
             particles = new XParticleVertex[settings.MaxParticles];
 
@@ -190,13 +213,7 @@ namespace XEngine
         {
             particleEffect = settings.ParticleEffect;
 
-            // If we have several particle systems, the content manager will return
-            // a single shared effect instance to them all. But we want to preconfigure
-            // the effect with parameters that are specific to this particular
-            // particle system. By cloning the effect, we prevent one particle system
-            // from stomping over the parameter settings of another.
-
-            //particleEffect = effect.Clone(X.GraphicsDevice);
+            
 
             EffectParameterCollection parameters = particleEffect.Parameters;
 
@@ -208,7 +225,7 @@ namespace XEngine
             effectDepthMapParameter = parameters["DepthMap"];
             effectTextureProjectionParameter = parameters["matTexProj"];
 
-/*
+
             // Set the values of parameters that do not change.
             parameters["Duration"].SetValue((float)settings.Duration.TotalSeconds);
             parameters["DurationRandomness"].SetValue(settings.DurationRandomness);
@@ -226,20 +243,19 @@ namespace XEngine
             parameters["EndSize"].SetValue(
                 new Vector2(settings.MinEndSize, settings.MaxEndSize));
 
-            // Load the particle texture, and set it onto the effect.
-            Texture2D texture = content.Load<Texture2D>(settings.TextureName);
+            
 
-            parameters["Texture"].SetValue(texture);
+            parameters["ParticleTexture"].SetValue(settings.texture);
 
             // Choose the appropriate effect technique. If these particles will never
             // rotate, we can use a simpler pixel shader that requires less GPU power.
-            string techniqueName;
+            //string techniqueName;
 
-            if ((settings.MinRotateSpeed == 0) && (settings.MaxRotateSpeed == 0))
-                techniqueName = "NonRotatingParticles";
-            else
-                techniqueName = "RotatingParticles";
-*/
+            //if ((settings.MinRotateSpeed == 0) && (settings.MaxRotateSpeed == 0))
+            //    techniqueName = "NonRotatingParticles";
+            //else
+            //    techniqueName = "RotatingParticles";
+
             particleEffect.CurrentTechnique = particleEffect.Techniques[settings.TechniqueName];
         }
 
@@ -383,7 +399,7 @@ namespace XEngine
                 device.VertexDeclaration = vertexDeclaration;
 
                 // Activate the particle effect.
-                particleEffect.Begin();
+                particleEffect.Begin(SaveStateMode.SaveState);
 
                 foreach (EffectPass pass in particleEffect.CurrentTechnique.Passes)
                 {

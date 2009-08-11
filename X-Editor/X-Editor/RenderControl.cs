@@ -201,7 +201,9 @@ namespace X_Editor
                 
             }
 
-            X.Update(gameTime);
+            X.AdvancePhysics(ref gameTime);
+            X.UpdateComponents(ref gameTime);
+
             if(manipulators) mManipulator.Update();
 
             X.Renderer.Draw(ref gameTime,ref camera.Base);

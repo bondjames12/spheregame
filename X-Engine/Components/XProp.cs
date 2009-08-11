@@ -37,7 +37,7 @@ namespace XEngine
             get
             {
                 if (model != null)
-                    return model.Boundingbox;
+                    return model.bb;
                 else
                     return new BoundingBox();
             }
@@ -134,17 +134,10 @@ namespace XEngine
                 model.SASData.ComputeViewAndProjection();
                 //model.SASData.ComputeModel();
 
-                X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
+                //X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
 
                 X.Renderer.DrawModel(ref model,ref Camera);
 
-                //restore render modes (shader files might have changes this!
-                X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
-
-                if (X.DebugMode)
-                {
-                    
-                }
             }//end if (model != null && model.loaded)
         }
 #if XBOX == FALSE

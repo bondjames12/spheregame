@@ -152,11 +152,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="XEngine\Effects\ParticleEffect.fx">
+      <Name>ParticleEffect</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <None Include="XEngine\Models\Skybox.xsi">
       <Name>Skybox</Name>
       <Importer>Importer</Importer>
       <Processor>Processor</Processor>
     </None>
+    <Compile Include="XEngine\Textures\explosion.png">
+      <Name>explosion</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="XEngine\Textures\Sky\GreenWaterSky.dds">
@@ -268,6 +278,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="XEngine\Textures\smoke.png">
+      <Name>smoke</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="XEngine\Trees\Willow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Willow</Name>

@@ -8,6 +8,7 @@ namespace XEngine
         KeyboardState CurrentState;
         KeyboardState LastState;
 
+        //Times how long since keyboard states have not changed
         XTimer idleTime;
 
         public XKeyboard(ref XMain X) : base(ref X)
