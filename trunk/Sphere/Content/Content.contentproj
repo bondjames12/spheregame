@@ -254,11 +254,6 @@
     <None Include="Models\ambientlight.hlsl">
       <Name>ambientlight</Name>
     </None>
-    <Compile Include="Particles\ParticleEffect.fx">
-      <Name>ParticleEffect</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
     <Compile Include="Models\spider.X">
       <Name>spider</Name>
       <Importer>XImporter</Importer>
@@ -314,6 +309,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Material\" />
+    <Folder Include="Particles\" />
     <Folder Include="XSI\Sphere\Pictures\Plant Sprites\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
