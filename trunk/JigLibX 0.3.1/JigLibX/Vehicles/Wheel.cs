@@ -46,7 +46,7 @@ namespace JigLibX.Vehicles
         private float slipFactor;
         private float slipSpeed;
         private float rollResistance;
-        private bool wheelSkid; 
+        private bool wheelSkid;
 
         // last frame stuff
         private float lastDisplacement;
@@ -285,11 +285,13 @@ namespace JigLibX.Vehicles
                 {
                     friction *= slipFactor;
                     bigSlide = true;
+                    wheelSkid = true;
                 }
             }
             else
             {
                 smallSlide = bigSlide = false;
+                wheelSkid = false;
                 if ((sideVel > noslipVel) || (sideVel < -noslipVel))
                 {
                     friction *= 1.0f - (1.0f - slipFactor) * (System.Math.Abs(sideVel) - noslipVel) / (slipVel1 - noslipVel);
@@ -312,18 +314,6 @@ namespace JigLibX.Vehicles
             fwdVel = Vector3.Dot(wheelPointVel, groundFwd);
             float smallVel1 = smallVel / slipSpeed;
             if (smallVel1 < 3) smallVel1 = 3;
-
-            if ((sideVel > slipVel1) || (sideVel < -slipVel1))
-            {
-                friction *= slipFactor;
-                wheelSkid = true;
-            }
-            else
-            {
-                wheelSkid = false;
-                if ((sideVel > noslipVel) || (sideVel < -noslipVel))
-                    friction *= 1.0f - (1.0f - slipFactor) * (System.Math.Abs(sideVel) - noslipVel) / (slipVel1 - noslipVel);
-            } 
 
             if (fwdVel < 0.0f)
                 friction *= -1.0f;
@@ -547,7 +537,7 @@ namespace JigLibX.Vehicles
         public bool WheelSkid
         {
             get { return wheelSkid; }
-        } 
+        }
     }
 
     /// Predicate for the wheel->world intersection test

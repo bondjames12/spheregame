@@ -11,6 +11,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 #endregion
 
 namespace XEngine
@@ -19,16 +20,14 @@ namespace XEngine
     /// Settings class describes all the tweakable options used
     /// to control the appearance of a particle system.
     /// </summary>
-    public class XParticleSettings
+    public class XParticleSettings : XComponent
     {
-        // Effect used to render this particle system.
-        public Effect ParticleEffect;
-
+        //Paths to assets
+        private string particleEffectFile, particleTextureFile;
 
         // Specifies which effect technique to use. If these particles will never
         // rotate, we can use a simpler pixel shader that requires less GPU power.
-        public string TechniqueName;
-
+        private string techniqueName;
 
         // Maximum number of particles that can be displayed at one time.
         public int MaxParticles = 100;
@@ -37,6 +36,8 @@ namespace XEngine
         // How long these particles will last.
         public TimeSpan Duration = TimeSpan.FromSeconds(1);
 
+        // If greater than zero, some particles will last a shorter time than others.
+        public float DurationRandomness = 0;
 
         // Controls how much particles are influenced by the velocity of the object
         // which created them. You can see this in action with the explosion effect,
@@ -59,9 +60,115 @@ namespace XEngine
         public float MinVerticalVelocity = 0;
         public float MaxVerticalVelocity = 0;
 
+        // Direction and strength of the gravity effect. Note that this can point in any
+        // direction, not just down! The fire effect points it upward to make the flames
+        // rise, and the smoke plume points it sideways to simulate wind.
+        public Vector3 Gravity = Vector3.Zero;
+
+
+        // Controls how the particle velocity will change over their lifetime. If set
+        // to 1, particles will keep going at the same speed as when they were created.
+        // If set to 0, particles will come to a complete stop right before they die.
+        // Values greater than 1 make the particles speed up over time.
+        public float EndVelocity = 1;
+
+
+        // Range of values controlling the particle color and alpha. Values for
+        // individual particles are randomly chosen from somewhere between these limits.
+        public Color MinColor = Color.White;
+        public Color MaxColor = Color.White;
+
+
+        // Range of values controlling how fast the particles rotate. Values for
+        // individual particles are randomly chosen from somewhere between these
+        // limits. If both these values are set to 0, the particle system will
+        // automatically switch to an alternative shader technique that does not
+        // support rotation, and thus requires significantly less GPU power. This
+        // means if you don't need the rotation effect, you may get a performance
+        // boost from leaving these values at 0.
+        public float MinRotateSpeed = 0;
+        public float MaxRotateSpeed = 0;
+
+
+        // Range of values controlling how big the particles are when first created.
+        // Values for individual particles are randomly chosen from somewhere between
+        // these limits.
+        public float MinStartSize = 100;
+        public float MaxStartSize = 100;
+
+
+        // Range of values controlling how big particles become at the end of their
+        // life. Values for individual particles are randomly chosen from somewhere
+        // between these limits.
+        public float MinEndSize = 100;
+        public float MaxEndSize = 100;
+
 
         // Alpha blending settings.
         public Blend SourceBlend = Blend.SourceAlpha;
         public Blend DestinationBlend = Blend.InverseSourceAlpha;
+
+        // Effect used to render this particle system.
+        private Effect particleEffect;
+
+
+        //Path to shader effect
+        public string ParticleEffectFile
+        {
+            get { return particleEffectFile;}
+            set { particleEffectFile = value; }
+        }
+
+        //Path to texture
+        public string ParticleTextureFile
+        {
+            get { return particleTextureFile; }
+            set { particleTextureFile = value; }
+        }
+
+        // Specifies which effect technique to use. If these particles will never
+        // rotate, we can use a simpler pixel shader that requires less GPU power.
+        public string TechniqueName
+        {
+            get { return techniqueName; }
+            set { techniqueName = value; }
+        }
+
+        // Effect used to render this particle system.
+        public Effect ParticleEffect
+        {
+            get { 
+            // If we have several particle systems, the content manager will return
+            // a single shared effect instance to them all. But we want to preconfigure
+            // the effect with parameters that are specific to this particular
+            // particle system. By cloning the effect, we prevent one particle system
+            // from stomping over the parameter settings of another.
+                return particleEffect.Clone(X.GraphicsDevice);
+            }
+            set { particleEffect = value; }
+        }
+
+        //texture used for draw the particles
+        public Texture2D texture;
+
+
+        public XParticleSettings(ref XMain X)
+            : base(ref X)
+        {
+
+        }
+
+        /// <summary>
+        /// Loads assets for the particle settings.
+        /// </summary>
+        public override void Load(ContentManager content)
+        {
+            //Load shader
+            particleEffect = content.Load<Effect>(particleEffectFile);
+
+            //Load texture
+            texture = content.Load<Texture2D>(particleTextureFile);
+
+        }
     }
 }

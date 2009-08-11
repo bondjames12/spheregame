@@ -70,7 +70,10 @@ namespace XEngine
 
         static VertexPositionColor[] lineVertices;
         private int numOfPrimitives = 0;
-        private int MaxNumOfLines = 1000000;
+        private int MaxNumOfLines = 500000;
+
+        //secondary vertex buffer for linestrips rendering
+        List<VertexPositionColor> stripVertexData;
 
         #endregion
 
@@ -88,6 +91,7 @@ namespace XEngine
             lineRender = Content.Load<Effect>(@"Content\XEngine\Effects\DebugDrawer");
 
             lineVertices = new VertexPositionColor[MaxNumOfLines * 2];
+            stripVertexData = new List<VertexPositionColor>(500000);
 
             base.Load(Content);
         }
@@ -186,6 +190,92 @@ namespace XEngine
             buildVertexBuffer = false;
         }
 
+        #region Methods to add Linestrips (wireframes) to the stripVertexData buffer
+
+        public void DrawShape(List<Vector3> shape, Color color)
+        {
+            if (stripVertexData.Count > 0)
+            {
+                Vector3 v = stripVertexData[stripVertexData.Count - 1].Position;
+                stripVertexData.Add(new VertexPositionColor(v, new Color(0, 0, 0, 0)));
+                stripVertexData.Add(new VertexPositionColor(shape[0], new Color(0, 0, 0, 0)));
+            }
+
+            foreach (Vector3 p in shape)
+            {
+                stripVertexData.Add(new VertexPositionColor(p, color));
+            }
+        }
+
+        public void DrawShape(List<Vector3> shape, Color color, bool closed)
+        {
+            DrawShape(shape, color);
+
+            Vector3 v = shape[0];
+            stripVertexData.Add(new VertexPositionColor(v, color));
+        }
+
+        public void DrawShape(List<VertexPositionColor> shape)
+        {
+            if (stripVertexData.Count > 0)
+            {
+                Vector3 v = stripVertexData[stripVertexData.Count - 1].Position;
+                stripVertexData.Add(new VertexPositionColor(v, new Color(0, 0, 0, 0)));
+                stripVertexData.Add(new VertexPositionColor(shape[0].Position, new Color(0, 0, 0, 0)));
+            }
+
+            foreach (VertexPositionColor vps in shape)
+            {
+                stripVertexData.Add(vps);
+            }
+        }
+
+        public void DrawShape(VertexPositionColor[] shape)
+        {
+            //Don't connect adjacent objects in the linestrip
+            //add an invisible line alpha=0
+            if (stripVertexData.Count > 0)
+            {
+                Vector3 v = stripVertexData[stripVertexData.Count - 1].Position;
+                stripVertexData.Add(new VertexPositionColor(v, new Color(0, 0, 0, 0)));
+                stripVertexData.Add(new VertexPositionColor(shape[0].Position, new Color(0, 0, 0, 0)));
+            }
+
+            foreach (VertexPositionColor vps in shape)
+            {
+                stripVertexData.Add(vps);
+            }
+        }
+
+        public void DrawShape(VertexPositionColor[] shape, Color color)
+        {
+            //Don't connect adjacent objects in the linestrip
+            //add an invisible line alpha=0
+            if (stripVertexData.Count > 0)
+            {
+                Vector3 v = stripVertexData[stripVertexData.Count - 1].Position;
+                stripVertexData.Add(new VertexPositionColor(v, new Color(0, 0, 0, 0)));
+                stripVertexData.Add(new VertexPositionColor(shape[0].Position, new Color(0, 0, 0, 0)));
+            }
+
+            for (int i = 0; i < shape.Length; i++)
+            {
+                //if line is invisiale don't change color 
+                if(shape[i].Color.A != 0) shape[i].Color = color;
+                stripVertexData.Add(shape[i]);
+            }
+        }
+
+        public void DrawShape(List<VertexPositionColor> shape, bool closed)
+        {
+            DrawShape(shape);
+
+            VertexPositionColor v = shape[0];
+            stripVertexData.Add(v);
+        }
+
+        #endregion
+
         public override void Draw(ref GameTime gameTime,ref XCamera camera)//Matrix world, Matrix view, Matrix projection)
         {
             if (buildVertexBuffer || numOfPrimitives != numOfLines)
@@ -211,19 +301,23 @@ namespace XEngine
 
                 X.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
                                 PrimitiveType.LineList, lineVertices, 0, numOfPrimitives);
+                if (stripVertexData.Count != 0)
+                    X.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineStrip,
+                            stripVertexData.ToArray(), 0, stripVertexData.Count - 1);
 
                 lineRender.CurrentTechnique.Passes[0].End();
                 lineRender.End();
 
                 numOfLines = 0;
                 lines.Clear();
+                stripVertexData.Clear();
             }
         }
 
         #endregion
     }
     
-	public static class BoundingVolumeRenderer
+	public static class XDebugVolumeRenderer
 	{
 		static GraphicsDevice device;
 		static VertexDeclaration vertexDeclaration;
@@ -237,7 +331,7 @@ namespace XEngine
 	
 		public static void InitializeBuffers(GraphicsDevice device, int numberOfSphereVertices)
 		{
-            BoundingVolumeRenderer.device = device;
+            XDebugVolumeRenderer.device = device;
 			vertexDeclaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);
 			effect = new BasicEffect(device, null);
 
@@ -273,7 +367,7 @@ namespace XEngine
             //***************************************************************************************
 		}
 
-		public static void RenderBoundingSphere(BoundingSphere sphere, ref Matrix view, ref Matrix projection)
+		public static void RenderSphere(BoundingSphere sphere, Color color, ref Matrix view, ref Matrix projection)
 		{
             //this null check is here in case we never ran the InitializeBuffers method of this class
             //if this is the case the device will be null
@@ -288,7 +382,7 @@ namespace XEngine
 			Matrix scale = Matrix.CreateScale(sphere.Radius);
 			Matrix translation = Matrix.CreateTranslation(sphere.Center);
 
-			effect.Begin();
+            effect.Begin(SaveStateMode.SaveState);
 
 			for (int i = 0; i < effect.CurrentTechnique.Passes.Count; i++)
 			{
@@ -296,17 +390,17 @@ namespace XEngine
 
 				pass.Begin();
 
-				effect.DiffuseColor = Vector3.UnitY;
+                effect.DiffuseColor = color.ToVector3();//Vector3.UnitY;
 				effect.World = scale * translation;
 				effect.CommitChanges();
 				device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfSphereVerts - 1);
 
-				effect.DiffuseColor = Vector3.UnitZ;
+                effect.DiffuseColor = color.ToVector3(); //Vector3.UnitZ;
 				effect.World = scale * Matrix.CreateRotationX(MathHelper.PiOver2) * translation;
 				effect.CommitChanges();
 				device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfSphereVerts - 1);
 
-				effect.DiffuseColor = Vector3.UnitX;
+                effect.DiffuseColor = color.ToVector3(); //Vector3.UnitX;
 				effect.World = scale * Matrix.CreateRotationZ(MathHelper.PiOver2) * translation;
 				effect.CommitChanges();
 				device.DrawPrimitives(PrimitiveType.LineStrip, 0, numberOfSphereVerts - 1);
@@ -317,7 +411,7 @@ namespace XEngine
 			effect.End();
 		}
 
-        public static void RenderBoundingSphere(Vector3 center, float radius, Color color, ref Matrix view, ref Matrix projection)
+        public static void RenderSphere(Vector3 center, float radius, Color color, ref Matrix view, ref Matrix projection)
         {
             //this null check is here in case we never ran the InitializeBuffers method of this class
             //if this is the case the device will be null
@@ -332,8 +426,7 @@ namespace XEngine
             Matrix scale = Matrix.CreateScale(radius);
             Matrix translation = Matrix.CreateTranslation(center);
 
-            effect.Begin();
-
+            effect.Begin(SaveStateMode.SaveState);
             for (int i = 0; i < effect.CurrentTechnique.Passes.Count; i++)
             {
                 EffectPass pass = effect.CurrentTechnique.Passes[i];
@@ -361,8 +454,12 @@ namespace XEngine
             effect.End();
         }
 
-        public static void RenderBoundingBox(Vector3 pos, Matrix orient, Vector3 sideLengths, Color color, ref Matrix view, ref Matrix projection)
+        public static void RenderBox(Vector3 pos, Matrix orient, Vector3 sideLengths, Color color, ref Matrix view, ref Matrix projection)
         {
+            //this null check is here in case we never ran the InitializeBuffers method of this class
+            //if this is the case the device will be null
+            if (device == null) return;
+
             device.VertexDeclaration = vertexDeclaration;
             device.Vertices[0].SetSource(boxBuffer, 0, VertexPositionColor.SizeInBytes);
 
@@ -372,7 +469,7 @@ namespace XEngine
             Matrix scale = Matrix.CreateScale(sideLengths);
             Matrix translation = Matrix.CreateTranslation(pos);
 
-            effect.Begin();
+            effect.Begin(SaveStateMode.SaveState);
 
             for (int i = 0; i < effect.CurrentTechnique.Passes.Count; i++)
             {

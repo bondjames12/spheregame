@@ -385,7 +385,7 @@ namespace JigLibX.Vehicles
             {
                 skid = true;
             }
-            else skid = false; 
+            else skid = false;
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace JigLibX.Vehicles
         public bool Skid
         {
             get { return skid; }
-        } 
+        }
 
         public int NumWheelsOnFloor
         {

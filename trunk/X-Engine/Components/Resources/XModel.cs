@@ -10,7 +10,8 @@ namespace XEngine
     {
         private XMain X;
         public Model Model;
-        public BoundingBox Boundingbox;
+        public BoundingBox bb;
+        public BoundingSphere bs;
         public bool HasAnimatedTextures = false;
         public Dictionary<int,XGifTexture> Giftextures;
 
@@ -45,8 +46,24 @@ namespace XEngine
             System.Diagnostics.Debug.WriteLine(Filename);
             //if loaded then generate a bounding box
             if (this.Model != null)
-                Boundingbox = X.Tools.CreateBoundingBox(this.Model);
-            
+                //Load bounding information from Model.Tag (this was added by the BoundingCalculator) processor
+                //Boundingbox = X.Tools.CreateBoundingBox(this.Model);
+                try
+                {
+                    if(Model.Tag is Dictionary<string, object>)
+                    {
+                        if((Model.Tag as Dictionary<string, object>).ContainsKey("BoundingBox"))
+                        {
+                            bb = (BoundingBox)(Model.Tag as Dictionary<string, object>)["BoundingBox"];
+                            bs = (BoundingSphere)(Model.Tag as Dictionary<string, object>)["BoundingSphere"];
+                        }//TODO: animation data, have not added bb and bs to that yet
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    throw new System.NullReferenceException("Load Bounding information from Model.Tag failed. Is this model using the Animation or Bounding Calculator Processors?", ex);
+                }
+
                 //look for any animated textures
                 foreach (ModelMesh mesh in Model.Meshes)
                 {

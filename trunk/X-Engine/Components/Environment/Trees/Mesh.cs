@@ -293,7 +293,7 @@ namespace XEngine
             device.Indices = indexBuffer;
 
             // Start drawing
-            effect.Begin();
+            effect.Begin(SaveStateMode.SaveState);
             for (int i = 0; i < effect.CurrentTechnique.Passes.Count; i++)
             {
                 EffectPass pass = effect.CurrentTechnique.Passes[i];

@@ -39,14 +39,14 @@ namespace XEngine
     {
         #region Fields
 
-        XParticleSystem particleSystem;
-        float timeBetweenParticles;
+        private XParticleSystem particleSystem;
+        private float timeBetweenParticles;
         public Vector3 newPosition;
-        public Vector3 previousPosition;
+        private Vector3 previousPosition;
         //this flag can be used both internally and externally
         //it signals the emitter to stop emitting and to Disable itself once its particle system is dead
         public bool dead = false;
-        float timeLeftOver;
+        private float timeLeftOver;
 
         #endregion
 

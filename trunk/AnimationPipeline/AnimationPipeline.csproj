@@ -46,11 +46,13 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\x86\Release</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <XnaPlatform>Windows</XnaPlatform>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,6 +77,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <XnaPlatform>Xbox 360</XnaPlatform>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d" />
@@ -88,7 +91,7 @@
   <ItemGroup>
     <Compile Include="AnimationProcessor.cs" />
     <Compile Include="AnimationWriters.cs" />
-    <Compile Include="BoundingBoxCalculator.cs" />
+    <Compile Include="BoundingCalculator.cs" />
     <Compile Include="Dxt5ModelProcessor.cs" />
     <None Include="PageSourceProcessor.cs" />
     <Compile Include="MultiPieceBuilder.cs" />

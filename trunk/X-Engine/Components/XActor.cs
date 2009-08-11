@@ -253,31 +253,20 @@ namespace XEngine
                 model.SASData.ComputeViewAndProjection();
                 //model.SASData.ComputeModel();
 
-                X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
+                //X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
 
                 X.Renderer.DrawModel(ref model,ref Camera);
 
                 //restore render modes (shader files might have changes this!
                 X.GraphicsDevice.RenderState.AlphaBlendEnable = false;
 
-                if (X.DebugMode)
-                {
-                    for (int i = 0; i < PhysicsObject.PhysicsSkin.NumPrimitives; i++)
-                    {
-                        Primitive prim = PhysicsObject.PhysicsSkin.GetPrimitiveNewWorld(i);
-                        if (prim is JigLibX.Geometry.Box)
-                        {
-                            JigLibX.Geometry.Box box = (JigLibX.Geometry.Box)prim;
-                            
-                            BoundingVolumeRenderer.RenderBoundingBox(box.GetCentre(), box.Orientation, box.SideLengths, Color.White, ref Camera.View, ref Camera.Projection);
-                        }
-                        if (prim is JigLibX.Geometry.Sphere)
-                        {
-                            JigLibX.Geometry.Sphere sph = (JigLibX.Geometry.Sphere)prim;
-                            BoundingVolumeRenderer.RenderBoundingSphere(sph.Position, sph.Radius, Color.White, ref Camera.View, ref Camera.Projection);
-                        }
-                    }
-                }
+#if DEBUG
+                    //Render debug volumes for frustrum clulling
+                    XDebugVolumeRenderer.RenderSphere(model.bs, Color.Yellow, ref Camera.View, ref Camera.Projection);
+
+                    //Render debug volumes for physics
+                    X.DebugDrawer.DrawShape(PhysicsObject.GetCollisionWireframe(), Color.White);
+#endif
             }//end if (model != null && model.loaded)
         }
 

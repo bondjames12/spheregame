@@ -68,7 +68,6 @@
     <XnaCompressContent>True</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Fire.cs" />
     <Compile Include="Game.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -144,6 +143,9 @@
       <Project>{F5633A6D-B5F5-4596-AD53-5D46A8C8FCF6}</Project>
       <Name>X Engine.360</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sphere_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" Condition="" />

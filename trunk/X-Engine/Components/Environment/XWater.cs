@@ -232,9 +232,6 @@ namespace XEngine
 
         public override void Draw(ref GameTime gameTime, ref  XCamera Camera)
         {
-            CullMode Cullprevious = X.GraphicsDevice.RenderState.CullMode;
-            X.GraphicsDevice.RenderState.CullMode = CullMode.None;
-
             this.camera = Camera;
 
             effect.Parameters["xWorld"].SetValue(Matrix.Identity);
@@ -267,7 +264,7 @@ namespace XEngine
             }
 
             // Draw the water
-            effect.Begin();
+            effect.Begin(SaveStateMode.SaveState);
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
                 pass.Begin();
@@ -276,7 +273,6 @@ namespace XEngine
                 pass.End();
             }
             effect.End();
-            X.GraphicsDevice.RenderState.CullMode = Cullprevious;
         }
 
 #if XBOX == FALSE

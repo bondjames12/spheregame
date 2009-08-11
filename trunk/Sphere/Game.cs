@@ -52,7 +52,7 @@ namespace Sphere
 
             IsFixedTimeStep = false;
             graphics.IsFullScreen = false;
-            graphics.SynchronizeWithVerticalRetrace = false;
+            graphics.SynchronizeWithVerticalRetrace =true;
             graphics.PreferredDepthStencilFormat = SelectStencilMode();
             //graphics.PreferMultiSampling = true;
 
@@ -92,8 +92,12 @@ namespace Sphere
         protected override void Initialize()
         {
             X = new XMain(graphics.GraphicsDevice,Services, "", freeCamera);
-            BoundingVolumeRenderer.InitializeBuffers(X.GraphicsDevice, 50);
-            X.Gravity = new Vector3(0, -40, 0);
+            //We are going to use a right hand corrdinate system switch default cull mode to refelect this
+            //NOTE: Using the default model processor will not work with this since its winding order is backwards
+            X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
+#if DEBUG
+            XDebugVolumeRenderer.InitializeBuffers(X.GraphicsDevice, 50);
+#endif
             X.FrameRate.DisplayFrameRate = true;
             X.Console.AutoDraw = false;
             X.Debug.StartPosition.Y = 200;
@@ -132,7 +136,7 @@ namespace Sphere
             //sky = new XDynamicSky(ref X,X.Environment);
             //XSkyBox sky = new XSkyBox(ref X, @"Content\XEngine\Textures\Sky\front", @"Content\XEngine\Textures\Sky\back", @"Content\XEngine\Textures\Sky\left", @"Content\XEngine\Textures\Sky\right", @"Content\XEngine\Textures\Sky\top", @"Content\XEngine\Textures\Sky\bottom");
             XSkyBox sky = new XSkyBox(ref X, @"Content\XEngine\Textures\Sky\GreenWaterSky");
-            heightmap = new XHeightMap(ref X, @"Content\Images\Heightmaps\Level1", X.Environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Images\Terrainmaps\Island1");
+            heightmap = new XHeightMap(ref X, @"Content\Images\Heightmaps\Level2", X.Environment, @"Content\Textures\Grass", @"Content\Textures\Sand", null, @"Content\Images\Terrainmaps\Island1");
  
             //resources.AddComponent(environment);
             resources.AddComponent(heightmap);
@@ -147,7 +151,7 @@ namespace Sphere
             resources.AddComponent(Chassis);
             resources.AddComponent(Wheel);
 
-            housemodel = new XModel(ref X, @"Content\Models\archer");
+            housemodel = new XModel(ref X, @"Content\Models\spider");
             resources.AddComponent(housemodel);
             
             resources.Load();
@@ -171,7 +175,7 @@ namespace Sphere
                 .7f,    // slip threshold 1 
                 10.0f,  // slip threshold 2 
                 2.0f,   // slide speed factor 
-                0.7f,   // traction loss factor on slip 
+                1.7f,   // traction loss factor on slip 
                 0.3f,   // suspension travel 
                 0.45f,  // wheel radius 
                 -0.10f, // wheel mounting point  
@@ -180,7 +184,7 @@ namespace Sphere
                 2,      // wheel rays 
                 2.5f,   // roll resistance 
                 300.0f, // top speed 
-                1200.0f, // torque 
+                1200.0f, // torque
                 X.Physics.Gravity.Length(), // gravity  
                 new Vector3(-10, heightmap.Heights.GetHeight(new Vector3(-10, 3, 0)) + 5, 0)
                 );
@@ -221,31 +225,29 @@ namespace Sphere
             //Input processor update KB,Mouse,Gamepad
             input.Update(gameTime);
 
-            
-           //Call engine update
-           X.Update(gameTime);
-
-            
-
-            
 
             //this logic should be integrated into the main update loop somewhere
             //must be after physics and position updates then set the final camera positions then call update
-            if (currentCamera == driverCamera)
+  /*          if (currentCamera == driverCamera)
             {
                 //set position is Head bone of the Car model!
                 driverCamera.Position = Vector3.Transform(Vector3.Zero, Matrix.Identity * Car.Car.GetWorldMatrix(Car.Chassis.Model, Vector3.Zero)[0] * Car.Chassis.Model.Bones["Head"].Transform);
-                driverCamera.Update(ref gameTime);
+                //driverCamera.Update(ref gameTime);
             }
+*/
+            //Advance physics engine
+            X.AdvancePhysics(ref gameTime);
 
+            //After physics run, update chase cameras positions/orientation.
             if (currentCamera == chase)
             {
                 chase.ChaseTargetPosition = Car.Position;
                 chase.ChaseTargetForward = Car.Orientation.Forward;
                 chase.Up = Car.Orientation.Up;
-                chase.Update(ref gameTime);
             }
 
+            //Call engine update will call update on all updateable engine components
+            X.UpdateComponents(ref gameTime);
             
 
             //XNA Update

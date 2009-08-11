@@ -91,6 +91,7 @@ technique Sky
 {
     pass Pass1
     {
+        CullMode = None;
         VertexShader = compile vs_3_0 VSSky();
         PixelShader = compile ps_3_0 PSSky();
     }

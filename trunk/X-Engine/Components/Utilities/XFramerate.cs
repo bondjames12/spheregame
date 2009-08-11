@@ -2,7 +2,7 @@
 
 namespace XEngine
 {
-    public class XFrameRate : XComponent, XIUpdateable
+    public class XFrameRate : XComponent, XIUpdateable, XIDrawable
     {
         float fps;
         public float updateInterval = 1.0f;
@@ -15,13 +15,14 @@ namespace XEngine
         public XFrameRate(XMain X)
             : base(ref X)
         { 
-            DrawOrder = 301;
+            DrawOrder = 100000;
         }
 
+        //Update rate
         public override void Update(ref GameTime gameTime)
         {
             float elapsed = (float)gameTime.ElapsedRealTime.TotalSeconds;
-            frameCount++;
+            
             timeSinceLastUpdate += elapsed;
 
             if (timeSinceLastUpdate > updateInterval)
@@ -32,13 +33,20 @@ namespace XEngine
                             fps.ToString("###");
 
                 frameCount = 0;
-                timeSinceLastUpdate -= updateInterval;
+                timeSinceLastUpdate =0;
             }
 
             if (DisplayFrameRate)
             {
                 X.Debug.Write(Write, false);
             }
+        }
+
+        //Draw rate
+        public override void Draw(ref GameTime gameTime, ref XCamera Camera)
+        {
+            frameCount++;
+            
         }
     }
 }

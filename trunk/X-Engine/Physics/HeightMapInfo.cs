@@ -145,7 +145,7 @@ namespace XEngine
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    heights[x,y] = colors[x + y * Width].R * .08f;
+                    heights[x, y] = colors[x + y * Width].R * 0.5f;//*.16f;
                 }
             }
 

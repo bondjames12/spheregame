@@ -9,7 +9,7 @@ namespace XEngine
     }
 
 
-    public class XCamera : XComponent, XIUpdateable, XICamera
+    public class XCamera : XComponent, XICamera, XIUpdateable
     {
         public enum ProjectionTypes { Perspective, Orthographic }
 
@@ -54,22 +54,22 @@ namespace XEngine
         public float nearplane
         {
             get {return NearPlane;}
-            set { NearPlane = value; Projection = GenerateProjection(ref X, MathHelper.PiOver4, this.ProjectionType, NearPlane, FarPlane); }
+            set { NearPlane = value; GenerateProjection(ref X, MathHelper.PiOver4, this.ProjectionType, NearPlane, FarPlane); }
         }
         public float farplane
         {
             get {return FarPlane;}
-            set { FarPlane = value; Projection = GenerateProjection(ref X, MathHelper.PiOver4, this.ProjectionType, NearPlane, FarPlane); }
+            set { FarPlane = value; GenerateProjection(ref X, MathHelper.PiOver4, this.ProjectionType, NearPlane, FarPlane); }
         }
         public float fov
         {
             get { return FOV; }
-            set { FOV = value; Projection = GenerateProjection(ref X, MathHelper.PiOver4, this.ProjectionType, NearPlane, FarPlane); }
+            set { FOV = value; GenerateProjection(ref X, MathHelper.PiOver4, this.ProjectionType, NearPlane, FarPlane); }
         }
         public ProjectionTypes projectiontype
         {
             get { return ProjectionType; }
-            set { ProjectionType = value; Projection = GenerateProjection(ref X, MathHelper.PiOver4, this.ProjectionType, NearPlane, FarPlane); }
+            set { ProjectionType = value; GenerateProjection(ref X, MathHelper.PiOver4, this.ProjectionType, NearPlane, FarPlane); }
         }
 
         public RenderTypes rendertype
@@ -92,12 +92,12 @@ namespace XEngine
         public XCamera(ref XMain X, float nearplane, float farplane)
             : base(ref X)
         {
-            this.ProjectionType = ProjectionTypes.Perspective;
-            this.RenderType = RenderTypes.Normal;
-            this.NearPlane = nearplane;
-            this.FarPlane = farplane;
-            this.FOV = MathHelper.PiOver4;
-            Projection = GenerateProjection(ref X, this.FOV, this.ProjectionType, NearPlane, FarPlane);
+            ProjectionType = ProjectionTypes.Perspective;
+            RenderType = RenderTypes.Normal;
+            NearPlane = nearplane;
+            FarPlane = farplane;
+            FOV = MathHelper.PiOver4;
+            GenerateProjection(ref X, this.FOV, this.ProjectionType, NearPlane, FarPlane);
             
             Base = this;
             DrawOrder = 50000;
@@ -105,10 +105,11 @@ namespace XEngine
 
         
 
-        public Matrix GenerateProjection(ref XMain X, float FoV, ProjectionTypes type, float nearplane, float farplane)
+        public void GenerateProjection(ref XMain X, float FoV, ProjectionTypes type, float nearplane, float farplane)
         {
             AspectRatio = (float)X.GraphicsDevice.Viewport.Width / (float)X.GraphicsDevice.Viewport.Height;
-            return GenerateProjection(ref X, FoV, AspectRatio, type,nearplane,farplane);
+            Projection = GenerateProjection(ref X, FoV, AspectRatio, type,nearplane,farplane);
+            Frustrum = new BoundingFrustum(View * Projection);
         }
 
         public Matrix GenerateProjection(ref XMain X, float FoV, float AspectRatio, ProjectionTypes type, float nearplane, float farplane)
@@ -127,16 +128,16 @@ namespace XEngine
 
         public void SetOrthographic(float width, float height, float near, float far)
         {
-            this.NearPlane = near;
-            this.FarPlane = far;
+            NearPlane = near;
+            FarPlane = far;
             Projection = Matrix.CreateOrthographic(width, height, near, far);
         }
 
         public void SetPerspective(float FOV, float AspectRatio, float near, float far)
         {
-            this.AspectRatio = AspectRatio;
-            this.NearPlane = near;
-            this.FarPlane = far;
+            AspectRatio = AspectRatio;
+            NearPlane = near;
+            FarPlane = far;
             Projection = Matrix.CreatePerspectiveFieldOfView(FOV,AspectRatio,near, far);
         }
 
@@ -145,7 +146,8 @@ namespace XEngine
             Matrix.CreateLookAt(ref Position,ref Target,ref Up, out View);
             Matrix.Multiply(ref View, ref Projection, out ViewProjection);
             Matrix.Invert(ref View, out ViewInverse);
-            Frustrum = new BoundingFrustum(ViewProjection);
+            Frustrum.Matrix = ViewProjection;
+            //Frustrum = new BoundingFrustum(ViewProjection); //replaced by above line *faster
         }
     }
 }

@@ -117,35 +117,24 @@ namespace XEngine
                     tree.Leaves.DepthMapRendering = false;
                 }
 
-                //remember several draw options
-                CompareFunction oldAlphaFunc = X.GraphicsDevice.RenderState.AlphaFunction;
-                bool oldAlphaEnable = X.GraphicsDevice.RenderState.AlphaBlendEnable;
-                CullMode oldCullMode = X.GraphicsDevice.RenderState.CullMode;
-                bool oldAlphaTest = X.GraphicsDevice.RenderState.AlphaTestEnable;
-                int oldReferenceAlpha = X.GraphicsDevice.RenderState.ReferenceAlpha;
-
                 Matrix world = PhysicsObject.GetWorldMatrix(null, Vector3.Zero);
 
                 // Draw the tree's trunk
+                //winding is backwards for the trees
+                X.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
                 tree.Trunk.Draw(world, Camera.View);
+                X.GraphicsDevice.RenderState.CullMode = CullMode.CullClockwiseFace;
 
                 // Draw the tree's leaves (this has its own effect)
                 if(renderLeaves) tree.Leaves.Draw(world, Camera.View, Camera.Position);
 
-                X.GraphicsDevice.RenderState.AlphaFunction=oldAlphaFunc;
-                X.GraphicsDevice.RenderState.AlphaBlendEnable=oldAlphaEnable;
-                X.GraphicsDevice.RenderState.CullMode=oldCullMode;
-                X.GraphicsDevice.RenderState.AlphaTestEnable=oldAlphaTest;
-                X.GraphicsDevice.RenderState.ReferenceAlpha=oldReferenceAlpha;
-
-                if (X.DebugMode)
-                {
+#if DEBUG
                     //model.Model.Meshes[0].BoundingSphere.
                     //Draw Frustum (Yellow) and Physics Bounding (White), In XActor these should be the same but draw then both anyway just in case
                     X.DebugDrawer.DrawCube(tree.boundingBox.Min, tree.boundingBox.Max, Color.Yellow, Matrix.Identity, Camera);
-                    X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
-                    //X.DebugDrawer.DrawCube(PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Min, PhysicsObject.PhysicsBody.CollisionSkin.WorldBoundingBox.Max, Color.White, Matrix.Identity, Camera);
-                }
+                    //Draw physics collisionskin
+                    X.DebugDrawer.DrawShape(PhysicsObject.GetCollisionWireframe(),Color.White);
+#endif
             }
         }//end draw
 #if XBOX == FALSE

@@ -54,7 +54,7 @@ namespace XEngine
             this.body = car.Chassis.Body;
             this.collision = car.Chassis.Skin;
          
-            SetCarMass(500.0f);
+            SetCarMass(800.0f);
 
             //car.Chassis.Skin.SetMaterialProperties((int)MaterialTable.MaterialID.UserDefined, new MaterialProperties(0.4f,0.8f,0.7f));
 

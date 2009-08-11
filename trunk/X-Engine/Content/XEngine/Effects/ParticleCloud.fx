@@ -110,8 +110,7 @@ technique DepthMapStatic
 {
 	pass p0
 	{
-		CullMode = None;
-			
+		CullMode = None;	
 		VertexShader = compile vs_2_0 VS_Main();
 		PixelShader = compile ps_2_0 DepthMapPixelShader();
 	}

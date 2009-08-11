@@ -27,10 +27,6 @@
       <Project>{26B643F3-6BB6-42BF-A461-7B2598AE5A79}</Project>
       <Name>AnimationPipeline</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ParticlePipeline\ParticlePipeline.csproj">
-      <Project>{E77063AA-51E9-42A0-BC02-5A175393BF8C}</Project>
-      <Name>ParticlePipeline</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ShatterExtension\ModelPipelineExtensions.csproj">
       <Project>{23A45FA3-6F1F-417C-BC85-0963AC5EFB10}</Project>
       <Name>ModelPipelineExtensions</Name>
@@ -90,38 +86,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Particles\ExplosionSettings.xml">
-      <Name>ExplosionSettings</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>ParticleProcessor</Processor>
-    </Compile>
-    <Compile Include="Particles\ExplosionSmokeSettings.xml">
-      <Name>ExplosionSmokeSettings</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>ParticleProcessor</Processor>
-    </Compile>
-    <Compile Include="Particles\FireSettings.xml">
-      <Name>FireSettings</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>ParticleProcessor</Processor>
-    </Compile>
-    <Compile Include="Particles\ProjectileTrailSettings.xml">
-      <Name>ProjectileTrailSettings</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>ParticleProcessor</Processor>
-    </Compile>
-    <Compile Include="Particles\SmokePlumeSettings.xml">
-      <Name>SmokePlumeSettings</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>ParticleProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Particles\ParticleEffect.fx">
-      <Name>ParticleEffect</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
     <Compile Include="Textures\Fonts\CourierNew20.spritefont">
       <Name>CourierNew20</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -132,27 +96,6 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Particles\explosion.png">
-      <Name>explosion</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Particles\fire.png">
-      <Name>fire</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Particles\smoke.png">
-      <Name>smoke</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\box.jpg">
@@ -270,13 +213,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Particles\RedSettings.xml">
-      <Name>RedSettings</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>ParticleProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Treemaps\Level1.bmp">
       <Name>Level1</Name>
       <Importer>TextureImporter</Importer>
@@ -292,7 +228,7 @@
     <Compile Include="Models\chassis.FBX">
       <Name>chassis</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>BoundingCalculator</Processor>
     </Compile>
     <Compile Include="Models\grass.fbx">
       <Name>grass</Name>
@@ -318,6 +254,11 @@
     <None Include="Models\ambientlight.hlsl">
       <Name>ambientlight</Name>
     </None>
+    <Compile Include="Particles\ParticleEffect.fx">
+      <Name>ParticleEffect</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <Compile Include="Models\spider.X">
       <Name>spider</Name>
       <Importer>XImporter</Importer>
@@ -327,7 +268,7 @@
     <Compile Include="Models\wheel.fbx">
       <Name>wheel</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>BoundingCalculator</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -357,19 +298,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Particles\Red_100x100.png">
-      <Name>Red_100x100</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.AudioImporters, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d" />
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.EffectImporter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d" />
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.FBXImporter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d" />
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.TextureImporter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d" />
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d" />
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.XImporter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Heightmaps\Level3.bmp">
+      <Name>Level3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Material\" />

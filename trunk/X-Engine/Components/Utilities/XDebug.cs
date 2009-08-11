@@ -32,30 +32,24 @@ namespace XEngine
         {
             int offset = (int)StartPosition.Y;
 
-            if (X.DebugMode)
-            {
-                //write debug text with the camera position passed into this draw method
-                string Text = "Current Camera Name: " + Camera.Name;
-                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
-                offset += RowHeight;
-                Text = "Curent Camera Position X" + Camera.Position.X.ToString() + " Y:" + Camera.Position.Y.ToString() + " Z:" + Camera.Position.Z.ToString();
-                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
-                offset += RowHeight;     
-            }
+            //write debug text with the camera position passed into this draw method
+            string Text = "Current Camera Name: " + Camera.Name;
+            X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
+            offset += RowHeight;
+            Text = "Curent Camera Position X" + Camera.Position.X.ToString() + " Y:" + Camera.Position.Y.ToString() + " Z:" + Camera.Position.Z.ToString();
+            X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
+            offset += RowHeight;     
+
             for(int i=0;i<toWrite.Count;i++)
             {
-                string Text = toWrite[i];
-            
-                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
+                X.SystemFont.Draw(toWrite[i], new Vector2(StartPosition.X, offset), Color.Black);
                 offset += RowHeight;
             }
             toWrite.Clear();
 
             for(int j=0;j<toWriteStatic.Count;j++)
             {
-                string Text = toWriteStatic[j];
-            
-                X.SystemFont.Draw(Text, new Vector2(StartPosition.X, offset), Color.Black);
+                X.SystemFont.Draw(toWriteStatic[j], new Vector2(StartPosition.X, offset), Color.Black);
                 offset += RowHeight;
             }
         }

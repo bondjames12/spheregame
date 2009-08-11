@@ -128,6 +128,7 @@ technique Water
 {
     pass Pass0
     {
+        CullMode = None;
         VertexShader = compile vs_2_0 WaterVS();
         PixelShader = compile ps_2_0 WaterPS();
     }
@@ -137,6 +138,7 @@ technique DepthMapStatic
 {
     pass Pass0
     {
+        CullMode = None;
         VertexShader = compile vs_2_0 WaterVS();
         PixelShader = compile ps_2_0 DepthMapPixelShader();
     }

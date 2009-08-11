@@ -19,6 +19,7 @@ namespace XEngine
 
         public bool Reset = true;
 
+        //Times how long the mouse has been idle
         XTimer idleTime;
 
         public XMouse(ref XMain X) : base(ref X)
